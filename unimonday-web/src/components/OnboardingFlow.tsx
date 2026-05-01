@@ -1,26 +1,25 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useAppStore, Campus, UserRole } from "@/lib/store/app-store";
+import { useStudentStore, LearningLevel } from "@/lib/store/student-store";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { MapPin, GraduationCap, Store } from "lucide-react";
+import { User, BookOpen, Star, Sparkles } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-const MOCK_CAMPUSES: Campus[] = [
-  { id: "udsm-main", name: "UDSM Main Campus", city: "Dar es Salaam" },
-  { id: "udom", name: "UDOM", city: "Dodoma" },
-  { id: "sua", name: "SUA Main Campus", city: "Morogoro" },
-  { id: "mzumba", name: "Mzumbe University", city: "Morogoro" },
+const LEVELS: { id: LearningLevel; title: string; desc: string; icon: React.ElementType }[] = [
+  { id: "First Words", title: "First Words", desc: "Alphabet, animals, colors", icon: Star },
+  { id: "Sentences", title: "Sentences", desc: "Basic grammar and phrasing", icon: BookOpen },
+  { id: "Advanced", title: "Advanced", desc: "Reading and storytelling", icon: Sparkles },
 ];
 
 export function OnboardingFlow() {
-  const { isOnboardingComplete, setCampus, setUserRole, completeOnboarding } = useAppStore();
+  const { isOnboardingComplete, enrollStudent } = useStudentStore();
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<1 | 2>(1);
+  const [studentName, setStudentName] = useState("");
   const router = useRouter();
 
   useEffect(() => {
-    // Show onboarding if not complete
     if (!isOnboardingComplete) {
       const timer = setTimeout(() => {
         setOpen(true);
@@ -29,82 +28,77 @@ export function OnboardingFlow() {
     }
   }, [isOnboardingComplete]);
 
-  const handleCampusSelect = (campus: Campus) => {
-    setCampus(campus);
-    setStep(2);
-  };
-
-  const handleRoleSelect = (role: UserRole) => {
-    setUserRole(role);
-    completeOnboarding();
-    setOpen(false);
-
-    if (role === 'vendor') {
-      router.push('/vendor/dashboard');
-    } else {
-      router.push('/explore');
+  const handleNameSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (studentName.trim().length > 1) {
+      setStep(2);
     }
   };
 
+  const handleLevelSelect = (level: LearningLevel) => {
+    enrollStudent(studentName, level);
+    setOpen(false);
+    router.push('/home');
+  };
+
   return (
-    <Dialog open={open} onOpenChange={() => {}}> {/* Prevent closing by clicking outside */}
+    <Dialog open={open} onOpenChange={() => {}}>
       <DialogContent className="sm:max-w-[425px] p-0 overflow-hidden border-none rounded-[2rem] shadow-2xl">
         <div className="bg-primary p-6 text-primary-foreground text-center">
-          <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center transform rotate-3 mx-auto mb-4 shadow-lg">
-            <span className="text-primary font-black text-2xl leading-none">U</span>
+          <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg transform rotate-3">
+            <BookOpen className="w-6 h-6 text-primary" />
           </div>
           <DialogTitle className="text-2xl font-black mb-1">
-            {step === 1 ? "Select Your Campus" : "Who are you?"}
+            {step === 1 ? "Student Enrollment" : "Select Starting Level"}
           </DialogTitle>
           <p className="text-primary-foreground/80 text-sm font-medium">
-            {step === 1 ? "Where are you currently studying?" : "Choose how you want to use Unimonday."}
+            {step === 1 ? "What is your child's name?" : "Where should they begin their journey?"}
           </p>
         </div>
 
         <div className="p-6 bg-background">
           {step === 1 && (
-            <div className="space-y-3">
-              {MOCK_CAMPUSES.map((campus) => (
-                <button
-                  key={campus.id}
-                  onClick={() => handleCampusSelect(campus)}
-                  className="w-full flex items-center p-4 rounded-2xl border-2 border-transparent hover:border-primary/20 bg-secondary/50 hover:bg-secondary transition-all group text-left"
-                >
-                  <div className="w-10 h-10 rounded-full bg-background flex items-center justify-center mr-4 shadow-sm group-hover:scale-110 transition-transform">
-                    <MapPin className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <div className="font-bold text-foreground">{campus.name}</div>
-                    <div className="text-xs text-muted-foreground font-medium">{campus.city}</div>
-                  </div>
-                </button>
-              ))}
-            </div>
+            <form onSubmit={handleNameSubmit} className="space-y-4">
+              <div className="relative">
+                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                  <User className="w-5 h-5 text-muted-foreground" />
+                </div>
+                <input
+                  type="text"
+                  value={studentName}
+                  onChange={(e) => setStudentName(e.target.value)}
+                  placeholder="Child's first name"
+                  className="w-full pl-12 pr-4 py-4 rounded-2xl bg-secondary/50 border-2 border-transparent focus:border-primary focus:bg-background outline-none transition-all font-bold text-lg"
+                  autoFocus
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={studentName.trim().length < 2}
+                className="w-full py-4 rounded-2xl bg-primary text-primary-foreground font-bold text-lg hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md shadow-primary/20"
+              >
+                Continue
+              </button>
+            </form>
           )}
 
           {step === 2 && (
-            <div className="space-y-4">
-              <button
-                onClick={() => handleRoleSelect('student')}
-                className="w-full flex flex-col items-center justify-center p-6 rounded-3xl border-2 border-transparent hover:border-primary bg-secondary/50 hover:bg-primary/5 transition-all group relative overflow-hidden"
-              >
-                <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center mb-4 shadow-md group-hover:scale-110 transition-transform">
-                  <GraduationCap className="w-8 h-8 text-primary" />
-                </div>
-                <div className="font-bold text-lg mb-1">I am a Student</div>
-                <div className="text-sm text-muted-foreground text-center">I want to order items, skip lines, and pay instantly.</div>
-              </button>
-
-              <button
-                onClick={() => handleRoleSelect('vendor')}
-                className="w-full flex flex-col items-center justify-center p-6 rounded-3xl border-2 border-transparent hover:border-primary bg-secondary/50 hover:bg-primary/5 transition-all group relative overflow-hidden"
-              >
-                <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center mb-4 shadow-md group-hover:scale-110 transition-transform">
-                  <Store className="w-8 h-8 text-primary" />
-                </div>
-                <div className="font-bold text-lg mb-1">I am a Vendor</div>
-                <div className="text-sm text-muted-foreground text-center">I want to manage my shop, receive orders, and get paid.</div>
-              </button>
+            <div className="space-y-3">
+              {LEVELS.map((level) => (
+                <button
+                  key={level.id}
+                  onClick={() => handleLevelSelect(level.id)}
+                  className="w-full flex items-center p-4 rounded-2xl border-2 border-transparent hover:border-primary/20 bg-secondary/50 hover:bg-secondary transition-all group text-left"
+                >
+                  <div className="w-12 h-12 rounded-full bg-background flex items-center justify-center mr-4 shadow-sm group-hover:scale-110 transition-transform">
+                    <level.icon className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <div className="font-bold text-foreground text-lg">{level.title}</div>
+                    <div className="text-sm text-muted-foreground font-medium">{level.desc}</div>
+                  </div>
+                </button>
+              ))}
             </div>
           )}
         </div>

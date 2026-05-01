@@ -1,20 +1,18 @@
 "use client";
 
-import { Home, ShoppingBag, User } from "lucide-react";
+import { Home, Mic, PenTool, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCartStore } from "@/lib/store/cart-store";
 import { cn } from "@/lib/utils";
 
 export function BottomNav() {
   const pathname = usePathname();
-  const { items } = useCartStore();
-  const cartItemsCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
   const navItems = [
-    { href: "/", icon: Home, label: "Home" },
-    { href: "/cart", icon: ShoppingBag, label: "Cart", badge: cartItemsCount },
-    { href: "/vendor/dashboard", icon: User, label: "Profile" },
+    { href: "/home", icon: Home, label: "Path" },
+    { href: "/speaking", icon: Mic, label: "Speak" },
+    { href: "/writing", icon: PenTool, label: "Write" },
+    { href: "/profile", icon: LayoutDashboard, label: "Profile" },
   ];
 
   return (
@@ -33,11 +31,6 @@ export function BottomNav() {
             >
               <div className="relative">
                 <item.icon className={cn("w-6 h-6", isActive && "stroke-[2.5px]")} />
-                {item.badge ? (
-                  <span className="absolute -top-1.5 -right-1.5 bg-primary text-primary-foreground text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full">
-                    {item.badge}
-                  </span>
-                ) : null}
               </div>
               <span className="text-[10px] font-medium">{item.label}</span>
             </Link>
