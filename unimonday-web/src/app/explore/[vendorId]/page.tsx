@@ -71,11 +71,11 @@ export default function VendorProfilePage({ params }: { params: Promise<{ vendor
                 className={`flex gap-4 bg-white p-4 rounded-[2rem] border border-border/50 shadow-sm transition-all ${!item.isAvailable ? 'opacity-60 grayscale-[0.5]' : ''}`}
               >
                 <div className="flex-1 min-w-0">
-                  <div className="flex justify-between items-start mb-1">
-                    <h3 className="font-bold text-lg truncate pr-2">{item.name}</h3>
-                    <span className="font-bold text-primary whitespace-nowrap">Tsh {item.price}</span>
+                  <div className="flex justify-between items-start mb-1 gap-2">
+                    <h3 className="font-bold text-lg line-clamp-2">{item.name}</h3>
+                    <span className="font-bold text-primary whitespace-nowrap mt-1">Tsh {item.price}</span>
                   </div>
-                  <p className="text-muted-foreground text-sm mb-4 line-clamp-2 pr-4">{item.description}</p>
+                  <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{item.description}</p>
 
                   {item.isAvailable && vendor.isOpen ? (
                      <div>

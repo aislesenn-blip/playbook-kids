@@ -118,9 +118,9 @@ export default function CartPage() {
                         <Image src={item.image} alt={item.name} fill className="object-cover" />
                       </div>
 
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-bold truncate">{item.name}</h3>
-                        <p className="text-primary font-bold text-sm">Tsh {item.price}</p>
+                      <div className="flex-1 min-w-0 pr-2">
+                        <h3 className="font-bold line-clamp-2">{item.name}</h3>
+                        <p className="text-primary font-bold text-sm mt-1">Tsh {item.price}</p>
                       </div>
 
                       <div className="flex items-center gap-3 bg-secondary rounded-full p-1 shrink-0">

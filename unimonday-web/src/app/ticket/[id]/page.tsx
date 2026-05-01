@@ -11,8 +11,8 @@ export default function TicketPage({ params }: { params: Promise<{ id: string }>
   const [timeLeft, setTimeLeft] = useState(15); // 15 seconds to show vendor
   const [isExpired, setIsExpired] = useState(false);
 
-  // Background color animation values for active state
-  const colors = ["#00E676", "#1DE9B6", "#00B0FF", "#651FFF", "#F50057", "#FFEA00"];
+  // Background color animation values for active state (Unidays Green themed)
+  const colors = ["#00E676", "#00C853", "#1B5E20", "#33691E", "#00E676", "#64DD17"];
   const [currentColorIndex, setCurrentColorIndex] = useState(0);
 
   useEffect(() => {
