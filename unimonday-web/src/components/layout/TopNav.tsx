@@ -19,7 +19,7 @@ export function TopNav() {
           <div className="w-8 h-8 bg-gray-900 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
             <ShoppingBag className="w-5 h-5 text-white" />
           </div>
-          <span className="font-black text-xl tracking-tight text-gray-900">UNI<span className="text-primary">MONDAY</span></span>
+          <span className="font-black text-xl tracking-tight text-gray-900">uNi<span className="text-primary">MONDAY</span></span>
         </Link>
 
         <div className="hidden sm:flex items-center gap-8 font-medium">

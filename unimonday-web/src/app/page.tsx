@@ -19,16 +19,6 @@ export default function Home() {
       <section className="relative w-full max-w-5xl mx-auto pt-20 sm:pt-32 pb-16 sm:pb-24 px-4 flex flex-col items-center text-center">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-3xl -z-10 pointer-events-none"></div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mb-8 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-border shadow-sm"
-        >
-          <span className="flex w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-          <span className="text-sm font-bold text-gray-800 tracking-wide uppercase">The Ultimate Campus Hub</span>
-        </motion.div>
-
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -58,18 +48,18 @@ export default function Home() {
         >
           <button
             onClick={handleShopNow}
-            className="group inline-flex items-center justify-center gap-3 bg-gray-900 text-white px-10 py-6 rounded-[2rem] font-bold text-xl hover:bg-gray-800 hover:scale-[1.02] transition-all active:scale-95 shadow-xl shadow-gray-900/20"
+            className="group inline-flex items-center justify-center gap-2 bg-gray-900 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-800 hover:scale-[1.02] transition-all active:scale-95 shadow-lg shadow-gray-900/20"
           >
             Start Exploring
-            <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </button>
         </motion.div>
       </section>
 
-      {/* Trending Fashion & Tech */}
+      {/* Featured Products */}
       <section className="w-full max-w-6xl mx-auto px-4 pb-24">
         <div className="flex items-center justify-between mb-10">
-          <h2 className="text-3xl sm:text-4xl font-black tracking-tight">Trending Now</h2>
+          <h2 className="text-3xl sm:text-4xl font-black tracking-tight">Featured Products</h2>
           <button className="text-primary font-bold hover:underline flex items-center gap-1">
             See All <ArrowRight className="w-4 h-4" />
           </button>
