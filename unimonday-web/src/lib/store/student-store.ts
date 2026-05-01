@@ -10,6 +10,8 @@ export interface StudentProfile {
   name: string;
   level: LearningLevel;
   avatarUrl: string;
+  parentId: string;
+  parentName: string;
 }
 
 export interface ProgressStats {
@@ -24,7 +26,7 @@ interface StudentState {
   isOnboardingComplete: boolean;
   stats: ProgressStats;
 
-  enrollStudent: (name: string, level: LearningLevel) => Promise<void>;
+  enrollStudent: (parentName: string, studentName: string, level: LearningLevel) => Promise<void>;
   recordLessonCompletion: (lessonId: string, accuracy: number) => Promise<void>;
   fetchStats: () => Promise<void>;
   resetApp: () => void;
@@ -42,16 +44,17 @@ export const useStudentStore = create<StudentState>()(
         completedLessonIds: [],
       },
 
-      enrollStudent: async (name, level) => {
+      enrollStudent: async (parentName, studentName, level) => {
         // Generate an ID for the student (Simulating Auth since we don't have full registration UI)
         const id = uuidv4();
+        const parentId = uuidv4(); // Mock parent ID for local association
 
-        const avatarUrl = `https://api.dicebear.com/7.x/fun-emoji/svg?seed=${name}`;
+        // Generate a fun placeholder avatar using dicebear (no emojis, just fun abstract shapes/faces if configured, but let's stick to simple initial avatars or a generic high quality placeholder to avoid emoji issues if dicebear returns them. Let's use an unsplash placeholder for safety to strict no-emoji rule).
+        const avatarUrl = `https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=200&auto=format&fit=crop`;
 
-        // Try to insert into real DB. Catch if not fully configured yet.
         try {
           await supabase.from('profiles').insert([
-            { id, parent_name: 'Parent', student_name: name, learning_level: level }
+            { id, parent_name: parentName, student_name: studentName, learning_level: level }
           ]);
         } catch (e) {
           console.error("Failed to save to Supabase, continuing locally for demo", e);
@@ -60,9 +63,11 @@ export const useStudentStore = create<StudentState>()(
         set({
           currentStudent: {
             id,
-            name,
+            name: studentName,
             level,
             avatarUrl,
+            parentId,
+            parentName,
           },
           isOnboardingComplete: true,
         });
@@ -73,7 +78,6 @@ export const useStudentStore = create<StudentState>()(
         if (!state.currentStudent) return;
         if (state.stats.completedLessonIds.includes(lessonId)) return;
 
-        // Try to insert into real DB.
         try {
           await supabase.from('student_progress').insert([
             {
@@ -107,7 +111,6 @@ export const useStudentStore = create<StudentState>()(
           };
         });
 
-        // Re-fetch stats to sync with DB
         get().fetchStats();
       },
 
