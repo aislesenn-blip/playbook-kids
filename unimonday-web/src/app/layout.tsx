@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: 'UNIMONDAY | The Billion Dollar Standard',
+  title: 'uNiMONDAY | The Billion Dollar Standard',
   description: 'Instant campus ordering and payments.',
 };
 
