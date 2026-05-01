@@ -88,22 +88,22 @@ export function OnboardingFlow() {
                 onClick={() => handleRoleSelect('student')}
                 className="w-full flex flex-col items-center justify-center p-6 rounded-3xl border-2 border-transparent hover:border-primary bg-secondary/50 hover:bg-primary/5 transition-all group relative overflow-hidden"
               >
-                <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center mb-4 shadow-md group-hover:scale-110 transition-transform">
+                <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center mb-4 shadow-md group-hover:scale-110 transition-transform shrink-0">
                   <GraduationCap className="w-8 h-8 text-primary" />
                 </div>
-                <div className="font-bold text-lg mb-1">I am a Student</div>
-                <div className="text-sm text-muted-foreground text-center">I want to order items, skip lines, and pay instantly.</div>
+                <div className="font-bold text-lg mb-2">I am a Student</div>
+                <div className="text-sm text-muted-foreground text-center leading-relaxed px-2">I want to order items, skip lines, and pay instantly.</div>
               </button>
 
               <button
                 onClick={() => handleRoleSelect('vendor')}
                 className="w-full flex flex-col items-center justify-center p-6 rounded-3xl border-2 border-transparent hover:border-primary bg-secondary/50 hover:bg-primary/5 transition-all group relative overflow-hidden"
               >
-                <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center mb-4 shadow-md group-hover:scale-110 transition-transform">
+                <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center mb-4 shadow-md group-hover:scale-110 transition-transform shrink-0">
                   <Store className="w-8 h-8 text-primary" />
                 </div>
-                <div className="font-bold text-lg mb-1">I am a Vendor</div>
-                <div className="text-sm text-muted-foreground text-center">I want to manage my shop, receive orders, and get paid.</div>
+                <div className="font-bold text-lg mb-2">I am a Vendor</div>
+                <div className="text-sm text-muted-foreground text-center leading-relaxed px-2">I want to manage my shop, receive orders, and get paid.</div>
               </button>
             </div>
           )}

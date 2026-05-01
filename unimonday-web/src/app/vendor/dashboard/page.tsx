@@ -165,8 +165,8 @@ export default function VendorDashboard() {
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <div className="flex justify-between items-start mb-1">
-                    <h3 className="font-bold truncate pr-2">{item.name}</h3>
+                  <div className="flex justify-between items-start mb-1 gap-2">
+                    <h3 className="font-bold line-clamp-1">{item.name}</h3>
                     <span className="font-bold text-primary whitespace-nowrap">Tsh {item.price}</span>
                   </div>
 
