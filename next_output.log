@@ -24,3 +24,17 @@
  GET /study 200 in 183ms
  ✓ Compiled in 674ms (704 modules)
  ✓ Compiled in 1155ms (1608 modules)
+ ✓ Compiled in 7.6s (1610 modules)
+ ✓ Compiled in 1130ms (1610 modules)
+ ✓ Compiled in 1047ms (1596 modules)
+ ✓ Compiled in 3.9s (1610 modules)
+ GET / 200 in 957ms
+ GET /study 200 in 212ms
+ ○ Compiling /library ...
+ ✓ Compiled /library in 826ms (1609 modules)
+ GET /library 200 in 1319ms
+ ✓ Compiled /progress in 475ms (1614 modules)
+ GET /progress 200 in 858ms
+ ✓ Compiled in 2.6s (1611 modules)
+ ✓ Compiled in 6.8s (1613 modules)
+ GET / 200 in 1474ms

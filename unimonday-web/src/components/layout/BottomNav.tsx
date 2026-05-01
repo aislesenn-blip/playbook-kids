@@ -10,8 +10,8 @@ export function BottomNav() {
   const navItems = [
     { href: "/", icon: BookOpen, label: "Home" },
     { href: "/study", icon: BrainCircuit, label: "Study" },
-    { href: "#", icon: Library, label: "Library" },
-    { href: "#", icon: LayoutDashboard, label: "Progress" },
+    { href: "/library", icon: Library, label: "Library" },
+    { href: "/progress", icon: LayoutDashboard, label: "Progress" },
   ];
 
   return (
