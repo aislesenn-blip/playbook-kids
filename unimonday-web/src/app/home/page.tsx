@@ -2,11 +2,11 @@
 
 import { useStudentStore } from "@/lib/store/student-store";
 import { supabase } from "@/lib/supabase/client";
-import { BookOpen, Smile, Star, ArrowRight, Play, CheckCircle2, Lock } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Star, ArrowRight, Play, BookOpen, Lock, Smile } from "lucide-react";
 
 export interface Module {
   id: string;
