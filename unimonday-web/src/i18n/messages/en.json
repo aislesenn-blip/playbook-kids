@@ -1,26 +1,39 @@
 {
   "Hero": {
-    "title": "Campus Commerce,",
-    "subtitle": "At Light Speed.",
-    "description": "Skip the line. Order from your favorite campus spots and pick up instantly with our anti-screenshot live ticket.",
-    "cta": "Get Started",
-    "vendorCta": "I am a Vendor"
+    "title": "UNIMONDAY",
+    "subtitle": "The Billion Dollar Standard.",
+    "description": "Skip the line. Order ahead, pay instantly, and grab your items at light speed. The premium standard for university living.",
+    "cta": "Select Campus",
+    "vendorCta": "Open a Store"
   },
   "Navigation": {
     "home": "Home",
     "orders": "Orders",
-    "profile": "Profile"
+    "profile": "Profile",
+    "explore": "Explore"
   },
   "Cart": {
     "title": "Your Order",
     "empty": "Your cart is empty",
     "checkout": "Pay Instantly",
-    "total": "Total"
+    "total": "Total",
+    "applyCoupon": "Apply Coupon",
+    "couponPlaceholder": "Enter Coupon Code"
   },
   "Ticket": {
     "active": "LIVE TICKET",
     "showToVendor": "Show this to the vendor now",
     "expiresIn": "Expires in",
     "seconds": "seconds"
+  },
+  "Vendor": {
+    "dashboard": "Vendor Dashboard",
+    "status": "Store Status",
+    "open": "Open",
+    "closed": "Closed",
+    "busy": "Very Busy",
+    "items": "My Items",
+    "soldOut": "Sold Out",
+    "available": "Available"
   }
 }

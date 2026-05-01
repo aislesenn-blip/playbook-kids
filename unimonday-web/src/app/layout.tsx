@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { TopNav } from '@/components/layout/TopNav';
 import { BottomNav } from '@/components/layout/BottomNav';
+import { OnboardingFlow } from '@/components/OnboardingFlow';
 import { Toaster } from 'sonner';
 
 const geistSans = Geist({
@@ -17,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: 'Unimonday | Campus Commerce',
+  title: 'UNIMONDAY | The Billion Dollar Standard',
   description: 'Instant campus ordering and payments.',
 };
 
@@ -31,9 +32,10 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="antialiased min-h-screen pb-20 sm:pb-0 pt-16">
+      <body className="antialiased min-h-screen pb-20 sm:pb-0 pt-16 bg-background">
         <NextIntlClientProvider messages={messages} locale={locale}>
           <TopNav />
+          <OnboardingFlow />
           <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             {children}
           </main>

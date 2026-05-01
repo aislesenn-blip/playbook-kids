@@ -1,26 +1,39 @@
 {
   "Hero": {
-    "title": "Biashara Chuoni,",
-    "subtitle": "Kwa Kasi ya Ajabu.",
-    "description": "Ruka foleni. Agiza chakula na stationary papo hapo ukitumia live-ticket yetu salama.",
-    "cta": "Anza Sasa",
-    "vendorCta": "Mimi ni Muuzaji"
+    "title": "UNIMONDAY",
+    "subtitle": "The Billion Dollar Standard.",
+    "description": "Ruka foleni. Agiza mapema, lipa papo hapo, chukua mzigo wako kwa kasi ya mwanga. Hadhi mpya ya maisha ya chuo.",
+    "cta": "Chagua Chuo",
+    "vendorCta": "Fungua Duka"
   },
   "Navigation": {
     "home": "Mwanzo",
     "orders": "Oda Zangu",
-    "profile": "Akaunti"
+    "profile": "Akaunti",
+    "explore": "Gundua"
   },
   "Cart": {
     "title": "Oda Yako",
     "empty": "Kapu lako lipo wazi",
     "checkout": "Lipa Papo Hapo",
-    "total": "Jumla"
+    "total": "Jumla",
+    "applyCoupon": "Weka Kuponi",
+    "couponPlaceholder": "Ingiza Kuponi"
   },
   "Ticket": {
     "active": "TIKETI LIVE",
     "showToVendor": "Onyesha hii kwa mhudumu sasa",
     "expiresIn": "Inaisha ndani ya",
     "seconds": "sekunde"
+  },
+  "Vendor": {
+    "dashboard": "Dashibodi ya Mfanyabiashara",
+    "status": "Hali ya Biashara",
+    "open": "Wazi",
+    "closed": "Imefungwa",
+    "busy": "Bize Sana",
+    "items": "Bidhaa Zangu",
+    "soldOut": "Imeisha",
+    "available": "Ipo"
   }
 }
