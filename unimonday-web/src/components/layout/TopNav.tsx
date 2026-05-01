@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, User, Menu, X } from "lucide-react";
+import { ShoppingBag, User, Menu, X, Shirt, Smartphone, ShieldCheck, Box } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -17,20 +17,23 @@ export function TopNav() {
       <nav className="fixed top-0 left-0 right-0 h-16 bg-white/80 backdrop-blur-xl border-b border-border z-50 flex items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2 group">
           <div className="w-8 h-8 bg-gray-900 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
-            <BookOpen className="w-5 h-5 text-white" />
+            <ShoppingBag className="w-5 h-5 text-white" />
           </div>
-          <span className="font-black text-xl tracking-tight text-gray-900">STUDY<span className="text-primary">ENGINE</span></span>
+          <span className="font-black text-xl tracking-tight text-gray-900">UNI<span className="text-primary">MONDAY</span></span>
         </Link>
 
         <div className="hidden sm:flex items-center gap-8 font-medium">
-          <Link href="/study" className={`text-sm hover:text-primary transition-colors ${pathname === '/study' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-            Study Room
+          <Link href="/fashion" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/fashion' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+            <Shirt className="w-4 h-4" /> Fashion
           </Link>
-          <Link href="/library" className={`text-sm hover:text-primary transition-colors ${pathname === '/library' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-            My Library
+          <Link href="/tech" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/tech' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+            <Smartphone className="w-4 h-4" /> Tech & Accessories
           </Link>
-          <Link href="/progress" className={`text-sm hover:text-primary transition-colors ${pathname === '/progress' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-            Progress (Friday Test)
+          <Link href="/services" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/services' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+            <ShieldCheck className="w-4 h-4" /> Verified Services
+          </Link>
+          <Link href="/orders" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/orders' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+            <Box className="w-4 h-4" /> My Orders
           </Link>
         </div>
 
@@ -54,25 +57,32 @@ export function TopNav() {
           >
             <div className="flex flex-col p-4 gap-4">
               <Link
-                href="/study"
+                href="/fashion"
                 onClick={toggleMenu}
-                className={`p-3 rounded-xl font-bold ${pathname === '/study' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
+                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/fashion' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
               >
-                Study Room
+                <Shirt className="w-5 h-5" /> Fashion
               </Link>
               <Link
-                href="/library"
+                href="/tech"
                 onClick={toggleMenu}
-                className={`p-3 rounded-xl font-bold ${pathname === '/library' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
+                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/tech' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
               >
-                My Library
+                <Smartphone className="w-5 h-5" /> Tech & Accessories
               </Link>
               <Link
-                href="/progress"
+                href="/services"
                 onClick={toggleMenu}
-                className={`p-3 rounded-xl font-bold ${pathname === '/progress' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
+                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/services' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
               >
-                Progress (Friday Test)
+                <ShieldCheck className="w-5 h-5" /> Verified Services
+              </Link>
+              <Link
+                href="/orders"
+                onClick={toggleMenu}
+                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/orders' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
+              >
+                <Box className="w-5 h-5" /> My Orders
               </Link>
               <hr className="border-border my-2" />
               <button className="flex items-center justify-center gap-2 w-full p-3 bg-gray-900 text-white rounded-xl font-bold">

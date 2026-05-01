@@ -2,14 +2,14 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Upload, Zap, Target, Repeat, ArrowRight, Smile } from "lucide-react";
+import { ShoppingBag, Wrench, ShieldCheck, ArrowRight, Star, Truck } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
   const router = useRouter();
 
-  const handleStart = () => {
-    router.push("/study");
+  const handleShopNow = () => {
+    router.push("/explore");
   };
 
   return (
@@ -26,7 +26,7 @@ export default function Home() {
           className="mb-8 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-border shadow-sm"
         >
           <span className="flex w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-          <span className="text-sm font-bold text-gray-800 tracking-wide uppercase">Your Personal Genius</span>
+          <span className="text-sm font-bold text-gray-800 tracking-wide uppercase">The Ultimate Campus Hub</span>
         </motion.div>
 
         <motion.h1
@@ -35,9 +35,9 @@ export default function Home() {
           transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
           className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tighter mb-8 text-gray-900 leading-[1.1]"
         >
-          Ace Your Exams <br className="hidden sm:block" />
+          Shop. Fix. <br className="hidden sm:block" />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-400">
-            With Zero Stress.
+            Connect.
           </span>
         </motion.h1>
 
@@ -47,7 +47,7 @@ export default function Home() {
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           className="text-xl sm:text-2xl text-muted-foreground max-w-2xl mb-12 leading-relaxed font-medium"
         >
-          Stop reading the same page five times. Experience the relief of instant understanding and unbreakable memory.
+          Everything a university student needs. From fresh fashion and tech, to verified phone repairs—all in one place.
         </motion.p>
 
         <motion.div
@@ -57,70 +57,120 @@ export default function Home() {
           className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
         >
           <button
-            onClick={handleStart}
+            onClick={handleShopNow}
             className="group inline-flex items-center justify-center gap-3 bg-gray-900 text-white px-10 py-6 rounded-[2rem] font-bold text-xl hover:bg-gray-800 hover:scale-[1.02] transition-all active:scale-95 shadow-xl shadow-gray-900/20"
           >
-            Experience It Now
+            Start Exploring
             <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
           </button>
         </motion.div>
       </section>
 
-      {/* Visual Demo Section */}
-      <motion.section
-        initial={{ opacity: 0, scale: 0.95 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1 }}
-        className="relative w-full max-w-6xl mx-auto h-[60vh] min-h-[500px] rounded-[3rem] overflow-hidden mb-32 shadow-2xl border-8 border-white/50 backdrop-blur-md bg-gray-900"
-      >
-        <Image
-          src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop"
-          alt="University students studying together"
-          fill
-          className="object-cover opacity-60 mix-blend-overlay transition-transform hover:scale-105 duration-1000"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent flex flex-col justify-end p-10 sm:p-16">
-          <div className="flex flex-wrap items-center gap-3 mb-6">
-            <div className="bg-white/10 backdrop-blur-md px-5 py-2.5 rounded-full text-white text-sm font-bold flex items-center gap-2 border border-white/20">
-               <Smile className="w-4 h-4" /> Goodbye Anxiety
-            </div>
-            <div className="bg-primary/90 backdrop-blur-md px-5 py-2.5 rounded-full text-primary-foreground text-sm font-bold flex items-center gap-2 shadow-lg">
-               <Upload className="w-4 h-4" /> Upload & Relax
-            </div>
-          </div>
-          <h2 className="text-white text-5xl sm:text-6xl font-black mb-4 tracking-tight leading-tight">Read 500 Pages.<br/>Feel Like a Genius.</h2>
-          <p className="text-white/80 text-xl sm:text-2xl font-medium max-w-2xl leading-relaxed">
-            Imagine walking into an exam hall knowing you can answer anything. No more cramming. No more blank mind.
-          </p>
+      {/* Trending Fashion & Tech */}
+      <section className="w-full max-w-6xl mx-auto px-4 pb-24">
+        <div className="flex items-center justify-between mb-10">
+          <h2 className="text-3xl sm:text-4xl font-black tracking-tight">Trending Now</h2>
+          <button className="text-primary font-bold hover:underline flex items-center gap-1">
+            See All <ArrowRight className="w-4 h-4" />
+          </button>
         </div>
-      </motion.section>
 
-      {/* Outcomes Pedagogy Section */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Product Card 1 */}
+          <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer">
+            <div className="relative h-64 w-full overflow-hidden">
+              <Image
+                src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop"
+                alt="Vintage Jacket"
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div className="p-6">
+              <div className="flex justify-between items-start mb-2">
+                <h3 className="font-bold text-xl">Vintage Denim Jacket</h3>
+                <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-bold">Tsh 35,000</span>
+              </div>
+              <p className="text-muted-foreground text-sm mb-4">By Campus Thrift</p>
+              <button className="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-900 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2">
+                <ShoppingBag className="w-4 h-4" /> Order Now
+              </button>
+            </div>
+          </motion.div>
+
+          {/* Product Card 2 */}
+          <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer">
+            <div className="relative h-64 w-full overflow-hidden">
+              <Image
+                src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=2064&auto=format&fit=crop"
+                alt="Wireless Earbuds"
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div className="p-6">
+              <div className="flex justify-between items-start mb-2">
+                <h3 className="font-bold text-xl">Pro Wireless Earbuds</h3>
+                <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-bold">Tsh 45,000</span>
+              </div>
+              <p className="text-muted-foreground text-sm mb-4">By TechZone UDSM</p>
+              <button className="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-900 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2">
+                <ShoppingBag className="w-4 h-4" /> Order Now
+              </button>
+            </div>
+          </motion.div>
+
+          {/* Product Card 3 */}
+          <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer">
+            <div className="relative h-64 w-full overflow-hidden bg-gray-100">
+              <Image
+                src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=2080&auto=format&fit=crop"
+                alt="Classic Sneakers"
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div className="p-6">
+              <div className="flex justify-between items-start mb-2">
+                <h3 className="font-bold text-xl">Classic Urban Sneakers</h3>
+                <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-bold">Tsh 55,000</span>
+              </div>
+              <p className="text-muted-foreground text-sm mb-4">By Kicks TZ</p>
+              <button className="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-900 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2">
+                <ShoppingBag className="w-4 h-4" /> Order Now
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Verified Services Section */}
       <section className="pb-24 max-w-6xl mx-auto px-4 w-full">
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-black tracking-tight mb-4">Transform How You Feel</h2>
+          <h2 className="text-4xl sm:text-5xl font-black tracking-tight mb-4">Verified Services</h2>
           <p className="text-xl text-muted-foreground font-medium max-w-2xl mx-auto">
-            Turn exhaustion into excitement. We make mastering the hardest university subjects feel like a breeze.
+            Vetted professionals for your campus needs. Safe, reliable, and affordable.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <motion.div
             whileHover={{ y: -10 }}
             className="flex flex-col p-10 rounded-[3rem] bg-white border border-border/50 shadow-lg group relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
-              <Zap className="w-32 h-32" />
+              <Wrench className="w-32 h-32" />
             </div>
             <div className="w-16 h-16 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center mb-8 relative z-10 border border-blue-100">
-              <Zap className="w-8 h-8" />
+              <ShieldCheck className="w-8 h-8" />
             </div>
-            <h3 className="text-2xl font-black mb-4 relative z-10">Instant &quot;Aha!&quot; Moments</h3>
-            <p className="text-muted-foreground font-medium leading-relaxed text-lg relative z-10">
-              Struggling with complex engineering or coding concepts? Experience the relief when everything finally clicks through relatable, everyday examples.
+            <h3 className="text-2xl font-black mb-4 relative z-10">Phone Repair</h3>
+            <p className="text-muted-foreground font-medium leading-relaxed text-lg relative z-10 mb-6">
+              Cracked screen? Battery issues? Get it fixed by a verified technician right on campus.
             </p>
+            <button className="mt-auto flex items-center gap-2 text-blue-500 font-bold hover:underline">
+               Find a Technician <ArrowRight className="w-4 h-4" />
+            </button>
           </motion.div>
 
           <motion.div
@@ -128,15 +178,18 @@ export default function Home() {
             className="flex flex-col p-10 rounded-[3rem] bg-white border border-border/50 shadow-lg group relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
-              <Target className="w-32 h-32" />
+              <Truck className="w-32 h-32" />
             </div>
             <div className="w-16 h-16 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center mb-8 relative z-10 border border-amber-100">
-              <Target className="w-8 h-8" />
+              <Truck className="w-8 h-8" />
             </div>
-            <h3 className="text-2xl font-black mb-4 relative z-10">Unshakeable Confidence</h3>
-            <p className="text-muted-foreground font-medium leading-relaxed text-lg relative z-10">
-              Never second-guess yourself again. Prove your knowledge interactively so you walk into any test feeling completely unstoppable.
+            <h3 className="text-2xl font-black mb-4 relative z-10">Campus Delivery</h3>
+            <p className="text-muted-foreground font-medium leading-relaxed text-lg relative z-10 mb-6">
+              Get your food or packages delivered straight to your hostel with our trusted network.
             </p>
+            <button className="mt-auto flex items-center gap-2 text-amber-500 font-bold hover:underline">
+               Book Delivery <ArrowRight className="w-4 h-4" />
+            </button>
           </motion.div>
 
           <motion.div
@@ -144,15 +197,18 @@ export default function Home() {
             className="flex flex-col p-10 rounded-[3rem] bg-white border border-border/50 shadow-lg group relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
-              <Repeat className="w-32 h-32" />
+              <Star className="w-32 h-32" />
             </div>
             <div className="w-16 h-16 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mb-8 relative z-10 border border-primary/20">
-              <Repeat className="w-8 h-8" />
+              <Star className="w-8 h-8" />
             </div>
-            <h3 className="text-2xl font-black mb-4 relative z-10">Bulletproof Memory</h3>
-            <p className="text-muted-foreground font-medium leading-relaxed text-lg relative z-10">
-              Wake up on exam day without the panic. Your weak spots are automatically turned into strengths before you even step into the hall.
+            <h3 className="text-2xl font-black mb-4 relative z-10">PC Maintenance</h3>
+            <p className="text-muted-foreground font-medium leading-relaxed text-lg relative z-10 mb-6">
+              Software installation, virus removal, or hardware upgrades. Handled by pros.
             </p>
+            <button className="mt-auto flex items-center gap-2 text-primary font-bold hover:underline">
+               Find a Pro <ArrowRight className="w-4 h-4" />
+            </button>
           </motion.div>
         </div>
       </section>

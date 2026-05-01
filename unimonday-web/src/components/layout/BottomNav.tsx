@@ -1,17 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, BrainCircuit, Library, LayoutDashboard } from "lucide-react";
+import { Store, Compass, MessageCircle, Box } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 export function BottomNav() {
   const pathname = usePathname();
 
   const navItems = [
-    { href: "/", icon: BookOpen, label: "Home" },
-    { href: "/study", icon: BrainCircuit, label: "Study" },
-    { href: "/library", icon: Library, label: "Library" },
-    { href: "/progress", icon: LayoutDashboard, label: "Progress" },
+    { href: "/", icon: Store, label: "Home" },
+    { href: "/explore", icon: Compass, label: "Explore" },
+    { href: "/chat", icon: MessageCircle, label: "Chat" },
+    { href: "/orders", icon: Box, label: "Orders" },
   ];
 
   return (
