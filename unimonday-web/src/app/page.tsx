@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { BrainCircuit, ArrowRight, Zap, Target, Repeat, Upload } from "lucide-react";
+import { Upload, Zap, Target, Repeat, ArrowRight, Smile } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
@@ -26,7 +26,7 @@ export default function Home() {
           className="mb-8 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-border shadow-sm"
         >
           <span className="flex w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-          <span className="text-sm font-bold text-gray-800 tracking-wide uppercase">Cognitive Study Engine</span>
+          <span className="text-sm font-bold text-gray-800 tracking-wide uppercase">Your Personal Genius</span>
         </motion.div>
 
         <motion.h1
@@ -35,9 +35,9 @@ export default function Home() {
           transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
           className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tighter mb-8 text-gray-900 leading-[1.1]"
         >
-          Never Forget <br className="hidden sm:block" />
+          Ace Your Exams <br className="hidden sm:block" />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-400">
-            What You Read.
+            With Zero Stress.
           </span>
         </motion.h1>
 
@@ -47,7 +47,7 @@ export default function Home() {
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           className="text-xl sm:text-2xl text-muted-foreground max-w-2xl mb-12 leading-relaxed font-medium"
         >
-          An AI companion that forces you to understand using the Feynman Technique, Active Recall, and Spaced Repetition.
+          Stop reading the same page five times. Experience the relief of instant understanding and unbreakable memory.
         </motion.p>
 
         <motion.div
@@ -60,7 +60,7 @@ export default function Home() {
             onClick={handleStart}
             className="group inline-flex items-center justify-center gap-3 bg-gray-900 text-white px-10 py-6 rounded-[2rem] font-bold text-xl hover:bg-gray-800 hover:scale-[1.02] transition-all active:scale-95 shadow-xl shadow-gray-900/20"
           >
-            Upload Document & Study
+            Experience It Now
             <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
           </button>
         </motion.div>
@@ -84,25 +84,25 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent flex flex-col justify-end p-10 sm:p-16">
           <div className="flex flex-wrap items-center gap-3 mb-6">
             <div className="bg-white/10 backdrop-blur-md px-5 py-2.5 rounded-full text-white text-sm font-bold flex items-center gap-2 border border-white/20">
-               <BrainCircuit className="w-4 h-4" /> DeepSeek V4 Powered
+               <Smile className="w-4 h-4" /> Goodbye Anxiety
             </div>
             <div className="bg-primary/90 backdrop-blur-md px-5 py-2.5 rounded-full text-primary-foreground text-sm font-bold flex items-center gap-2 shadow-lg">
-               <Upload className="w-4 h-4" /> 1M Token Context
+               <Upload className="w-4 h-4" /> Upload & Relax
             </div>
           </div>
-          <h2 className="text-white text-5xl sm:text-6xl font-black mb-4 tracking-tight leading-tight">Read 500 Pages.<br/>Retain Everything.</h2>
+          <h2 className="text-white text-5xl sm:text-6xl font-black mb-4 tracking-tight leading-tight">Read 500 Pages.<br/>Feel Like a Genius.</h2>
           <p className="text-white/80 text-xl sm:text-2xl font-medium max-w-2xl leading-relaxed">
-            Stop skimming. Our Sequential Chunking forces the AI to analyze your PDF chapter-by-chapter without being lazy.
+            Imagine walking into an exam hall knowing you can answer anything. No more cramming. No more blank mind.
           </p>
         </div>
       </motion.section>
 
-      {/* Scientific Pedagogy Section */}
+      {/* Outcomes Pedagogy Section */}
       <section className="pb-24 max-w-6xl mx-auto px-4 w-full">
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-black tracking-tight mb-4">Scientific Pedagogy</h2>
+          <h2 className="text-4xl sm:text-5xl font-black tracking-tight mb-4">Transform How You Feel</h2>
           <p className="text-xl text-muted-foreground font-medium max-w-2xl mx-auto">
-            We don&apos;t just give you answers. We rewire your brain to understand complex concepts permanently.
+            Turn exhaustion into excitement. We make mastering the hardest university subjects feel like a breeze.
           </p>
         </div>
 
@@ -117,9 +117,9 @@ export default function Home() {
             <div className="w-16 h-16 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center mb-8 relative z-10 border border-blue-100">
               <Zap className="w-8 h-8" />
             </div>
-            <h3 className="text-2xl font-black mb-4 relative z-10">The Feynman Technique</h3>
+            <h3 className="text-2xl font-black mb-4 relative z-10">Instant &quot;Aha!&quot; Moments</h3>
             <p className="text-muted-foreground font-medium leading-relaxed text-lg relative z-10">
-              Struggling with Thermodynamics or Asynchronous JS? The AI breaks it down using real-world analogies like daladala traffic or bajaji engines.
+              Struggling with complex engineering or coding concepts? Experience the relief when everything finally clicks through relatable, everyday examples.
             </p>
           </motion.div>
 
@@ -133,9 +133,9 @@ export default function Home() {
             <div className="w-16 h-16 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center mb-8 relative z-10 border border-amber-100">
               <Target className="w-8 h-8" />
             </div>
-            <h3 className="text-2xl font-black mb-4 relative z-10">Active Recall</h3>
+            <h3 className="text-2xl font-black mb-4 relative z-10">Unshakeable Confidence</h3>
             <p className="text-muted-foreground font-medium leading-relaxed text-lg relative z-10">
-              The AI randomly stops and commands you to close your eyes and explain the concept back to it. This hardcodes knowledge into your brain.
+              Never second-guess yourself again. Prove your knowledge interactively so you walk into any test feeling completely unstoppable.
             </p>
           </motion.div>
 
@@ -149,9 +149,9 @@ export default function Home() {
             <div className="w-16 h-16 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mb-8 relative z-10 border border-primary/20">
               <Repeat className="w-8 h-8" />
             </div>
-            <h3 className="text-2xl font-black mb-4 relative z-10">Spaced Repetition (Friday Tests)</h3>
+            <h3 className="text-2xl font-black mb-4 relative z-10">Bulletproof Memory</h3>
             <p className="text-muted-foreground font-medium leading-relaxed text-lg relative z-10">
-              Every mistake you make from Monday to Thursday is logged in Supabase. On Friday, you face a brutal, customized exam on your weak points.
+              Wake up on exam day without the panic. Your weak spots are automatically turned into strengths before you even step into the hall.
             </p>
           </motion.div>
         </div>

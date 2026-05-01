@@ -1,41 +1,87 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, User, Menu } from "lucide-react";
+import { BookOpen, User, Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export function TopNav() {
   const pathname = usePathname();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 h-16 bg-white/80 backdrop-blur-xl border-b border-border z-50 flex items-center justify-between px-4 sm:px-6 lg:px-8">
-      <Link href="/" className="flex items-center gap-2 group">
-        <div className="w-8 h-8 bg-gray-900 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
-          <BookOpen className="w-5 h-5 text-white" />
+    <>
+      <nav className="fixed top-0 left-0 right-0 h-16 bg-white/80 backdrop-blur-xl border-b border-border z-50 flex items-center justify-between px-4 sm:px-6 lg:px-8">
+        <Link href="/" className="flex items-center gap-2 group">
+          <div className="w-8 h-8 bg-gray-900 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
+            <BookOpen className="w-5 h-5 text-white" />
+          </div>
+          <span className="font-black text-xl tracking-tight text-gray-900">STUDY<span className="text-primary">ENGINE</span></span>
+        </Link>
+
+        <div className="hidden sm:flex items-center gap-8 font-medium">
+          <Link href="/study" className={`text-sm hover:text-primary transition-colors ${pathname === '/study' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+            Study Room
+          </Link>
+          <Link href="/library" className={`text-sm hover:text-primary transition-colors ${pathname === '/library' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+            My Library
+          </Link>
+          <Link href="/progress" className={`text-sm hover:text-primary transition-colors ${pathname === '/progress' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+            Progress (Friday Test)
+          </Link>
         </div>
-        <span className="font-black text-xl tracking-tight text-gray-900">STUDY<span className="text-primary">ENGINE</span></span>
-      </Link>
 
-      <div className="hidden sm:flex items-center gap-8 font-medium">
-        <Link href="/study" className={`text-sm hover:text-primary transition-colors ${pathname === '/study' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-          Study Room
-        </Link>
-        <Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-          My Library
-        </Link>
-        <Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-          Progress (Friday Test)
-        </Link>
-      </div>
+        <div className="flex items-center gap-3">
+          <button className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-full font-bold text-sm transition-colors">
+            <User className="w-4 h-4" /> Sign In
+          </button>
+          <button onClick={toggleMenu} className="sm:hidden p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+      </nav>
 
-      <div className="flex items-center gap-3">
-        <button className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-full font-bold text-sm transition-colors">
-          <User className="w-4 h-4" /> Sign In
-        </button>
-        <button className="sm:hidden p-2 text-gray-600">
-          <Menu className="w-6 h-6" />
-        </button>
-      </div>
-    </nav>
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed top-16 left-0 right-0 bg-white border-b border-border z-40 sm:hidden shadow-lg"
+          >
+            <div className="flex flex-col p-4 gap-4">
+              <Link
+                href="/study"
+                onClick={toggleMenu}
+                className={`p-3 rounded-xl font-bold ${pathname === '/study' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
+              >
+                Study Room
+              </Link>
+              <Link
+                href="/library"
+                onClick={toggleMenu}
+                className={`p-3 rounded-xl font-bold ${pathname === '/library' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
+              >
+                My Library
+              </Link>
+              <Link
+                href="/progress"
+                onClick={toggleMenu}
+                className={`p-3 rounded-xl font-bold ${pathname === '/progress' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
+              >
+                Progress (Friday Test)
+              </Link>
+              <hr className="border-border my-2" />
+              <button className="flex items-center justify-center gap-2 w-full p-3 bg-gray-900 text-white rounded-xl font-bold">
+                <User className="w-5 h-5" /> Sign In
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
