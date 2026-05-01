@@ -1,0 +1,26 @@
+{
+  "Hero": {
+    "title": "Biashara Chuoni,",
+    "subtitle": "Kwa Kasi ya Ajabu.",
+    "description": "Ruka foleni. Agiza chakula na stationary papo hapo ukitumia live-ticket yetu salama.",
+    "cta": "Anza Sasa",
+    "vendorCta": "Mimi ni Muuzaji"
+  },
+  "Navigation": {
+    "home": "Mwanzo",
+    "orders": "Oda Zangu",
+    "profile": "Akaunti"
+  },
+  "Cart": {
+    "title": "Oda Yako",
+    "empty": "Kapu lako lipo wazi",
+    "checkout": "Lipa Papo Hapo",
+    "total": "Jumla"
+  },
+  "Ticket": {
+    "active": "TIKETI LIVE",
+    "showToVendor": "Onyesha hii kwa mhudumu sasa",
+    "expiresIn": "Inaisha ndani ya",
+    "seconds": "sekunde"
+  }
+}
