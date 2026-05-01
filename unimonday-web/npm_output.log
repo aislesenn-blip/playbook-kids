@@ -1,0 +1,29 @@
+
+> unimonday-web@0.1.0 dev
+> next dev
+
+ ⚠ Port 3000 is in use by an unknown process, using available port 3001 instead.
+   ▲ Next.js 15.5.15
+   - Local:        http://localhost:3001
+   - Network:      http://192.168.0.2:3001
+
+ ✓ Starting...
+ ✓ Ready in 2.3s
+ ○ Compiling / ...
+
+
+Retrying 1/3...
+
+
+Retrying 1/3...
+ ✓ Compiled / in 6.6s (1595 modules)
+ GET / 200 in 8215ms
+ ○ Compiling /chat ...
+ ✓ Compiled /chat in 1168ms (1591 modules)
+ GET /chat 200 in 1720ms
+ ○ Compiling /orders ...
+ ✓ Compiled /orders in 510ms (1606 modules)
+ GET /orders 200 in 847ms
+ ○ Compiling /product/[id] ...
+ ✓ Compiled /product/[id] in 518ms (1617 modules)
+ GET /product/123 200 in 2423ms
