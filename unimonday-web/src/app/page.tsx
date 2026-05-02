@@ -53,7 +53,7 @@ export default function Home() {
               <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Find gifts for Mom</h2>
               <div className="relative flex-grow overflow-hidden mb-3">
                 <Image
-                  src="https://images.unsplash.com/photo-1610392462690-84766bd687ca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxjbG90aGluZyUyMHN0cmVldHdlYXJ8ZW58MHx8fHwxNzc3NzM2MzI0fDA&ixlib=rb-4.1.0&q=80&w=1080"
+                  src="https://images.unsplash.com/photo-1730389658758-e61f3293b94d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxnaWZ0cyUyMGZvciUyMG1vbXxlbnwwfHx8fDE3Nzc3NDA2Mjd8MA&ixlib=rb-4.1.0&q=80&w=1080"
                   alt="Find gifts for Mom"
                   fill
                   className="object-cover"
@@ -69,7 +69,7 @@ export default function Home() {
               <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Score top PCs &amp; Accessories</h2>
               <div className="relative flex-grow overflow-hidden mb-3">
                 <Image
-                  src="https://images.unsplash.com/photo-1634403665481-74948d815f03?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwzfHxzbWFydHBob25lfGVufDB8fHx8MTc3NzczNjMyNXww&ixlib=rb-4.1.0&q=80&w=1080"
+                  src="https://images.unsplash.com/photo-1636914011676-039d36b73765?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxwYyUyMHNldHVwJTIwZ2FtaW5nfGVufDB8fHx8MTc3Nzc0MDYyN3ww&ixlib=rb-4.1.0&q=80&w=1080"
                   alt="Score top PCs & Accessories"
                   fill
                   className="object-cover"
@@ -85,7 +85,7 @@ export default function Home() {
               <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Find gifts for Kids</h2>
               <div className="relative flex-grow overflow-hidden mb-3">
                 <Image
-                  src="https://images.unsplash.com/photo-1581182800629-7d90925ad072?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxza2luY2FyZXxlbnwwfHx8fDE3Nzc3MzYzMjV8MA&ixlib=rb-4.1.0&q=80&w=1080"
+                  src="https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxraWRzJTIwdG95c3xlbnwwfHx8fDE3Nzc3NDA2Mjd8MA&ixlib=rb-4.1.0&q=80&w=1080"
                   alt="Find gifts for Kids"
                   fill
                   className="object-cover"
@@ -117,7 +117,7 @@ export default function Home() {
               <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Campus Essentials</h2>
               <div className="relative flex-grow overflow-hidden mb-3">
                 <Image
-                  src="https://images.unsplash.com/photo-1721332154191-ba5f1534266e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxsYXB0b3AlMjByZXBhaXJ8ZW58MHx8fHwxNzc3NzM2MzI2fDA&ixlib=rb-4.1.0&q=80&w=1080"
+                  src="https://images.unsplash.com/photo-1516351464815-9a44f19888c2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxjb2xsZWdlJTIwZXNzZW50aWFsc3xlbnwwfHx8fDE3Nzc3NDA2Mjh8MA&ixlib=rb-4.1.0&q=80&w=1080"
                   alt="Campus Essentials"
                   fill
                   className="object-cover"
