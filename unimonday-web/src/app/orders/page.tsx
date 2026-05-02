@@ -1,10 +1,28 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Package, Clock, CheckCircle2, Wrench } from "lucide-react";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Package, Clock, CheckCircle2, Wrench, X, QrCode } from "lucide-react";
 import Image from "next/image";
 
 export default function OrdersPage() {
+  const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
+  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
+
+  useEffect(() => {
+    if (selectedOrder) {
+      const timer = setInterval(() => {
+        setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [selectedOrder]);
+
+  const formatTime = (seconds: number) => {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${m}:${s.toString().padStart(2, '0')}`;
+  };
   const activeOrders = [
     {
       id: "ORD-9821",
@@ -95,7 +113,10 @@ export default function OrdersPage() {
                     <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse"></span>
                     {order.status}
                   </span>
-                  <button className="text-sm font-bold text-gray-600 hover:text-gray-900 transition-colors">
+                  <button
+                    onClick={() => setSelectedOrder(order.id)}
+                    className="text-sm font-bold text-gray-600 hover:text-gray-900 transition-colors"
+                  >
                     View Details
                   </button>
                 </div>
@@ -104,6 +125,46 @@ export default function OrdersPage() {
           ))}
         </div>
       </div>
+
+      {/* Order Details Modal (Ticket) */}
+      <AnimatePresence>
+        {selectedOrder && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-gray-900/60 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="bg-white rounded-[2rem] shadow-2xl w-full max-w-sm overflow-hidden relative"
+            >
+              <div className="p-6 bg-gray-900 text-white flex items-center justify-between">
+                <h2 className="text-xl font-black">Pickup Ticket</h2>
+                <button onClick={() => setSelectedOrder(null)} className="p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors">
+                  <X className="w-5 h-5 text-white" />
+                </button>
+              </div>
+
+              <div className="p-8 flex flex-col items-center text-center">
+                <div className="w-full max-w-[200px] aspect-square bg-white border-4 border-gray-100 rounded-3xl p-4 mb-6 shadow-inner flex items-center justify-center relative overflow-hidden">
+                   <QrCode className="w-full h-full text-gray-900" />
+                   <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent flex items-end justify-center pb-2">
+                      <span className="text-xs font-bold text-gray-500 tracking-widest">{selectedOrder}</span>
+                   </div>
+                </div>
+
+                <h3 className="text-2xl font-black mb-2 text-gray-900">Show this to vendor</h3>
+                <p className="text-muted-foreground font-medium mb-8">TechZone UDSM • Student Center</p>
+
+                <div className="w-full bg-gray-50 rounded-2xl p-4 border border-border">
+                  <p className="text-sm font-bold text-gray-500 mb-1 uppercase tracking-wider">Ticket expires in</p>
+                  <p className={`text-4xl font-black ${timeLeft < 60 ? 'text-red-500 animate-pulse' : 'text-primary'}`}>
+                    {formatTime(timeLeft)}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       <div>
         <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">

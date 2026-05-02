@@ -8,8 +8,12 @@ import { useRouter } from "next/navigation";
 export default function ChatInterface() {
   const router = useRouter();
   const [messages, setMessages] = useState([
-    { id: 1, text: "Hi there! Is the Vintage Denim Jacket still available?", sender: "user", time: "10:00 AM" },
-    { id: 2, text: "Hello! Yes, it is still available. What size are you looking for?", sender: "vendor", time: "10:05 AM" },
+    { id: 1, text: "Hi! I'm interested in the Pro Wireless Earbuds. Can we do Tsh 40,000?", sender: "user", time: "10:00 AM" },
+    { id: 2, text: "Hello! The original price is Tsh 45,000. It's brand new and sealed.", sender: "vendor", time: "10:05 AM" },
+    { id: 3, text: "I understand, but I'm a student at Block C. I can come pick it up right now in cash.", sender: "user", time: "10:06 AM" },
+    { id: 4, text: "Alright, let's do Tsh 42,000. That's my final offer.", sender: "vendor", time: "10:08 AM" },
+    { id: 5, text: "Deal! Should I place the order on the app now?", sender: "user", time: "10:09 AM" },
+    { id: 6, text: "Yes, place the order using 'Pay on Pickup' and come to Student Center, Shop 12.", sender: "vendor", time: "10:10 AM" },
   ]);
   const [input, setInput] = useState("");
 
@@ -26,7 +30,7 @@ export default function ChatInterface() {
     setTimeout(() => {
       setMessages(prev => [
         ...prev,
-        { id: Date.now() + 1, text: "Great! Let me check the stock for you.", sender: "vendor", time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
+        { id: Date.now() + 1, text: "Okay, I'm waiting for your ticket number.", sender: "vendor", time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
       ]);
     }, 1500);
   };
@@ -44,7 +48,7 @@ export default function ChatInterface() {
               <Store className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="font-bold text-gray-900">Campus Thrift</h2>
+              <h2 className="font-bold text-gray-900">TechZone UDSM</h2>
               <p className="text-xs text-primary font-medium flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full bg-primary inline-block"></span> Online
               </p>

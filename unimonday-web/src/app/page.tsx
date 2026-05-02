@@ -67,7 +67,7 @@ export default function Home() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Product Card 1 */}
-          <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer">
+          <motion.div onClick={() => router.push('/product/1')} whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer">
             <div className="relative h-64 w-full overflow-hidden">
               <Image
                 src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop"
@@ -89,7 +89,7 @@ export default function Home() {
           </motion.div>
 
           {/* Product Card 2 */}
-          <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer">
+          <motion.div onClick={() => router.push('/product/2')} whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer">
             <div className="relative h-64 w-full overflow-hidden">
               <Image
                 src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=2064&auto=format&fit=crop"
@@ -111,7 +111,7 @@ export default function Home() {
           </motion.div>
 
           {/* Product Card 3 */}
-          <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer">
+          <motion.div onClick={() => router.push('/product/3')} whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer">
             <div className="relative h-64 w-full overflow-hidden bg-gray-100">
               <Image
                 src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=2080&auto=format&fit=crop"
@@ -145,8 +145,9 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <motion.div
+            onClick={() => router.push('/services')}
             whileHover={{ y: -10 }}
-            className="flex flex-col p-10 rounded-[3rem] bg-white border border-border/50 shadow-lg group relative overflow-hidden"
+            className="cursor-pointer flex flex-col p-10 rounded-[3rem] bg-white border border-border/50 shadow-lg group relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
               <Wrench className="w-32 h-32" />
@@ -164,8 +165,9 @@ export default function Home() {
           </motion.div>
 
           <motion.div
+            onClick={() => router.push('/services')}
             whileHover={{ y: -10 }}
-            className="flex flex-col p-10 rounded-[3rem] bg-white border border-border/50 shadow-lg group relative overflow-hidden"
+            className="cursor-pointer flex flex-col p-10 rounded-[3rem] bg-white border border-border/50 shadow-lg group relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
               <Truck className="w-32 h-32" />
@@ -183,8 +185,9 @@ export default function Home() {
           </motion.div>
 
           <motion.div
+            onClick={() => router.push('/services')}
             whileHover={{ y: -10 }}
-            className="flex flex-col p-10 rounded-[3rem] bg-white border border-border/50 shadow-lg group relative overflow-hidden"
+            className="cursor-pointer flex flex-col p-10 rounded-[3rem] bg-white border border-border/50 shadow-lg group relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
               <Star className="w-32 h-32" />
