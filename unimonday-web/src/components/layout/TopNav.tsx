@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingBag, User, Menu, X, Shirt, Smartphone, ShieldCheck, Box } from "lucide-react";
+import { ShoppingBag, User, Menu, X, Shirt, Smartphone, ShieldCheck, Box, Handshake, ShieldAlert } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -83,6 +83,21 @@ export function TopNav() {
                 className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/orders' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
               >
                 <Box className="w-5 h-5" /> My Orders
+              </Link>
+                            <hr className="border-border my-2" />
+              <Link
+                href="/vendor/apply"
+                onClick={toggleMenu}
+                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname.includes('/vendor') ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
+              >
+                <Handshake className="w-5 h-5" /> Partner With Us
+              </Link>
+              <Link
+                href="/admin/dashboard"
+                onClick={toggleMenu}
+                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname.includes('/admin') ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
+              >
+                <ShieldAlert className="w-5 h-5" /> Staff (Godmode)
               </Link>
               <hr className="border-border my-2" />
               <button className="flex items-center justify-center gap-2 w-full p-3 bg-gray-900 text-white rounded-xl font-bold">
