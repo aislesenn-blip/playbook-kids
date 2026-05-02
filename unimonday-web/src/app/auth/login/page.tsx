@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAppStore } from "@/lib/store/app-store";
 import { mockCampuses } from "@/lib/mockData";
-import { ShoppingBag, ArrowRight, ShieldCheck, MapPin } from "lucide-react";
+import { ShoppingBag, ArrowRight, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 

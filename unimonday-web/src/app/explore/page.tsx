@@ -14,7 +14,7 @@ export default function ExplorePage() {
   return (
     <div className="min-h-screen bg-gray-50/50 pb-24">
       {/* Search & Hero Section */}
-      <section className="bg-white border-b border-border pt-20 pb-8 px-4">
+      <section className="bg-white border-b border-border pt-20 pb-4 px-4 sticky top-14 z-30">
         <div className="max-w-7xl mx-auto">
           {/* Categories / Filters on top */}
           <motion.div
@@ -121,10 +121,10 @@ export default function ExplorePage() {
           </div>
         </section>
 
-        {/* Discover Products Grid */}
+        {/* Fashion Apparels under Tzs 20,000 Grid */}
         <section className="pb-16">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl sm:text-3xl font-black">Discover Products</h2>
+            <h2 className="text-2xl sm:text-3xl font-black">Fashion Apparels under Tzs 20,000</h2>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">

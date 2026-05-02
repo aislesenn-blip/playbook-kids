@@ -14,44 +14,112 @@ export default function Home() {
     <div className="flex flex-col items-center justify-center w-full overflow-x-hidden selection:bg-primary/20 selection:text-primary">
 
       {/* Hero Section */}
-      <section className="relative w-full max-w-5xl mx-auto pt-20 sm:pt-32 pb-16 sm:pb-24 px-4 flex flex-col items-center text-center">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-3xl -z-10 pointer-events-none"></div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
-          className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tighter mb-8 text-gray-900 leading-[1.1]"
-        >
-          Shop. Fix. <br className="hidden sm:block" />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-400">
-            Connect.
-          </span>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="text-xl sm:text-2xl text-muted-foreground max-w-2xl mb-12 leading-relaxed font-medium"
-        >
-          Everything a university student needs. From fresh fashion and tech, to verified phone repairs—all in one place.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-          className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
-        >
-          <Link
-            href="/explore"
-            className="group inline-flex items-center justify-center gap-2 bg-gray-900 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-800 hover:scale-[1.02] transition-all active:scale-95 shadow-lg shadow-gray-900/20"
-          >
-            Start Exploring
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+      <section className="relative w-full max-w-7xl mx-auto pt-20 pb-16 sm:pb-24 px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Link href="/explore">
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              className="bg-white rounded-2xl overflow-hidden shadow-sm border border-border flex flex-col h-full cursor-pointer group"
+            >
+              <div className="p-6 pb-4">
+                <h2 className="text-2xl font-bold tracking-tight text-gray-900 mb-1">Gifts for Mom</h2>
+                <p className="text-sm text-muted-foreground">Show your appreciation</p>
+              </div>
+              <div className="relative flex-1 min-h-[200px] w-full mt-auto p-4 pt-0">
+                 <div className="relative w-full h-full rounded-xl overflow-hidden">
+                    <Image
+                      src="https://images.unsplash.com/photo-1607083206869-4c7672e72a8a?q=80&w=2070&auto=format&fit=crop"
+                      alt="Gifts for Mom"
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                 </div>
+              </div>
+              <div className="p-4 pt-0">
+                <span className="text-primary font-medium text-sm group-hover:underline">Shop now</span>
+              </div>
+            </motion.div>
           </Link>
-        </motion.div>
+
+          <Link href="/explore">
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              className="bg-white rounded-2xl overflow-hidden shadow-sm border border-border flex flex-col h-full cursor-pointer group"
+            >
+              <div className="p-6 pb-4">
+                <h2 className="text-2xl font-bold tracking-tight text-gray-900 mb-1">Tech Essentials</h2>
+                <p className="text-sm text-muted-foreground">Upgrade your campus setup</p>
+              </div>
+              <div className="relative flex-1 min-h-[200px] w-full mt-auto p-4 pt-0">
+                 <div className="relative w-full h-full rounded-xl overflow-hidden">
+                    <Image
+                      src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=2071&auto=format&fit=crop"
+                      alt="Tech Essentials"
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                 </div>
+              </div>
+              <div className="p-4 pt-0">
+                <span className="text-primary font-medium text-sm group-hover:underline">Shop now</span>
+              </div>
+            </motion.div>
+          </Link>
+
+          <Link href="/explore">
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              className="bg-white rounded-2xl overflow-hidden shadow-sm border border-border flex flex-col h-full cursor-pointer group"
+            >
+              <div className="p-6 pb-4">
+                <h2 className="text-2xl font-bold tracking-tight text-gray-900 mb-1">Fresh Fits</h2>
+                <p className="text-sm text-muted-foreground">Latest campus fashion</p>
+              </div>
+              <div className="relative flex-1 min-h-[200px] w-full mt-auto p-4 pt-0">
+                 <div className="relative w-full h-full rounded-xl overflow-hidden">
+                    <Image
+                      src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop"
+                      alt="Fresh Fits"
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                 </div>
+              </div>
+              <div className="p-4 pt-0">
+                <span className="text-primary font-medium text-sm group-hover:underline">Shop now</span>
+              </div>
+            </motion.div>
+          </Link>
+
+          <Link href="/explore">
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              className="bg-white rounded-2xl overflow-hidden shadow-sm border border-border flex flex-col h-full cursor-pointer group"
+            >
+              <div className="p-6 pb-4">
+                <h2 className="text-2xl font-bold tracking-tight text-gray-900 mb-1">Dorm Decor</h2>
+                <p className="text-sm text-muted-foreground">Make it feel like home</p>
+              </div>
+              <div className="grid grid-cols-2 gap-2 p-4 pt-0 mt-auto">
+                 <div className="relative aspect-square rounded-xl overflow-hidden">
+                    <Image src="https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=2069&auto=format&fit=crop" alt="Decor 1" fill className="object-cover" />
+                 </div>
+                 <div className="relative aspect-square rounded-xl overflow-hidden">
+                    <Image src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=2070&auto=format&fit=crop" alt="Decor 2" fill className="object-cover" />
+                 </div>
+                 <div className="relative aspect-square rounded-xl overflow-hidden">
+                    <Image src="https://images.unsplash.com/photo-1499933374294-4584851497cc?q=80&w=2070&auto=format&fit=crop" alt="Decor 3" fill className="object-cover" />
+                 </div>
+                 <div className="relative aspect-square rounded-xl overflow-hidden">
+                    <Image src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?q=80&w=1974&auto=format&fit=crop" alt="Decor 4" fill className="object-cover" />
+                 </div>
+              </div>
+              <div className="p-4 pt-0">
+                <span className="text-primary font-medium text-sm group-hover:underline">See more</span>
+              </div>
+            </motion.div>
+          </Link>
+        </div>
       </section>
 
       {/* Featured Products */}

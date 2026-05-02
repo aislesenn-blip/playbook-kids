@@ -4,7 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { ShoppingBag, MessageCircle, Star, ShieldCheck, ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+
 import { useAppStore } from "@/lib/store/app-store";
 import { mockProducts } from "@/lib/mockData";
 import { toast } from "sonner";
