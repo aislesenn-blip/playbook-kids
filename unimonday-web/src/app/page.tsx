@@ -217,9 +217,9 @@ export default function Home() {
       <section className="w-full max-w-7xl mx-auto px-4 pb-24">
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Featured Products</h2>
-          <button className="text-primary font-bold hover:underline flex items-center gap-1">
+          <Link href="/explore" className="text-primary font-bold hover:underline flex items-center gap-1">
             See All <ArrowRight className="w-4 h-4" />
-          </button>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">

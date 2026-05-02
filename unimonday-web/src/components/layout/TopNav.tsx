@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingBag, User, Menu, X, Shirt, Smartphone, ShieldCheck, Box, Handshake, ShieldAlert } from "lucide-react";
+import { ShoppingBag, ShoppingCart, User, Menu, X, Shirt, Smartphone, ShieldCheck, Box, Handshake, ShieldAlert } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -38,9 +38,13 @@ export function TopNav() {
         </div>
 
         <div className="flex items-center gap-3">
-          <button className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-full font-bold text-sm transition-colors">
+          <Link href="/checkout" className="flex items-center justify-center p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors relative">
+            <ShoppingCart className="w-5 h-5" />
+            <span className="absolute top-0 right-0 w-2 h-2 bg-primary rounded-full"></span>
+          </Link>
+          <Link href="/auth/login" className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-full font-bold text-sm transition-colors">
             <User className="w-4 h-4" /> Sign In
-          </button>
+          </Link>
           <button onClick={toggleMenu} className="sm:hidden p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
             {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -100,9 +104,9 @@ export function TopNav() {
                 <ShieldAlert className="w-5 h-5" /> Staff
               </Link>
               <hr className="border-border my-2" />
-              <button className="flex items-center justify-center gap-2 w-full p-3 bg-gray-900 text-white rounded-xl font-bold">
+              <Link href="/auth/login" onClick={toggleMenu} className="flex items-center justify-center gap-2 w-full p-3 bg-gray-900 text-white rounded-xl font-bold">
                 <User className="w-5 h-5" /> Sign In
-              </button>
+              </Link>
             </div>
           </motion.div>
         )}
