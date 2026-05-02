@@ -1,11 +1,28 @@
 "use client";
 
 import Image from "next/image";
+import { useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ShoppingBag, Wrench, ShieldCheck, ArrowRight, Star, Truck } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
+  const heroScrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (heroScrollRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = heroScrollRef.current;
+        if (scrollLeft + clientWidth >= scrollWidth - 10) {
+          heroScrollRef.current.scrollTo({ left: 0, behavior: "smooth" });
+        } else {
+          heroScrollRef.current.scrollBy({ left: 340, behavior: "smooth" });
+        }
+      }
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
 
 
 
@@ -16,7 +33,7 @@ export default function Home() {
       {/* Hero Section - Amazon Style Grid */}
       <div className="w-full bg-[#E3E6E6] flex justify-center">
       <section className="w-full max-w-[1500px] pt-16 sm:pt-24 pb-12 px-4">
-        <div className="flex overflow-x-auto gap-5 pb-6 snap-x snap-mandatory">
+        <div ref={heroScrollRef} className="flex overflow-x-auto gap-5 pb-6 snap-x snap-mandatory scroll-smooth">
           {/* Card 1 */}
           <Link href="/explore" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
             <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
