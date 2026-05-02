@@ -146,7 +146,7 @@ export default function Home() {
             Start Exploring
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
-        </motion.div>
+        </div>
       </section>
 
       {/* Featured Products */}
