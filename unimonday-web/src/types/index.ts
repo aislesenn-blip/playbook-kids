@@ -19,6 +19,7 @@ export interface Vendor {
   region: string;
   campusName: string;
   isVerified: boolean;
+  paymentAndDeliveryInfo?: string;
 }
 
 export interface Product {

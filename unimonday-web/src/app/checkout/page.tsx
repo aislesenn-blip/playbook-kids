@@ -4,17 +4,19 @@
 import { useAppStore } from "@/lib/store/app-store";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Trash2, Plus, Minus } from "lucide-react";
+import { mockVendors } from "@/lib/mockData";
 
 export default function CheckoutPage() {
   const router = useRouter();
   const { currentUser, cart, getCartTotal, clearCart, updateQuantity, removeFromCart } = useAppStore();
-  const [deliveryMethod, setDeliveryMethod] = useState("meetup");
-  const [paymentMethod, setPaymentMethod] = useState("pod");
 
   const total = getCartTotal();
-  const deliveryFee = deliveryMethod === "pickup" ? 0 : 2000;
+
+  // Get unique vendors from cart items
+  const cartVendorIds = Array.from(new Set(cart.map((item) => item.product.vendorId)));
+  const cartVendors = mockVendors.filter((vendor) => cartVendorIds.includes(vendor.id));
 
   useEffect(() => {
     if (!currentUser) {
@@ -86,46 +88,30 @@ export default function CheckoutPage() {
           ))}
 
           <hr className="my-4 border-border" />
-          <div className="flex justify-between items-center text-sm text-muted-foreground">
-            <span>Delivery Fee</span>
-            <span>Tsh {deliveryFee.toLocaleString()}</span>
-          </div>
-          <hr className="my-4 border-border" />
           <div className="flex justify-between items-center">
-            <span className="font-black text-lg">Total</span>
-            <span className="font-black text-lg text-primary">Tsh {(total + deliveryFee).toLocaleString()}</span>
+            <span className="font-black text-lg">Total Items</span>
+            <span className="font-black text-lg text-primary">Tsh {total.toLocaleString()}</span>
           </div>
         </div>
 
-        <div className="text-left mb-6 space-y-4">
-            <div>
-              <label className="block text-sm font-bold mb-2">Delivery Method</label>
-              <select
-                value={deliveryMethod}
-                onChange={(e) => setDeliveryMethod(e.target.value)}
-                className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all appearance-none"
-              >
-                <option value="meetup">Meetup at Campus (Tsh 2,000)</option>
-                <option value="hostel">Leta Hostel (Tsh 2,000)</option>
-                <option value="pickup">Pickup at Store (Free)</option>
-              </select>
+        {cartVendors.length > 0 && (
+          <div className="bg-blue-50/50 p-6 rounded-2xl border border-blue-100 mb-6 text-left">
+            <h3 className="font-bold text-lg mb-4 text-blue-900">Payment & Delivery Information</h3>
+            <div className="space-y-4">
+              {cartVendors.map((vendor) => (
+                <div key={vendor.id} className="bg-white p-4 rounded-xl border border-blue-50 shadow-sm">
+                  <h4 className="font-bold text-gray-900 mb-2">{vendor.storeName}</h4>
+                  <p className="text-sm text-gray-700 leading-relaxed">
+                    {vendor.paymentAndDeliveryInfo || "Contact vendor for payment and delivery details."}
+                  </p>
+                </div>
+              ))}
             </div>
-
-            <div>
-              <label className="block text-sm font-bold mb-2">Payment Method</label>
-              <select
-                value={paymentMethod}
-                onChange={(e) => setPaymentMethod(e.target.value)}
-                className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all appearance-none"
-              >
-                <option value="pod">Pay on Delivery (Cash)</option>
-                <option value="mobile">Mobile Money</option>
-              </select>
-            </div>
-        </div>
+          </div>
+        )}
 
         <button onClick={handleCheckout} className="block w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
-          Confirm Order & Pay
+          Place Order & Contact Vendor
         </button>
 
       </div>

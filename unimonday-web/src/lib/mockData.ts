@@ -11,6 +11,7 @@ export const mockVendors: Vendor[] = [
     region: 'Dar es Salaam',
     campusName: 'UDSM - Main Campus',
     isVerified: true,
+    paymentAndDeliveryInfo: 'Free Delivery around Dar es Salaam. Pay on Delivery or via Mobile Money.',
   },
   {
     id: 'v2',
@@ -22,6 +23,7 @@ export const mockVendors: Vendor[] = [
     region: 'Dar es Salaam',
     campusName: 'UDSM - Main Campus',
     isVerified: true,
+    paymentAndDeliveryInfo: 'Delivery depends on where you are. Mobile money preferred.',
   },
 ];
 
