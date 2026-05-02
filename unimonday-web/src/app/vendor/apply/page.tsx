@@ -112,27 +112,42 @@ export default function VendorApply() {
         className="bg-white p-8 rounded-[3rem] border border-border shadow-xl max-w-2xl mx-auto"
       >
         <h2 className="text-2xl font-black mb-6">Application Form</h2>
-        <form className="space-y-4">
+                <form onSubmit={handleApply} className="space-y-4">
           <div className="space-y-2">
             <label className="text-sm font-bold text-gray-700">Store Name</label>
-            <input type="text" placeholder="e.g. Kicks TZ" className="w-full p-4 bg-gray-50 border border-border rounded-xl outline-none focus:ring-2 focus:ring-primary transition-all" />
+            <input required value={formData.storeName} onChange={(e) => setFormData({...formData, storeName: e.target.value})} type="text" placeholder="e.g. Kicks TZ" className="w-full p-4 bg-gray-50 border border-border rounded-xl outline-none focus:ring-2 focus:ring-primary transition-all" />
           </div>
 
           <div className="space-y-2">
             <label className="text-sm font-bold text-gray-700">Category</label>
-                              <select required value={formData.category} onChange={(e) => setFormData({...formData, category: e.target.value})} className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all appearance-none">
-                    <option value="" disabled>Select primary category</option>
-                    <option value="Fashion & Apparels">Fashion & Apparels</option>
-                    <option value="Tech & Accessories">Tech & Accessories</option>
-                    <option value="Beauty & Cosmetics">Beauty & Cosmetics</option>
-                    <option value="Home & Decor">Home & Decor</option>
-                    <option value="Services">Services</option>
-                  </select>
+            <select required value={formData.category} onChange={(e) => setFormData({...formData, category: e.target.value})} className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all appearance-none">
+              <option value="" disabled>Select primary category</option>
+              <option value="Fashion & Apparels">Fashion & Apparels</option>
+              <option value="Tech & Accessories">Tech & Accessories</option>
+              <option value="Beauty & Cosmetics">Beauty & Cosmetics</option>
+              <option value="Home & Decor">Home & Decor</option>
+              <option value="Services">Services</option>
+            </select>
           </div>
 
           <div className="space-y-2">
             <label className="text-sm font-bold text-gray-700">Campus Location</label>
-            <input type="text" placeholder="e.g. UDSM Block A" className="w-full p-4 bg-gray-50 border border-border rounded-xl outline-none focus:ring-2 focus:ring-primary transition-all" />
+            <input required value={formData.campusName} onChange={(e) => setFormData({...formData, campusName: e.target.value})} type="text" placeholder="e.g. UDSM Block A" className="w-full p-4 bg-gray-50 border border-border rounded-xl outline-none focus:ring-2 focus:ring-primary transition-all" />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-bold text-gray-700">Owner Full Name</label>
+            <input required value={formData.ownerName} onChange={(e) => setFormData({...formData, ownerName: e.target.value})} type="text" placeholder="John Doe" className="w-full p-4 bg-gray-50 border border-border rounded-xl outline-none focus:ring-2 focus:ring-primary transition-all" />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-bold text-gray-700">Email Address</label>
+            <input required value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} type="email" placeholder="vendor@example.com" className="w-full p-4 bg-gray-50 border border-border rounded-xl outline-none focus:ring-2 focus:ring-primary transition-all" />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-bold text-gray-700">Password</label>
+            <input required value={formData.password} onChange={(e) => setFormData({...formData, password: e.target.value})} type="password" placeholder="••••••••" className="w-full p-4 bg-gray-50 border border-border rounded-xl outline-none focus:ring-2 focus:ring-primary transition-all" />
           </div>
 
           <div className="pt-4">
