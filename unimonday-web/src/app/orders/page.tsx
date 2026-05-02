@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Package, Clock, CheckCircle2, Wrench } from "lucide-react";
+import { Package, Clock, CheckCircle2, Wrench, XCircle } from "lucide-react";
 import Image from "next/image";
+import { toast } from "sonner";
 
 export default function OrdersPage() {
   const activeOrders = [
@@ -112,14 +113,35 @@ export default function OrdersPage() {
                   <span className="text-lg font-black text-gray-900">{order.price}</span>
                 </div>
 
-                <div className="flex items-center justify-center sm:justify-start gap-4 mt-4">
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 ${order.statusBg} ${order.statusColor}`}>
-                    <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse"></span>
-                    {order.status}
-                  </span>
-                  <Link href="/orders/details" className="text-sm font-bold text-gray-600 hover:text-gray-900 transition-colors">
-                    View Details
-                  </Link>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-4">
+                  <div className="flex items-center justify-center sm:justify-start gap-4">
+                    <span className={`px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 ${order.statusBg} ${order.statusColor}`}>
+                      <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse"></span>
+                      {order.status}
+                    </span>
+                    <Link href="/orders/details" className="text-sm font-bold text-gray-600 hover:text-gray-900 transition-colors">
+                      View Details
+                    </Link>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    {order.status === "In Transit" && (
+                      <button
+                        onClick={() => toast.success(`Order ${order.id} confirmed as received!`)}
+                        className="px-4 py-2 bg-primary text-white text-sm font-bold rounded-lg hover:bg-primary/90 transition-colors shadow-sm shadow-primary/20 flex items-center gap-1"
+                      >
+                        <CheckCircle2 className="w-4 h-4" /> Received
+                      </button>
+                    )}
+                    {order.status === "Confirmed" && (
+                      <button
+                        onClick={() => toast.error(`Order ${order.id} has been cancelled.`)}
+                        className="px-4 py-2 bg-red-50 text-red-500 text-sm font-bold rounded-lg hover:bg-red-100 transition-colors flex items-center gap-1"
+                      >
+                        <XCircle className="w-4 h-4" /> Cancel
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             </motion.div>
