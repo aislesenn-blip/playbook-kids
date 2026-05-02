@@ -5,10 +5,11 @@ import { useAppStore } from "@/lib/store/app-store";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
+import { Trash2, Plus, Minus } from "lucide-react";
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { currentUser, cart, getCartTotal, clearCart } = useAppStore();
+  const { currentUser, cart, getCartTotal, clearCart, updateQuantity, removeFromCart } = useAppStore();
   const [deliveryMethod, setDeliveryMethod] = useState("meetup");
   const [paymentMethod, setPaymentMethod] = useState("pod");
 
@@ -51,11 +52,36 @@ export default function CheckoutPage() {
         <p className="text-muted-foreground mb-6 font-medium">Review your order details and confirm.</p>
 
 
-        <div className="bg-gray-50 rounded-2xl p-6 mb-6 text-left space-y-4">
+        <div className="bg-gray-50 rounded-2xl p-6 mb-6 text-left space-y-6">
           {cart.map((item) => (
-             <div key={item.id} className="flex justify-between items-center">
-               <span className="font-bold">{item.quantity}x {item.product.name}</span>
-               <span className="font-bold text-gray-900">Tsh {(item.product.price * item.quantity).toLocaleString()}</span>
+             <div key={item.id} className="flex flex-col gap-3">
+               <div className="flex justify-between items-start">
+                 <span className="font-bold max-w-[70%]">{item.product.name}</span>
+                 <span className="font-bold text-gray-900 shrink-0">Tsh {(item.product.price * item.quantity).toLocaleString()}</span>
+               </div>
+               <div className="flex items-center justify-between">
+                 <div className="flex items-center gap-3 bg-white border border-border rounded-lg px-2 py-1">
+                   <button
+                     onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                     className="p-1 hover:bg-gray-100 rounded text-gray-600"
+                   >
+                     <Minus className="w-4 h-4" />
+                   </button>
+                   <span className="font-bold w-4 text-center text-sm">{item.quantity}</span>
+                   <button
+                     onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                     className="p-1 hover:bg-gray-100 rounded text-gray-600"
+                   >
+                     <Plus className="w-4 h-4" />
+                   </button>
+                 </div>
+                 <button
+                   onClick={() => removeFromCart(item.id)}
+                   className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                 >
+                   <Trash2 className="w-4 h-4" />
+                 </button>
+               </div>
              </div>
           ))}
 

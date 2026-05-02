@@ -4,7 +4,7 @@ import { use } from "react";
 import { mockVendors, mockProducts } from "@/lib/mockData";
 import { notFound, useRouter } from "next/navigation";
 import Image from "next/image";
-import { ShieldCheck, MessageCircle, Star, MapPin, ArrowRight, ShoppingBag, Info, MessageSquareHeart } from "lucide-react";
+import { ShieldCheck, MessageCircle, Star, MapPin, ArrowRight, ShoppingBag, Info, MessageSquareHeart, LayoutGrid, List } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useState } from "react";
@@ -13,6 +13,7 @@ export default function VendorStore({ params }: { params: Promise<{ vendor_id: s
   const router = useRouter();
   const unwrappedParams = use(params);
   const [activeTab, setActiveTab] = useState("shop");
+  const [layout, setLayout] = useState<'grid' | 'list'>('grid');
 
   // For demo we just match or fallback to first vendor
   const vendor = mockVendors.find((v) => v.id === unwrappedParams.vendor_id) || mockVendors[0];
@@ -76,18 +77,11 @@ export default function VendorStore({ params }: { params: Promise<{ vendor_id: s
           </div>
         </div>
 
-        <div className="shrink-0 mb-2 hidden md:block z-10">
-          <button
-            onClick={() => router.push('/chat')}
-            className="bg-primary hover:bg-primary/90 text-white font-bold py-4 px-8 rounded-2xl transition-colors shadow-lg shadow-primary/30 flex items-center justify-center gap-2 hover:scale-105 transform duration-200"
-          >
-            <MessageCircle className="w-5 h-5" /> Chat with Vendor
-          </button>
-        </div>
       </motion.div>
 
       {/* Navigation Tabs */}
-      <div className="sticky top-14 z-30 bg-white/80 backdrop-blur-xl border-b border-border mb-8 -mx-4 px-4 py-2 sm:px-6 md:px-0 md:mx-0 flex gap-6 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+      <div className="sticky top-14 z-30 bg-white/80 backdrop-blur-xl border-b border-border mb-8 -mx-4 px-4 py-2 sm:px-6 md:px-0 md:mx-0 flex items-center justify-between">
+        <div className="flex gap-6 overflow-x-auto [&::-webkit-scrollbar]:hidden">
         <button
           onClick={() => setActiveTab("shop")}
           className={`flex items-center gap-2 font-bold py-3 px-2 border-b-2 transition-colors whitespace-nowrap ${activeTab === 'shop' ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-900'}`}
@@ -106,6 +100,25 @@ export default function VendorStore({ params }: { params: Promise<{ vendor_id: s
         >
           <MessageSquareHeart className="w-4 h-4" /> Reviews
         </button>
+        </div>
+
+        {/* Layout Toggle - Only show when Shop tab is active */}
+        {activeTab === 'shop' && (
+          <div className="hidden sm:flex items-center bg-gray-100 rounded-lg p-1 ml-4 shrink-0">
+             <button
+                onClick={() => setLayout('grid')}
+                className={`p-2 rounded-md transition-colors ${layout === 'grid' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}
+             >
+                <LayoutGrid className="w-4 h-4" />
+             </button>
+             <button
+                onClick={() => setLayout('list')}
+                className={`p-2 rounded-md transition-colors ${layout === 'list' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}
+             >
+                <List className="w-4 h-4" />
+             </button>
+          </div>
+        )}
       </div>
 
       <div className="mb-8 min-h-[40vh]">
@@ -119,16 +132,17 @@ export default function VendorStore({ params }: { params: Promise<{ vendor_id: s
             <p className="text-muted-foreground font-medium">This vendor hasn&apos;t added any products.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
+          <div className={`grid gap-4 md:gap-8 ${layout === 'grid' ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4' : 'grid-cols-1 md:grid-cols-2'}`}>
             {products.map((product) => (
               <Link key={product.id} href={`/product/${product.id}`} className="block group">
-                <motion.div whileHover={{ y: -8 }} className="bg-white rounded-[2.5rem] overflow-hidden border border-border/50 shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer h-full flex flex-col relative">
-                  <div className="relative h-56 md:h-64 w-full overflow-hidden bg-gray-50">
+                <motion.div whileHover={{ y: -8 }} className={`bg-white rounded-[2.5rem] overflow-hidden border border-border/50 shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer flex ${layout === 'grid' ? 'flex-col h-full relative' : 'flex-row items-center p-4'}`}>
+                  <div className={`relative overflow-hidden bg-gray-50 shrink-0 ${layout === 'grid' ? 'h-56 md:h-64 w-full' : 'h-32 w-32 md:h-40 md:w-40 rounded-[2rem]'}`}>
                     <Image src={product.images[0] || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80"} alt={product.name} fill className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
-                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-xl text-xs font-bold text-gray-900 shadow-sm">{product.category}</div>
+                    {layout === 'grid' && <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-xl text-xs font-bold text-gray-900 shadow-sm">{product.category}</div>}
                   </div>
-                  <div className="p-5 md:p-6 flex flex-col flex-grow bg-white">
-                    <h3 className="font-bold text-lg md:text-xl mb-2 line-clamp-2 leading-tight group-hover:text-primary transition-colors">{product.name}</h3>
+                  <div className={`flex flex-col flex-grow bg-white ${layout === 'grid' ? 'p-5 md:p-6' : 'pl-6'}`}>
+                    {layout === 'list' && <div className="text-xs font-bold text-gray-500 mb-1">{product.category}</div>}
+                    <h3 className={`font-bold line-clamp-2 leading-tight group-hover:text-primary transition-colors ${layout === 'grid' ? 'text-lg md:text-xl mb-2' : 'text-base md:text-lg mb-1'}`}>{product.name}</h3>
                     <div className="mt-auto flex items-end justify-between pt-4">
                       <span className="font-black text-xl tracking-tight">Tsh {product.price.toLocaleString()}</span>
                       <div className="w-10 h-10 rounded-full bg-gray-50 text-gray-900 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all transform group-hover:-rotate-45 shrink-0 shadow-sm border border-border/50">
@@ -168,21 +182,46 @@ export default function VendorStore({ params }: { params: Promise<{ vendor_id: s
         )}
 
         {activeTab === "reviews" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-16 bg-gray-50 rounded-[2rem] border border-border">
-            <MessageSquareHeart className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-xl font-bold text-gray-900 mb-2">No reviews yet</h3>
-            <p className="text-muted-foreground font-medium">Be the first to review this vendor after your purchase.</p>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
+            <div className="bg-white rounded-[2rem] p-6 border border-border shadow-sm flex flex-col items-center text-center">
+              <h3 className="text-xl font-black mb-2">Write a Review</h3>
+              <p className="text-muted-foreground text-sm font-medium mb-6">Share your experience with {vendor.storeName}</p>
+
+              <div className="flex gap-2 mb-6">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <button key={star} className="text-gray-300 hover:text-amber-500 transition-colors">
+                    <Star className="w-8 h-8 fill-current" />
+                  </button>
+                ))}
+              </div>
+
+              <textarea
+                placeholder="What did you like about their products or service?"
+                className="w-full bg-gray-50 border border-border rounded-xl p-4 min-h-[120px] focus:outline-none focus:ring-2 focus:ring-primary font-medium text-sm mb-4"
+              ></textarea>
+
+              <button className="bg-gray-900 text-white font-bold py-3 px-8 rounded-xl hover:bg-gray-800 transition-colors w-full sm:w-auto">
+                Submit Review
+              </button>
+            </div>
+
+            <div className="text-center py-12 bg-gray-50 rounded-[2rem] border border-border">
+              <MessageSquareHeart className="w-10 h-10 text-gray-300 mx-auto mb-3" />
+              <h3 className="text-lg font-bold text-gray-900 mb-1">No reviews yet</h3>
+              <p className="text-muted-foreground text-sm font-medium">Be the first to review this vendor after your purchase.</p>
+            </div>
           </motion.div>
         )}
       </div>
 
-      {/* Mobile Sticky CTA */}
-      <div className="md:hidden fixed bottom-16 left-0 right-0 p-4 bg-white/90 backdrop-blur-xl border-t border-border z-40">
+      {/* Floating Chat CTA (FAB) */}
+      <div className="fixed bottom-20 right-6 md:bottom-10 md:right-10 z-50">
         <button
           onClick={() => router.push('/chat')}
-          className="w-full bg-primary text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
+          className="bg-primary hover:bg-primary/90 text-white p-4 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transform transition-all duration-200"
+          aria-label="Chat with Vendor"
         >
-          <MessageCircle className="w-5 h-5" /> Chat with Vendor
+          <MessageCircle className="w-7 h-7" />
         </button>
       </div>
 

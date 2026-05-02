@@ -34,31 +34,6 @@ export default function ExplorePage() {
         </div>
       </section>
 
-      {/* Search Bar Area */}
-      <section className="bg-white border-b border-border py-4 px-4">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 5 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="flex gap-2 w-full"
-          >
-            <div className="relative flex-1">
-              <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-gray-400" />
-              </div>
-              <input
-                type="text"
-                className="w-full pl-12 pr-4 py-3 bg-gray-100 rounded-lg border border-transparent focus:bg-white focus:border-primary focus:ring-0 text-md font-medium transition-colors"
-                placeholder="Search products, services, or stores..."
-              />
-            </div>
-            <button className="bg-gray-900 text-white px-4 rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center shrink-0 shadow-sm font-semibold text-sm">
-              <SlidersHorizontal className="h-5 w-5 mr-2" /> Filters
-            </button>
-          </motion.div>
-        </div>
-      </section>
-
       {/* Main Content Area */}
       <div className="max-w-7xl mx-auto px-4 mt-8 space-y-12">
 
