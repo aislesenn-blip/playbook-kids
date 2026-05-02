@@ -10,11 +10,9 @@ import { Trash2, Plus, Minus } from "lucide-react";
 export default function CheckoutPage() {
   const router = useRouter();
   const { currentUser, cart, getCartTotal, clearCart, updateQuantity, removeFromCart } = useAppStore();
-  const [deliveryMethod, setDeliveryMethod] = useState("meetup");
-  const [paymentMethod, setPaymentMethod] = useState("pod");
 
   const total = getCartTotal();
-  const deliveryFee = deliveryMethod === "pickup" ? 0 : 2000;
+  // We assume delivery is coordinated with the vendor
 
   useEffect(() => {
     if (!currentUser) {
@@ -87,40 +85,16 @@ export default function CheckoutPage() {
 
           <hr className="my-4 border-border" />
           <div className="flex justify-between items-center text-sm text-muted-foreground">
-            <span>Delivery Fee</span>
-            <span>Tsh {deliveryFee.toLocaleString()}</span>
-          </div>
-          <hr className="my-4 border-border" />
-          <div className="flex justify-between items-center">
-            <span className="font-black text-lg">Total</span>
-            <span className="font-black text-lg text-primary">Tsh {(total + deliveryFee).toLocaleString()}</span>
+            <span>Subtotal</span>
+            <span>Tsh {total.toLocaleString()}</span>
           </div>
         </div>
 
-        <div className="text-left mb-6 space-y-4">
-            <div>
-              <label className="block text-sm font-bold mb-2">Delivery Method</label>
-              <select
-                value={deliveryMethod}
-                onChange={(e) => setDeliveryMethod(e.target.value)}
-                className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all appearance-none"
-              >
-                <option value="meetup">Meetup at Campus (Tsh 2,000)</option>
-                <option value="hostel">Leta Hostel (Tsh 2,000)</option>
-                <option value="pickup">Pickup at Store (Free)</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-bold mb-2">Payment Method</label>
-              <select
-                value={paymentMethod}
-                onChange={(e) => setPaymentMethod(e.target.value)}
-                className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all appearance-none"
-              >
-                <option value="pod">Pay on Delivery (Cash)</option>
-                <option value="mobile">Mobile Money</option>
-              </select>
+        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 text-left mb-6 space-y-4">
+            <h3 className="font-bold text-amber-900">Payment & Delivery Info</h3>
+            <div className="space-y-3 text-sm text-amber-800/90 font-medium leading-relaxed">
+              <p>📍 <strong>Delivery:</strong> Handled by the vendor. It can be Free delivery within Dar es Salaam, or depends on your exact location. You will discuss this in the chat.</p>
+              <p>💳 <strong>Payment:</strong> Do not pay within the app. Vendor accepts Mobile Money (M-Pesa, etc.) or Pay on Delivery. Once agreed in chat, you will send the proof of payment.</p>
             </div>
         </div>
 

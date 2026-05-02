@@ -13,24 +13,17 @@ export default function LoginPage() {
   const redirectTo = searchParams.get('redirectTo') || '/';
 
   const { setUser, setLocation } = useAppStore();
-  const [step, setStep] = useState<1 | 2>(1);
   const [email, setEmail] = useState("");
-  const [otp, setOtp] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleSendOtp = (e: React.FormEvent) => {
+  const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.includes("@")) {
       toast.error("Please enter a valid email address");
       return;
     }
-    toast.success("OTP sent to " + email);
-    setStep(2);
-  };
-
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (otp !== "1234") {
-      toast.error("Invalid OTP. Use 1234 for demo.");
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters");
       return;
     }
 
@@ -62,58 +55,40 @@ export default function LoginPage() {
       </div>
 
       <div className="bg-white p-6 sm:p-8 rounded-[2rem] border border-border shadow-sm">
-        {step === 1 ? (
-          <form onSubmit={handleSendOtp} className="space-y-6">
-            <div>
-              <label className="block text-sm font-bold mb-2">Email Address</label>
-              <div className="relative flex items-center">
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="student@example.com"
-                  className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all"
-                />
-              </div>
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
-            >
-              Send Verification Code <ArrowRight className="w-5 h-5" />
-            </button>
-          </form>
-        ) : (
-          <form onSubmit={handleLogin} className="space-y-6">
-             <div>
-              <label className="block text-sm font-bold mb-2">Enter OTP</label>
-              <p className="text-sm text-muted-foreground mb-4">Code sent to {email}</p>
+        <form onSubmit={handleLogin} className="space-y-6">
+          <div>
+            <label className="block text-sm font-bold mb-2">Email Address</label>
+            <div className="relative flex items-center">
               <input
-                type="text"
+                type="email"
                 required
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                placeholder="1234"
-                className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all text-center text-2xl tracking-widest"
-                maxLength={4}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="student@example.com"
+                className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all"
               />
             </div>
-            <button
-              type="submit"
-              className="w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
-            >
-              Verify & Sign In <ShieldCheck className="w-5 h-5" />
-            </button>
-            <button
-              type="button"
-              onClick={() => setStep(1)}
-              className="w-full text-gray-500 font-bold py-2 text-sm hover:text-gray-900"
-            >
-              Change Email
-            </button>
-          </form>
-        )}
+          </div>
+          <div>
+            <label className="block text-sm font-bold mb-2">Password</label>
+            <div className="relative flex items-center">
+              <input
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all"
+              />
+            </div>
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
+          >
+            Sign In <ArrowRight className="w-5 h-5" />
+          </button>
+        </form>
       </div>
 
       <p className="text-center mt-8 text-muted-foreground font-medium text-sm">

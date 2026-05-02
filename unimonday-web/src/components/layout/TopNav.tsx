@@ -29,10 +29,13 @@ export function TopNav() {
     <>
       <nav className="fixed top-0 left-0 right-0 h-14 bg-white/80 backdrop-blur-xl border-b border-border z-50 flex items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 bg-gray-900 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
+          <div className="w-8 h-8 bg-gray-900 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
             <ShoppingBag className="w-5 h-5 text-white" />
           </div>
-          <span className="font-black text-xl tracking-tight text-gray-900">uNi<span className="text-primary">MONDAY</span></span>
+          <div className="flex flex-col">
+            <span className="font-black text-xl tracking-tight text-gray-900 leading-none mt-1">uNi<span className="text-primary">MONDAY</span></span>
+            <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest mt-0.5">student deals & discounts</span>
+          </div>
         </Link>
 
         <div className="hidden sm:flex items-center gap-8 font-medium">

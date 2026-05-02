@@ -14,6 +14,8 @@ export default function VendorStore({ params }: { params: Promise<{ vendor_id: s
   const unwrappedParams = use(params);
   const [activeTab, setActiveTab] = useState("shop");
   const [layout, setLayout] = useState<'grid' | 'list'>('grid');
+  const [rating, setRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
 
   // For demo we just match or fallback to first vendor
   const vendor = mockVendors.find((v) => v.id === unwrappedParams.vendor_id) || mockVendors[0];
@@ -162,7 +164,7 @@ export default function VendorStore({ params }: { params: Promise<{ vendor_id: s
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-white rounded-[2rem] p-8 border border-border">
             <h3 className="text-2xl font-black mb-4">About {vendor.storeName}</h3>
             <p className="text-muted-foreground font-medium leading-relaxed mb-6">{vendor.description}</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
                 <MapPin className="w-5 h-5 text-gray-500" />
                 <div>
@@ -178,6 +180,16 @@ export default function VendorStore({ params }: { params: Promise<{ vendor_id: s
                 </div>
               </div>
             </div>
+
+            <h4 className="text-lg font-bold mb-3 border-t border-border pt-6">Store Policies</h4>
+            <div className="bg-amber-50 rounded-xl p-4 border border-amber-200/50 space-y-3">
+              <p className="text-sm text-amber-900/90 leading-relaxed">
+                <strong>Delivery:</strong> Handled by the vendor. It can be Free delivery within Dar es Salaam, or depends on your exact location. You will discuss this in the chat.
+              </p>
+              <p className="text-sm text-amber-900/90 leading-relaxed">
+                <strong>Payment:</strong> Vendor accepts Mobile Money (M-Pesa, etc.) or Pay on Delivery. Once agreed in chat, you will send the proof of payment.
+              </p>
+            </div>
           </motion.div>
         )}
 
@@ -189,7 +201,13 @@ export default function VendorStore({ params }: { params: Promise<{ vendor_id: s
 
               <div className="flex gap-2 mb-6">
                 {[1, 2, 3, 4, 5].map((star) => (
-                  <button key={star} className="text-gray-300 hover:text-amber-500 transition-colors">
+                  <button
+                    key={star}
+                    onClick={() => setRating(star)}
+                    onMouseEnter={() => setHoverRating(star)}
+                    onMouseLeave={() => setHoverRating(0)}
+                    className={`transition-colors ${star <= (hoverRating || rating) ? 'text-amber-500' : 'text-gray-300'}`}
+                  >
                     <Star className="w-8 h-8 fill-current" />
                   </button>
                 ))}
