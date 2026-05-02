@@ -13,7 +13,9 @@ export default function VendorStore({ params }: { params: Promise<{ vendor_id: s
   const router = useRouter();
   const unwrappedParams = use(params);
   const [activeTab, setActiveTab] = useState("shop");
-  const [layout, setLayout] = useState<'grid' | 'list'>('grid');
+  const [layout, setLayout] = useState<'grid2' | 'grid1'>('grid2');
+  const [rating, setRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
 
   // For demo we just match or fallback to first vendor
   const vendor = mockVendors.find((v) => v.id === unwrappedParams.vendor_id) || mockVendors[0];
@@ -104,18 +106,22 @@ export default function VendorStore({ params }: { params: Promise<{ vendor_id: s
 
         {/* Layout Toggle - Only show when Shop tab is active */}
         {activeTab === 'shop' && (
-          <div className="hidden sm:flex items-center bg-gray-100 rounded-lg p-1 ml-4 shrink-0">
+          <div className="flex items-center bg-gray-100 rounded-lg p-1 ml-4 shrink-0">
              <button
-                onClick={() => setLayout('grid')}
-                className={`p-2 rounded-md transition-colors ${layout === 'grid' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}
+                onClick={() => setLayout('grid2')}
+                className={`p-2 rounded-md transition-colors ${layout === 'grid2' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}
+                title="View 2x2"
              >
                 <LayoutGrid className="w-4 h-4" />
              </button>
              <button
-                onClick={() => setLayout('list')}
-                className={`p-2 rounded-md transition-colors ${layout === 'list' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}
+                onClick={() => setLayout('grid1')}
+                className={`p-2 rounded-md transition-colors ${layout === 'grid1' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}
+                title="View 1x1"
              >
-                <List className="w-4 h-4" />
+                <div className="w-4 h-4 flex flex-col gap-[2px]">
+                   <div className="w-full h-full bg-current rounded-sm"></div>
+                </div>
              </button>
           </div>
         )}
@@ -132,17 +138,16 @@ export default function VendorStore({ params }: { params: Promise<{ vendor_id: s
             <p className="text-muted-foreground font-medium">This vendor hasn&apos;t added any products.</p>
           </div>
         ) : (
-          <div className={`grid gap-4 md:gap-8 ${layout === 'grid' ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4' : 'grid-cols-1 md:grid-cols-2'}`}>
+          <div className={`grid gap-4 md:gap-8 ${layout === 'grid2' ? 'grid-cols-2 lg:grid-cols-4' : 'grid-cols-1'}`}>
             {products.map((product) => (
               <Link key={product.id} href={`/product/${product.id}`} className="block group">
-                <motion.div whileHover={{ y: -8 }} className={`bg-white rounded-[2.5rem] overflow-hidden border border-border/50 shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer flex ${layout === 'grid' ? 'flex-col h-full relative' : 'flex-row items-center p-4'}`}>
-                  <div className={`relative overflow-hidden bg-gray-50 shrink-0 ${layout === 'grid' ? 'h-56 md:h-64 w-full' : 'h-32 w-32 md:h-40 md:w-40 rounded-[2rem]'}`}>
+                <motion.div whileHover={{ y: -8 }} className={`bg-white rounded-[2.5rem] overflow-hidden border border-border/50 shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer flex flex-col h-full relative`}>
+                  <div className={`relative overflow-hidden bg-gray-50 shrink-0 ${layout === 'grid2' ? 'h-48 sm:h-56 md:h-64' : 'h-72 sm:h-96'} w-full`}>
                     <Image src={product.images[0] || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80"} alt={product.name} fill className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
-                    {layout === 'grid' && <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-xl text-xs font-bold text-gray-900 shadow-sm">{product.category}</div>}
+                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-xl text-xs font-bold text-gray-900 shadow-sm">{product.category}</div>
                   </div>
-                  <div className={`flex flex-col flex-grow bg-white ${layout === 'grid' ? 'p-5 md:p-6' : 'pl-6'}`}>
-                    {layout === 'list' && <div className="text-xs font-bold text-gray-500 mb-1">{product.category}</div>}
-                    <h3 className={`font-bold line-clamp-2 leading-tight group-hover:text-primary transition-colors ${layout === 'grid' ? 'text-lg md:text-xl mb-2' : 'text-base md:text-lg mb-1'}`}>{product.name}</h3>
+                  <div className={`flex flex-col flex-grow bg-white p-5 md:p-6`}>
+                    <h3 className={`font-bold line-clamp-2 leading-tight group-hover:text-primary transition-colors text-lg md:text-xl mb-2`}>{product.name}</h3>
                     <div className="mt-auto flex items-end justify-between pt-4">
                       <span className="font-black text-xl tracking-tight">Tsh {product.price.toLocaleString()}</span>
                       <div className="w-10 h-10 rounded-full bg-gray-50 text-gray-900 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all transform group-hover:-rotate-45 shrink-0 shadow-sm border border-border/50">
@@ -162,7 +167,7 @@ export default function VendorStore({ params }: { params: Promise<{ vendor_id: s
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-white rounded-[2rem] p-8 border border-border">
             <h3 className="text-2xl font-black mb-4">About {vendor.storeName}</h3>
             <p className="text-muted-foreground font-medium leading-relaxed mb-6">{vendor.description}</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
                 <MapPin className="w-5 h-5 text-gray-500" />
                 <div>
@@ -178,6 +183,13 @@ export default function VendorStore({ params }: { params: Promise<{ vendor_id: s
                 </div>
               </div>
             </div>
+
+            <div className="bg-blue-50/50 p-6 rounded-2xl border border-blue-100">
+              <h4 className="font-bold text-lg mb-2 text-blue-900">Payment & Delivery</h4>
+              <p className="text-gray-700 leading-relaxed font-medium">
+                {vendor.paymentAndDeliveryInfo || "Contact vendor directly for their payment and delivery policies."}
+              </p>
+            </div>
           </motion.div>
         )}
 
@@ -189,7 +201,16 @@ export default function VendorStore({ params }: { params: Promise<{ vendor_id: s
 
               <div className="flex gap-2 mb-6">
                 {[1, 2, 3, 4, 5].map((star) => (
-                  <button key={star} className="text-gray-300 hover:text-amber-500 transition-colors">
+                  <button
+                    key={star}
+                    type="button"
+                    onClick={() => setRating(star)}
+                    onMouseEnter={() => setHoverRating(star)}
+                    onMouseLeave={() => setHoverRating(0)}
+                    className={`${
+                      star <= (hoverRating || rating) ? 'text-amber-500' : 'text-gray-300'
+                    } transition-colors`}
+                  >
                     <Star className="w-8 h-8 fill-current" />
                   </button>
                 ))}
