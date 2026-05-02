@@ -1,4 +1,10 @@
-"use client";
+with open('unimonday-web/src/app/vendor/dashboard/page.tsx', 'r') as f:
+    content = f.read()
+
+# Make add product open a simulated modal and list orders
+import re
+
+new_vendor = """"use client";
 
 import { useState } from "react";
 import Image from "next/image";
@@ -153,3 +159,9 @@ export default function VendorDashboard() {
     </div>
   );
 }
+"""
+
+with open('unimonday-web/src/app/vendor/dashboard/page.tsx', 'w') as f:
+    f.write(new_vendor)
+
+print("Vendor details patched")

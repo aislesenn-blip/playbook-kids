@@ -1,7 +1,11 @@
-with open('unimonday-web/src/app/checkout/page.tsx', 'r') as f:
-    content = f.read()
+with open('unimonday-web/src/app/auth/login/page.tsx', 'r') as f:
+    login = f.read()
+login = login.replace("Don't have an account?", "Don&apos;t have an account?")
+with open('unimonday-web/src/app/auth/login/page.tsx', 'w') as f:
+    f.write(login)
 
-content = content.replace('import { CheckCircle } from "lucide-react";\n', '')
-
-with open('unimonday-web/src/app/checkout/page.tsx', 'w') as f:
-    f.write(content)
+with open('unimonday-web/src/app/product/[id]/page.tsx', 'r') as f:
+    prod = f.read()
+prod = prod.replace('const handleAddToCart', 'export const handleAddToCart')
+with open('unimonday-web/src/app/product/[id]/page.tsx', 'w') as f:
+    f.write(prod)

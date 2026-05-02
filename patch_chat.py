@@ -1,4 +1,10 @@
-"use client";
+with open('unimonday-web/src/app/chat/page.tsx', 'r') as f:
+    content = f.read()
+
+# Make it look like a full screen chat layout with sidebar
+import re
+
+new_chat = """"use client";
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -142,3 +148,9 @@ export default function ChatInterface() {
     </div>
   );
 }
+"""
+
+with open('unimonday-web/src/app/chat/page.tsx', 'w') as f:
+    f.write(new_chat)
+
+print("Chat details patched")

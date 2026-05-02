@@ -1,4 +1,9 @@
-"use client";
+with open('unimonday-web/src/app/admin/dashboard/page.tsx', 'r') as f:
+    content = f.read()
+
+import re
+
+new_admin = """"use client";
 
 import Image from "next/image";
 import { ShieldAlert, Users, Store, Activity, Eye, Edit3, Trash2, Power, Zap, Star, CheckCircle, XCircle } from "lucide-react";
@@ -116,3 +121,9 @@ export default function AdminDashboard() {
     </div>
   );
 }
+"""
+
+with open('unimonday-web/src/app/admin/dashboard/page.tsx', 'w') as f:
+    f.write(new_admin)
+
+print("Admin details patched")

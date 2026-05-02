@@ -5,9 +5,22 @@ import { motion } from "framer-motion";
 import { ShoppingBag, MessageCircle, Star, ShieldCheck, ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useAppStore } from "@/lib/store/app-store";
+import { mockProducts } from "@/lib/mockData";
+import { toast } from "sonner";
 
 export default function ProductDetails() {
   const router = useRouter();
+  const { addToCart } = useAppStore();
+
+  // For demo, we just grab the first product if id isn't explicitly matching
+  const product = mockProducts[0];
+
+  const handleAddToCart = () => {
+    addToCart(product, 1);
+    toast.success(`${product.name} added to cart!`);
+  };
+
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
@@ -26,8 +39,8 @@ export default function ProductDetails() {
           className="relative h-[500px] md:h-[600px] rounded-[3rem] overflow-hidden shadow-xl"
         >
           <Image
-            src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=2064&auto=format&fit=crop"
-            alt="Pro Wireless Earbuds"
+            src={product.images[0]}
+            alt={product.name}
             fill
             className="object-cover"
             priority
@@ -47,7 +60,7 @@ export default function ProductDetails() {
           <h1 className="text-4xl sm:text-5xl font-black text-gray-900 mb-4 tracking-tight">Pro Wireless Earbuds</h1>
 
           <div className="flex items-center gap-4 mb-6">
-            <span className="text-3xl font-black text-primary">Tsh 45,000</span>
+            <span className="text-3xl font-black text-primary">Tsh {product.price.toLocaleString()}</span>
             <div className="flex items-center text-amber-500">
               <Star className="w-5 h-5 fill-current" />
               <Star className="w-5 h-5 fill-current" />
@@ -69,9 +82,9 @@ export default function ProductDetails() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <Link href="/checkout" className="flex-1 bg-gray-900 text-white hover:bg-gray-800 font-bold py-5 rounded-[1.5rem] flex items-center justify-center gap-3 transition-colors shadow-xl shadow-gray-900/20 text-lg">
+            <button onClick={() => { handleAddToCart(); router.push("/checkout"); }} className="flex-1 bg-gray-900 text-white hover:bg-gray-800 font-bold py-5 rounded-[1.5rem] flex items-center justify-center gap-3 transition-colors shadow-xl shadow-gray-900/20 text-lg">
               <ShoppingBag className="w-6 h-6" /> Order Now
-            </Link>
+            </button>
             <button
               onClick={() => router.push('/chat')}
               className="flex-1 bg-primary/10 text-primary hover:bg-primary/20 font-bold py-5 rounded-[1.5rem] flex items-center justify-center gap-3 transition-colors text-lg"
