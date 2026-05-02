@@ -1,13 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { Store, Compass, MessageCircle, Box } from "lucide-react";
+import { Store, Compass, MessageCircle, Box, LayoutDashboard, User } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { useAppStore } from "@/lib/store/app-store";
 
 export function BottomNav() {
   const pathname = usePathname();
 
-  const navItems = [
+    const { currentUser } = useAppStore();
+
+  const isVendor = currentUser?.role === 'vendor';
+
+  const navItems = isVendor ? [
+    { href: "/vendor/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+    { href: "/chat", icon: MessageCircle, label: "Inbox" },
+    { href: "/profile", icon: User, label: "Profile" },
+  ] : [
     { href: "/", icon: Store, label: "Home" },
     { href: "/explore", icon: Compass, label: "Explore" },
     { href: "/chat", icon: MessageCircle, label: "Chat" },
