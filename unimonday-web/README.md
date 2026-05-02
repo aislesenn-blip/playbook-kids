@@ -1,6 +1,6 @@
-# uNiMONDAY - The Operating System for Campus Commerce
+# Unimonday - The Operating System for Campus Commerce
 
-uNiMONDAY is a high-end, ultra-fast transaction layer for university campuses. It allows students to order food and stationary from their phones, pay instantly using local mobile money, and pick up their items without waiting in line.
+Unimonday is a high-end, ultra-fast transaction layer for university campuses. It allows students to order food and stationary from their phones, pay instantly using local mobile money, and pick up their items without waiting in line.
 
 ## Key Features
 - **Hyper-Local Discovery**: Automatically detects if a user is at UDSM, UDOM, etc., using geolocation.

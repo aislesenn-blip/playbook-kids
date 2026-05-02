@@ -1,345 +1,151 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
+import { useVendorStore } from "@/lib/store/vendor-store";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { Search, SlidersHorizontal, MapPin, Store, Star, ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { useAppStore } from "@/lib/store/app-store";
+import { Store, Printer, Coffee, MapPin, Clock, Search, Shirt, Smartphone } from "lucide-react";
+import { useState, useMemo } from "react";
+
+const CATEGORIES = ["All", "Food", "Fashion", "Tech", "Stationery", "Grocery", "Services"];
+
+const getCategoryIcon = (category: string) => {
+  switch (category) {
+    case "Food": return <Coffee className="w-4 h-4" />;
+    case "Fashion": return <Shirt className="w-4 h-4" />;
+    case "Tech": return <Smartphone className="w-4 h-4" />;
+    case "Stationery": return <Printer className="w-4 h-4" />;
+    default: return <Store className="w-4 h-4" />;
+  }
+};
 
 export default function ExplorePage() {
-  const [activeCategory, setActiveCategory] = useState("All");
+  const { currentCampus } = useAppStore();
+  const { vendors } = useVendorStore();
 
-  const categories = ["All", "Fashion", "Tech", "Services", "Stores", "Groceries"];
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  // Filter vendors by selected campus, search query, and category
+  const displayVendors = useMemo(() => {
+    let filtered = currentCampus ? vendors.filter(v => v.campusId === currentCampus.id) : vendors;
+
+    if (selectedCategory !== "All") {
+      filtered = filtered.filter(v => v.category === selectedCategory);
+    }
+
+    if (searchQuery.trim() !== "") {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(v =>
+        v.name.toLowerCase().includes(query) ||
+        v.category.toLowerCase().includes(query)
+      );
+    }
+
+    return filtered;
+  }, [vendors, currentCampus, selectedCategory, searchQuery]);
 
   return (
-    <div className="min-h-screen bg-gray-50/50 pb-24">
-      {/* Search & Hero Section */}
-      <section className="bg-white border-b border-border pt-24 pb-8 px-4">
-        <div className="max-w-7xl mx-auto">
-          {/* Categories / Filters on top */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex gap-3 overflow-x-auto pb-4 mb-4 scrollbar-hide justify-start sm:justify-center"
-          >
-             {categories.map((cat) => (
-               <button
-                 key={cat}
-                 onClick={() => setActiveCategory(cat)}
-                 className={`px-6 py-2.5 rounded-full font-bold whitespace-nowrap transition-all ${
-                   activeCategory === cat
-                   ? "bg-primary text-white shadow-md shadow-primary/20"
-                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                 }`}
-               >
-                 {cat}
-               </button>
-             ))}
-          </motion.div>
+    <div className="pb-24 max-w-5xl mx-auto">
+      <div className="mb-8 pt-4">
+        <h1 className="text-4xl sm:text-5xl font-black tracking-tight mb-3">Explore</h1>
+        <p className="text-muted-foreground text-lg font-medium mb-6">
+          {currentCampus ? `Showing spots at ${currentCampus.name}` : "Select a campus to see nearby spots."}
+        </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="max-w-3xl mx-auto flex gap-2"
-          >
-            <div className="relative flex-1">
-              <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-gray-400" />
-              </div>
-              <input
-                type="text"
-                className="w-full pl-12 pr-4 py-4 bg-gray-100 rounded-full border-none focus:ring-2 focus:ring-primary text-lg font-medium"
-                placeholder="Search products, services, or stores..."
-              />
-            </div>
-            <button className="bg-gray-900 text-white p-4 rounded-full hover:bg-gray-800 transition-colors flex items-center justify-center shrink-0 shadow-sm">
-              <SlidersHorizontal className="h-6 w-6" />
-            </button>
-          </motion.div>
-
-
+        {/* Search Bar */}
+        <div className="relative mb-6">
+          <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+            <Search className="w-5 h-5 text-muted-foreground" />
+          </div>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search for stores, food, tech..."
+            className="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border border-border/50 shadow-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all font-medium text-lg"
+          />
         </div>
-      </section>
 
-      {/* Main Content Area */}
-      <div className="max-w-7xl mx-auto px-4 mt-12 space-y-16">
-
-        {/* Featured Stores */}
-        <section>
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl sm:text-3xl font-black flex items-center gap-2">
-              <Store className="w-6 h-6 text-primary" /> Featured Stores
-            </h2>
-            <button className="text-primary font-bold hover:underline flex items-center gap-1 text-sm">
-              View All <ArrowRight className="w-4 h-4" />
+        {/* Category Filters (Horizontal Scroll) */}
+        <div className="flex overflow-x-auto pb-4 gap-3 hide-scrollbar w-full" style={{ scrollbarWidth: 'thin' }}>
+          {CATEGORIES.map((category) => (
+            <button
+              key={category}
+              onClick={() => setSelectedCategory(category)}
+              className={`flex items-center gap-2 px-5 py-3 rounded-full font-bold text-sm whitespace-nowrap transition-colors border ${
+                selectedCategory === category
+                  ? "bg-primary text-white border-primary shadow-md"
+                  : "bg-white text-gray-700 border-border/50 hover:bg-gray-50"
+              }`}
+            >
+              {category !== "All" && getCategoryIcon(category)}
+              {category}
             </button>
-          </div>
-
-          <div className="flex overflow-x-auto gap-6 pb-4 scrollbar-hide" style={{ scrollSnapType: "x mandatory" }}>
-            {/* Store 1 */}
-            <motion.div whileHover={{ y: -5 }} className="bg-white rounded-3xl p-6 border border-border shadow-sm flex items-center gap-5 cursor-pointer min-w-[300px] shrink-0" style={{ scrollSnapAlign: "start" }}>
-              <div className="w-20 h-20 rounded-full overflow-hidden relative shrink-0 border border-gray-100 shadow-inner">
-                <Image src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Campus Thrift" fill className="object-cover" />
-              </div>
-              <div>
-                <h3 className="font-bold text-xl flex items-center gap-1">Campus Thrift <div className="w-2 h-2 bg-primary rounded-full"></div></h3>
-                <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1"><MapPin className="w-3 h-3" /> Block A, Room 12</p>
-                <div className="flex items-center gap-1 mt-2 text-sm font-semibold text-amber-500">
-                  <Star className="w-4 h-4 fill-current" /> 4.9 <span className="text-gray-400 font-normal">(128 reviews)</span>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Store 2 */}
-            <motion.div whileHover={{ y: -5 }} className="bg-white rounded-3xl p-6 border border-border shadow-sm flex items-center gap-5 cursor-pointer min-w-[300px] shrink-0" style={{ scrollSnapAlign: "start" }}>
-              <div className="w-20 h-20 rounded-full overflow-hidden relative shrink-0 border border-gray-100 shadow-inner">
-                <Image src="https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="TechZone UDSM" fill className="object-cover" />
-              </div>
-              <div>
-                <h3 className="font-bold text-xl flex items-center gap-1">TechZone UDSM <div className="w-2 h-2 bg-primary rounded-full"></div></h3>
-                <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1"><MapPin className="w-3 h-3" /> Student Center</p>
-                <div className="flex items-center gap-1 mt-2 text-sm font-semibold text-amber-500">
-                  <Star className="w-4 h-4 fill-current" /> 4.8 <span className="text-gray-400 font-normal">(95 reviews)</span>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Store 3 */}
-            <motion.div whileHover={{ y: -5 }} className="bg-white rounded-3xl p-6 border border-border shadow-sm flex items-center gap-5 cursor-pointer min-w-[300px] shrink-0" style={{ scrollSnapAlign: "start" }}>
-              <div className="w-20 h-20 rounded-full overflow-hidden relative shrink-0 border border-gray-100 shadow-inner">
-                <Image src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Kicks TZ" fill className="object-cover" />
-              </div>
-              <div>
-                <h3 className="font-bold text-xl flex items-center gap-1">Kicks TZ <div className="w-2 h-2 bg-primary rounded-full"></div></h3>
-                <p className="text-sm text-muted-foreground flex items-center gap-1 mt-1"><MapPin className="w-3 h-3" /> Online Only</p>
-                <div className="flex items-center gap-1 mt-2 text-sm font-semibold text-amber-500">
-                  <Star className="w-4 h-4 fill-current" /> 5.0 <span className="text-gray-400 font-normal">(42 reviews)</span>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Discover Products Grid */}
-        <section className="pb-16">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl sm:text-3xl font-black">Discover Products</h2>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-
-            {/* Item 1 */}
-            <Link href="/product/1" className="block">
-            <motion.div whileHover={{ y: -5 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-sm group cursor-pointer">
-              <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-gray-100">
-                <Image src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Smart Watch" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded-lg text-xs font-bold text-gray-800">Tech</div>
-              </div>
-              <div className="p-4 sm:p-5">
-                <h3 className="font-bold text-lg mb-1 truncate">Minimalist Smartwatch</h3>
-                <p className="text-sm text-muted-foreground mb-3 truncate">By TechZone UDSM</p>
-                <div className="flex items-center justify-between">
-                  <span className="font-black text-lg">Tsh 65,000</span>
-                  <button className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-            </Link>
-
-            {/* Item 2 */}
-            <Link href="/product/1" className="block">
-            <motion.div whileHover={{ y: -5 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-sm group cursor-pointer">
-              <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-gray-100">
-                <Image src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Headphones" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded-lg text-xs font-bold text-gray-800">Audio</div>
-              </div>
-              <div className="p-4 sm:p-5">
-                <h3 className="font-bold text-lg mb-1 truncate">Noise Cancelling Cans</h3>
-                <p className="text-sm text-muted-foreground mb-3 truncate">By AudioPro</p>
-                <div className="flex items-center justify-between">
-                  <span className="font-black text-lg">Tsh 120,000</span>
-                  <button className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-            </Link>
-
-            {/* Item 3 */}
-            <Link href="/product/1" className="block">
-            <motion.div whileHover={{ y: -5 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-sm group cursor-pointer">
-              <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-gray-100">
-                <Image src="https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Study Lamp" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded-lg text-xs font-bold text-gray-800">Home</div>
-              </div>
-              <div className="p-4 sm:p-5">
-                <h3 className="font-bold text-lg mb-1 truncate">LED Desk Lamp</h3>
-                <p className="text-sm text-muted-foreground mb-3 truncate">By Campus Essentials</p>
-                <div className="flex items-center justify-between">
-                  <span className="font-black text-lg">Tsh 25,000</span>
-                  <button className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-            </Link>
-
-            {/* Item 4 */}
-            <Link href="/product/1" className="block">
-            <motion.div whileHover={{ y: -5 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-sm group cursor-pointer">
-              <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-gray-100">
-                <Image src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Sneakers" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded-lg text-xs font-bold text-gray-800">Fashion</div>
-              </div>
-              <div className="p-4 sm:p-5">
-                <h3 className="font-bold text-lg mb-1 truncate">Running Kicks</h3>
-                <p className="text-sm text-muted-foreground mb-3 truncate">By Kicks TZ</p>
-                <div className="flex items-center justify-between">
-                  <span className="font-black text-lg">Tsh 55,000</span>
-                  <button className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-            </Link>
-
-            {/* Item 5 */}
-            <Link href="/product/1" className="block">
-            <motion.div whileHover={{ y: -5 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-sm group cursor-pointer">
-              <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-gray-100">
-                <Image src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Notebooks" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded-lg text-xs font-bold text-gray-800">Stationery</div>
-              </div>
-              <div className="p-4 sm:p-5">
-                <h3 className="font-bold text-lg mb-1 truncate">Premium Notebook Set</h3>
-                <p className="text-sm text-muted-foreground mb-3 truncate">By Stationers Hub</p>
-                <div className="flex items-center justify-between">
-                  <span className="font-black text-lg">Tsh 15,000</span>
-                  <button className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-            </Link>
-
-            {/* Item 6 */}
-            <Link href="/product/1" className="block">
-            <motion.div whileHover={{ y: -5 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-sm group cursor-pointer">
-              <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-gray-100">
-                <Image src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Hoodie" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded-lg text-xs font-bold text-gray-800">Apparel</div>
-              </div>
-              <div className="p-4 sm:p-5">
-                <h3 className="font-bold text-lg mb-1 truncate">Classic Campus Hoodie</h3>
-                <p className="text-sm text-muted-foreground mb-3 truncate">By Campus Thrift</p>
-                <div className="flex items-center justify-between">
-                  <span className="font-black text-lg">Tsh 40,000</span>
-                  <button className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-            </Link>
-
-            {/* Item 7 */}
-            <Link href="/product/1" className="block">
-            <motion.div whileHover={{ y: -5 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-sm group cursor-pointer">
-              <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-gray-100">
-                <Image src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Red Sneakers" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded-lg text-xs font-bold text-gray-800">Fashion</div>
-              </div>
-              <div className="p-4 sm:p-5">
-                <h3 className="font-bold text-lg mb-1 truncate">Nike Red Runners</h3>
-                <p className="text-sm text-muted-foreground mb-3 truncate">By Kicks TZ</p>
-                <div className="flex items-center justify-between">
-                  <span className="font-black text-lg">Tsh 75,000</span>
-                  <button className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-            </Link>
-
-            {/* Item 8 */}
-            <Link href="/product/1" className="block">
-            <motion.div whileHover={{ y: -5 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-sm group cursor-pointer">
-              <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-gray-100">
-                <Image src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Laptop" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded-lg text-xs font-bold text-gray-800">Tech</div>
-              </div>
-              <div className="p-4 sm:p-5">
-                <h3 className="font-bold text-lg mb-1 truncate">MacBook Pro M1</h3>
-                <p className="text-sm text-muted-foreground mb-3 truncate">By Mac Dealers</p>
-                <div className="flex items-center justify-between">
-                  <span className="font-black text-lg">Tsh 2.5M</span>
-                  <button className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-            </Link>
-
-            {/* Item 9 */}
-            <Link href="/product/1" className="block">
-            <motion.div whileHover={{ y: -5 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-sm group cursor-pointer">
-              <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-gray-100">
-                <Image src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=2064&auto=format&fit=crop" alt="Apple Watch" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded-lg text-xs font-bold text-gray-800">Tech</div>
-              </div>
-              <div className="p-4 sm:p-5">
-                <h3 className="font-bold text-lg mb-1 truncate">Apple Watch Series 7</h3>
-                <p className="text-sm text-muted-foreground mb-3 truncate">By TechZone</p>
-                <div className="flex items-center justify-between">
-                  <span className="font-black text-lg">Tsh 600,000</span>
-                  <button className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-            </Link>
-
-            {/* Item 10 */}
-            <Link href="/product/1" className="block">
-            <motion.div whileHover={{ y: -5 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-sm group cursor-pointer">
-              <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-gray-100">
-                <Image src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop" alt="Denim" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded-lg text-xs font-bold text-gray-800">Apparel</div>
-              </div>
-              <div className="p-4 sm:p-5">
-                <h3 className="font-bold text-lg mb-1 truncate">Vintage Denim</h3>
-                <p className="text-sm text-muted-foreground mb-3 truncate">By Campus Thrift</p>
-                <div className="flex items-center justify-between">
-                  <span className="font-black text-lg">Tsh 35,000</span>
-                  <button className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-            </Link>
-
-          </div>
-
-
-          <div className="mt-12 flex justify-center">
-            <button className="bg-white border border-border px-8 py-3 rounded-full font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm">
-              Load More Products
-            </button>
-          </div>
-        </section>
-
+          ))}
+        </div>
       </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {displayVendors.map((vendor) => {
+          return (
+            <Link
+              key={vendor.id}
+              href={`/explore/${vendor.id}`}
+              className="bg-white rounded-[2rem] overflow-hidden border border-border/50 shadow-sm hover:shadow-xl transition-all group block relative"
+            >
+              <div className="relative h-56 w-full overflow-hidden">
+                <Image
+                  src={vendor.image}
+                  alt={vendor.name}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+                {/* Badges */}
+                <div className="absolute top-4 left-4 flex gap-2">
+                   {vendor.isOpen ? (
+                      <div className="bg-primary px-3 py-1 rounded-full text-white text-xs font-bold shadow-sm shadow-black/20">
+                        Open
+                      </div>
+                   ) : (
+                      <div className="bg-destructive px-3 py-1 rounded-full text-white text-xs font-bold shadow-sm shadow-black/20">
+                        {vendor.statusText || "Closed"}
+                      </div>
+                   )}
+                </div>
+
+                <div className="absolute bottom-4 left-4 right-4 text-white">
+                   <h3 className="font-bold text-2xl mb-2 drop-shadow-md">{vendor.name}</h3>
+                   <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-medium opacity-90 drop-shadow-sm">
+                     <div className="flex items-center gap-1.5">
+                       {getCategoryIcon(vendor.category)}
+                       <span>{vendor.category}</span>
+                     </div>
+                     <div className="flex items-center gap-1.5">
+                       <MapPin className="w-3.5 h-3.5" />
+                       <span>{currentCampus ? currentCampus.name : 'University Campus'}</span>
+                     </div>
+                     <div className="flex items-center gap-1.5">
+                       <Clock className="w-3.5 h-3.5" />
+                       <span>{vendor.isOpen ? 'Closes at 8 PM' : 'Opens 8 AM'}</span>
+                     </div>
+                   </div>
+                </div>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+
+      {displayVendors.length === 0 && (
+         <div className="text-center py-20 bg-white rounded-[2rem] border border-border/50 shadow-sm">
+           <Search className="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
+           <h2 className="text-2xl font-bold mb-2">No spots found</h2>
+           <p className="text-muted-foreground font-medium">Try adjusting your search or category filter.</p>
+         </div>
+      )}
     </div>
   );
 }
