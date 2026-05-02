@@ -1,15 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAppStore } from "@/lib/store/app-store";
 import { mockCampuses } from "@/lib/mockData";
 import { ShoppingBag, ArrowRight, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 
-export default function LoginPage() {
+function LoginContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirectTo") || "/";
   const { setUser, setCampus } = useAppStore();
   const [step, setStep] = useState<1 | 2>(1);
   const [phone, setPhone] = useState("");
@@ -43,7 +45,7 @@ export default function LoginPage() {
     setCampus(mockCampuses[0]); // Default to UDSM
 
     toast.success("Logged in successfully!");
-    router.push("/");
+    router.push(redirectTo);
   };
 
   return (
@@ -121,5 +123,13 @@ export default function LoginPage() {
         </Link>
       </p>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center min-h-[70vh]">Loading...</div>}>
+      <LoginContent />
+    </Suspense>
   );
 }

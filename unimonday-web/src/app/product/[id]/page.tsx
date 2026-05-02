@@ -11,7 +11,7 @@ import { toast } from "sonner";
 
 export default function ProductDetails() {
   const router = useRouter();
-  const { addToCart } = useAppStore();
+  const { addToCart, currentUser } = useAppStore();
 
   // For demo, we just grab the first product if id isn't explicitly matching
   const product = mockProducts[0];
@@ -19,6 +19,11 @@ export default function ProductDetails() {
   const handleAddToCart = () => {
     addToCart(product, 1);
     toast.success(`${product.name} added to cart!`);
+    if (!currentUser) {
+      router.push("/auth/login?redirectTo=/checkout");
+    } else {
+      router.push("/checkout");
+    }
   };
 
 
@@ -82,7 +87,7 @@ export default function ProductDetails() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <button onClick={() => { handleAddToCart(); router.push("/checkout"); }} className="flex-1 bg-gray-900 text-white hover:bg-gray-800 font-bold py-5 rounded-[1.5rem] flex items-center justify-center gap-3 transition-colors shadow-xl shadow-gray-900/20 text-lg">
+            <button onClick={handleAddToCart} className="flex-1 bg-gray-900 text-white hover:bg-gray-800 font-bold py-5 rounded-[1.5rem] flex items-center justify-center gap-3 transition-colors shadow-xl shadow-gray-900/20 text-lg">
               <ShoppingBag className="w-6 h-6" /> Order Now
             </button>
             <button

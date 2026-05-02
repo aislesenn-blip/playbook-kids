@@ -4,12 +4,23 @@
 import { useAppStore } from "@/lib/store/app-store";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useEffect } from "react";
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { cart, getCartTotal, clearCart } = useAppStore();
+  const { cart, getCartTotal, clearCart, currentUser } = useAppStore();
   const total = getCartTotal();
   const deliveryFee = 2000;
+
+  useEffect(() => {
+    if (!currentUser) {
+      router.push("/auth/login?redirectTo=/checkout");
+    }
+  }, [currentUser, router]);
+
+  if (!currentUser) {
+    return null; // Or a loading spinner while redirecting
+  }
 
   if (cart.length === 0) {
     return (
