@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { ShoppingBag, MessageCircle, Star, ShieldCheck, ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function ProductDetails() {
   const router = useRouter();
@@ -68,9 +69,9 @@ export default function ProductDetails() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <button className="flex-1 bg-gray-900 text-white hover:bg-gray-800 font-bold py-5 rounded-[1.5rem] flex items-center justify-center gap-3 transition-colors shadow-xl shadow-gray-900/20 text-lg">
+            <Link href="/checkout" className="flex-1 bg-gray-900 text-white hover:bg-gray-800 font-bold py-5 rounded-[1.5rem] flex items-center justify-center gap-3 transition-colors shadow-xl shadow-gray-900/20 text-lg">
               <ShoppingBag className="w-6 h-6" /> Order Now
-            </button>
+            </Link>
             <button
               onClick={() => router.push('/chat')}
               className="flex-1 bg-primary/10 text-primary hover:bg-primary/20 font-bold py-5 rounded-[1.5rem] flex items-center justify-center gap-3 transition-colors text-lg"

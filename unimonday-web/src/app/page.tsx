@@ -3,14 +3,12 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ShoppingBag, Wrench, ShieldCheck, ArrowRight, Star, Truck } from "lucide-react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Home() {
-  const router = useRouter();
 
-  const handleShopNow = () => {
-    router.push("/explore");
-  };
+
+
 
   return (
     <div className="flex flex-col items-center justify-center w-full overflow-x-hidden selection:bg-primary/20 selection:text-primary">
@@ -46,13 +44,13 @@ export default function Home() {
           transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
           className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
         >
-          <button
-            onClick={handleShopNow}
+          <Link
+            href="/explore"
             className="group inline-flex items-center justify-center gap-2 bg-gray-900 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-800 hover:scale-[1.02] transition-all active:scale-95 shadow-lg shadow-gray-900/20"
           >
             Start Exploring
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </button>
+          </Link>
         </motion.div>
       </section>
 
@@ -67,7 +65,8 @@ export default function Home() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Product Card 1 */}
-          <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer">
+          <Link href="/product/1" className="block">
+            <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer">
             <div className="relative h-64 w-full overflow-hidden">
               <Image
                 src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop"
@@ -87,9 +86,11 @@ export default function Home() {
               </button>
             </div>
           </motion.div>
+          </Link>
 
           {/* Product Card 2 */}
-          <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer">
+          <Link href="/product/1" className="block">
+            <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer">
             <div className="relative h-64 w-full overflow-hidden">
               <Image
                 src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=2064&auto=format&fit=crop"
@@ -109,9 +110,11 @@ export default function Home() {
               </button>
             </div>
           </motion.div>
+          </Link>
 
           {/* Product Card 3 */}
-          <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer">
+          <Link href="/product/1" className="block">
+            <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer">
             <div className="relative h-64 w-full overflow-hidden bg-gray-100">
               <Image
                 src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=2080&auto=format&fit=crop"
@@ -131,6 +134,7 @@ export default function Home() {
               </button>
             </div>
           </motion.div>
+          </Link>
         </div>
       </section>
 
@@ -158,9 +162,9 @@ export default function Home() {
             <p className="text-muted-foreground font-medium leading-relaxed text-lg relative z-10 mb-6">
               Cracked screen? Battery issues? Get it fixed by a verified technician right on campus.
             </p>
-            <button className="mt-auto flex items-center gap-2 text-blue-500 font-bold hover:underline">
+            <Link href="/services" className="mt-auto flex items-center gap-2 text-blue-500 font-bold hover:underline">
                Find a Technician <ArrowRight className="w-4 h-4" />
-            </button>
+            </Link>
           </motion.div>
 
           <motion.div
@@ -177,9 +181,9 @@ export default function Home() {
             <p className="text-muted-foreground font-medium leading-relaxed text-lg relative z-10 mb-6">
               Get your food or packages delivered straight to your hostel with our trusted network.
             </p>
-            <button className="mt-auto flex items-center gap-2 text-amber-500 font-bold hover:underline">
+            <Link href="/services" className="mt-auto flex items-center gap-2 text-amber-500 font-bold hover:underline">
                Book Delivery <ArrowRight className="w-4 h-4" />
-            </button>
+            </Link>
           </motion.div>
 
           <motion.div
@@ -196,9 +200,9 @@ export default function Home() {
             <p className="text-muted-foreground font-medium leading-relaxed text-lg relative z-10 mb-6">
               Software installation, virus removal, or hardware upgrades. Handled by pros.
             </p>
-            <button className="mt-auto flex items-center gap-2 text-primary font-bold hover:underline">
+            <Link href="/services" className="mt-auto flex items-center gap-2 text-primary font-bold hover:underline">
                Find a Pro <ArrowRight className="w-4 h-4" />
-            </button>
+            </Link>
           </motion.div>
         </div>
       </section>
