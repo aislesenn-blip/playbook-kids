@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingBag, User, Menu, X, Shirt, Smartphone, ShieldCheck, Box } from "lucide-react";
+import { ShoppingBag, User, Menu, X, Shirt, Smartphone, ShieldCheck, Box, Store } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -14,7 +14,7 @@ export function TopNav() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 h-16 bg-white/80 backdrop-blur-xl border-b border-border z-50 flex items-center justify-between px-4 sm:px-6 lg:px-8">
+      <nav className="fixed top-0 left-0 right-0 h-16 bg-white border-b border-border z-50 flex items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2 group">
           <div className="w-8 h-8 bg-gray-900 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
             <ShoppingBag className="w-5 h-5 text-white" />
@@ -53,7 +53,7 @@ export function TopNav() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed top-16 left-0 right-0 bg-white border-b border-border z-40 sm:hidden shadow-lg"
+            className="fixed top-16 left-0 right-0 bottom-0 bg-white border-b border-border z-40 sm:hidden shadow-lg overflow-y-auto"
           >
             <div className="flex flex-col p-4 gap-4">
               <Link
@@ -85,6 +85,20 @@ export function TopNav() {
                 <Box className="w-5 h-5" /> My Orders
               </Link>
               <hr className="border-border my-2" />
+              <Link
+                href="/vendor/apply"
+                onClick={toggleMenu}
+                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/vendor/apply' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
+              >
+                <Store className="w-5 h-5" /> Partner with us
+              </Link>
+              <Link
+                href="/admin/dashboard"
+                onClick={toggleMenu}
+                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/admin/dashboard' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
+              >
+                <ShieldCheck className="w-5 h-5" /> Staff (Admin)
+              </Link>
               <button className="flex items-center justify-center gap-2 w-full p-3 bg-gray-900 text-white rounded-xl font-bold">
                 <User className="w-5 h-5" /> Sign In
               </button>

@@ -76,7 +76,7 @@ export default function ExplorePage() {
             </button>
           </div>
 
-          <div className="flex overflow-x-auto gap-6 pb-4 scrollbar-hide" style={{ scrollSnapType: "x mandatory" }}>
+          <div className="flex overflow-x-auto gap-6 pb-4 scrollbar-default" style={{ scrollSnapType: "x mandatory" }}>
             {/* Store 1 */}
             <motion.div whileHover={{ y: -5 }} className="bg-white rounded-3xl p-6 border border-border shadow-sm flex items-center gap-5 cursor-pointer min-w-[300px] shrink-0" style={{ scrollSnapAlign: "start" }}>
               <div className="w-20 h-20 rounded-full overflow-hidden relative shrink-0 border border-gray-100 shadow-inner">
