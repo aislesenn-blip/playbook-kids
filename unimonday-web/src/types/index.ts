@@ -7,10 +7,13 @@ export interface Campus {
 export interface User {
   id: string;
   name: string;
-  phone: string;
+  email: string;
+  phone?: string;
   role: 'student' | 'vendor' | 'admin';
   avatarUrl?: string;
   campusId?: string;
+  universityName?: string;
+  region?: string;
 }
 
 export interface Vendor {

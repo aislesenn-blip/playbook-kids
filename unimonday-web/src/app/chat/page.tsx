@@ -20,21 +20,33 @@ export default function ChatInterface() {
     { id: "vendor2", name: "TechZone UDSM", avatar: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=2064&auto=format&fit=crop", lastMsg: "Your repair is complete.", unread: 2 },
   ];
 
-  const handleSend = () => {
-    if (!input.trim()) return;
+  const handleSend = (imageProof: string | null = null) => {
+    if (!input.trim() && !imageProof) return;
 
-    setMessages(prev => [
-      ...prev,
-      { id: Date.now(), text: input, sender: "user", time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
-    ]);
-    setInput("");
+    if (imageProof) {
+      setMessages(prev => [
+        ...prev,
+        { id: Date.now(), text: "Sent Payment Proof", sender: "user", time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
+      ]);
+    } else {
+      setMessages(prev => [
+        ...prev,
+        { id: Date.now(), text: input, sender: "user", time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
+      ]);
+      setInput("");
+    }
 
     setTimeout(() => {
       setMessages(prev => [
         ...prev,
-        { id: Date.now() + 1, text: "Alright, noted!", sender: "vendor", time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
+        { id: Date.now() + 1, text: imageProof ? "Received your payment proof. We are verifying it now." : "Alright, noted!", sender: "vendor", time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
       ]);
     }, 1000);
+  };
+
+  const handleSendProof = () => {
+    // Mock sending payment proof image
+    handleSend("mock-image-proof-url");
   };
 
   return (
@@ -118,7 +130,11 @@ export default function ChatInterface() {
 
         <div className="p-4 bg-white border-t border-border">
           <div className="flex items-center gap-2">
-            <button className="p-3 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition-colors shrink-0">
+            <button
+              onClick={handleSendProof}
+              title="Send Payment Proof"
+              className="p-3 text-gray-400 hover:text-primary hover:bg-primary/10 rounded-xl transition-colors shrink-0"
+            >
               <ImageIcon className="w-5 h-5" />
             </button>
             <input
@@ -130,7 +146,7 @@ export default function ChatInterface() {
               className="flex-1 bg-gray-100 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary text-sm font-medium"
             />
             <button
-              onClick={handleSend}
+              onClick={() => handleSend()}
               disabled={!input.trim()}
               className="p-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
             >

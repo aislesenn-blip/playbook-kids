@@ -4,12 +4,26 @@
 import { useAppStore } from "@/lib/store/app-store";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useEffect, useState } from "react";
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { cart, getCartTotal, clearCart } = useAppStore();
+  const { cart, getCartTotal, clearCart, currentUser } = useAppStore();
   const total = getCartTotal();
   const deliveryFee = 2000;
+  const [deliveryMethod, setDeliveryMethod] = useState("Meetup at Campus");
+  const [paymentMethod, setPaymentMethod] = useState("Pay on Delivery");
+
+  useEffect(() => {
+    if (!currentUser) {
+      toast.error("Please login to proceed to checkout");
+      router.push("/auth/login?redirectTo=/checkout");
+    }
+  }, [currentUser, router]);
+
+  if (!currentUser) {
+    return null; // Don't render anything while redirecting
+  }
 
   if (cart.length === 0) {
     return (
@@ -21,9 +35,11 @@ export default function CheckoutPage() {
   }
 
   const handleCheckout = () => {
-     toast.success("Order confirmed!");
+     toast.success("We will get back to you in a couple hours as we verify and check the products. Check your chat section.", {
+       duration: 5000,
+     });
      clearCart();
-     router.push('/orders');
+     router.push('/chat');
   };
 
   return (
@@ -53,8 +69,48 @@ export default function CheckoutPage() {
           </div>
         </div>
 
-        <button onClick={handleCheckout} className="block w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
-          Confirm Order & Pay
+        <div className="bg-gray-50 rounded-2xl p-6 mb-8 text-left space-y-6">
+          <div>
+            <label className="block text-sm font-bold mb-3 text-gray-900">Delivery Method</label>
+            <div className="space-y-2">
+              {['Meetup at Campus', 'Leta Hostel', 'Pickup'].map((method) => (
+                <label key={method} className="flex items-center gap-3 p-3 border border-border rounded-xl cursor-pointer hover:bg-white transition-colors">
+                  <input
+                    type="radio"
+                    name="delivery"
+                    value={method}
+                    checked={deliveryMethod === method}
+                    onChange={(e) => setDeliveryMethod(e.target.value)}
+                    className="w-4 h-4 text-primary focus:ring-primary"
+                  />
+                  <span className="font-medium text-gray-700">{method}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-bold mb-3 text-gray-900">Payment Method</label>
+            <div className="space-y-2">
+              {['Pay on Delivery', 'Mobile Money'].map((method) => (
+                <label key={method} className="flex items-center gap-3 p-3 border border-border rounded-xl cursor-pointer hover:bg-white transition-colors">
+                  <input
+                    type="radio"
+                    name="payment"
+                    value={method}
+                    checked={paymentMethod === method}
+                    onChange={(e) => setPaymentMethod(e.target.value)}
+                    className="w-4 h-4 text-primary focus:ring-primary"
+                  />
+                  <span className="font-medium text-gray-700">{method}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <button onClick={handleCheckout} className="block w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 text-lg">
+          Confirm Order
         </button>
 
       </div>
