@@ -1,1 +1,0 @@
-sed -i 's/export interface Order {/export interface Order {\n  type?: string;\n  title?: string;\n  vendor?: string;\n  price?: string;\n  image?: string;\n  date?: string;/g' unimonday-web/src/types/index.ts

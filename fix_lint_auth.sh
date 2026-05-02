@@ -1,2 +1,0 @@
-sed -i 's/} catch (err: any) {/} catch (err: unknown) {\n      if (err instanceof Error) {\n        toast.error(err.message || "Failed to log in");\n      } else {\n        toast.error("Failed to log in");\n      }/g' unimonday-web/src/app/auth/login/page.tsx
-sed -i 's/} catch (err: any) {/} catch (err: unknown) {\n      if (err instanceof Error) {\n        toast.error(err.message || "Failed to sign up");\n      } else {\n        toast.error("Failed to sign up");\n      }/g' unimonday-web/src/app/auth/signup/page.tsx

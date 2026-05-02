@@ -32,6 +32,8 @@ interface AppState {
 
   // Orders State (Mock)
   orders: Order[];
+  vendorProducts: Product[];
+  addVendorProduct: (product: Product) => void;
   addOrder: (order: Order) => void;
   updateOrderStatus: (orderId: string, status: "Pending" | "Paid" | "Processing" | "In Transit" | "Delivered" | "Cancelled") => void;
 
@@ -48,6 +50,7 @@ export const useAppStore = create<AppState>()(
       isCartOpen: false,
       cart: [],
       orders: [],
+      vendorProducts: [],
 
       setUser: (user) => set({ currentUser: user }),
       setLocation: (region, campusName) => set({ currentRegion: region, currentCampusName: campusName }),
@@ -100,6 +103,7 @@ export const useAppStore = create<AppState>()(
         pendingMessages: state.pendingMessages.filter(msg => msg.vendorId !== vendorId)
       })),
 
+      addVendorProduct: (product) => set((state) => ({ vendorProducts: [product, ...state.vendorProducts] })),
       addOrder: (order) => set((state) => ({
         orders: [order, ...state.orders]
       })),
@@ -107,7 +111,7 @@ export const useAppStore = create<AppState>()(
         orders: state.orders.map(o => o.id === orderId ? { ...o, status } : o)
       })),
 
-      resetApp: () => set({ currentUser: null, currentRegion: null, currentCampusName: null, isCartOpen: false, cart: [], pendingMessages: [], orders: [] }),
+      resetApp: () => set({ currentUser: null, currentRegion: null, currentCampusName: null, isCartOpen: false, cart: [], pendingMessages: [], orders: [], vendorProducts: [] }),
 
       initAuth: () => {
         supabase.auth.onAuthStateChange((event, session) => {

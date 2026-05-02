@@ -1,1 +1,0 @@
-sed -i 's/"Pending" | "Paid" | "Processing" | "In Transit" | "Delivered" | "Cancelled"/"Pending" | "Paid" | "Processing" | "Confirmed" | "In Transit" | "Delivered" | "Cancelled"/g' unimonday-web/src/types/index.ts
