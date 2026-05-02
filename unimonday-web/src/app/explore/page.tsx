@@ -9,19 +9,38 @@ import { Search, SlidersHorizontal, MapPin, Store, Star, ArrowRight, ShoppingBag
 export default function ExplorePage() {
   const [activeCategory, setActiveCategory] = useState("All");
 
-  const categories = ["All", "Fashion", "Tech", "Services", "Stores", "Groceries"];
+  const categories = ["All", "Fashion Apparels", "Tech & Electronics", "Services", "Groceries", "Dorm Essentials"];
 
   return (
     <div className="min-h-screen bg-gray-50/50 pb-24">
-      {/* Search & Hero Section */}
-      <section className="bg-white border-b border-border pt-4 pb-4 px-4 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto flex flex-col gap-4">
+      {/* Top Nav Categories (Amazon-style snug to top) */}
+      <section className="bg-gray-900 text-white px-4 py-2 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden items-center text-sm font-medium">
+             {categories.map((cat) => (
+               <button
+                 key={cat}
+                 onClick={() => setActiveCategory(cat)}
+                 className={`whitespace-nowrap transition-colors px-2 py-1 rounded-md ${
+                   activeCategory === cat
+                   ? "font-bold border border-white"
+                   : "text-gray-300 hover:text-white hover:border hover:border-gray-500 border border-transparent"
+                 }`}
+               >
+                 {cat}
+               </button>
+             ))}
+          </div>
+        </div>
+      </section>
 
+      {/* Search Bar Area */}
+      <section className="bg-white border-b border-border py-4 px-4">
+        <div className="max-w-7xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="max-w-3xl mx-auto flex gap-2 w-full"
+            className="flex gap-2 w-full"
           >
             <div className="relative flex-1">
               <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
@@ -29,47 +48,99 @@ export default function ExplorePage() {
               </div>
               <input
                 type="text"
-                className="w-full pl-12 pr-4 py-3 bg-gray-100 rounded-full border-none focus:ring-2 focus:ring-primary text-md font-medium"
+                className="w-full pl-12 pr-4 py-3 bg-gray-100 rounded-lg border border-transparent focus:bg-white focus:border-primary focus:ring-0 text-md font-medium transition-colors"
                 placeholder="Search products, services, or stores..."
               />
             </div>
-            <button className="bg-gray-900 text-white p-3 rounded-full hover:bg-gray-800 transition-colors flex items-center justify-center shrink-0 shadow-sm">
-              <SlidersHorizontal className="h-5 w-5" />
+            <button className="bg-gray-900 text-white px-4 rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center shrink-0 shadow-sm font-semibold text-sm">
+              <SlidersHorizontal className="h-5 w-5 mr-2" /> Filters
             </button>
           </motion.div>
-
-          {/* Categories / Filters on top */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex gap-2 overflow-x-auto pb-2 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full justify-start sm:justify-center"
-          >
-             {categories.map((cat) => (
-               <button
-                 key={cat}
-                 onClick={() => setActiveCategory(cat)}
-                 className={`px-4 py-1.5 rounded-full font-bold text-sm whitespace-nowrap transition-all ${
-                   activeCategory === cat
-                   ? "bg-primary text-white shadow-md shadow-primary/20"
-                   : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                 }`}
-               >
-                 {cat}
-               </button>
-             ))}
-          </motion.div>
-
         </div>
       </section>
 
       {/* Main Content Area */}
-      <div className="max-w-7xl mx-auto px-4 mt-12 space-y-16">
+      <div className="max-w-7xl mx-auto px-4 mt-8 space-y-12">
+
+        {/* Fashion Apparels (Reordered as first item per request) */}
+        <section>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
+              <Star className="w-6 h-6 text-primary" /> Trending Products
+            </h2>
+            <button className="text-primary font-bold hover:underline flex items-center gap-1 text-sm">
+              View All <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+
+          <div className="flex overflow-x-auto gap-4 sm:gap-6 pb-4 [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full" style={{ scrollSnapType: "x mandatory" }}>
+
+            {/* Item 1 */}
+            <Link href="/product/1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
+            <motion.div whileHover={{ y: -5 }} className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm group cursor-pointer h-full flex flex-col">
+              <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-gray-50">
+                <Image src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop" alt="Vintage Shirt" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded-md text-xs font-bold text-gray-800">Deal</div>
+              </div>
+              <div className="p-4 sm:p-5 flex-grow flex flex-col justify-between">
+                <div>
+                  <h3 className="font-bold text-lg mb-1 line-clamp-1">Vintage Graphic Tee</h3>
+                  <p className="text-sm text-gray-500 mb-3 line-clamp-1">Campus Thrift</p>
+                </div>
+                <div className="flex items-center justify-between mt-auto">
+                  <span className="font-bold text-lg text-red-600">Tsh 15,000</span>
+                  <button className="text-primary text-sm font-bold hover:underline">Add</button>
+                </div>
+              </div>
+            </motion.div>
+            </Link>
+
+            {/* Item 2 */}
+            <Link href="/product/1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
+            <motion.div whileHover={{ y: -5 }} className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm group cursor-pointer h-full flex flex-col">
+              <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-gray-50">
+                <Image src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Casual Shirt" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+              </div>
+              <div className="p-4 sm:p-5 flex-grow flex flex-col justify-between">
+                <div>
+                  <h3 className="font-bold text-lg mb-1 line-clamp-1">Casual Linen Shirt</h3>
+                  <p className="text-sm text-gray-500 mb-3 line-clamp-1">Kicks TZ</p>
+                </div>
+                <div className="flex items-center justify-between mt-auto">
+                  <span className="font-bold text-lg text-red-600">Tsh 18,000</span>
+                  <button className="text-primary text-sm font-bold hover:underline">Add</button>
+                </div>
+              </div>
+            </motion.div>
+            </Link>
+
+            {/* Item 3 */}
+            <Link href="/product/1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
+            <motion.div whileHover={{ y: -5 }} className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm group cursor-pointer h-full flex flex-col">
+              <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-gray-50">
+                <Image src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Socks" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+              </div>
+              <div className="p-4 sm:p-5 flex-grow flex flex-col justify-between">
+                <div>
+                  <h3 className="font-bold text-lg mb-1 line-clamp-1">Red Sneakers</h3>
+                  <p className="text-sm text-gray-500 mb-3 line-clamp-1">Sporty</p>
+                </div>
+                <div className="flex items-center justify-between mt-auto">
+                  <span className="font-bold text-lg text-red-600">Tsh 19,500</span>
+                  <button className="text-primary text-sm font-bold hover:underline">Add</button>
+                </div>
+              </div>
+            </motion.div>
+            </Link>
+
+          </div>
+        </section>
 
         {/* Featured Stores */}
         <section>
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl sm:text-3xl font-black flex items-center gap-2">
-              <Store className="w-6 h-6 text-primary" /> Featured Stores
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
+              <Store className="w-6 h-6 text-primary" /> Top Rated Stores
             </h2>
             <button className="text-primary font-bold hover:underline flex items-center gap-1 text-sm">
               View All <ArrowRight className="w-4 h-4" />
@@ -121,7 +192,7 @@ export default function ExplorePage() {
           </div>
         </section>
 
-        {/* Fashion Apparels Grid */}
+        {/* Trending Products Grid */}
         <section className="pb-16">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-2xl sm:text-3xl font-black flex items-center gap-2">
@@ -145,7 +216,7 @@ export default function ExplorePage() {
                 <h3 className="font-bold text-lg mb-1 truncate">Classic Campus Hoodie</h3>
                 <p className="text-sm text-muted-foreground mb-3 truncate">By Campus Thrift</p>
                 <div className="flex items-center justify-between">
-                  <span className="font-black text-lg">Tsh 40,000</span>
+                  <span className="font-black text-lg">Tsh 18,000</span>
                   <button className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
                     <ArrowRight className="w-4 h-4" />
                   </button>
@@ -165,7 +236,7 @@ export default function ExplorePage() {
                 <h3 className="font-bold text-lg mb-1 truncate">Vintage Denim</h3>
                 <p className="text-sm text-muted-foreground mb-3 truncate">By Campus Thrift</p>
                 <div className="flex items-center justify-between">
-                  <span className="font-black text-lg">Tsh 35,000</span>
+                  <span className="font-black text-lg">Tsh 15,000</span>
                   <button className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
                     <ArrowRight className="w-4 h-4" />
                   </button>
@@ -185,7 +256,7 @@ export default function ExplorePage() {
                 <h3 className="font-bold text-lg mb-1 truncate">Nike Red Runners</h3>
                 <p className="text-sm text-muted-foreground mb-3 truncate">By Kicks TZ</p>
                 <div className="flex items-center justify-between">
-                  <span className="font-black text-lg">Tsh 75,000</span>
+                  <span className="font-black text-lg">Tsh 19,500</span>
                   <button className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
                     <ArrowRight className="w-4 h-4" />
                   </button>
@@ -198,14 +269,14 @@ export default function ExplorePage() {
             <Link href="/product/1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
             <motion.div whileHover={{ y: -5 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-sm group cursor-pointer">
               <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-gray-100">
-                <Image src="https://images.unsplash.com/photo-1595950653106-6c9ebd614c3a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Sneakers" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                <Image src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Sneakers" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded-lg text-xs font-bold text-gray-800">Fashion</div>
               </div>
               <div className="p-4 sm:p-5">
                 <h3 className="font-bold text-lg mb-1 truncate">Running Kicks</h3>
                 <p className="text-sm text-muted-foreground mb-3 truncate">By Kicks TZ</p>
                 <div className="flex items-center justify-between">
-                  <span className="font-black text-lg">Tsh 55,000</span>
+                  <span className="font-black text-lg">Tsh 12,000</span>
                   <button className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
                     <ArrowRight className="w-4 h-4" />
                   </button>
