@@ -35,89 +35,89 @@ export default function Home() {
       <section className="w-full max-w-[1500px] pt-16 sm:pt-24 pb-12 px-4">
         <div ref={heroScrollRef} className="flex overflow-x-auto gap-5 pb-6 snap-x snap-mandatory scroll-smooth">
           {/* Card 1 */}
-          <Link href="/explore" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
+          <Link href="/fashion" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
             <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
               <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Find gifts for Mom</h2>
               <div className="relative flex-grow overflow-hidden mb-3">
                 <Image
                   src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop"
-                  alt="Gifts for Mom"
+                  alt="Find gifts for Mom"
                   fill
                   className="object-cover"
                 />
               </div>
-              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop now</span>
+              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop Fashion</span>
             </div>
           </Link>
 
           {/* Card 2 */}
-          <Link href="/explore" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
-            <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
-              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Find gifts for Kids</h2>
-              <div className="relative flex-grow overflow-hidden mb-3">
-                <Image
-                  src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=2080&auto=format&fit=crop"
-                  alt="Gifts for Kids"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop now</span>
-            </div>
-          </Link>
-
-          {/* Card 3 */}
-          <Link href="/explore" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
+          <Link href="/tech" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
             <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
               <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Score top PCs &amp; Accessories</h2>
               <div className="relative flex-grow overflow-hidden mb-3">
                 <Image
                   src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
-                  alt="PCs & Accessories"
+                  alt="Score top PCs & Accessories"
                   fill
                   className="object-cover"
                 />
               </div>
-              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop now</span>
+              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop Tech</span>
+            </div>
+          </Link>
+
+          {/* Card 3 */}
+          <Link href="/beauty" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
+            <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
+              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Find gifts for Kids</h2>
+              <div className="relative flex-grow overflow-hidden mb-3">
+                <Image
+                  src="https://images.unsplash.com/photo-1596462502278-27bf85033e5a?q=80&w=2000&auto=format&fit=crop"
+                  alt="Find gifts for Kids"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop Beauty</span>
             </div>
           </Link>
 
           {/* Card 4 */}
-          <Link href="/explore" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
+          <Link href="/home-decor" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
+            <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
+              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Study Space Upgrades</h2>
+              <div className="relative flex-grow overflow-hidden mb-3">
+                <Image
+                  src="https://images.unsplash.com/photo-1550989460-0adf9ea622e2?q=80&w=2000&auto=format&fit=crop"
+                  alt="Study Space Upgrades"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop Decor</span>
+            </div>
+          </Link>
+
+          {/* Card 5 */}
+          <Link href="/services" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
             <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
               <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Campus Essentials</h2>
               <div className="relative flex-grow overflow-hidden mb-3">
                 <Image
-                  src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=2070&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1581092921461-7031e4bf0e5d?q=80&w=2000&auto=format&fit=crop"
                   alt="Campus Essentials"
                   fill
                   className="object-cover"
                 />
               </div>
-              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop now</span>
-            </div>
-          </Link>
-
-          {/* Card 5 */}
-          <Link href="/explore" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
-            <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
-              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Fresh Kicks</h2>
-              <div className="relative flex-grow overflow-hidden mb-3">
-                <Image
-                  src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
-                  alt="Fresh Kicks"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop now</span>
+              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Find Pros</span>
             </div>
           </Link>
 
           {/* Card 6 */}
-          <Link href="/explore" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
+          <Link href="/fashion" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
             <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
-              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Study Space Upgrades</h2>
+              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Fresh Kicks</h2>
               <div className="relative flex-grow overflow-hidden mb-3">
                 <Image
                   src="https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?q=80&w=2070&auto=format&fit=crop"
@@ -363,6 +363,19 @@ export default function Home() {
                Find a Pro <ArrowRight className="w-4 h-4" />
             </Link>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Vendor CTA Section */}
+      <section className="w-full bg-primary text-white py-16 sm:py-24">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-3xl sm:text-5xl font-black mb-6">Want to become a Vendor?</h2>
+          <p className="text-lg sm:text-xl font-medium mb-10 text-primary-foreground/90 max-w-2xl mx-auto">
+            Partner with us to reach thousands of students on campus. Open your digital storefront today and start selling.
+          </p>
+          <Link href="/vendor/apply" className="inline-flex items-center gap-2 bg-white text-primary font-bold px-8 py-4 rounded-full hover:bg-gray-100 transition-colors shadow-lg hover:scale-105 transform duration-200">
+            Partner With Us <ArrowRight className="w-5 h-5" />
+          </Link>
         </div>
       </section>
 
