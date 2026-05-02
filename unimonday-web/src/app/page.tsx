@@ -15,6 +15,7 @@ export default function Home() {
 
   const handleAddToCart = (e: React.MouseEvent, productId: string) => {
     e.preventDefault();
+    e.stopPropagation();
     const product = mockProducts.find(p => p.id === productId);
     if (product) {
       addToCart(product);
