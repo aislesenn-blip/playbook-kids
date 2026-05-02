@@ -14,190 +14,187 @@ export default function Home() {
     <div className="flex flex-col items-center justify-center w-full overflow-x-hidden selection:bg-primary/20 selection:text-primary">
 
       {/* Hero Section - Amazon Style Grid */}
-      <section className="w-full max-w-7xl mx-auto pt-16 sm:pt-24 pb-12 px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6"
-        >
+      <div className="w-full bg-[#E3E6E6] flex justify-center">
+      <section className="w-full max-w-[1500px] pt-16 sm:pt-24 pb-12 px-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {/* Card 1 */}
           <Link href="/explore">
-            <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow group flex flex-col h-[380px] sm:h-[420px]">
-              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 line-clamp-2">Find gifts for Mom</h2>
-              <div className="relative flex-grow rounded-lg overflow-hidden bg-gray-50 mb-3">
+            <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
+              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Find gifts for Mom</h2>
+              <div className="relative flex-grow overflow-hidden mb-3">
                 <Image
                   src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop"
                   alt="Gifts for Mom"
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover"
                 />
               </div>
-              <span className="text-primary font-bold text-sm hover:underline">Shop now</span>
+              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop now</span>
             </div>
           </Link>
 
           {/* Card 2 */}
           <Link href="/explore">
-            <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow group flex flex-col h-[380px] sm:h-[420px]">
-              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 line-clamp-2">Find gifts for Kids</h2>
-              <div className="relative flex-grow rounded-lg overflow-hidden bg-gray-50 mb-3">
+            <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
+              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Find gifts for Kids</h2>
+              <div className="relative flex-grow overflow-hidden mb-3">
                 <Image
                   src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=2080&auto=format&fit=crop"
                   alt="Gifts for Kids"
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover"
                 />
               </div>
-              <span className="text-primary font-bold text-sm hover:underline">Shop now</span>
+              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop now</span>
             </div>
           </Link>
 
           {/* Card 3 */}
           <Link href="/explore">
-            <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow group flex flex-col h-[380px] sm:h-[420px]">
-              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 line-clamp-2">Score top PCs &amp; Accessories</h2>
-              <div className="relative flex-grow rounded-lg overflow-hidden bg-gray-50 mb-3">
+            <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
+              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Score top PCs &amp; Accessories</h2>
+              <div className="relative flex-grow overflow-hidden mb-3">
                 <Image
                   src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
                   alt="PCs & Accessories"
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover"
                 />
               </div>
-              <span className="text-primary font-bold text-sm hover:underline">Shop now</span>
+              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop now</span>
             </div>
           </Link>
 
           {/* Card 4 */}
           <Link href="/explore">
-            <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow group flex flex-col h-[380px] sm:h-[420px]">
-              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 line-clamp-2">Campus Essentials</h2>
-              <div className="relative flex-grow rounded-lg overflow-hidden bg-gray-50 mb-3">
+            <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
+              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Campus Essentials</h2>
+              <div className="relative flex-grow overflow-hidden mb-3">
                 <Image
                   src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=2070&auto=format&fit=crop"
                   alt="Campus Essentials"
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover"
                 />
               </div>
-              <span className="text-primary font-bold text-sm hover:underline">Shop now</span>
+              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop now</span>
             </div>
           </Link>
 
           {/* Card 5 */}
           <Link href="/explore">
-            <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow group flex flex-col h-[380px] sm:h-[420px]">
-              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 line-clamp-2">Fresh Kicks</h2>
-              <div className="relative flex-grow rounded-lg overflow-hidden bg-gray-50 mb-3">
+            <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
+              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Fresh Kicks</h2>
+              <div className="relative flex-grow overflow-hidden mb-3">
                 <Image
                   src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
                   alt="Fresh Kicks"
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover"
                 />
               </div>
-              <span className="text-primary font-bold text-sm hover:underline">Shop now</span>
+              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop now</span>
             </div>
           </Link>
 
           {/* Card 6 */}
           <Link href="/explore">
-            <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow group flex flex-col h-[380px] sm:h-[420px]">
-              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 line-clamp-2">Study Space Upgrades</h2>
-              <div className="relative flex-grow rounded-lg overflow-hidden bg-gray-50 mb-3">
+            <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
+              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Study Space Upgrades</h2>
+              <div className="relative flex-grow overflow-hidden mb-3">
                 <Image
                   src="https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?q=80&w=2070&auto=format&fit=crop"
                   alt="Study Space Upgrades"
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover"
                 />
               </div>
-              <span className="text-primary font-bold text-sm hover:underline">Shop now</span>
+              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop now</span>
             </div>
           </Link>
 
           {/* Card 7 */}
           <Link href="/explore">
-            <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow group flex flex-col h-[380px] sm:h-[420px]">
-              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 line-clamp-2">Room Decor</h2>
-              <div className="relative flex-grow rounded-lg overflow-hidden bg-gray-50 mb-3">
+            <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
+              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Room Decor</h2>
+              <div className="relative flex-grow overflow-hidden mb-3">
                 <Image
                   src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2070&auto=format&fit=crop"
                   alt="Room Decor"
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover"
                 />
               </div>
-              <span className="text-primary font-bold text-sm hover:underline">Shop now</span>
+              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop now</span>
             </div>
           </Link>
 
           {/* Card 8 */}
           <Link href="/explore">
-            <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow group flex flex-col h-[380px] sm:h-[420px]">
-              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 line-clamp-2">Dorm Essentials</h2>
-              <div className="relative flex-grow rounded-lg overflow-hidden bg-gray-50 mb-3">
+            <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
+              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Dorm Essentials</h2>
+              <div className="relative flex-grow overflow-hidden mb-3">
                 <Image
                   src="https://images.unsplash.com/photo-1555636222-cae831e670b3?q=80&w=2077&auto=format&fit=crop"
                   alt="Dorm Essentials"
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover"
                 />
               </div>
-              <span className="text-primary font-bold text-sm hover:underline">Shop now</span>
+              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop now</span>
             </div>
           </Link>
 
           {/* Card 9 */}
           <Link href="/explore">
-            <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow group flex flex-col h-[380px] sm:h-[420px]">
-              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 line-clamp-2">Top Beauty Picks</h2>
-              <div className="relative flex-grow rounded-lg overflow-hidden bg-gray-50 mb-3">
+            <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
+              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Top Beauty Picks</h2>
+              <div className="relative flex-grow overflow-hidden mb-3">
                 <Image
                   src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
                   alt="Beauty Picks"
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover"
                 />
               </div>
-              <span className="text-primary font-bold text-sm hover:underline">Shop now</span>
+              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop now</span>
             </div>
           </Link>
 
           {/* Card 10 */}
           <Link href="/explore">
-            <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow group flex flex-col h-[380px] sm:h-[420px]">
-              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 line-clamp-2">Healthy Snacks</h2>
-              <div className="relative flex-grow rounded-lg overflow-hidden bg-gray-50 mb-3">
+            <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
+              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Healthy Snacks</h2>
+              <div className="relative flex-grow overflow-hidden mb-3">
                 <Image
                   src="https://images.unsplash.com/photo-1599490659213-e2b9527bd087?q=80&w=2070&auto=format&fit=crop"
                   alt="Healthy Snacks"
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover"
                 />
               </div>
-              <span className="text-primary font-bold text-sm hover:underline">Shop now</span>
+              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop now</span>
             </div>
           </Link>
 
           {/* Card 11 */}
           <Link href="/explore">
-            <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow group flex flex-col h-[380px] sm:h-[420px]">
-              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 line-clamp-2">Stationery Haul</h2>
-              <div className="relative flex-grow rounded-lg overflow-hidden bg-gray-50 mb-3">
+            <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
+              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Stationery Haul</h2>
+              <div className="relative flex-grow overflow-hidden mb-3">
                 <Image
                   src="https://images.unsplash.com/photo-1517842645767-c639042777db?q=80&w=2070&auto=format&fit=crop"
                   alt="Stationery Haul"
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover"
                 />
               </div>
-              <span className="text-primary font-bold text-sm hover:underline">Shop now</span>
+              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop now</span>
             </div>
           </Link>
         </div>
       </section>
+      </div>
 
       {/* Featured Products */}
       <section className="w-full max-w-7xl mx-auto px-4 pb-24">
