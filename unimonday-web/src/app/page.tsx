@@ -17,26 +17,121 @@ export default function Home() {
       <section className="relative w-full max-w-5xl mx-auto pt-20 sm:pt-32 pb-16 sm:pb-24 px-4 flex flex-col items-center text-center">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-3xl -z-10 pointer-events-none"></div>
 
-        <motion.h1
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
-          className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tighter mb-8 text-gray-900 leading-[1.1]"
+          className="w-full max-w-4xl mx-auto overflow-hidden mb-12 relative"
         >
-          Shop. Fix. <br className="hidden sm:block" />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-400">
-            Connect.
-          </span>
-        </motion.h1>
+          <div className="absolute left-0 top-0 w-16 h-full bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
+          <div className="absolute right-0 top-0 w-16 h-full bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
 
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="text-xl sm:text-2xl text-muted-foreground max-w-2xl mb-12 leading-relaxed font-medium"
-        >
-          Everything a university student needs. From fresh fashion and tech, to verified phone repairs—all in one place.
-        </motion.p>
+          <motion.div
+            className="flex gap-4 sm:gap-6 py-4"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{
+              repeat: Infinity,
+              ease: "linear",
+              duration: 35,
+            }}
+          >
+            {/* Duplicated for seamless loop */}
+            {[...Array(2)].map((_, i) => (
+              <div key={i} className="flex gap-4 sm:gap-6">
+                {/* Card 1 */}
+                <Link href="/explore">
+                  <div className="w-[280px] h-[340px] rounded-[2rem] bg-[#dcfce7] p-6 relative overflow-hidden group cursor-pointer shadow-sm hover:shadow-md transition-shadow shrink-0">
+                    <h2 className="text-2xl font-black text-gray-900 z-10 relative leading-tight">Find gifts for Mom</h2>
+                    <Image
+                      src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop"
+                      alt="Gifts for Mom"
+                      fill
+                      className="object-cover mt-16 scale-110 group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                </Link>
+
+                {/* Card 2 */}
+                <Link href="/explore">
+                  <div className="w-[280px] h-[340px] rounded-[2rem] bg-[#fef08a] p-6 relative overflow-hidden group cursor-pointer shadow-sm hover:shadow-md transition-shadow shrink-0">
+                    <h2 className="text-2xl font-black text-gray-900 z-10 relative leading-tight">Find gifts for Kids</h2>
+                    <Image
+                      src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=2080&auto=format&fit=crop"
+                      alt="Gifts for Kids"
+                      fill
+                      className="object-cover mt-16 scale-110 group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                </Link>
+
+                {/* Card 3 */}
+                <Link href="/explore">
+                  <div className="w-[280px] h-[340px] rounded-[2rem] bg-[#f3e8ff] p-6 relative overflow-hidden group cursor-pointer shadow-sm hover:shadow-md transition-shadow shrink-0">
+                    <h2 className="text-2xl font-black text-gray-900 z-10 relative leading-tight">Score top PCs &amp; Accessories</h2>
+                    <Image
+                      src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+                      alt="PCs & Accessories"
+                      fill
+                      className="object-cover mt-16 scale-110 group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                </Link>
+
+                {/* Card 4 */}
+                <Link href="/explore">
+                  <div className="w-[280px] h-[340px] rounded-[2rem] bg-[#ffedd5] p-6 relative overflow-hidden group cursor-pointer shadow-sm hover:shadow-md transition-shadow shrink-0">
+                    <h2 className="text-2xl font-black text-gray-900 z-10 relative leading-tight">Campus Essentials</h2>
+                    <Image
+                      src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=2070&auto=format&fit=crop"
+                      alt="Campus Essentials"
+                      fill
+                      className="object-cover mt-16 scale-110 group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                </Link>
+
+                {/* Card 5 */}
+                <Link href="/explore">
+                  <div className="w-[280px] h-[340px] rounded-[2rem] bg-[#e0f2fe] p-6 relative overflow-hidden group cursor-pointer shadow-sm hover:shadow-md transition-shadow shrink-0">
+                    <h2 className="text-2xl font-black text-gray-900 z-10 relative leading-tight">Fresh Kicks</h2>
+                    <Image
+                      src="https://images.unsplash.com/photo-1552346154-21d32810baa3?q=80&w=2070&auto=format&fit=crop"
+                      alt="Fresh Kicks"
+                      fill
+                      className="object-cover mt-16 scale-110 group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                </Link>
+
+                {/* Card 6 */}
+                <Link href="/explore">
+                  <div className="w-[280px] h-[340px] rounded-[2rem] bg-[#fce7f3] p-6 relative overflow-hidden group cursor-pointer shadow-sm hover:shadow-md transition-shadow shrink-0">
+                    <h2 className="text-2xl font-black text-gray-900 z-10 relative leading-tight">Study Space Upgrades</h2>
+                    <Image
+                      src="https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?q=80&w=2070&auto=format&fit=crop"
+                      alt="Study Space Upgrades"
+                      fill
+                      className="object-cover mt-16 scale-110 group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                </Link>
+
+                {/* Card 7 */}
+                <Link href="/explore">
+                  <div className="w-[280px] h-[340px] rounded-[2rem] bg-[#fee2e2] p-6 relative overflow-hidden group cursor-pointer shadow-sm hover:shadow-md transition-shadow shrink-0">
+                    <h2 className="text-2xl font-black text-gray-900 z-10 relative leading-tight">Room Decor</h2>
+                    <Image
+                      src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2070&auto=format&fit=crop"
+                      alt="Room Decor"
+                      fill
+                      className="object-cover mt-16 scale-110 group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                </Link>
+              </div>
+            ))}
+          </motion.div>
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}
