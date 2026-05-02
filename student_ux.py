@@ -1,4 +1,4 @@
-
+new_content = """
 "use client";
 
 import Link from "next/link";
@@ -110,3 +110,7 @@ export default function OrderDetailsPage() {
     </div>
   );
 }
+"""
+
+with open('unimonday-web/src/app/orders/details/page.tsx', 'w') as f:
+    f.write(new_content)
