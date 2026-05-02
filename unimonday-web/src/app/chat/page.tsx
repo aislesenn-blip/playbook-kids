@@ -24,7 +24,7 @@ function ChatInterfaceContent() {
 
   const initialChatId = (initialVendorId && chats.some(c => c.id === initialVendorId))
     ? initialVendorId
-    : (chats.length > 0 ? chats[0].id : "");
+    : ""; // Don't auto-open a chat unless requested via URL
 
   const [messages, setMessages] = useState([
     { id: 1, text: "Hi there! Is the Vintage Denim Jacket still available?", sender: "user", time: "10:00 AM" },
@@ -94,121 +94,141 @@ function ChatInterfaceContent() {
           </div>
         </div>
         <div className="flex-1 overflow-y-auto">
-          {chats.map(chat => (
-            <div
-              key={chat.id}
-              onClick={() => setActiveChat(chat.id)}
-              className={`p-4 flex items-center gap-3 cursor-pointer transition-colors ${activeChat === chat.id ? 'bg-primary/5 border-l-4 border-primary' : 'hover:bg-gray-50'}`}
-            >
-              <div className="relative w-12 h-12 rounded-full overflow-hidden shrink-0">
-                <Image src={chat.avatar} alt={chat.name} fill className="object-cover" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex justify-between items-baseline mb-1">
-                  <h3 className="font-bold text-sm truncate">{chat.name}</h3>
-                  <span className="text-xs text-muted-foreground">10:05 AM</span>
-                </div>
-                <p className="text-sm text-muted-foreground truncate">{chat.lastMsg}</p>
-              </div>
-              {chat.unread > 0 && (
-                <div className="w-5 h-5 bg-primary text-white rounded-full flex items-center justify-center text-xs font-bold shrink-0">
-                  {chat.unread}
-                </div>
-              )}
+          {chats.length === 0 ? (
+            <div className="p-8 text-center text-gray-500 font-medium">
+              No conversations found.
             </div>
-          ))}
+          ) : (
+            chats.map(chat => (
+              <div
+                key={chat.id}
+                onClick={() => setActiveChat(chat.id)}
+                className={`p-4 flex items-center gap-3 cursor-pointer transition-colors ${activeChat === chat.id ? 'bg-primary/5 border-l-4 border-primary' : 'hover:bg-gray-50'}`}
+              >
+                <div className="relative w-12 h-12 rounded-full overflow-hidden shrink-0">
+                  <Image src={chat.avatar} alt={chat.name} fill className="object-cover" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex justify-between items-baseline mb-1">
+                    <h3 className="font-bold text-sm truncate">{chat.name}</h3>
+                    <span className="text-xs text-muted-foreground">10:05 AM</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground truncate">{chat.lastMsg}</p>
+                </div>
+                {chat.unread > 0 && (
+                  <div className="w-5 h-5 bg-primary text-white rounded-full flex items-center justify-center text-xs font-bold shrink-0">
+                    {chat.unread}
+                  </div>
+                )}
+              </div>
+            ))
+          )}
         </div>
       </div>
 
       {/* Main Chat Area */}
       <div className={`w-full md:w-2/3 flex flex-col h-full bg-gray-50/50 ${!activeChat ? 'hidden md:flex' : 'flex'}`}>
-        <div className="p-4 bg-white border-b border-border flex items-center gap-3">
-          <button onClick={() => setActiveChat("")} className="md:hidden p-2 -ml-2 text-gray-500 hover:bg-gray-100 rounded-full">
-            <ArrowLeft className="w-5 h-5" />
-          </button>
-          {activeChat && (() => {
-            const currentChat = chats.find(c => c.id === activeChat);
-            return (
-              <>
-                <div className="w-10 h-10 bg-primary/10 text-primary rounded-full flex items-center justify-center shrink-0 overflow-hidden relative">
-                  {currentChat ? (
-                      <Image src={currentChat.avatar} alt="avatar" fill className="object-cover"/>
-                  ) : <Store className="w-5 h-5" />}
-                </div>
-                <div>
-                  <h2 className="font-bold">{currentChat?.name || 'Store'}</h2>
-                  <p className="text-xs text-primary font-medium">● Online</p>
-                </div>
-              </>
-            );
-          })()}
-        </div>
-
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
-          <AnimatePresence>
-            {messages.map((msg) => (
-              <motion.div
-                key={msg.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className={`flex flex-col max-w-[80%] ${msg.sender === "user" ? "ml-auto items-end" : "mr-auto items-start"}`}
-              >
-                <div
-                  className={`p-3 rounded-2xl ${
-                    msg.sender === "user"
-                      ? "bg-primary text-white rounded-br-none"
-                      : "bg-white border border-border text-gray-900 rounded-bl-none shadow-sm"
-                  }`}
-                >
-                  {msg.text}
-                </div>
-                <span className="text-xs text-muted-foreground mt-1 font-medium">{msg.time}</span>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </div>
-
-        <div className="p-4 bg-white border-t border-border">
-          <div className="flex items-center gap-2 relative">
-            <label className="p-3 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition-colors shrink-0 cursor-pointer">
-              <input
-                type="file"
-                className="hidden"
-                accept="image/*"
-                onChange={(e) => {
-                  if (e.target.files && e.target.files[0]) {
-                     setMessages(prev => [
-                        ...prev,
-                        { id: Date.now(), text: "Sent an image", sender: "user", time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
-                     ]);
-                     setTimeout(() => {
-                        setMessages(prev => [
-                          ...prev,
-                          { id: Date.now() + 1, text: "Thanks for sending the payment screenshot. I will verify it now.", sender: "vendor", time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
-                        ]);
-                     }, 1500);
-                  }
-                }}
-              />
-              <ImageIcon className="w-5 h-5" />
-            </label>
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSend()}
-              placeholder="Type a message or upload payment screenshot..."
-              className="flex-1 bg-gray-100 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary text-sm font-medium"
-            />
-            <button
-              onClick={handleSend}
-              disabled={!input.trim()}
-              className="p-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
-            >
-              <Send className="w-5 h-5" />
-            </button>
+        {!activeChat ? (
+          <div className="flex-1 flex flex-col items-center justify-center text-center p-8">
+            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-6">
+               <Store className="w-10 h-10 text-gray-300" />
+            </div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Your Messages</h2>
+            <p className="text-muted-foreground font-medium max-w-sm mx-auto">
+              Select a conversation from the sidebar to view your chat or check order updates.
+            </p>
           </div>
-        </div>
+        ) : (
+          <>
+            <div className="p-4 bg-white border-b border-border flex items-center gap-3">
+              <button onClick={() => setActiveChat("")} className="md:hidden p-2 -ml-2 text-gray-500 hover:bg-gray-100 rounded-full">
+                <ArrowLeft className="w-5 h-5" />
+              </button>
+              {(() => {
+                const currentChat = chats.find(c => c.id === activeChat);
+                return (
+                  <>
+                    <div className="w-10 h-10 bg-primary/10 text-primary rounded-full flex items-center justify-center shrink-0 overflow-hidden relative">
+                      {currentChat ? (
+                          <Image src={currentChat.avatar} alt="avatar" fill className="object-cover"/>
+                      ) : <Store className="w-5 h-5" />}
+                    </div>
+                    <div>
+                      <h2 className="font-bold">{currentChat?.name || 'Store'}</h2>
+                      <p className="text-xs text-primary font-medium">● Online</p>
+                    </div>
+                  </>
+                );
+              })()}
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              <AnimatePresence>
+                {messages.map((msg) => (
+                  <motion.div
+                    key={msg.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className={`flex flex-col max-w-[80%] ${msg.sender === "user" ? "ml-auto items-end" : "mr-auto items-start"}`}
+                  >
+                    <div
+                      className={`p-3 rounded-2xl ${
+                        msg.sender === "user"
+                          ? "bg-primary text-white rounded-br-none"
+                          : "bg-white border border-border text-gray-900 rounded-bl-none shadow-sm"
+                      }`}
+                    >
+                      {msg.text}
+                    </div>
+                    <span className="text-xs text-muted-foreground mt-1 font-medium">{msg.time}</span>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </div>
+
+            <div className="p-4 bg-white border-t border-border">
+              <div className="flex items-center gap-2 relative">
+                <label className="p-3 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition-colors shrink-0 cursor-pointer">
+                  <input
+                    type="file"
+                    className="hidden"
+                    accept="image/*"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files[0]) {
+                         setMessages(prev => [
+                            ...prev,
+                            { id: Date.now(), text: "Sent an image", sender: "user", time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
+                         ]);
+                         setTimeout(() => {
+                            setMessages(prev => [
+                              ...prev,
+                              { id: Date.now() + 1, text: "Thanks for sending the payment screenshot. I will verify it now.", sender: "vendor", time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
+                            ]);
+                         }, 1500);
+                      }
+                    }}
+                  />
+                  <ImageIcon className="w-5 h-5" />
+                </label>
+                <input
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSend()}
+                  placeholder="Type a message or upload payment screenshot..."
+                  className="flex-1 bg-gray-100 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary text-sm font-medium"
+                />
+                <button
+                  onClick={handleSend}
+                  disabled={!input.trim()}
+                  className="p-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
+                >
+                  <Send className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
