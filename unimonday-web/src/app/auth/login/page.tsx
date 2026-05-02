@@ -14,6 +14,7 @@ export default function LoginPage() {
   const redirectTo = searchParams.get('redirectTo') || '/';
 
   const { setUser, setLocation } = useAppStore();
+  const [role, setRole] = useState<"student" | "vendor">("student");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -48,7 +49,8 @@ export default function LoginPage() {
         id: data.user?.id || "u1",
         name: userMeta.name || "Student User",
         email: data.user?.email || email,
-        role: userMeta.role || "student",
+        role: userMeta.role || role,
+        storeName: userMeta.storeName || undefined,
         region: userMeta.region || "Dar es Salaam",
         campusName: userMeta.campusName || "UDSM - Main Campus"
       });
@@ -75,8 +77,23 @@ export default function LoginPage() {
         </div>
         <h1 className="text-3xl font-black mb-2 tracking-tight">Welcome Back</h1>
         <p className="text-muted-foreground font-medium">
-          Sign in to your uNiMONDAY account
+          Sign in to your uNiMONDAY {role === "vendor" ? "vendor" : "student"} account
         </p>
+      </div>
+
+            <div className="flex bg-gray-100 p-1 rounded-2xl mb-6">
+        <button
+          onClick={() => setRole("student")}
+          className={`flex-1 py-3 text-sm font-bold rounded-xl transition-all ${role === "student" ? "bg-white shadow-sm text-gray-900" : "text-gray-500 hover:text-gray-900"}`}
+        >
+          Student
+        </button>
+        <button
+          onClick={() => setRole("vendor")}
+          className={`flex-1 py-3 text-sm font-bold rounded-xl transition-all ${role === "vendor" ? "bg-white shadow-sm text-gray-900" : "text-gray-500 hover:text-gray-900"}`}
+        >
+          Vendor
+        </button>
       </div>
 
       <div className="bg-white p-6 sm:p-8 rounded-[2rem] border border-border shadow-sm">

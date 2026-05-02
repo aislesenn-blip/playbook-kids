@@ -1,18 +1,28 @@
 "use client";
 
 import Link from "next/link";
-import { Store, Compass, MessageCircle, Box } from "lucide-react";
+import { Store, Compass, MessageCircle, Box, LayoutDashboard } from "lucide-react";
+import { useAppStore } from "@/lib/store/app-store";
 import { usePathname } from "next/navigation";
 
 export function BottomNav() {
   const pathname = usePathname();
+  const { currentUser } = useAppStore();
 
-  const navItems = [
-    { href: "/", icon: Store, label: "Home" },
-    { href: "/explore", icon: Compass, label: "Explore" },
-    { href: "/chat", icon: MessageCircle, label: "Chat" },
-    { href: "/orders", icon: Box, label: "Orders" },
-  ];
+  const isVendor = currentUser?.role === 'vendor';
+  const navItems = isVendor
+    ? [
+        { href: "/", icon: Store, label: "Home" },
+        { href: "/vendor/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+        { href: "/chat", icon: MessageCircle, label: "Chat" },
+        { href: "/orders", icon: Box, label: "Orders" },
+      ]
+    : [
+        { href: "/", icon: Store, label: "Home" },
+        { href: "/explore", icon: Compass, label: "Explore" },
+        { href: "/chat", icon: MessageCircle, label: "Chat" },
+        { href: "/orders", icon: Box, label: "Orders" },
+      ];
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 h-20 bg-white/90 backdrop-blur-xl border-t border-border z-50 flex items-center justify-around px-2 pb-safe">
