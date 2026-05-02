@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
-import { ShieldAlert, Users, Store, Activity, Eye, Edit3, Trash2, Power, Zap, Star, CheckCircle, XCircle } from "lucide-react";
+
+import { ShieldAlert, Users, Store, Activity,Power, Zap,CheckCircle, XCircle } from "lucide-react";
 import { toast } from "sonner";
 import { useState } from "react";
 

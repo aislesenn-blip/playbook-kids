@@ -196,20 +196,7 @@ export default function Home() {
               <span className="text-primary font-bold text-sm hover:underline">Shop now</span>
             </div>
           </Link>
-
-          {/* Card 12 (Sign in promo style) */}
-          <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-shadow flex flex-col h-[380px] sm:h-[420px] justify-center items-center text-center">
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">Sign in for the best experience</h2>
-            <Link href="/login" className="w-full">
-              <button className="w-full bg-[#FFD814] hover:bg-[#F7CA00] text-gray-900 font-bold py-3 rounded-xl transition-colors shadow-sm mb-3">
-                Sign in securely
-              </button>
-            </Link>
-            <Link href="/register" className="text-primary font-medium text-sm hover:underline">
-              Create an account
-            </Link>
-          </div>
-        </motion.div>
+        </div>
       </section>
 
       {/* Featured Products */}
