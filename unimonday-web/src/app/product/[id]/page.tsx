@@ -6,8 +6,9 @@ import { ShoppingBag, MessageCircle, Star, ShieldCheck, ChevronLeft } from "luci
 import { useRouter } from "next/navigation";
 
 import { useAppStore } from "@/lib/store/app-store";
-import { mockProducts } from "@/lib/mockData";
+import { mockProducts, mockVendors } from "@/lib/mockData";
 import { toast } from "sonner";
+import Link from "next/link";
 
 export default function ProductDetails() {
   const router = useRouter();
@@ -15,10 +16,16 @@ export default function ProductDetails() {
 
   // For demo, we just grab the first product if id isn't explicitly matching
   const product = mockProducts[0];
+  const vendor = mockVendors.find(v => v.id === product.vendorId) || mockVendors[0];
 
   const handleAddToCart = () => {
     addToCart(product, 1);
-    toast.success(`${product.name} added to cart!`);
+    toast(`${product.name} added to cart!`, {
+      action: {
+        label: 'Go to Cart',
+        onClick: () => router.push('/checkout')
+      },
+    });
   };
 
 
@@ -77,19 +84,19 @@ export default function ProductDetails() {
 
           <div className="bg-gray-50 rounded-[2rem] p-6 mb-8 border border-border">
             <h3 className="font-bold text-gray-900 mb-2">Vendor Information</h3>
-            <p className="text-gray-600 mb-1 font-medium">TechZone UDSM</p>
-            <p className="text-sm text-muted-foreground">Location: Block A, Room 12</p>
+            <Link href={`/store/${vendor.id}`} className="text-primary hover:underline mb-1 font-bold inline-block">{vendor.storeName}</Link>
+            <p className="text-sm text-muted-foreground">Location: {vendor.campusName}, {vendor.region}</p>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <button onClick={() => { handleAddToCart(); router.push("/checkout"); }} className="flex-1 bg-gray-900 text-white hover:bg-gray-800 font-bold py-5 rounded-[1.5rem] flex items-center justify-center gap-3 transition-colors shadow-xl shadow-gray-900/20 text-lg">
-              <ShoppingBag className="w-6 h-6" /> Order Now
+            <button onClick={handleAddToCart} className="flex-1 bg-gray-900 text-white hover:bg-gray-800 font-bold py-5 rounded-[1.5rem] flex items-center justify-center gap-3 transition-colors shadow-xl shadow-gray-900/20 text-lg">
+              <ShoppingBag className="w-6 h-6" /> Add to Cart
             </button>
             <button
-              onClick={() => router.push('/chat')}
+              onClick={() => router.push(`/store/${vendor.id}`)}
               className="flex-1 bg-primary/10 text-primary hover:bg-primary/20 font-bold py-5 rounded-[1.5rem] flex items-center justify-center gap-3 transition-colors text-lg"
             >
-              <MessageCircle className="w-6 h-6" /> Chat with Seller
+              <MessageCircle className="w-6 h-6" /> Go to Store
             </button>
           </div>
         </motion.div>

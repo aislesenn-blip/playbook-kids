@@ -48,6 +48,27 @@ export default function OrdersPage() {
     }
   ];
 
+  // For demo, uncomment to see empty state:
+  // const activeOrders = [];
+  // const pastOrders = [];
+
+  if (activeOrders.length === 0 && pastOrders.length === 0) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-24 text-center">
+        <div className="w-32 h-32 mx-auto mb-8 bg-gray-50 rounded-full flex items-center justify-center border-8 border-white shadow-xl">
+           <Package className="w-12 h-12 text-gray-300" />
+        </div>
+        <h1 className="text-3xl font-black mb-4">No orders yet</h1>
+        <p className="text-muted-foreground font-medium mb-8 max-w-md mx-auto">
+          You haven&apos;t placed any orders yet. Start exploring the marketplace to find what you need.
+        </p>
+        <Link href="/explore" className="inline-flex items-center justify-center bg-primary text-white font-bold py-4 px-8 rounded-xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
+          Start Shopping
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="flex items-center gap-4 mb-10">

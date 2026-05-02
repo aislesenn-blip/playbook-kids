@@ -1,11 +1,4 @@
-import { Product, Vendor, Campus } from '@/types';
-
-export const mockCampuses: Campus[] = [
-  { id: 'c1', name: 'UDSM - Main Campus', city: 'Dar es Salaam' },
-  { id: 'c2', name: 'UDOM - Main Campus', city: 'Dodoma' },
-  { id: 'c3', name: 'SUA - Main Campus', city: 'Morogoro' },
-  { id: 'c4', name: 'CBE - Dar es Salaam', city: 'Dar es Salaam' },
-];
+import { Product, Vendor } from '@/types';
 
 export const mockVendors: Vendor[] = [
   {
@@ -15,7 +8,8 @@ export const mockVendors: Vendor[] = [
     description: 'Best gadgets and phone repairs on campus.',
     logoUrl: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=2064&auto=format&fit=crop',
     rating: 4.8,
-    campusId: 'c1',
+    region: 'Dar es Salaam',
+    campusName: 'UDSM - Main Campus',
     isVerified: true,
   },
   {
@@ -25,7 +19,8 @@ export const mockVendors: Vendor[] = [
     description: 'Fresh vintage clothes and sneakers.',
     logoUrl: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop',
     rating: 4.5,
-    campusId: 'c1',
+    region: 'Dar es Salaam',
+    campusName: 'UDSM - Main Campus',
     isVerified: true,
   },
 ];

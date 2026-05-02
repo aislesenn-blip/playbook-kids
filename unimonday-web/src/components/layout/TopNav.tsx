@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingBag, ShoppingCart, User, Menu, X, Shirt, Smartphone, ShieldCheck, Box, Handshake, ShieldAlert } from "lucide-react";
+import { ShoppingBag, ShoppingCart, User, Menu, X, Shirt, Smartphone, ShieldCheck, Box, Handshake, ShieldAlert, Search } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 export function TopNav() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
@@ -38,6 +39,9 @@ export function TopNav() {
         </div>
 
         <div className="flex items-center gap-3">
+          <button onClick={() => setIsSearchOpen(true)} className="flex items-center justify-center p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+            <Search className="w-5 h-5" />
+          </button>
           <Link href="/checkout" className="flex items-center justify-center p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors relative">
             <ShoppingCart className="w-5 h-5" />
             <span className="absolute top-0 right-0 w-2 h-2 bg-primary rounded-full"></span>
@@ -109,6 +113,37 @@ export function TopNav() {
               </Link>
             </div>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {isSearchOpen && (
+           <motion.div
+             initial={{ opacity: 0 }}
+             animate={{ opacity: 1 }}
+             exit={{ opacity: 0 }}
+             className="fixed inset-0 bg-black/50 z-[60] flex flex-col pt-20 px-4"
+             onClick={() => setIsSearchOpen(false)}
+           >
+             <motion.div
+               initial={{ y: -20, opacity: 0 }}
+               animate={{ y: 0, opacity: 1 }}
+               exit={{ y: -20, opacity: 0 }}
+               className="bg-white w-full max-w-2xl mx-auto rounded-2xl p-4 shadow-2xl flex items-center gap-3"
+               onClick={(e) => e.stopPropagation()}
+             >
+               <Search className="w-6 h-6 text-gray-400" />
+               <input
+                 type="text"
+                 placeholder="Search products, vendors, or services..."
+                 className="flex-1 bg-transparent border-none outline-none text-lg font-medium"
+                 autoFocus
+               />
+               <button onClick={() => setIsSearchOpen(false)} className="p-2 text-gray-400 hover:bg-gray-100 rounded-full">
+                 <X className="w-5 h-5" />
+               </button>
+             </motion.div>
+           </motion.div>
         )}
       </AnimatePresence>
     </>

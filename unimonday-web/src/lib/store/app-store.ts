@@ -1,16 +1,17 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { Campus, CartItem, Product, User } from '@/types'
+import { CartItem, Product, User } from '@/types'
 
 interface AppState {
   currentUser: User | null;
-  currentCampus: Campus | null;
+  currentRegion: string | null;
+  currentCampusName: string | null;
   isCartOpen: boolean;
   cart: CartItem[];
 
   // Auth Actions
   setUser: (user: User | null) => void;
-  setCampus: (campus: Campus) => void;
+  setLocation: (region: string, campusName: string) => void;
 
   // Cart Actions
   toggleCart: () => void;
@@ -30,12 +31,13 @@ export const useAppStore = create<AppState>()(
   persist(
     (set, get) => ({
       currentUser: null,
-      currentCampus: null,
+      currentRegion: null,
+      currentCampusName: null,
       isCartOpen: false,
       cart: [],
 
       setUser: (user) => set({ currentUser: user }),
-      setCampus: (campus) => set({ currentCampus: campus }),
+      setLocation: (region, campusName) => set({ currentRegion: region, currentCampusName: campusName }),
 
       toggleCart: () => set((state) => ({ isCartOpen: !state.isCartOpen })),
 
@@ -77,7 +79,7 @@ export const useAppStore = create<AppState>()(
          return get().cart.reduce((count, item) => count + item.quantity, 0);
       },
 
-      resetApp: () => set({ currentUser: null, currentCampus: null, isCartOpen: false, cart: [] }),
+      resetApp: () => set({ currentUser: null, currentRegion: null, currentCampusName: null, isCartOpen: false, cart: [] }),
     }),
     {
       name: 'unimonday-app-storage',
