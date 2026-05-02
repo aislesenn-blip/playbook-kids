@@ -134,6 +134,7 @@ export const useAppStore = create<AppState>()(
           } else if (event === 'SIGNED_OUT') {
             set({ currentUser: null });
           }
+          // Do nothing on INITIAL_SESSION if there's no session, to preserve our mock persisted state!
         });
       }
     }),
