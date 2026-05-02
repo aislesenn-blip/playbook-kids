@@ -16,9 +16,9 @@ export default function Home() {
       {/* Hero Section - Amazon Style Grid */}
       <div className="w-full bg-[#E3E6E6] flex justify-center">
       <section className="w-full max-w-[1500px] pt-16 sm:pt-24 pb-12 px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+        <div className="flex overflow-x-auto gap-5 pb-6 snap-x snap-mandatory">
           {/* Card 1 */}
-          <Link href="/explore">
+          <Link href="/explore" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
             <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
               <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Find gifts for Mom</h2>
               <div className="relative flex-grow overflow-hidden mb-3">
@@ -34,7 +34,7 @@ export default function Home() {
           </Link>
 
           {/* Card 2 */}
-          <Link href="/explore">
+          <Link href="/explore" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
             <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
               <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Find gifts for Kids</h2>
               <div className="relative flex-grow overflow-hidden mb-3">
@@ -50,7 +50,7 @@ export default function Home() {
           </Link>
 
           {/* Card 3 */}
-          <Link href="/explore">
+          <Link href="/explore" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
             <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
               <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Score top PCs &amp; Accessories</h2>
               <div className="relative flex-grow overflow-hidden mb-3">
@@ -66,7 +66,7 @@ export default function Home() {
           </Link>
 
           {/* Card 4 */}
-          <Link href="/explore">
+          <Link href="/explore" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
             <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
               <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Campus Essentials</h2>
               <div className="relative flex-grow overflow-hidden mb-3">
@@ -82,7 +82,7 @@ export default function Home() {
           </Link>
 
           {/* Card 5 */}
-          <Link href="/explore">
+          <Link href="/explore" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
             <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
               <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Fresh Kicks</h2>
               <div className="relative flex-grow overflow-hidden mb-3">
@@ -98,7 +98,7 @@ export default function Home() {
           </Link>
 
           {/* Card 6 */}
-          <Link href="/explore">
+          <Link href="/explore" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
             <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
               <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Study Space Upgrades</h2>
               <div className="relative flex-grow overflow-hidden mb-3">
@@ -114,7 +114,7 @@ export default function Home() {
           </Link>
 
           {/* Card 7 */}
-          <Link href="/explore">
+          <Link href="/explore" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
             <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
               <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Room Decor</h2>
               <div className="relative flex-grow overflow-hidden mb-3">
@@ -130,7 +130,7 @@ export default function Home() {
           </Link>
 
           {/* Card 8 */}
-          <Link href="/explore">
+          <Link href="/explore" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
             <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
               <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Dorm Essentials</h2>
               <div className="relative flex-grow overflow-hidden mb-3">
@@ -146,7 +146,7 @@ export default function Home() {
           </Link>
 
           {/* Card 9 */}
-          <Link href="/explore">
+          <Link href="/explore" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
             <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
               <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Top Beauty Picks</h2>
               <div className="relative flex-grow overflow-hidden mb-3">
@@ -162,7 +162,7 @@ export default function Home() {
           </Link>
 
           {/* Card 10 */}
-          <Link href="/explore">
+          <Link href="/explore" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
             <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
               <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Healthy Snacks</h2>
               <div className="relative flex-grow overflow-hidden mb-3">
@@ -178,7 +178,7 @@ export default function Home() {
           </Link>
 
           {/* Card 11 */}
-          <Link href="/explore">
+          <Link href="/explore" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
             <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
               <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Stationery Haul</h2>
               <div className="relative flex-grow overflow-hidden mb-3">
