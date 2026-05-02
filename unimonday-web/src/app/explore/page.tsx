@@ -14,13 +14,13 @@ export default function ExplorePage() {
   return (
     <div className="min-h-screen bg-gray-50/50 pb-24">
       {/* Search & Hero Section */}
-      <section className="bg-white border-b border-border pt-24 pb-8 px-4">
+      <section className="bg-white border-b border-border pt-20 pb-8 px-4">
         <div className="max-w-7xl mx-auto">
           {/* Categories / Filters on top */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex gap-3 overflow-x-auto pb-4 mb-4 scrollbar-hide justify-start sm:justify-center"
+            className="flex gap-3 overflow-x-auto pb-4 mb-4 [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full justify-start sm:justify-center"
           >
              {categories.map((cat) => (
                <button
@@ -76,7 +76,7 @@ export default function ExplorePage() {
             </button>
           </div>
 
-          <div className="flex overflow-x-auto gap-6 pb-4 scrollbar-hide" style={{ scrollSnapType: "x mandatory" }}>
+          <div className="flex overflow-x-auto gap-6 pb-4 [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full" style={{ scrollSnapType: "x mandatory" }}>
             {/* Store 1 */}
             <motion.div whileHover={{ y: -5 }} className="bg-white rounded-3xl p-6 border border-border shadow-sm flex items-center gap-5 cursor-pointer min-w-[300px] shrink-0" style={{ scrollSnapAlign: "start" }}>
               <div className="w-20 h-20 rounded-full overflow-hidden relative shrink-0 border border-gray-100 shadow-inner">
