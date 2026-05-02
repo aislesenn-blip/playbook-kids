@@ -14,110 +14,137 @@ export default function Home() {
     <div className="flex flex-col items-center justify-center w-full overflow-x-hidden selection:bg-primary/20 selection:text-primary">
 
       {/* Hero Section */}
-      <section className="relative w-full max-w-7xl mx-auto pt-20 pb-16 sm:pb-24 px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Link href="/explore">
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              className="bg-white rounded-2xl overflow-hidden shadow-sm border border-border flex flex-col h-full cursor-pointer group"
-            >
-              <div className="p-6 pb-4">
-                <h2 className="text-2xl font-bold tracking-tight text-gray-900 mb-1">Gifts for Mom</h2>
-                <p className="text-sm text-muted-foreground">Show your appreciation</p>
-              </div>
-              <div className="relative flex-1 min-h-[200px] w-full mt-auto p-4 pt-0">
-                 <div className="relative w-full h-full rounded-xl overflow-hidden">
-                    <Image
-                      src="https://images.unsplash.com/photo-1607083206869-4c7672e72a8a?q=80&w=2070&auto=format&fit=crop"
-                      alt="Gifts for Mom"
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                 </div>
-              </div>
-              <div className="p-4 pt-0">
-                <span className="text-primary font-medium text-sm group-hover:underline">Shop now</span>
-              </div>
-            </motion.div>
-          </Link>
+      <section className="relative w-full max-w-5xl mx-auto pt-20 sm:pt-32 pb-16 sm:pb-24 px-4 flex flex-col items-center text-center">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-3xl -z-10 pointer-events-none"></div>
 
-          <Link href="/explore">
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              className="bg-white rounded-2xl overflow-hidden shadow-sm border border-border flex flex-col h-full cursor-pointer group"
-            >
-              <div className="p-6 pb-4">
-                <h2 className="text-2xl font-bold tracking-tight text-gray-900 mb-1">Tech Essentials</h2>
-                <p className="text-sm text-muted-foreground">Upgrade your campus setup</p>
-              </div>
-              <div className="relative flex-1 min-h-[200px] w-full mt-auto p-4 pt-0">
-                 <div className="relative w-full h-full rounded-xl overflow-hidden">
-                    <Image
-                      src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=2071&auto=format&fit=crop"
-                      alt="Tech Essentials"
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                 </div>
-              </div>
-              <div className="p-4 pt-0">
-                <span className="text-primary font-medium text-sm group-hover:underline">Shop now</span>
-              </div>
-            </motion.div>
-          </Link>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
+          className="w-full max-w-4xl mx-auto overflow-hidden mb-12 relative"
+        >
+          <div className="absolute left-0 top-0 w-16 h-full bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
+          <div className="absolute right-0 top-0 w-16 h-full bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
 
-          <Link href="/explore">
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              className="bg-white rounded-2xl overflow-hidden shadow-sm border border-border flex flex-col h-full cursor-pointer group"
-            >
-              <div className="p-6 pb-4">
-                <h2 className="text-2xl font-bold tracking-tight text-gray-900 mb-1">Fresh Fits</h2>
-                <p className="text-sm text-muted-foreground">Latest campus fashion</p>
-              </div>
-              <div className="relative flex-1 min-h-[200px] w-full mt-auto p-4 pt-0">
-                 <div className="relative w-full h-full rounded-xl overflow-hidden">
+          <motion.div
+            className="flex gap-4 sm:gap-6 py-4"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{
+              repeat: Infinity,
+              ease: "linear",
+              duration: 35,
+            }}
+          >
+            {/* Duplicated for seamless loop */}
+            {[...Array(2)].map((_, i) => (
+              <div key={i} className="flex gap-4 sm:gap-6">
+                {/* Card 1 */}
+                <Link href="/explore">
+                  <div className="w-[280px] h-[340px] rounded-[2rem] bg-[#dcfce7] p-6 relative overflow-hidden group cursor-pointer shadow-sm hover:shadow-md transition-shadow shrink-0">
+                    <h2 className="text-2xl font-black text-gray-900 z-10 relative leading-tight">Find gifts for Mom</h2>
                     <Image
                       src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop"
-                      alt="Fresh Fits"
+                      alt="Gifts for Mom"
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="object-cover mt-16 scale-110 group-hover:scale-105 transition-transform duration-500"
                     />
-                 </div>
-              </div>
-              <div className="p-4 pt-0">
-                <span className="text-primary font-medium text-sm group-hover:underline">Shop now</span>
-              </div>
-            </motion.div>
-          </Link>
+                  </div>
+                </Link>
 
-          <Link href="/explore">
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              className="bg-white rounded-2xl overflow-hidden shadow-sm border border-border flex flex-col h-full cursor-pointer group"
-            >
-              <div className="p-6 pb-4">
-                <h2 className="text-2xl font-bold tracking-tight text-gray-900 mb-1">Dorm Decor</h2>
-                <p className="text-sm text-muted-foreground">Make it feel like home</p>
+                {/* Card 2 */}
+                <Link href="/explore">
+                  <div className="w-[280px] h-[340px] rounded-[2rem] bg-[#fef08a] p-6 relative overflow-hidden group cursor-pointer shadow-sm hover:shadow-md transition-shadow shrink-0">
+                    <h2 className="text-2xl font-black text-gray-900 z-10 relative leading-tight">Find gifts for Kids</h2>
+                    <Image
+                      src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=2080&auto=format&fit=crop"
+                      alt="Gifts for Kids"
+                      fill
+                      className="object-cover mt-16 scale-110 group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                </Link>
+
+                {/* Card 3 */}
+                <Link href="/explore">
+                  <div className="w-[280px] h-[340px] rounded-[2rem] bg-[#f3e8ff] p-6 relative overflow-hidden group cursor-pointer shadow-sm hover:shadow-md transition-shadow shrink-0">
+                    <h2 className="text-2xl font-black text-gray-900 z-10 relative leading-tight">Score top PCs &amp; Accessories</h2>
+                    <Image
+                      src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+                      alt="PCs & Accessories"
+                      fill
+                      className="object-cover mt-16 scale-110 group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                </Link>
+
+                {/* Card 4 */}
+                <Link href="/explore">
+                  <div className="w-[280px] h-[340px] rounded-[2rem] bg-[#ffedd5] p-6 relative overflow-hidden group cursor-pointer shadow-sm hover:shadow-md transition-shadow shrink-0">
+                    <h2 className="text-2xl font-black text-gray-900 z-10 relative leading-tight">Campus Essentials</h2>
+                    <Image
+                      src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=2070&auto=format&fit=crop"
+                      alt="Campus Essentials"
+                      fill
+                      className="object-cover mt-16 scale-110 group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                </Link>
+
+                {/* Card 5 */}
+                <Link href="/explore">
+                  <div className="w-[280px] h-[340px] rounded-[2rem] bg-[#e0f2fe] p-6 relative overflow-hidden group cursor-pointer shadow-sm hover:shadow-md transition-shadow shrink-0">
+                    <h2 className="text-2xl font-black text-gray-900 z-10 relative leading-tight">Fresh Kicks</h2>
+                    <Image
+                      src="https://images.unsplash.com/photo-1552346154-21d32810baa3?q=80&w=2070&auto=format&fit=crop"
+                      alt="Fresh Kicks"
+                      fill
+                      className="object-cover mt-16 scale-110 group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                </Link>
+
+                {/* Card 6 */}
+                <Link href="/explore">
+                  <div className="w-[280px] h-[340px] rounded-[2rem] bg-[#fce7f3] p-6 relative overflow-hidden group cursor-pointer shadow-sm hover:shadow-md transition-shadow shrink-0">
+                    <h2 className="text-2xl font-black text-gray-900 z-10 relative leading-tight">Study Space Upgrades</h2>
+                    <Image
+                      src="https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?q=80&w=2070&auto=format&fit=crop"
+                      alt="Study Space Upgrades"
+                      fill
+                      className="object-cover mt-16 scale-110 group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                </Link>
+
+                {/* Card 7 */}
+                <Link href="/explore">
+                  <div className="w-[280px] h-[340px] rounded-[2rem] bg-[#fee2e2] p-6 relative overflow-hidden group cursor-pointer shadow-sm hover:shadow-md transition-shadow shrink-0">
+                    <h2 className="text-2xl font-black text-gray-900 z-10 relative leading-tight">Room Decor</h2>
+                    <Image
+                      src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2070&auto=format&fit=crop"
+                      alt="Room Decor"
+                      fill
+                      className="object-cover mt-16 scale-110 group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                </Link>
               </div>
-              <div className="grid grid-cols-2 gap-2 p-4 pt-0 mt-auto">
-                 <div className="relative aspect-square rounded-xl overflow-hidden">
-                    <Image src="https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=2069&auto=format&fit=crop" alt="Decor 1" fill className="object-cover" />
-                 </div>
-                 <div className="relative aspect-square rounded-xl overflow-hidden">
-                    <Image src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=2070&auto=format&fit=crop" alt="Decor 2" fill className="object-cover" />
-                 </div>
-                 <div className="relative aspect-square rounded-xl overflow-hidden">
-                    <Image src="https://images.unsplash.com/photo-1499933374294-4584851497cc?q=80&w=2070&auto=format&fit=crop" alt="Decor 3" fill className="object-cover" />
-                 </div>
-                 <div className="relative aspect-square rounded-xl overflow-hidden">
-                    <Image src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?q=80&w=1974&auto=format&fit=crop" alt="Decor 4" fill className="object-cover" />
-                 </div>
-              </div>
-              <div className="p-4 pt-0">
-                <span className="text-primary font-medium text-sm group-hover:underline">See more</span>
-              </div>
-            </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+          className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
+        >
+          <Link
+            href="/explore"
+            className="group inline-flex items-center justify-center gap-2 bg-gray-900 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-800 hover:scale-[1.02] transition-all active:scale-95 shadow-lg shadow-gray-900/20"
+          >
+            Start Exploring
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
       </section>
