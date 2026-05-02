@@ -54,8 +54,14 @@ export default function LoginPage() {
       });
       setLocation(userMeta.region || "Dar es Salaam", userMeta.campusName || "UDSM - Main Campus");
 
+            const userRole = userMeta.role || "student";
+
       toast.success("Logged in successfully!");
-      router.push(redirectTo);
+      if (userRole === "vendor") {
+        router.push("/vendor/dashboard");
+      } else {
+        router.push(redirectTo);
+      }
     } catch (err: unknown) {
       if (err instanceof Error) {
         toast.error(err.message || "Failed to log in");

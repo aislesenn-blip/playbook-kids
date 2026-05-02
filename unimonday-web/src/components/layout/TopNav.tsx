@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingBag, ShoppingCart, User, Menu, X, Shirt, Smartphone, ShieldCheck, Box, Handshake, ShieldAlert, Search, Sparkles, LampDesk } from "lucide-react";
+import { ShoppingBag, ShoppingCart, User, Menu, X, Shirt, Smartphone, ShieldCheck, Box, Handshake, ShieldAlert, Search, Sparkles, LampDesk, Store, MessageCircle } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -11,6 +11,7 @@ export function TopNav() {
   const pathname = usePathname();
   const router = useRouter();
   const { currentUser, getCartCount } = useAppStore();
+  const isVendor = currentUser?.role === "vendor";
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -38,36 +39,51 @@ export function TopNav() {
           </div>
         </Link>
 
-        <div className="hidden sm:flex items-center gap-6 font-medium">
-          <Link href="/fashion" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/fashion' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-            <Shirt className="w-4 h-4" /> Fashion
-          </Link>
-          <Link href="/tech" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/tech' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-            <Smartphone className="w-4 h-4" /> Tech
-          </Link>
-          <Link href="/beauty" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/beauty' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-            <Sparkles className="w-4 h-4" /> Beauty
-          </Link>
-          <Link href="/home-decor" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/home-decor' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-            <LampDesk className="w-4 h-4" /> Decor
-          </Link>
-          <Link href="/services" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/services' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-            <ShieldCheck className="w-4 h-4" /> Services
-          </Link>
-        </div>
+                {isVendor ? (
+          <div className="hidden sm:flex items-center gap-6 font-medium">
+            <Link href="/vendor/dashboard" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/vendor/dashboard' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+              <Store className="w-4 h-4" /> Dashboard
+            </Link>
+            <Link href="/chat" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/chat' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+              <MessageCircle className="w-4 h-4" /> Inbox
+            </Link>
+          </div>
+        ) : (
+          <div className="hidden sm:flex items-center gap-6 font-medium">
+            <Link href="/fashion" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/fashion' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+              <Shirt className="w-4 h-4" /> Fashion
+            </Link>
+            <Link href="/tech" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/tech' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+              <Smartphone className="w-4 h-4" /> Tech
+            </Link>
+            <Link href="/beauty" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/beauty' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+              <Sparkles className="w-4 h-4" /> Beauty
+            </Link>
+            <Link href="/home-decor" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/home-decor' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+              <LampDesk className="w-4 h-4" /> Decor
+            </Link>
+            <Link href="/services" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/services' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+              <ShieldCheck className="w-4 h-4" /> Services
+            </Link>
+          </div>
+        )}
 
-        <div className="flex items-center gap-3">
-          <button onClick={() => setIsSearchOpen(true)} className="flex items-center justify-center p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
-            <Search className="w-5 h-5" />
-          </button>
-          <Link href="/checkout" className="flex items-center justify-center p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors relative">
-            <ShoppingCart className="w-5 h-5" />
-            {getCartCount() > 0 && (
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-white text-[10px] font-bold flex items-center justify-center rounded-full">
-                {getCartCount()}
-              </span>
-            )}
-          </Link>
+                <div className="flex items-center gap-3">
+          {!isVendor && (
+            <>
+              <button onClick={() => setIsSearchOpen(true)} className="flex items-center justify-center p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+                <Search className="w-5 h-5" />
+              </button>
+              <Link href="/checkout" className="flex items-center justify-center p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors relative">
+                <ShoppingCart className="w-5 h-5" />
+                {getCartCount() > 0 && (
+                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-white text-[10px] font-bold flex items-center justify-center rounded-full">
+                    {getCartCount()}
+                  </span>
+                )}
+              </Link>
+            </>
+          )}
           {currentUser ? (
             <Link href="/profile" className="hidden sm:flex items-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-full font-bold text-sm transition-colors">
               <User className="w-4 h-4" /> {currentUser.name.split(' ')[0]}
@@ -89,7 +105,7 @@ export function TopNav() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed top-14 left-0 right-0 bg-white border-b border-border z-40 sm:hidden shadow-lg max-h-[calc(100vh-8.5rem)] overflow-y-auto"
+            className="fixed top-14 bottom-20 left-0 right-0 bg-white border-b border-border z-40 sm:hidden shadow-lg overflow-y-auto overscroll-contain"
           >
             <div className="flex flex-col p-4 gap-4 pb-8">
               <Link

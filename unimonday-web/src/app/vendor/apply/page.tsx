@@ -2,9 +2,81 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Store, ArrowRight, ShieldCheck, TrendingUp, Zap } from "lucide-react";
+import { Store, ArrowRight, TrendingUp, Zap, MapPin, ShieldCheck } from "lucide-react";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { supabase } from "@/lib/supabase/client";
+import { useAppStore } from "@/lib/store/app-store";
 
 export default function VendorApply() {
+  const router = useRouter();
+  const { setUser, setLocation } = useAppStore();
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    ownerName: "",
+    email: "",
+    password: "",
+    storeName: "",
+    category: "",
+    region: "Dar es Salaam",
+    campusName: ""
+  });
+
+  const handleApply = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.email.includes("@")) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+    if (!formData.password || formData.password.length < 6) {
+      toast.error("Password must be at least 6 characters");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            name: formData.ownerName,
+            role: "vendor",
+            region: formData.region,
+            campusName: formData.campusName,
+            storeName: formData.storeName,
+            category: formData.category
+          }
+        }
+      });
+
+      if (error) throw error;
+
+      setUser({
+        id: data.user?.id || "v" + Date.now(),
+        name: formData.ownerName,
+        email: formData.email,
+        role: "vendor",
+        region: formData.region,
+        campusName: formData.campusName
+      });
+      setLocation(formData.region, formData.campusName);
+
+      toast.success("Store application submitted successfully!");
+      router.push("/vendor/dashboard");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message || "Failed to submit application");
+      } else {
+        toast.error("Failed to submit application");
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto py-12 px-4">
       <div className="text-center mb-12">
@@ -49,7 +121,7 @@ export default function VendorApply() {
 
           <div className="space-y-2">
             <label className="text-sm font-bold text-gray-700">Category</label>
-                              <select required defaultValue="" className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all appearance-none">
+                              <select required value={formData.category} onChange={(e) => setFormData({...formData, category: e.target.value})} className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all appearance-none">
                     <option value="" disabled>Select primary category</option>
                     <option value="Fashion & Apparels">Fashion & Apparels</option>
                     <option value="Tech & Accessories">Tech & Accessories</option>
@@ -65,9 +137,9 @@ export default function VendorApply() {
           </div>
 
           <div className="pt-4">
-            <Link href="/vendor/dashboard" className="w-full flex items-center justify-center gap-2 bg-gray-900 text-white hover:bg-gray-800 font-bold py-4 rounded-xl transition-colors shadow-lg">
-              Submit Application <ArrowRight className="w-5 h-5" />
-            </Link>
+            <button type="submit" disabled={isLoading} className="w-full flex items-center justify-center gap-2 bg-gray-900 text-white hover:bg-gray-800 font-bold py-4 rounded-xl transition-colors shadow-lg disabled:opacity-70">
+              {isLoading ? "Submitting..." : "Submit Application"} <ArrowRight className="w-5 h-5" />
+            </button>
             <p className="text-xs text-center text-muted-foreground mt-4 font-medium">By submitting, you agree to our Vendor Terms & Conditions.</p>
           </div>
         </form>
