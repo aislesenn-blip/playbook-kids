@@ -56,7 +56,7 @@ export default function VendorDashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Recent Orders Table */}
         <div className="lg:col-span-2">
           <div className="bg-white rounded-[2rem] border border-border shadow-sm p-6 overflow-hidden">

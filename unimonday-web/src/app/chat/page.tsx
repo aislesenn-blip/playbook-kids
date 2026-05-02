@@ -12,13 +12,15 @@ function ChatInterfaceContent() {
   const searchParams = useSearchParams();
   const initialVendorId = searchParams.get('vendor');
 
+  const [searchQuery, setSearchQuery] = useState("");
+
   const chats = mockVendors.map(v => ({
     id: v.id,
     name: v.storeName,
     avatar: v.logoUrl || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80",
     lastMsg: v.id === "v1" ? "Your repair is complete." : "Great! Let me check...",
     unread: v.id === "v1" ? 2 : 0
-  }));
+  })).filter(c => c.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
   const initialChatId = (initialVendorId && chats.some(c => c.id === initialVendorId))
     ? initialVendorId
@@ -82,7 +84,13 @@ function ChatInterfaceContent() {
           <h2 className="text-xl font-black mb-4">Messages</h2>
           <div className="relative">
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-            <input type="text" placeholder="Search chats..." className="w-full bg-gray-50 rounded-xl pl-9 pr-4 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary" />
+            <input
+              type="text"
+              placeholder="Search chats..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-gray-50 rounded-xl pl-9 pr-4 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary"
+            />
           </div>
         </div>
         <div className="flex-1 overflow-y-auto">

@@ -5,9 +5,22 @@ import { useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ShoppingBag, Wrench, ShieldCheck, ArrowRight, Star, Truck } from "lucide-react";
 import Link from "next/link";
+import { useAppStore } from "@/lib/store/app-store";
+import { mockProducts } from "@/lib/mockData";
+import { toast } from "sonner";
 
 export default function Home() {
   const heroScrollRef = useRef<HTMLDivElement>(null);
+  const { addToCart } = useAppStore();
+
+  const handleAddToCart = (e: React.MouseEvent, productId: string) => {
+    e.preventDefault();
+    const product = mockProducts.find(p => p.id === productId);
+    if (product) {
+      addToCart(product);
+      toast.success("Added to cart");
+    }
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -40,7 +53,7 @@ export default function Home() {
               <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Find gifts for Mom</h2>
               <div className="relative flex-grow overflow-hidden mb-3">
                 <Image
-                  src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1610392462690-84766bd687ca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxjbG90aGluZyUyMHN0cmVldHdlYXJ8ZW58MHx8fHwxNzc3NzM2MzI0fDA&ixlib=rb-4.1.0&q=80&w=1080"
                   alt="Find gifts for Mom"
                   fill
                   className="object-cover"
@@ -56,7 +69,7 @@ export default function Home() {
               <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Score top PCs &amp; Accessories</h2>
               <div className="relative flex-grow overflow-hidden mb-3">
                 <Image
-                  src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
+                  src="https://images.unsplash.com/photo-1634403665481-74948d815f03?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwzfHxzbWFydHBob25lfGVufDB8fHx8MTc3NzczNjMyNXww&ixlib=rb-4.1.0&q=80&w=1080"
                   alt="Score top PCs & Accessories"
                   fill
                   className="object-cover"
@@ -72,7 +85,7 @@ export default function Home() {
               <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Find gifts for Kids</h2>
               <div className="relative flex-grow overflow-hidden mb-3">
                 <Image
-                  src="https://images.unsplash.com/photo-1596462502278-27bf85033e5a?q=80&w=2000&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1581182800629-7d90925ad072?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxza2luY2FyZXxlbnwwfHx8fDE3Nzc3MzYzMjV8MA&ixlib=rb-4.1.0&q=80&w=1080"
                   alt="Find gifts for Kids"
                   fill
                   className="object-cover"
@@ -88,7 +101,7 @@ export default function Home() {
               <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Study Space Upgrades</h2>
               <div className="relative flex-grow overflow-hidden mb-3">
                 <Image
-                  src="https://images.unsplash.com/photo-1550989460-0adf9ea622e2?q=80&w=2000&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1534004471323-19f1a470c4c1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwyfHxyb29tJTIwZGVjb3IlMjBuZW9ufGVufDB8fHx8MTc3NzczNjMyNXww&ixlib=rb-4.1.0&q=80&w=1080"
                   alt="Study Space Upgrades"
                   fill
                   className="object-cover"
@@ -104,7 +117,7 @@ export default function Home() {
               <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Campus Essentials</h2>
               <div className="relative flex-grow overflow-hidden mb-3">
                 <Image
-                  src="https://images.unsplash.com/photo-1581092921461-7031e4bf0e5d?q=80&w=2000&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1721332154191-ba5f1534266e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxsYXB0b3AlMjByZXBhaXJ8ZW58MHx8fHwxNzc3NzM2MzI2fDA&ixlib=rb-4.1.0&q=80&w=1080"
                   alt="Campus Essentials"
                   fill
                   className="object-cover"
@@ -222,25 +235,27 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Product Card 1 */}
           <Link href="/product/1" className="block">
-            <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer">
-            <div className="relative h-64 w-full overflow-hidden">
+            <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer h-full flex flex-col">
+            <div className="relative h-48 w-full overflow-hidden">
               <Image
-                src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1691689761290-2641cf0fc59a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwyfHxjbG90aGluZyUyMHN0cmVldHdlYXJ8ZW58MHx8fHwxNzc3NzM2MzI0fDA&ixlib=rb-4.1.0&q=80&w=1080"
                 alt="Vintage Jacket"
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
             </div>
-            <div className="p-6">
-              <div className="flex justify-between items-start mb-2">
-                <h3 className="font-bold text-xl">Vintage Denim Jacket</h3>
-                <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-bold">Tsh 35,000</span>
+            <div className="p-5 flex-grow flex flex-col justify-between">
+              <div>
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="font-bold text-lg line-clamp-2">Vintage Denim Jacket</h3>
+                </div>
+                <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold inline-block mb-3">Tsh 35,000</span>
+                <p className="text-muted-foreground text-sm mb-4">By Campus Thrift</p>
               </div>
-              <p className="text-muted-foreground text-sm mb-4">By Campus Thrift</p>
-              <button className="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-900 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2">
+              <button onClick={(e) => handleAddToCart(e, "p1")} className="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-900 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 mt-auto">
                 <ShoppingBag className="w-4 h-4" /> Order Now
               </button>
             </div>
@@ -248,23 +263,25 @@ export default function Home() {
           </Link>
 
           {/* Product Card 2 */}
-          <Link href="/product/1" className="block">
-            <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer">
-            <div className="relative h-64 w-full overflow-hidden">
+          <Link href="/product/2" className="block">
+            <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer h-full flex flex-col">
+            <div className="relative h-48 w-full overflow-hidden">
               <Image
-                src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=2064&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwyfHxoZWFkcGhvbmVzfGVufDB8fHx8MTc3NzczNjMyNHww&ixlib=rb-4.1.0&q=80&w=1080"
                 alt="Wireless Earbuds"
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
             </div>
-            <div className="p-6">
-              <div className="flex justify-between items-start mb-2">
-                <h3 className="font-bold text-xl">Pro Wireless Earbuds</h3>
-                <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-bold">Tsh 45,000</span>
+            <div className="p-5 flex-grow flex flex-col justify-between">
+              <div>
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="font-bold text-lg line-clamp-2">Pro Wireless Earbuds</h3>
+                </div>
+                <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold inline-block mb-3">Tsh 45,000</span>
+                <p className="text-muted-foreground text-sm mb-4">By TechZone UDSM</p>
               </div>
-              <p className="text-muted-foreground text-sm mb-4">By TechZone UDSM</p>
-              <button className="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-900 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2">
+              <button onClick={(e) => handleAddToCart(e, "p2")} className="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-900 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 mt-auto">
                 <ShoppingBag className="w-4 h-4" /> Order Now
               </button>
             </div>
@@ -272,23 +289,51 @@ export default function Home() {
           </Link>
 
           {/* Product Card 3 */}
-          <Link href="/product/1" className="block">
-            <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer">
-            <div className="relative h-64 w-full overflow-hidden bg-gray-100">
+          <Link href="/product/3" className="block">
+            <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer h-full flex flex-col">
+            <div className="relative h-48 w-full overflow-hidden bg-gray-100">
               <Image
-                src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=2080&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1542239898-08fcea4abd2e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwzfHxjbG90aGluZyUyMHN0cmVldHdlYXJ8ZW58MHx8fHwxNzc3NzM2MzI0fDA&ixlib=rb-4.1.0&q=80&w=1080"
                 alt="Classic Sneakers"
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
             </div>
-            <div className="p-6">
-              <div className="flex justify-between items-start mb-2">
-                <h3 className="font-bold text-xl">Classic Urban Sneakers</h3>
-                <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-bold">Tsh 55,000</span>
+            <div className="p-5 flex-grow flex flex-col justify-between">
+              <div>
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="font-bold text-lg line-clamp-2">Classic Urban Sneakers</h3>
+                </div>
+                <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold inline-block mb-3">Tsh 55,000</span>
+                <p className="text-muted-foreground text-sm mb-4">By Kicks TZ</p>
               </div>
-              <p className="text-muted-foreground text-sm mb-4">By Kicks TZ</p>
-              <button className="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-900 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2">
+              <button onClick={(e) => handleAddToCart(e, "p3")} className="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-900 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 mt-auto">
+                <ShoppingBag className="w-4 h-4" /> Order Now
+              </button>
+            </div>
+          </motion.div>
+          </Link>
+
+          {/* Product Card 4 (Added to complete grid of 4) */}
+          <Link href="/product/4" className="block">
+            <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer h-full flex flex-col">
+            <div className="relative h-48 w-full overflow-hidden bg-gray-100">
+              <Image
+                src="https://images.unsplash.com/photo-1586495777744-4413f21062fa?q=80&w=2000&auto=format&fit=crop"
+                alt="Matte Lipstick"
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div className="p-5 flex-grow flex flex-col justify-between">
+              <div>
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="font-bold text-lg line-clamp-2">Matte Lipstick Set</h3>
+                </div>
+                <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold inline-block mb-3">Tsh 25,000</span>
+                <p className="text-muted-foreground text-sm mb-4">By Campus Cosmetics</p>
+              </div>
+              <button onClick={(e) => handleAddToCart(e, "p1")} className="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-900 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 mt-auto">
                 <ShoppingBag className="w-4 h-4" /> Order Now
               </button>
             </div>
@@ -306,7 +351,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <motion.div
             whileHover={{ y: -10 }}
             className="flex flex-col p-10 rounded-[3rem] bg-white border border-border/50 shadow-lg group relative overflow-hidden"

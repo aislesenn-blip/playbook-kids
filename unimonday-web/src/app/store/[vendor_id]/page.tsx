@@ -29,7 +29,7 @@ export default function VendorStore({ params }: { params: Promise<{ vendor_id: s
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative w-full h-64 md:h-80 rounded-[2rem] md:rounded-[3rem] overflow-hidden bg-gray-100 mb-8 shadow-xl"
+        className="relative w-full h-48 md:h-80 rounded-[2rem] md:rounded-[3rem] overflow-hidden bg-gray-100 mb-8 shadow-xl"
       >
         <Image
           src={vendor.logoUrl || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80"}
@@ -142,9 +142,11 @@ export default function VendorStore({ params }: { params: Promise<{ vendor_id: s
             {products.map((product) => (
               <Link key={product.id} href={`/product/${product.id}`} className="block group">
                 <motion.div whileHover={{ y: -8 }} className={`bg-white rounded-[2.5rem] overflow-hidden border border-border/50 shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer flex flex-col h-full relative`}>
-                  <div className={`relative overflow-hidden bg-gray-50 shrink-0 ${layout === 'grid2' ? 'h-48 sm:h-56 md:h-64' : 'h-72 sm:h-96'} w-full`}>
+                  <div className={`relative overflow-hidden bg-gray-50 shrink-0 ${layout === 'grid2' ? 'h-48 sm:h-56 md:h-48' : 'h-72 sm:h-96'} w-full`}>
                     <Image src={product.images[0] || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80"} alt={product.name} fill className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
-                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-xl text-xs font-bold text-gray-900 shadow-sm">{product.category}</div>
+                    <div className={`absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded-md text-[10px] font-bold text-gray-800 shadow-sm max-w-[80%] truncate`}>
+                      {product.category}
+                    </div>
                   </div>
                   <div className={`flex flex-col flex-grow bg-white p-5 md:p-6`}>
                     <h3 className={`font-bold line-clamp-2 leading-tight group-hover:text-primary transition-colors text-lg md:text-xl mb-2`}>{product.name}</h3>
