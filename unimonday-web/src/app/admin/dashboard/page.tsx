@@ -48,7 +48,7 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Store Management Panel */}
         <div className="lg:col-span-2 bg-white p-6 rounded-[2rem] border border-border shadow-sm">
            <h2 className="text-xl font-black mb-6">Store Verifications</h2>

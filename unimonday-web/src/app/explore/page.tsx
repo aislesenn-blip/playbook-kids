@@ -5,11 +5,32 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Search, SlidersHorizontal, MapPin, Store, Star, ArrowRight, ShoppingBag } from "lucide-react";
+import { useAppStore } from "@/lib/store/app-store";
+import { mockProducts } from "@/lib/mockData";
+import { toast } from "sonner";
 
 export default function ExplorePage() {
   const [activeCategory, setActiveCategory] = useState("All");
+  const { addToCart } = useAppStore();
+
+  const handleAddToCart = (e: React.MouseEvent, productId: string) => {
+    e.preventDefault();
+    const product = mockProducts.find(p => p.id === productId);
+    if (product) {
+      addToCart(product);
+      toast.success("Added to cart");
+    }
+  };
 
   const categories = ["All", "Fashion & Apparels", "Tech & Accessories", "Beauty & Cosmetics", "Home & Decor", "Services"];
+
+  const [displayCount, setDisplayCount] = useState(8);
+
+  const mixedProducts = [...mockProducts, ...mockProducts, ...mockProducts, ...mockProducts].map((p, i) => ({ ...p, id: p.id + i }));
+
+  const handleLoadMore = () => {
+    setDisplayCount(prev => prev + 8);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50/50 pb-24">
@@ -43,9 +64,9 @@ export default function ExplorePage() {
             <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
               <Star className="w-6 h-6 text-primary" /> Trending Products
             </h2>
-            <button className="text-primary font-bold hover:underline flex items-center gap-1 text-sm">
+            <Link href="/search?sort=trending" className="text-primary font-bold hover:underline flex items-center gap-1 text-sm">
               View All <ArrowRight className="w-4 h-4" />
-            </button>
+            </Link>
           </div>
 
           <div className="flex overflow-x-auto gap-4 sm:gap-6 pb-4 [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full" style={{ scrollSnapType: "x mandatory" }}>
@@ -53,18 +74,18 @@ export default function ExplorePage() {
             {/* Item 1 */}
             <Link href="/product/1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
             <motion.div whileHover={{ y: -5 }} className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm group cursor-pointer h-full flex flex-col">
-              <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-gray-50">
-                <Image src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop" alt="Vintage Shirt" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div className="relative h-48 w-full overflow-hidden bg-gray-50">
+                <Image src="https://images.unsplash.com/photo-1610392462690-84766bd687ca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxjbG90aGluZyUyMHN0cmVldHdlYXJ8ZW58MHx8fHwxNzc3NzM2MzI0fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Streetwear" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
                 <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded-md text-xs font-bold text-gray-800">Deal</div>
               </div>
               <div className="p-4 sm:p-5 flex-grow flex flex-col justify-between">
                 <div>
-                  <h3 className="font-bold text-lg mb-1 line-clamp-1">Vintage Graphic Tee</h3>
+                  <h3 className="font-bold text-lg mb-1 line-clamp-1">Streetwear Graphic Tee</h3>
                   <p className="text-sm text-gray-500 mb-3 line-clamp-1">Campus Thrift</p>
                 </div>
                 <div className="flex items-center justify-between mt-auto">
                   <span className="font-bold text-lg text-red-600">Tsh 15,000</span>
-                  <button className="text-primary text-sm font-bold hover:underline">Add</button>
+                  <button onClick={(e) => handleAddToCart(e, "p1")} className="text-primary text-sm font-bold hover:underline">Add</button>
                 </div>
               </div>
             </motion.div>
@@ -73,8 +94,8 @@ export default function ExplorePage() {
             {/* Item 2 */}
             <Link href="/product/1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
             <motion.div whileHover={{ y: -5 }} className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm group cursor-pointer h-full flex flex-col">
-              <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-gray-50">
-                <Image src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Casual Shirt" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div className="relative h-48 w-full overflow-hidden bg-gray-50">
+                <Image src="https://images.unsplash.com/photo-1691689761290-2641cf0fc59a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwyfHxjbG90aGluZyUyMHN0cmVldHdlYXJ8ZW58MHx8fHwxNzc3NzM2MzI0fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Casual Shirt" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
               </div>
               <div className="p-4 sm:p-5 flex-grow flex flex-col justify-between">
                 <div>
@@ -83,7 +104,7 @@ export default function ExplorePage() {
                 </div>
                 <div className="flex items-center justify-between mt-auto">
                   <span className="font-bold text-lg text-red-600">Tsh 18,000</span>
-                  <button className="text-primary text-sm font-bold hover:underline">Add</button>
+                  <button onClick={(e) => handleAddToCart(e, "p2")} className="text-primary text-sm font-bold hover:underline">Add</button>
                 </div>
               </div>
             </motion.div>
@@ -92,17 +113,17 @@ export default function ExplorePage() {
             {/* Item 3 */}
             <Link href="/product/1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
             <motion.div whileHover={{ y: -5 }} className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm group cursor-pointer h-full flex flex-col">
-              <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-gray-50">
-                <Image src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Socks" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div className="relative h-48 w-full overflow-hidden bg-gray-50">
+                <Image src="https://images.unsplash.com/photo-1542239898-08fcea4abd2e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwzfHxjbG90aGluZyUyMHN0cmVldHdlYXJ8ZW58MHx8fHwxNzc3NzM2MzI0fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Socks" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
               </div>
               <div className="p-4 sm:p-5 flex-grow flex flex-col justify-between">
                 <div>
-                  <h3 className="font-bold text-lg mb-1 line-clamp-1">Red Sneakers</h3>
+                  <h3 className="font-bold text-lg mb-1 line-clamp-1">Street Style Sneakers</h3>
                   <p className="text-sm text-gray-500 mb-3 line-clamp-1">Sporty</p>
                 </div>
                 <div className="flex items-center justify-between mt-auto">
                   <span className="font-bold text-lg text-red-600">Tsh 19,500</span>
-                  <button className="text-primary text-sm font-bold hover:underline">Add</button>
+                  <button onClick={(e) => handleAddToCart(e, "p3")} className="text-primary text-sm font-bold hover:underline">Add</button>
                 </div>
               </div>
             </motion.div>
@@ -117,9 +138,9 @@ export default function ExplorePage() {
             <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
               <Store className="w-6 h-6 text-primary" /> Top Rated Stores
             </h2>
-            <button className="text-primary font-bold hover:underline flex items-center gap-1 text-sm">
+            <Link href="/search?type=stores" className="text-primary font-bold hover:underline flex items-center gap-1 text-sm">
               View All <ArrowRight className="w-4 h-4" />
-            </button>
+            </Link>
           </div>
 
           <div className="flex overflow-x-auto gap-6 pb-4 [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full" style={{ scrollSnapType: "x mandatory" }}>
@@ -370,6 +391,50 @@ export default function ExplorePage() {
               Load More Products
             </button>
           </div>
+        </section>
+
+        {/* Discover More / Mixed Products */}
+        <section className="pt-8 border-t border-gray-200">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold flex items-center gap-2">
+              <ShoppingBag className="w-7 h-7 text-primary" /> Discover More
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {mixedProducts.slice(0, displayCount).map((product) => (
+              <Link href={`/product/${product.id.replace(/[0-9]+$/, '1')}`} key={product.id} className="block">
+                <motion.div whileHover={{ y: -5 }} className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm group cursor-pointer h-full flex flex-col relative">
+                  <div className="relative h-40 sm:h-48 w-full overflow-hidden bg-gray-50">
+                    <Image src={product.images[0]} alt={product.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-md px-2 py-0.5 rounded-md text-[10px] font-bold text-gray-800 shadow-sm max-w-[80%] truncate">
+                      {product.category}
+                    </div>
+                  </div>
+                  <div className="p-3 sm:p-4 flex-grow flex flex-col justify-between">
+                    <div>
+                      <h3 className="font-bold text-sm sm:text-base mb-1 line-clamp-2 leading-tight">{product.name}</h3>
+                    </div>
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-3 gap-2">
+                      <span className="font-bold text-sm sm:text-base text-gray-900">Tsh {product.price.toLocaleString()}</span>
+                      <button onClick={(e) => handleAddToCart(e, product.id.replace(/[0-9]+$/, '1'))} className="text-white bg-primary hover:bg-primary/90 rounded-lg text-xs font-bold px-3 py-2 w-full sm:w-auto text-center transition-colors">Add</button>
+                    </div>
+                  </div>
+                </motion.div>
+              </Link>
+            ))}
+          </div>
+
+          {displayCount < mixedProducts.length && (
+            <div className="mt-12 flex justify-center">
+              <button
+                onClick={handleLoadMore}
+                className="bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 px-8 rounded-full transition-colors flex items-center gap-2 shadow-md"
+              >
+                Load More Products
+              </button>
+            </div>
+          )}
         </section>
 
       </div>

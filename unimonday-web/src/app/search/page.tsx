@@ -46,7 +46,7 @@ export default function SearchPage() {
           {results.map((product) => (
             <Link key={product.id} href={`/product/${product.id}`} className="block group">
               <motion.div whileHover={{ y: -8 }} className="bg-white rounded-[2.5rem] overflow-hidden border border-border/50 shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer h-full flex flex-col relative">
-                <div className="relative h-56 md:h-64 w-full overflow-hidden bg-gray-50">
+                <div className="relative h-56 md:h-48 w-full overflow-hidden bg-gray-50">
                   <Image src={product.images[0] || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80"} alt={product.name} fill className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
                   <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-xl text-xs font-bold text-gray-900 shadow-sm">{product.category}</div>
                 </div>

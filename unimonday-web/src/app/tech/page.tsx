@@ -75,7 +75,7 @@ export default function TechPage() {
         </div>
 
         {/* Product Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {products.map((product, index) => (
             <Link href={`/product/${product.id}`} key={product.id} className="block">
               <motion.div
@@ -85,7 +85,7 @@ export default function TechPage() {
                 whileHover={{ y: -10 }}
                 className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer h-full flex flex-col"
               >
-                <div className="relative h-64 w-full overflow-hidden bg-gray-100">
+                <div className="relative h-48 w-full overflow-hidden bg-gray-100">
                   <Image
                     src={product.image}
                     alt={product.name}
