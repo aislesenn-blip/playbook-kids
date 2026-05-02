@@ -30,7 +30,7 @@ export interface Product {
   description: string;
   price: number;
   originalPrice?: number;
-  category: 'Fashion' | 'Tech' | 'Services' | 'Groceries' | 'Other';
+  category: 'Fashion & Apparels' | 'Tech & Accessories' | 'Beauty & Cosmetics' | 'Home & Decor' | 'Services';
   images: string[];
   inStock: boolean;
   rating?: number;

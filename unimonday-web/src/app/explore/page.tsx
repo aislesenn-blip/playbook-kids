@@ -9,7 +9,7 @@ import { Search, SlidersHorizontal, MapPin, Store, Star, ArrowRight, ShoppingBag
 export default function ExplorePage() {
   const [activeCategory, setActiveCategory] = useState("All");
 
-  const categories = ["All", "Fashion Apparels", "Tech & Electronics", "Services", "Groceries", "Dorm Essentials"];
+  const categories = ["All", "Fashion & Apparels", "Tech & Accessories", "Beauty & Cosmetics", "Home & Decor", "Services"];
 
   return (
     <div className="min-h-screen bg-gray-50/50 pb-24">

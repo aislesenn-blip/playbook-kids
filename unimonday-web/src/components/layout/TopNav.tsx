@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingBag, ShoppingCart, User, Menu, X, Shirt, Smartphone, ShieldCheck, Box, Handshake, ShieldAlert, Search } from "lucide-react";
+import { ShoppingBag, ShoppingCart, User, Menu, X, Shirt, Smartphone, ShieldCheck, Box, Handshake, ShieldAlert, Search, Sparkles, LampDesk } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -38,18 +38,21 @@ export function TopNav() {
           </div>
         </Link>
 
-        <div className="hidden sm:flex items-center gap-8 font-medium">
+        <div className="hidden sm:flex items-center gap-6 font-medium">
           <Link href="/fashion" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/fashion' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
             <Shirt className="w-4 h-4" /> Fashion
           </Link>
           <Link href="/tech" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/tech' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-            <Smartphone className="w-4 h-4" /> Tech & Accessories
+            <Smartphone className="w-4 h-4" /> Tech
+          </Link>
+          <Link href="/beauty" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/beauty' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+            <Sparkles className="w-4 h-4" /> Beauty
+          </Link>
+          <Link href="/home-decor" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/home-decor' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+            <LampDesk className="w-4 h-4" /> Decor
           </Link>
           <Link href="/services" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/services' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-            <ShieldCheck className="w-4 h-4" /> Verified Services
-          </Link>
-          <Link href="/orders" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/orders' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-            <Box className="w-4 h-4" /> My Orders
+            <ShieldCheck className="w-4 h-4" /> Services
           </Link>
         </div>
 
@@ -94,7 +97,7 @@ export function TopNav() {
                 onClick={toggleMenu}
                 className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/fashion' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
               >
-                <Shirt className="w-5 h-5" /> Fashion
+                <Shirt className="w-5 h-5" /> Fashion & Apparels
               </Link>
               <Link
                 href="/tech"
@@ -104,12 +107,27 @@ export function TopNav() {
                 <Smartphone className="w-5 h-5" /> Tech & Accessories
               </Link>
               <Link
+                href="/beauty"
+                onClick={toggleMenu}
+                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/beauty' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
+              >
+                <Sparkles className="w-5 h-5" /> Beauty & Cosmetics
+              </Link>
+              <Link
+                href="/home-decor"
+                onClick={toggleMenu}
+                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/home-decor' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
+              >
+                <LampDesk className="w-5 h-5" /> Home & Decor
+              </Link>
+              <Link
                 href="/services"
                 onClick={toggleMenu}
                 className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/services' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
               >
                 <ShieldCheck className="w-5 h-5" /> Verified Services
               </Link>
+              <hr className="border-border my-2" />
               <Link
                 href="/orders"
                 onClick={toggleMenu}
@@ -117,7 +135,7 @@ export function TopNav() {
               >
                 <Box className="w-5 h-5" /> My Orders
               </Link>
-                            <hr className="border-border my-2" />
+              <hr className="border-border my-2" />
               <Link
                 href="/vendor/apply"
                 onClick={toggleMenu}
