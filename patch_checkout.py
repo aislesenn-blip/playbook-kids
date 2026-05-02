@@ -1,11 +1,9 @@
-"use client";
+with open('unimonday-web/src/app/checkout/page.tsx', 'r') as f:
+    content = f.read()
 
-import Link from "next/link";
-import { useAppStore } from "@/lib/store/app-store";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+content = content.replace('import Link from "next/link";', 'import Link from "next/link";\nimport { useAppStore } from "@/lib/store/app-store";\nimport { useRouter } from "next/navigation";\nimport { toast } from "sonner";')
 
-export default function CheckoutPage() {
+hook_injection = """export default function CheckoutPage() {
   const router = useRouter();
   const { cart, getCartTotal, clearCart } = useAppStore();
   const total = getCartTotal();
@@ -25,14 +23,12 @@ export default function CheckoutPage() {
      clearCart();
      router.push('/orders');
   };
+"""
 
-  return (
-    <div className="max-w-xl mx-auto py-16 px-4">
-      <div className="bg-white p-8 rounded-[2rem] border border-border shadow-sm text-center">
-        <h1 className="text-3xl font-black mb-4">Checkout</h1>
-        <p className="text-muted-foreground mb-8 font-medium">Review your order details and confirm.</p>
+import re
+content = re.sub(r'export default function CheckoutPage\(\) \{', hook_injection, content)
 
-
+cart_ui = """
         <div className="bg-gray-50 rounded-2xl p-6 mb-8 text-left space-y-4">
           {cart.map((item) => (
              <div key={item.id} className="flex justify-between items-center">
@@ -56,8 +52,11 @@ export default function CheckoutPage() {
         <button onClick={handleCheckout} className="block w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
           Confirm Order & Pay
         </button>
+"""
 
-      </div>
-    </div>
-  );
-}
+content = re.sub(r'<div className="bg-gray-50 rounded-2xl p-6 mb-8 text-left">.*?</Link>', cart_ui, content, flags=re.DOTALL)
+
+with open('unimonday-web/src/app/checkout/page.tsx', 'w') as f:
+    f.write(content)
+
+print("Checkout details patched")
