@@ -1,22 +1,61 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Store, ArrowLeft, Image as ImageIcon, Search } from "lucide-react";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+import { mockVendors } from "@/lib/mockData";
+import { useAppStore } from "@/lib/store/app-store";
 
-export default function ChatInterface() {
+function ChatInterfaceContent() {
+  const searchParams = useSearchParams();
+  const initialVendorId = searchParams.get('vendor');
+
+  const chats = mockVendors.map(v => ({
+    id: v.id,
+    name: v.storeName,
+    avatar: v.logoUrl || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80",
+    lastMsg: v.id === "v1" ? "Your repair is complete." : "Great! Let me check...",
+    unread: v.id === "v1" ? 2 : 0
+  }));
+
+  const initialChatId = (initialVendorId && chats.some(c => c.id === initialVendorId))
+    ? initialVendorId
+    : (chats.length > 0 ? chats[0].id : "");
+
   const [messages, setMessages] = useState([
     { id: 1, text: "Hi there! Is the Vintage Denim Jacket still available?", sender: "user", time: "10:00 AM" },
     { id: 2, text: "Hello! Yes, it is still available. What size are you looking for?", sender: "vendor", time: "10:05 AM" },
   ]);
   const [input, setInput] = useState("");
-  const [activeChat, setActiveChat] = useState("vendor1");
+  const [activeChat, setActiveChat] = useState(initialChatId);
 
-  const chats = [
-    { id: "vendor1", name: "Campus Thrift", avatar: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop", lastMsg: "Great! Let me check...", unread: 0 },
-    { id: "vendor2", name: "TechZone UDSM", avatar: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=2064&auto=format&fit=crop", lastMsg: "Your repair is complete.", unread: 2 },
-  ];
+  const { pendingMessages, removePendingMessage } = useAppStore();
+
+  useEffect(() => {
+    if (activeChat) {
+       const pending = pendingMessages.find(msg => msg.vendorId === activeChat);
+       if (pending) {
+          // Wrap in a setTimeout to avoid synchronous setState inside effect warning
+          setTimeout(() => {
+            setMessages(prev => [
+              ...prev,
+              { id: Date.now(), text: pending.text, sender: "user", time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
+            ]);
+            removePendingMessage(activeChat);
+
+            // Simulate vendor automated response based on order
+            setTimeout(() => {
+               setMessages(prev => [
+                 ...prev,
+                 { id: Date.now() + 1, text: "Thanks for your order! Please send the payment screenshot here once you have paid.", sender: "vendor", time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
+               ]);
+            }, 1500);
+          }, 0);
+       }
+    }
+  }, [activeChat, pendingMessages, removePendingMessage]);
 
   const handleSend = () => {
     if (!input.trim()) return;
@@ -79,15 +118,22 @@ export default function ChatInterface() {
           <button onClick={() => setActiveChat("")} className="md:hidden p-2 -ml-2 text-gray-500 hover:bg-gray-100 rounded-full">
             <ArrowLeft className="w-5 h-5" />
           </button>
-          <div className="w-10 h-10 bg-primary/10 text-primary rounded-full flex items-center justify-center shrink-0 overflow-hidden relative">
-            {activeChat === 'vendor1' ? (
-                <Image src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop" alt="avatar" fill className="object-cover"/>
-            ) : <Store className="w-5 h-5" />}
-          </div>
-          <div>
-            <h2 className="font-bold">{activeChat === 'vendor1' ? 'Campus Thrift' : 'TechZone UDSM'}</h2>
-            <p className="text-xs text-primary font-medium">● Online</p>
-          </div>
+          {activeChat && (() => {
+            const currentChat = chats.find(c => c.id === activeChat);
+            return (
+              <>
+                <div className="w-10 h-10 bg-primary/10 text-primary rounded-full flex items-center justify-center shrink-0 overflow-hidden relative">
+                  {currentChat ? (
+                      <Image src={currentChat.avatar} alt="avatar" fill className="object-cover"/>
+                  ) : <Store className="w-5 h-5" />}
+                </div>
+                <div>
+                  <h2 className="font-bold">{currentChat?.name || 'Store'}</h2>
+                  <p className="text-xs text-primary font-medium">● Online</p>
+                </div>
+              </>
+            );
+          })()}
         </div>
 
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
@@ -157,5 +203,13 @@ export default function ChatInterface() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ChatInterface() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center">Loading...</div>}>
+      <ChatInterfaceContent />
+    </Suspense>
   );
 }

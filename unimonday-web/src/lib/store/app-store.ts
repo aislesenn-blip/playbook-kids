@@ -24,6 +24,11 @@ interface AppState {
   getCartTotal: () => number;
   getCartCount: () => number;
 
+  // Chat Automation
+  pendingMessages: { vendorId: string, text: string }[];
+  addPendingMessage: (vendorId: string, text: string) => void;
+  removePendingMessage: (vendorId: string) => void;
+
   resetApp: () => void;
 }
 
@@ -79,7 +84,15 @@ export const useAppStore = create<AppState>()(
          return get().cart.reduce((count, item) => count + item.quantity, 0);
       },
 
-      resetApp: () => set({ currentUser: null, currentRegion: null, currentCampusName: null, isCartOpen: false, cart: [] }),
+      pendingMessages: [],
+      addPendingMessage: (vendorId, text) => set((state) => ({
+        pendingMessages: [...state.pendingMessages, { vendorId, text }]
+      })),
+      removePendingMessage: (vendorId) => set((state) => ({
+        pendingMessages: state.pendingMessages.filter(msg => msg.vendorId !== vendorId)
+      })),
+
+      resetApp: () => set({ currentUser: null, currentRegion: null, currentCampusName: null, isCartOpen: false, cart: [], pendingMessages: [] }),
     }),
     {
       name: 'unimonday-app-storage',

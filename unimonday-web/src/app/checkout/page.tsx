@@ -39,12 +39,28 @@ export default function CheckoutPage() {
   }
 
   const handleCheckout = () => {
+     // Generate order messages for each vendor
+     cartVendors.forEach(vendor => {
+       const vendorItems = cart.filter(item => item.product.vendorId === vendor.id);
+       const itemsText = vendorItems.map(item => `${item.quantity}x ${item.product.name}`).join(", ");
+       const vendorTotal = vendorItems.reduce((acc, item) => acc + (item.product.price * item.quantity), 0);
+
+       const message = `Hello! I just placed an order for: ${itemsText}. Total: Tsh ${vendorTotal.toLocaleString()}. How do we proceed with payment and delivery?`;
+       useAppStore.getState().addPendingMessage(vendor.id, message);
+     });
+
      toast.success("Order placed successfully!");
      toast("We will get back to you shortly in a couple of hours as we verify and check the products. Please check your chat section.", {
         duration: 8000,
      });
      clearCart();
-     router.push('/chat');
+
+     // Intelligent routing: if 1 vendor, go to their chat. If multiple, go to inbox.
+     if (cartVendors.length === 1) {
+       router.push(`/chat?vendor=${cartVendors[0].id}`);
+     } else {
+       router.push('/chat');
+     }
   };
 
   return (
