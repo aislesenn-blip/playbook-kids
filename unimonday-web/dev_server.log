@@ -2,26 +2,17 @@
 > unimonday-web@0.1.0 dev
 > next dev
 
- ⚠ Port 3000 is in use by an unknown process, using available port 3002 instead.
+ ⚠ Port 3000 is in use by an unknown process, using available port 3005 instead.
    ▲ Next.js 15.5.15
-   - Local:        http://localhost:3002
-   - Network:      http://192.168.0.2:3002
+   - Local:        http://localhost:3005
+   - Network:      http://192.168.0.2:3005
 
  ✓ Starting...
- ✓ Ready in 2.6s
+ ✓ Ready in 2.3s
 <w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Parsing of /app/unimonday-web/node_modules/next-intl/dist/esm/production/extractor/format/index.js for build dependencies failed at 'import(t)'.
 <w> Build dependencies behind this expression are ignored and might cause incorrect cache invalidation.
  ○ Compiling /explore ...
- ✓ Compiled /explore in 7.6s (1610 modules)
- GET /explore 200 in 9019ms
- ⨯ upstream image response failed for https://images.unsplash.com/photo-1574182245536-666ce12df4ba?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3 404
- ✓ Compiled in 1129ms (698 modules)
- ✓ Compiled /explore in 408ms (894 modules)
- GET /explore 200 in 1131ms
-<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename '/app/unimonday-web/.next/cache/webpack/client-development/2.pack.gz_' -> '/app/unimonday-web/.next/cache/webpack/client-development/2.pack.gz'
- ✓ Compiled in 911ms (698 modules)
- ✓ Compiled in 688ms (698 modules)
- ✓ Compiled in 435ms (698 modules)
- ✓ Compiled in 408ms (698 modules)
- ✓ Compiled in 334ms (698 modules)
-<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename '/app/unimonday-web/.next/cache/webpack/client-development/0.pack.gz_' -> '/app/unimonday-web/.next/cache/webpack/client-development/0.pack.gz'
+ ✓ Compiled /explore in 9.1s (1614 modules)
+ GET /explore 200 in 10277ms
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Parsing of /app/unimonday-web/node_modules/next-intl/dist/esm/production/extractor/format/index.js for build dependencies failed at 'import(t)'.
+<w> Build dependencies behind this expression are ignored and might cause incorrect cache invalidation.
