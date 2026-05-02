@@ -6,6 +6,7 @@ export interface User {
   avatarUrl?: string;
   region?: string;
   campusName?: string;
+  storeName?: string;
 }
 
 export interface Vendor {

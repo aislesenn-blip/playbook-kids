@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAppStore } from "@/lib/store/app-store";
-import { ShoppingBag, ShieldCheck, MapPin } from "lucide-react";
+import { ShoppingBag, ShieldCheck, MapPin, Store } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase/client";
@@ -21,7 +21,9 @@ export default function SignupPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    role: "student" as "student" | "vendor",
     password: "",
+    storeName: "",
     region: regions[1], // Default Dar es Salaam
     campusName: ""
   });
@@ -52,7 +54,8 @@ export default function SignupPage() {
         options: {
           data: {
             name: formData.name,
-            role: "student",
+            role: formData.role,
+            storeName: formData.role === "vendor" ? formData.storeName : undefined,
             region: formData.region,
             campusName: formData.campusName
           }
@@ -68,7 +71,8 @@ export default function SignupPage() {
         id: data.user?.id || "u" + Date.now(),
         name: formData.name,
         email: formData.email,
-        role: "student",
+        role: formData.role,
+            storeName: formData.role === "vendor" ? formData.storeName : undefined,
         region: formData.region,
         campusName: formData.campusName
       });
@@ -97,6 +101,21 @@ export default function SignupPage() {
         <p className="text-muted-foreground font-medium">
           Join the largest campus marketplace
         </p>
+      </div>
+
+            <div className="flex bg-gray-100 p-1 rounded-2xl mb-6">
+        <button
+          onClick={() => setFormData({...formData, role: "student"})}
+          className={`flex-1 py-3 text-sm font-bold rounded-xl transition-all ${formData.role === "student" ? "bg-white shadow-sm text-gray-900" : "text-gray-500 hover:text-gray-900"}`}
+        >
+          Student
+        </button>
+        <button
+          onClick={() => setFormData({...formData, role: "vendor"})}
+          className={`flex-1 py-3 text-sm font-bold rounded-xl transition-all ${formData.role === "vendor" ? "bg-white shadow-sm text-gray-900" : "text-gray-500 hover:text-gray-900"}`}
+        >
+          Vendor
+        </button>
       </div>
 
       <div className="bg-white p-6 sm:p-8 rounded-[2rem] border border-border shadow-sm">
@@ -132,14 +151,28 @@ export default function SignupPage() {
               </div>
             </div>
 
+                        {formData.role === "vendor" && (
+              <div>
+                <label className="block text-sm font-bold mb-2">Store Name</label>
+                <input
+                  type="text"
+                  required
+                  value={formData.storeName}
+                  onChange={(e) => setFormData({...formData, storeName: e.target.value})}
+                  placeholder="e.g. Kicks TZ"
+                  className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all"
+                />
+              </div>
+            )}
+
             <div>
-              <label className="block text-sm font-bold mb-2">Campus Name</label>
+              <label className="block text-sm font-bold mb-2">Campus Location</label>
               <input
                 type="text"
                 required
                 value={formData.campusName}
                 onChange={(e) => setFormData({...formData, campusName: e.target.value})}
-                placeholder="e.g. UDSM Main Campus"
+                placeholder={formData.role === "vendor" ? "e.g. UDSM Block A" : "e.g. UDSM Main Campus"}
                 className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all"
               />
             </div>
