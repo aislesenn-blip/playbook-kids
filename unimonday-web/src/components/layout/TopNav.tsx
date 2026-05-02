@@ -89,7 +89,7 @@ export function TopNav() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed top-14 left-0 right-0 bg-white border-b border-border z-40 sm:hidden shadow-lg"
+            className="fixed top-14 left-0 right-0 bg-white border-b border-border z-40 sm:hidden shadow-lg max-h-[calc(100vh-3.5rem)] overflow-y-auto pb-8"
           >
             <div className="flex flex-col p-4 gap-4">
               <Link

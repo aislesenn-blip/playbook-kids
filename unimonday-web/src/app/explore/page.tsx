@@ -436,9 +436,9 @@ export default function ExplorePage() {
 
 
           <div className="mt-12 flex justify-center">
-            <button className="bg-white border border-border px-8 py-3 rounded-full font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm">
-              Load More Products
-            </button>
+            <Link href="/tech" className="bg-white border border-border px-8 py-3 rounded-full font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm">
+              View All Tech
+            </Link>
           </div>
         </section>
 
@@ -479,11 +479,11 @@ export default function ExplorePage() {
               <button
                 onClick={handleLoadMore}
                 disabled={isLoadingMore}
-                className="bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 px-8 rounded-full transition-colors flex items-center gap-2 shadow-md disabled:opacity-70"
+                className="bg-white text-gray-900 border border-gray-200 hover:bg-gray-50 font-bold py-3 px-8 rounded-full transition-colors flex items-center gap-2 shadow-sm disabled:opacity-70"
               >
                 {isLoadingMore ? (
                   <>
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> Loading...
+                    <div className="w-5 h-5 border-2 border-gray-900 border-t-transparent rounded-full animate-spin"></div> Loading...
                   </>
                 ) : "Load More Products"}
               </button>
