@@ -2,26 +2,61 @@
 > unimonday-web@0.1.0 dev
 > next dev
 
- ⚠ Port 3000 is in use by an unknown process, using available port 3002 instead.
    ▲ Next.js 15.5.15
-   - Local:        http://localhost:3002
-   - Network:      http://192.168.0.2:3002
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.2:3000
 
  ✓ Starting...
- ✓ Ready in 2.6s
+ ✓ Ready in 2.1s
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Parsing of /app/unimonday-web/node_modules/next-intl/dist/esm/production/extractor/format/index.js for build dependencies failed at 'import(t)'.
+<w> Build dependencies behind this expression are ignored and might cause incorrect cache invalidation.
+ ○ Compiling / ...
+ ✓ Compiled / in 9.5s (1608 modules)
+ GET / 200 in 11258ms
 <w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Parsing of /app/unimonday-web/node_modules/next-intl/dist/esm/production/extractor/format/index.js for build dependencies failed at 'import(t)'.
 <w> Build dependencies behind this expression are ignored and might cause incorrect cache invalidation.
  ○ Compiling /explore ...
- ✓ Compiled /explore in 7.6s (1610 modules)
- GET /explore 200 in 9019ms
- ⨯ upstream image response failed for https://images.unsplash.com/photo-1574182245536-666ce12df4ba?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3 404
- ✓ Compiled in 1129ms (698 modules)
- ✓ Compiled /explore in 408ms (894 modules)
- GET /explore 200 in 1131ms
-<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename '/app/unimonday-web/.next/cache/webpack/client-development/2.pack.gz_' -> '/app/unimonday-web/.next/cache/webpack/client-development/2.pack.gz'
- ✓ Compiled in 911ms (698 modules)
- ✓ Compiled in 688ms (698 modules)
- ✓ Compiled in 435ms (698 modules)
- ✓ Compiled in 408ms (698 modules)
- ✓ Compiled in 334ms (698 modules)
-<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename '/app/unimonday-web/.next/cache/webpack/client-development/0.pack.gz_' -> '/app/unimonday-web/.next/cache/webpack/client-development/0.pack.gz'
+ ✓ Compiled /explore in 1171ms (1605 modules)
+ GET / 200 in 704ms
+ GET /explore 200 in 1999ms
+ ○ Compiling /orders ...
+ ✓ Compiled /orders in 2.2s (1886 modules)
+ GET /orders 200 in 2749ms
+ ○ Compiling /product/[id] ...
+ ✓ Compiled /product/[id] in 1213ms (1897 modules)
+ HEAD /product/1 200 in 2529ms
+ ✓ Compiled in 731ms (1911 modules)
+ GET / 200 in 280ms
+ GET /explore 200 in 33ms
+ GET /orders 200 in 55ms
+ GET /product/1 200 in 38ms
+ GET /product/2 200 in 38ms
+ GET /product/3 200 in 37ms
+ GET /product/1 200 in 23ms
+ ○ Compiling /chat ...
+ ✓ Compiled /chat in 1457ms (1912 modules)
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- /app/unimonday-web/.next/server/webpack-runtime.js
+- /app/unimonday-web/.next/server/app/chat/page.js
+- /app/unimonday-web/node_modules/next/dist/server/require.js
+- /app/unimonday-web/node_modules/next/dist/server/load-components.js
+- /app/unimonday-web/node_modules/next/dist/build/utils.js
+- /app/unimonday-web/node_modules/next/dist/build/swc/options.js
+- /app/unimonday-web/node_modules/next/dist/build/swc/index.js
+- /app/unimonday-web/node_modules/next/dist/build/analysis/parse-module.js
+- /app/unimonday-web/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /app/unimonday-web/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /app/unimonday-web/node_modules/next/dist/server/lib/router-server.js
+- /app/unimonday-web/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/orders/page.js:2:78716)
+    at Object.<anonymous> (.next/server/app/orders/page.js:2:78778) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/orders'
+}
+ GET /chat 200 in 1700ms
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 2.9s (2258 modules)
+ GET /orders 500 in 4891ms
+ GET /orders 200 in 739ms

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ShoppingBag, Wrench, ShieldCheck, ArrowRight, Star, Truck } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -82,9 +83,9 @@ export default function Home() {
                 <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-bold">Tsh 35,000</span>
               </div>
               <p className="text-muted-foreground text-sm mb-4">By Campus Thrift</p>
-              <button className="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-900 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2">
+              <Link href="/product/1" className="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-900 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2">
                 <ShoppingBag className="w-4 h-4" /> Order Now
-              </button>
+              </Link>
             </div>
           </motion.div>
 
@@ -104,9 +105,9 @@ export default function Home() {
                 <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-bold">Tsh 45,000</span>
               </div>
               <p className="text-muted-foreground text-sm mb-4">By TechZone UDSM</p>
-              <button className="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-900 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2">
+              <Link href="/product/2" className="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-900 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2">
                 <ShoppingBag className="w-4 h-4" /> Order Now
-              </button>
+              </Link>
             </div>
           </motion.div>
 
@@ -126,9 +127,9 @@ export default function Home() {
                 <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-bold">Tsh 55,000</span>
               </div>
               <p className="text-muted-foreground text-sm mb-4">By Kicks TZ</p>
-              <button className="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-900 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2">
+              <Link href="/product/3" className="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-900 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2">
                 <ShoppingBag className="w-4 h-4" /> Order Now
-              </button>
+              </Link>
             </div>
           </motion.div>
         </div>
@@ -158,9 +159,9 @@ export default function Home() {
             <p className="text-muted-foreground font-medium leading-relaxed text-lg relative z-10 mb-6">
               Cracked screen? Battery issues? Get it fixed by a verified technician right on campus.
             </p>
-            <button className="mt-auto flex items-center gap-2 text-blue-500 font-bold hover:underline">
+            <Link href="/explore" className="mt-auto flex items-center gap-2 text-blue-500 font-bold hover:underline">
                Find a Technician <ArrowRight className="w-4 h-4" />
-            </button>
+            </Link>
           </motion.div>
 
           <motion.div
@@ -177,9 +178,9 @@ export default function Home() {
             <p className="text-muted-foreground font-medium leading-relaxed text-lg relative z-10 mb-6">
               Get your food or packages delivered straight to your hostel with our trusted network.
             </p>
-            <button className="mt-auto flex items-center gap-2 text-amber-500 font-bold hover:underline">
+            <Link href="/explore" className="mt-auto flex items-center gap-2 text-amber-500 font-bold hover:underline">
                Book Delivery <ArrowRight className="w-4 h-4" />
-            </button>
+            </Link>
           </motion.div>
 
           <motion.div
@@ -196,9 +197,9 @@ export default function Home() {
             <p className="text-muted-foreground font-medium leading-relaxed text-lg relative z-10 mb-6">
               Software installation, virus removal, or hardware upgrades. Handled by pros.
             </p>
-            <button className="mt-auto flex items-center gap-2 text-primary font-bold hover:underline">
+            <Link href="/explore" className="mt-auto flex items-center gap-2 text-primary font-bold hover:underline">
                Find a Pro <ArrowRight className="w-4 h-4" />
-            </button>
+            </Link>
           </motion.div>
         </div>
       </section>

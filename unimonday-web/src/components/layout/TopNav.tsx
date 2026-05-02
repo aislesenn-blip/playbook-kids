@@ -23,13 +23,13 @@ export function TopNav() {
         </Link>
 
         <div className="hidden sm:flex items-center gap-8 font-medium">
-          <Link href="/fashion" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/fashion' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+          <Link href="/explore" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/explore' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
             <Shirt className="w-4 h-4" /> Fashion
           </Link>
-          <Link href="/tech" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/tech' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+          <Link href="/explore" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/explore' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
             <Smartphone className="w-4 h-4" /> Tech & Accessories
           </Link>
-          <Link href="/services" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/services' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+          <Link href="/explore" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/explore' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
             <ShieldCheck className="w-4 h-4" /> Verified Services
           </Link>
           <Link href="/orders" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/orders' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
@@ -57,23 +57,23 @@ export function TopNav() {
           >
             <div className="flex flex-col p-4 gap-4">
               <Link
-                href="/fashion"
+                href="/explore"
                 onClick={toggleMenu}
-                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/fashion' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
+                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/explore' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
               >
                 <Shirt className="w-5 h-5" /> Fashion
               </Link>
               <Link
-                href="/tech"
+                href="/explore"
                 onClick={toggleMenu}
-                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/tech' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
+                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/explore' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
               >
                 <Smartphone className="w-5 h-5" /> Tech & Accessories
               </Link>
               <Link
-                href="/services"
+                href="/explore"
                 onClick={toggleMenu}
-                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/services' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
+                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/explore' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
               >
                 <ShieldCheck className="w-5 h-5" /> Verified Services
               </Link>

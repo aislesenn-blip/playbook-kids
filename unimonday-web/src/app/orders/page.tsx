@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Package, Clock, CheckCircle2, Wrench } from "lucide-react";
 import Image from "next/image";
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export default function OrdersPage() {
   const activeOrders = [
@@ -95,9 +96,38 @@ export default function OrdersPage() {
                     <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse"></span>
                     {order.status}
                   </span>
-                  <button className="text-sm font-bold text-gray-600 hover:text-gray-900 transition-colors">
-                    View Details
-                  </button>
+                  <Dialog>
+                    <DialogTrigger className="text-sm font-bold text-gray-600 hover:text-gray-900 transition-colors cursor-pointer outline-none">
+                      View Details
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Order Summary</DialogTitle>
+                      </DialogHeader>
+                      <div className="py-4 space-y-3">
+                        <div className="flex justify-between border-b pb-2">
+                          <span className="text-muted-foreground font-medium">Order ID</span>
+                          <span className="font-bold text-gray-900">{order.id}</span>
+                        </div>
+                        <div className="flex justify-between border-b pb-2">
+                          <span className="text-muted-foreground font-medium">Item</span>
+                          <span className="font-bold text-gray-900">{order.title}</span>
+                        </div>
+                        <div className="flex justify-between border-b pb-2">
+                          <span className="text-muted-foreground font-medium">Status</span>
+                          <span className={`font-bold ${order.statusColor}`}>{order.status}</span>
+                        </div>
+                        <div className="flex justify-between border-b pb-2">
+                          <span className="text-muted-foreground font-medium">Vendor</span>
+                          <span className="font-bold text-gray-900">{order.vendor}</span>
+                        </div>
+                        <div className="flex justify-between pt-2">
+                          <span className="text-lg font-bold text-gray-900">Total</span>
+                          <span className="text-lg font-black text-primary">{order.price}</span>
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </div>
             </motion.div>

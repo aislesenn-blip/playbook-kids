@@ -68,7 +68,10 @@ export default function ProductDetails() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <button className="flex-1 bg-gray-900 text-white hover:bg-gray-800 font-bold py-5 rounded-[1.5rem] flex items-center justify-center gap-3 transition-colors shadow-xl shadow-gray-900/20 text-lg">
+            <button
+              onClick={() => router.push('/orders')}
+              className="flex-1 bg-gray-900 text-white hover:bg-gray-800 font-bold py-5 rounded-[1.5rem] flex items-center justify-center gap-3 transition-colors shadow-xl shadow-gray-900/20 text-lg"
+            >
               <ShoppingBag className="w-6 h-6" /> Order Now
             </button>
             <button
