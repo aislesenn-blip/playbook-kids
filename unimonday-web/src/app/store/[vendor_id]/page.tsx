@@ -2,6 +2,7 @@
 
 import { use } from "react";
 import { mockVendors, mockProducts } from "@/lib/mockData";
+import { useAppStore } from "@/lib/store/app-store";
 import { notFound, useRouter } from "next/navigation";
 import Image from "next/image";
 import { ShieldCheck, MessageCircle, Star, MapPin, ArrowRight, ShoppingBag, Info, MessageSquareHeart, LayoutGrid, List } from "lucide-react";
@@ -16,6 +17,7 @@ export default function VendorStore({ params }: { params: Promise<{ vendor_id: s
   const [layout, setLayout] = useState<'grid2' | 'grid1'>('grid2');
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
+  const { vendorProducts } = useAppStore();
 
   // For demo we just match or fallback to first vendor
   const vendor = mockVendors.find((v) => v.id === unwrappedParams.vendor_id) || mockVendors[0];

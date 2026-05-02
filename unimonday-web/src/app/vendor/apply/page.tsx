@@ -49,12 +49,14 @@ export default function VendorApply() {
 
           <div className="space-y-2">
             <label className="text-sm font-bold text-gray-700">Category</label>
-            <select className="w-full p-4 bg-gray-50 border border-border rounded-xl outline-none focus:ring-2 focus:ring-primary transition-all text-gray-700">
-              <option>Fashion & Apparel</option>
-              <option>Tech & Repairs</option>
-              <option>Food & Groceries</option>
-              <option>Services</option>
-            </select>
+                              <select required defaultValue="" className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all appearance-none">
+                    <option value="" disabled>Select primary category</option>
+                    <option value="Fashion & Apparels">Fashion & Apparels</option>
+                    <option value="Tech & Accessories">Tech & Accessories</option>
+                    <option value="Beauty & Cosmetics">Beauty & Cosmetics</option>
+                    <option value="Home & Decor">Home & Decor</option>
+                    <option value="Services">Services</option>
+                  </select>
           </div>
 
           <div className="space-y-2">

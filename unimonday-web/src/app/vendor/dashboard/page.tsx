@@ -2,29 +2,49 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Store, Package, TrendingUp, Users, Plus, Star, Settings, Image as ImageIcon, X, Copy, Share2 } from "lucide-react";
+import { Store, Package, TrendingUp, Users, Plus, Star, Settings, Image as ImageIcon, X, Copy, Share2, MessageCircle } from "lucide-react";
+import Link from "next/link";
 import { toast } from "sonner";
 import { useAppStore } from "@/lib/store/app-store";
-import { Order } from "@/types";
+import { Order, Product } from "@/types";
 
 export default function VendorDashboard() {
   const [isAddingProduct, setIsAddingProduct] = useState(false);
-  const { orders, updateOrderStatus } = useAppStore();
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isBannersOpen, setIsBannersOpen] = useState(false);
+  const [paymentInfo, setPaymentInfo] = useState("Free delivery Dar es Salaam. Mobile Money preferred.");
+  const { orders, updateOrderStatus, addVendorProduct } = useAppStore();
+  const [newProduct, setNewProduct] = useState({ name: "", price: "", category: "Fashion & Apparels" });
   const storeName = "Kicks TZ";
   const vendorOrders = orders.filter((o: Order) => o.vendor === storeName);
 
+
   const handleAddProduct = (e: React.FormEvent) => {
     e.preventDefault();
+    const product: Product = {
+      id: "p" + Date.now(),
+      vendorId: "v1", // Kicks TZ ID
+      vendorName: storeName,
+      name: newProduct.name,
+      description: "A newly added product.",
+      price: parseInt(newProduct.price),
+      category: newProduct.category as "Fashion & Apparels" | "Tech & Accessories" | "Beauty & Cosmetics" | "Home & Decor" | "Services",
+      images: ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80"], // Default image for demo
+      inStock: true
+    };
+    addVendorProduct(product);
     toast.success("Product added successfully!");
     setIsAddingProduct(false);
+    setNewProduct({ name: "", price: "", category: "Fashion" });
   }
+
 
   const storeSlug = "kicks-tz"; // Mock store slug for current user
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(`https://unimonday.com/store/${storeSlug}`);
-    toast.success("Link copied! Paste to your WhatsApp Status to get more sales 🚀", {
-      icon: "🎉",
+    toast.success("Link copied successfully.", {
+      description: "Paste to your WhatsApp Status to drive traffic.",
       duration: 5000,
     });
   };
@@ -33,10 +53,10 @@ export default function VendorDashboard() {
     <div className="max-w-6xl mx-auto py-8 px-4 relative">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
         <div>
-          <h1 className="text-3xl font-black flex items-center gap-2">
+          <h1 className="text-3xl font-black flex items-center gap-2 mb-2">
             <Store className="w-8 h-8 text-primary" /> Vendor Dashboard
           </h1>
-          <p className="text-muted-foreground font-medium">Welcome back, Kicks TZ</p>
+          <p className="text-muted-foreground font-medium text-lg">Welcome back, Kicks TZ</p>
         </div>
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
           <button
@@ -168,13 +188,16 @@ export default function VendorDashboard() {
               </div>
            </div>
 
-           <div className="bg-white rounded-[2rem] border border-border shadow-sm p-6">
+                      <div className="bg-white rounded-[2rem] border border-border shadow-sm p-6">
               <h2 className="text-xl font-black mb-4">Quick Actions</h2>
               <div className="space-y-2">
-                <button className="w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 rounded-xl font-bold transition-colors">
+                <Link href="/chat" className="w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 rounded-xl font-bold transition-colors">
+                  <span className="flex items-center gap-2 text-primary"><MessageCircle className="w-4 h-4"/> Inbox & Orders</span>
+                </Link>
+                <button onClick={() => setIsSettingsOpen(true)} className="w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 rounded-xl font-bold transition-colors">
                   <span className="flex items-center gap-2"><Settings className="w-4 h-4"/> Store Settings</span>
                 </button>
-                <button className="w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 rounded-xl font-bold transition-colors">
+                <button onClick={() => setIsBannersOpen(true)} className="w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 rounded-xl font-bold transition-colors">
                   <span className="flex items-center gap-2"><ImageIcon className="w-4 h-4"/> Update Banners</span>
                 </button>
               </div>
@@ -199,25 +222,80 @@ export default function VendorDashboard() {
                 </div>
                 <div>
                   <label className="block text-sm font-bold mb-1">Product Name</label>
-                  <input required type="text" className="w-full border border-border bg-gray-50 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="e.g. Nike Air Force 1" />
+                  <input required type="text" value={newProduct.name} onChange={e => setNewProduct({...newProduct, name: e.target.value})} className="w-full border border-border bg-gray-50 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="e.g. Nike Air Force 1" />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-bold mb-1">Price (Tsh)</label>
-                    <input required type="number" className="w-full border border-border bg-gray-50 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="45000" />
+                    <input required type="number" value={newProduct.price} onChange={e => setNewProduct({...newProduct, price: e.target.value})} className="w-full border border-border bg-gray-50 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="45000" />
                   </div>
                   <div>
                     <label className="block text-sm font-bold mb-1">Category</label>
-                    <select className="w-full border border-border bg-gray-50 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary appearance-none">
-                      <option>Fashion</option>
-                      <option>Tech</option>
-                      <option>Services</option>
+                    <select value={newProduct.category} onChange={e => setNewProduct({...newProduct, category: e.target.value})} className="w-full border border-border bg-gray-50 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary appearance-none">
+                      <option value="Fashion & Apparels">Fashion & Apparels</option>
+                      <option value="Tech & Accessories">Tech & Accessories</option>
+                      <option value="Beauty & Cosmetics">Beauty & Cosmetics</option>
+                      <option value="Home & Decor">Home & Decor</option>
+                      <option value="Services">Services</option>
                     </select>
                   </div>
                 </div>
                 <button type="submit" className="w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-primary/90 mt-4 shadow-lg shadow-primary/20">Publish Product</button>
              </form>
 
+           </div>
+        </div>
+      )}
+
+      {/* Store Settings Modal */}
+      {isSettingsOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm">
+           <div className="bg-white w-full max-w-md rounded-[2rem] shadow-2xl p-6 border border-border relative">
+             <button onClick={() => setIsSettingsOpen(false)} className="absolute top-4 right-4 p-2 bg-gray-100 hover:bg-gray-200 rounded-full">
+               <X className="w-5 h-5"/>
+             </button>
+             <h2 className="text-2xl font-black mb-6">Store Settings</h2>
+             <form onSubmit={(e) => { e.preventDefault(); toast.success("Settings saved successfully."); setIsSettingsOpen(false); }} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-bold mb-1">Store Name</label>
+                  <input required type="text" defaultValue="Kicks TZ" className="w-full border border-border bg-gray-50 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary font-medium" />
+                </div>
+                <div>
+                  <label className="block text-sm font-bold mb-1">Payment & Delivery Policy</label>
+                  <textarea required value={paymentInfo} onChange={(e) => setPaymentInfo(e.target.value)} className="w-full border border-border bg-gray-50 rounded-xl px-4 py-3 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-primary font-medium" placeholder="E.g. Pay via M-Pesa 07XX... Free delivery on campus."></textarea>
+                  <p className="text-xs text-muted-foreground mt-1 font-medium">This will be displayed to students during Checkout.</p>
+                </div>
+                <button type="submit" className="w-full bg-gray-900 text-white font-bold py-4 rounded-xl hover:bg-gray-800 mt-4 shadow-lg shadow-gray-900/20">Save Settings</button>
+             </form>
+           </div>
+        </div>
+      )}
+
+      {/* Update Banners Modal */}
+      {isBannersOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm">
+           <div className="bg-white w-full max-w-md rounded-[2rem] shadow-2xl p-6 border border-border relative">
+             <button onClick={() => setIsBannersOpen(false)} className="absolute top-4 right-4 p-2 bg-gray-100 hover:bg-gray-200 rounded-full">
+               <X className="w-5 h-5"/>
+             </button>
+             <h2 className="text-2xl font-black mb-6">Update Banners</h2>
+             <div className="space-y-6">
+                <div>
+                  <label className="block text-sm font-bold mb-2">Store Cover Photo</label>
+                  <div className="w-full h-32 bg-gray-100 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors group relative overflow-hidden">
+                    <Image src="https://images.unsplash.com/photo-1542239898-08fcea4abd2e?w=800&auto=format&fit=crop" alt="Cover" fill className="object-cover opacity-50" />
+                    <ImageIcon className="w-6 h-6 text-gray-900 mb-2 relative z-10" />
+                    <span className="text-sm font-bold text-gray-900 relative z-10">Change Cover</span>
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-bold mb-2">Store Logo (Avatar)</label>
+                  <div className="w-20 h-20 bg-gray-100 rounded-full border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors group mx-auto">
+                    <ImageIcon className="w-6 h-6 text-gray-400 group-hover:text-primary transition-colors" />
+                  </div>
+                </div>
+                <button onClick={() => { toast.success("Banners updated."); setIsBannersOpen(false); }} className="w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-primary/90 shadow-lg shadow-primary/20">Apply Changes</button>
+             </div>
            </div>
         </div>
       )}
