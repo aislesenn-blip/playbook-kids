@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Package, Clock, CheckCircle2, Wrench } from "lucide-react";
 import Image from "next/image";
@@ -95,9 +96,9 @@ export default function OrdersPage() {
                     <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse"></span>
                     {order.status}
                   </span>
-                  <button className="text-sm font-bold text-gray-600 hover:text-gray-900 transition-colors">
+                  <Link href="/orders/details" className="text-sm font-bold text-gray-600 hover:text-gray-900 transition-colors">
                     View Details
-                  </button>
+                  </Link>
                 </div>
               </div>
             </motion.div>
