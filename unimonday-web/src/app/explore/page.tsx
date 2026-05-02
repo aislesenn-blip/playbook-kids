@@ -14,7 +14,7 @@ export default function ExplorePage() {
   return (
     <div className="min-h-screen bg-gray-50/50 pb-24">
       {/* Search & Hero Section */}
-      <section className="bg-white border-b border-border pt-20 pb-8 px-4">
+      <section className="bg-white border-b border-border pt-16 pb-8 px-4">
         <div className="max-w-7xl mx-auto">
           {/* Categories / Filters on top */}
           <motion.div
