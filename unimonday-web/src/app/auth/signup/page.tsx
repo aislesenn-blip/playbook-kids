@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAppStore } from "@/lib/store/app-store";
-import { ShoppingBag, ShieldCheck, MapPin } from "lucide-react";
+import { ShoppingBag, ShieldCheck, MapPin, Store } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase/client";
@@ -18,12 +18,14 @@ export default function SignupPage() {
   const redirectTo = searchParams.get('redirectTo') || '/';
 
   const { setUser, setLocation } = useAppStore();
+  const [role, setRole] = useState<'student' | 'vendor'>('student');
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     region: regions[1], // Default Dar es Salaam
-    campusName: ""
+    campusName: "",
+    storeName: ""
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -42,6 +44,10 @@ export default function SignupPage() {
       toast.error("Please enter your campus name");
       return;
     }
+    if (role === 'vendor' && !formData.storeName.trim()) {
+      toast.error("Please enter your store name");
+      return;
+    }
 
     setIsLoading(true);
 
@@ -52,9 +58,10 @@ export default function SignupPage() {
         options: {
           data: {
             name: formData.name,
-            role: "student",
+            role: role,
             region: formData.region,
-            campusName: formData.campusName
+            campusName: formData.campusName,
+            ...(role === 'vendor' ? { storeName: formData.storeName } : {})
           }
         }
       });
@@ -67,17 +74,21 @@ export default function SignupPage() {
     } finally {
       // ALWAYS sync state for demo
       setUser({
-        id: "u" + Date.now(),
-        name: formData.name,
+        id: (role === 'vendor' ? "v" : "u") + Date.now(),
+        name: role === 'vendor' ? formData.storeName : formData.name,
         email: formData.email,
-        role: "student",
+        role: role,
         region: formData.region,
         campusName: formData.campusName
       });
       setLocation(formData.region, formData.campusName);
 
       toast.success("Account created successfully!");
-      router.push(redirectTo);
+      if (role === 'vendor') {
+        router.push("/vendor/dashboard");
+      } else {
+        router.push(redirectTo);
+      }
       setIsLoading(false);
     }
   };
@@ -95,7 +106,46 @@ export default function SignupPage() {
       </div>
 
       <div className="bg-white p-6 sm:p-8 rounded-[2rem] border border-border shadow-sm">
+          {/* Role Tabs */}
+          <div className="flex bg-gray-100 p-1 rounded-xl mb-6">
+            <button
+              onClick={() => setRole('student')}
+              className={`flex-1 py-2 text-sm font-bold rounded-lg transition-all ${
+                role === 'student' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              Student
+            </button>
+            <button
+              onClick={() => setRole('vendor')}
+              className={`flex-1 py-2 text-sm font-bold rounded-lg transition-all ${
+                role === 'vendor' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              Vendor
+            </button>
+          </div>
+
           <form onSubmit={handleSignup} className="space-y-5">
+            {role === 'vendor' && (
+              <div>
+                <label className="block text-sm font-bold mb-2">Store Name</label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                     <Store className="h-5 w-5 text-gray-400" />
+                  </div>
+                  <input
+                    type="text"
+                    required
+                    value={formData.storeName}
+                    onChange={(e) => setFormData({...formData, storeName: e.target.value})}
+                    placeholder="e.g. Campus Tech Hub"
+                    className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all"
+                  />
+                </div>
+              </div>
+            )}
+
             <div>
               <label className="block text-sm font-bold mb-2">Full Name</label>
               <input
