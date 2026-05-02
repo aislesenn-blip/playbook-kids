@@ -14,18 +14,24 @@ export default function SignupPage() {
   const [step, setStep] = useState<1 | 2>(1);
   const [formData, setFormData] = useState({
     name: "",
-    phone: "",
-    campusId: mockCampuses[0].id
+    email: "",
+    universityName: "",
+    region: "Dar es Salaam"
   });
   const [otp, setOtp] = useState("");
 
+  const regions = [
+    "Dar es Salaam", "Dodoma", "Mwanza", "Arusha", "Mbeya",
+    "Morogoro", "Tanga", "Kahama", "Tabora", "Zanzibar"
+  ];
+
   const handleSendOtp = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.phone.length < 9) {
-      toast.error("Please enter a valid phone number");
+    if (!formData.email.includes("@")) {
+      toast.error("Please enter a valid email address");
       return;
     }
-    toast.success("OTP sent to " + formData.phone);
+    toast.success("OTP sent to " + formData.email);
     setStep(2);
   };
 
@@ -36,20 +42,29 @@ export default function SignupPage() {
       return;
     }
 
-    const selectedCampus = mockCampuses.find(c => c.id === formData.campusId) || mockCampuses[0];
-
     // Mock successful signup
     setUser({
       id: "u" + Date.now(),
       name: formData.name,
-      phone: formData.phone,
+      email: formData.email,
       role: "student",
-      campusId: formData.campusId
+      universityName: formData.universityName,
+      region: formData.region,
+      campusId: "c1" // Provide a default so explore views have something to show
     });
-    setCampus(selectedCampus);
+    setCampus(mockCampuses[0]); // Provide a default to satisfy the current app store requirements
 
     toast.success("Account created successfully!");
-    router.push("/");
+
+    // Check for redirectTo parameter
+    const searchParams = new URLSearchParams(window.location.search);
+    const redirectTo = searchParams.get('redirectTo');
+
+    if (redirectTo) {
+      router.push(redirectTo);
+    } else {
+      router.push("/");
+    }
   };
 
   return (
@@ -80,35 +95,48 @@ export default function SignupPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-bold mb-2">Campus</label>
+              <label className="block text-sm font-bold mb-2">University Name</label>
+              <div className="relative">
+                 <input
+                   type="text"
+                   required
+                   value={formData.universityName}
+                   onChange={(e) => setFormData({...formData, universityName: e.target.value})}
+                   placeholder="e.g. UDSM, IFM, UDOM"
+                   className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all"
+                 />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold mb-2">Region (Mkoa)</label>
               <div className="relative">
                  <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
                     <MapPin className="h-5 w-5 text-gray-400" />
                  </div>
                  <select
                    required
-                   value={formData.campusId}
-                   onChange={(e) => setFormData({...formData, campusId: e.target.value})}
+                   value={formData.region}
+                   onChange={(e) => setFormData({...formData, region: e.target.value})}
                    className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all appearance-none"
                  >
-                   {mockCampuses.map(campus => (
-                     <option key={campus.id} value={campus.id}>{campus.name}</option>
+                   {regions.map(region => (
+                     <option key={region} value={region}>{region}</option>
                    ))}
                  </select>
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-bold mb-2">Phone Number</label>
+              <label className="block text-sm font-bold mb-2">Email Address</label>
               <div className="relative flex items-center">
-                <span className="absolute left-4 font-bold text-gray-500">+255</span>
                 <input
-                  type="tel"
+                  type="email"
                   required
-                  value={formData.phone}
-                  onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                  placeholder="712 345 678"
-                  className="w-full pl-16 pr-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all"
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  placeholder="student@university.ac.tz"
+                  className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all"
                 />
               </div>
             </div>
@@ -123,7 +151,7 @@ export default function SignupPage() {
           <form onSubmit={handleSignup} className="space-y-6">
              <div>
               <label className="block text-sm font-bold mb-2">Enter OTP</label>
-              <p className="text-sm text-muted-foreground mb-4">Code sent to +255 {formData.phone}</p>
+              <p className="text-sm text-muted-foreground mb-4">Code sent to {formData.email}</p>
               <input
                 type="text"
                 required

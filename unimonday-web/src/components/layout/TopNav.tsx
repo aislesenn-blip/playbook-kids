@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingBag, ShoppingCart, User, Menu, X, Shirt, Smartphone, ShieldCheck, Box, Handshake, ShieldAlert } from "lucide-react";
+import { ShoppingBag, ShoppingCart, User, Menu, X, Shirt, Smartphone, ShieldCheck, Box, Handshake, ShieldAlert, Search } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -38,6 +38,9 @@ export function TopNav() {
         </div>
 
         <div className="flex items-center gap-3">
+          <button onClick={() => alert("Search functionality coming soon")} className="flex items-center justify-center p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+            <Search className="w-5 h-5" />
+          </button>
           <Link href="/checkout" className="flex items-center justify-center p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors relative">
             <ShoppingCart className="w-5 h-5" />
             <span className="absolute top-0 right-0 w-2 h-2 bg-primary rounded-full"></span>

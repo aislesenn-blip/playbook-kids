@@ -48,6 +48,23 @@ export default function OrdersPage() {
     }
   ];
 
+  const hasOrders = activeOrders.length > 0 || pastOrders.length > 0;
+
+  if (!hasOrders) {
+    return (
+      <div className="max-w-4xl mx-auto py-12 px-4 text-center flex flex-col items-center justify-center min-h-[50vh]">
+        <div className="w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center mb-6">
+          <Package className="w-16 h-16 text-gray-400" />
+        </div>
+        <h1 className="text-3xl font-black mb-4">No Orders Yet</h1>
+        <p className="text-muted-foreground mb-8">You haven&apos;t placed any orders yet. Start shopping to see your orders here.</p>
+        <Link href="/explore" className="bg-primary text-white font-bold py-3 px-8 rounded-xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
+          Explore Products
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="flex items-center gap-4 mb-10">

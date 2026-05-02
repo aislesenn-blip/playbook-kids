@@ -75,15 +75,21 @@ export default function ProductDetails() {
             High-quality wireless earbuds perfect for studying in the library or commuting. Features active noise cancellation, 24-hour battery life, and deep bass. Includes a free silicone protective case.
           </p>
 
-          <div className="bg-gray-50 rounded-[2rem] p-6 mb-8 border border-border">
-            <h3 className="font-bold text-gray-900 mb-2">Vendor Information</h3>
-            <p className="text-gray-600 mb-1 font-medium">TechZone UDSM</p>
-            <p className="text-sm text-muted-foreground">Location: Block A, Room 12</p>
+          <div
+            onClick={() => router.push(`/store/${product.vendorId}`)}
+            className="bg-gray-50 rounded-[2rem] p-6 mb-8 border border-border cursor-pointer hover:bg-gray-100 transition-colors group"
+          >
+            <h3 className="font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors">Vendor Information</h3>
+            <p className="text-gray-600 mb-1 font-bold">{product.vendorName}</p>
+            <p className="text-sm text-muted-foreground font-medium flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-primary" />
+              Click to view Storefront
+            </p>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <button onClick={() => { handleAddToCart(); router.push("/checkout"); }} className="flex-1 bg-gray-900 text-white hover:bg-gray-800 font-bold py-5 rounded-[1.5rem] flex items-center justify-center gap-3 transition-colors shadow-xl shadow-gray-900/20 text-lg">
-              <ShoppingBag className="w-6 h-6" /> Order Now
+            <button onClick={() => { handleAddToCart(); }} className="flex-1 bg-gray-900 text-white hover:bg-gray-800 font-bold py-5 rounded-[1.5rem] flex items-center justify-center gap-3 transition-colors shadow-xl shadow-gray-900/20 text-lg">
+              <ShoppingBag className="w-6 h-6" /> Add to Cart
             </button>
             <button
               onClick={() => router.push('/chat')}

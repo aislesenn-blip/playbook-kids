@@ -1,5 +1,17 @@
 
 > unimonday-web@0.1.0 dev
-> next dev
+> next dev -p 3005
 
-sh: 1: next: not found
+   ▲ Next.js 15.5.15
+   - Local:        http://localhost:3005
+   - Network:      http://192.168.0.2:3005
+
+ ✓ Starting...
+ ✓ Ready in 2.1s
+ ○ Compiling /explore ...
+ ✓ Compiled /explore in 9.2s (1616 modules)
+ GET /explore 200 in 11098ms
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Parsing of /app/unimonday-web/node_modules/next-intl/dist/esm/production/extractor/format/index.js for build dependencies failed at 'import(t)'.
+<w> Build dependencies behind this expression are ignored and might cause incorrect cache invalidation.
+ ✓ Compiled in 1058ms (701 modules)
+ ✓ Compiled in 421ms (701 modules)
