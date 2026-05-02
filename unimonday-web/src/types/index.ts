@@ -12,6 +12,7 @@ export interface Vendor {
   id: string;
   userId?: string;
   storeName: string;
+  storeSlug: string;
   description: string;
   logoUrl?: string;
   bannerUrl?: string;
