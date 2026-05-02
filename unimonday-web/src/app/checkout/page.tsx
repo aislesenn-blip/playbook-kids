@@ -60,6 +60,19 @@ export default function CheckoutPage() {
 
        const message = `Hello! I just placed an order for: ${itemsText}. Total: Tsh ${vendorTotal.toLocaleString()}. How do we proceed with payment and delivery?`;
        useAppStore.getState().addPendingMessage(vendor.id, message);
+
+       // Save to Mock Orders State
+       const orderId = `ORD-${Math.floor(Math.random() * 10000)}`;
+       useAppStore.getState().addOrder({
+         id: orderId,
+         type: vendorItems[0].product.category === 'Services' ? 'service' : 'product',
+         title: vendorItems.length > 1 ? `${vendorItems[0].product.name} +${vendorItems.length - 1} more` : vendorItems[0].product.name,
+         status: "Pending",
+         vendor: vendor.storeName,
+         price: `Tsh ${vendorTotal.toLocaleString()}`,
+         image: vendorItems[0].product.images[0],
+         date: new Date().toISOString()
+       });
      });
 
      toast.success("Order placed successfully!");

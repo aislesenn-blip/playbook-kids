@@ -5,55 +5,28 @@ import { motion } from "framer-motion";
 import { Package, Clock, CheckCircle2, Wrench, XCircle, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
+import { Order } from "@/types";
+import { useAppStore } from "@/lib/store/app-store";
 
 export default function OrdersPage() {
-  const activeOrders = [
-    {
-      id: "ORD-9821",
-      type: "product",
-      title: "Pro Wireless Earbuds",
-      status: "In Transit",
-      vendor: "TechZone UDSM",
-      price: "Tsh 45,000",
-      icon: Package,
-      statusColor: "text-blue-500",
-      statusBg: "bg-blue-50",
-      image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=2064&auto=format&fit=crop"
-    },
-    {
-      id: "SRV-4412",
-      type: "service",
-      title: "iPhone Screen Repair",
-      status: "Confirmed",
-      vendor: "Fundi Mjanja (Verified)",
-      price: "Tsh 80,000",
-      icon: Wrench,
-      statusColor: "text-amber-500",
-      statusBg: "bg-amber-50",
-      image: null
+  const { orders, updateOrderStatus } = useAppStore();
+
+  const getStatusColor = (status: string) => {
+    switch(status) {
+      case 'Pending': return { text: 'text-amber-500', bg: 'bg-amber-50' };
+      case 'Confirmed': return { text: 'text-blue-500', bg: 'bg-blue-50' };
+      case 'In Transit': return { text: 'text-purple-500', bg: 'bg-purple-50' };
+      case 'Delivered': return { text: 'text-primary', bg: 'bg-primary/10' };
+      case 'Cancelled': return { text: 'text-red-500', bg: 'bg-red-50' };
+      default: return { text: 'text-gray-500', bg: 'bg-gray-100' };
     }
-  ];
+  };
 
-  const pastOrders = [
-    {
-      id: "ORD-1102",
-      type: "product",
-      title: "Vintage Denim Jacket",
-      status: "Delivered",
-      vendor: "Campus Thrift",
-      price: "Tsh 35,000",
-      icon: CheckCircle2,
-      statusColor: "text-primary",
-      statusBg: "bg-primary/10",
-      image: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop"
-    }
-  ];
+  const activeStatuses = ['Pending', 'Confirmed', 'In Transit'];
+  const activeOrders = orders.filter((o: Order) => activeStatuses.includes(o.status));
+  const pastOrders = orders.filter((o: Order) => !activeStatuses.includes(o.status));
 
-  // For demo, uncomment to see empty state:
-  // const activeOrders = [];
-  // const pastOrders = [];
-
-  if (activeOrders.length === 0 && pastOrders.length === 0) {
+  if (orders.length === 0) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-24 text-center flex flex-col items-center">
         <motion.div
@@ -119,11 +92,11 @@ export default function OrdersPage() {
             >
               {order.image ? (
                 <div className="w-full sm:w-24 h-24 relative rounded-xl overflow-hidden shrink-0 bg-gray-100">
-                  <Image src={order.image} alt={order.title} fill className="object-cover" />
+                  <Image src={order.image || ""} alt={order.title || ""} fill className="object-cover" />
                 </div>
               ) : (
                 <div className="w-full sm:w-24 h-24 rounded-xl shrink-0 bg-gray-100 flex items-center justify-center">
-                  <order.icon className="w-8 h-8 text-gray-400" />
+                  {order.type === 'service' ? <Wrench className="w-8 h-8 text-gray-400" /> : <Package className="w-8 h-8 text-gray-400" />}
                 </div>
               )}
 
@@ -140,7 +113,7 @@ export default function OrdersPage() {
 
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-4">
                   <div className="flex items-center justify-center sm:justify-start gap-4">
-                    <span className={`px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 ${order.statusBg} ${order.statusColor}`}>
+                    <span className={`px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 ${getStatusColor(order.status).bg} ${getStatusColor(order.status).text}`}>
                       <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse"></span>
                       {order.status}
                     </span>
@@ -150,17 +123,23 @@ export default function OrdersPage() {
                   </div>
 
                   <div className="flex items-center gap-2">
-                    {order.status === "In Transit" && (
+                    {["Pending", "Confirmed", "In Transit"].includes(order.status) && (
                       <button
-                        onClick={() => toast.success(`Order ${order.id} confirmed as received!`)}
+                        onClick={() => {
+                          updateOrderStatus(order.id, 'Delivered');
+                          toast.success(`Order ${order.id} confirmed as received!`);
+                        }}
                         className="px-4 py-2 bg-primary text-white text-sm font-bold rounded-lg hover:bg-primary/90 transition-colors shadow-sm shadow-primary/20 flex items-center gap-1"
                       >
-                        <CheckCircle2 className="w-4 h-4" /> Received
+                        <CheckCircle2 className="w-4 h-4" /> Mark Received
                       </button>
                     )}
-                    {order.status === "Confirmed" && (
+                    {order.status === "Pending" && (
                       <button
-                        onClick={() => toast.error(`Order ${order.id} has been cancelled.`)}
+                        onClick={() => {
+                          updateOrderStatus(order.id, 'Cancelled');
+                          toast.error(`Order ${order.id} has been cancelled.`);
+                        }}
                         className="px-4 py-2 bg-red-50 text-red-500 text-sm font-bold rounded-lg hover:bg-red-100 transition-colors flex items-center gap-1"
                       >
                         <XCircle className="w-4 h-4" /> Cancel
@@ -189,7 +168,7 @@ export default function OrdersPage() {
             >
               {order.image && (
                 <div className="w-full sm:w-20 h-20 relative rounded-xl overflow-hidden shrink-0 bg-gray-100 grayscale hover:grayscale-0 transition-all">
-                  <Image src={order.image} alt={order.title} fill className="object-cover" />
+                  <Image src={order.image || ""} alt={order.title || ""} fill className="object-cover" />
                 </div>
               )}
 
@@ -201,7 +180,7 @@ export default function OrdersPage() {
                       {order.vendor}
                     </span>
                   </div>
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold ${order.statusBg} ${order.statusColor}`}>
+                  <span className={`px-3 py-1 rounded-full text-xs font-bold ${getStatusColor(order.status).bg} ${getStatusColor(order.status).text}`}>
                     {order.status}
                   </span>
                 </div>

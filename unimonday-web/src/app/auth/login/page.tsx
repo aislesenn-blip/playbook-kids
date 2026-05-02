@@ -3,9 +3,10 @@
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAppStore } from "@/lib/store/app-store";
-import { ShoppingBag, ArrowRight, ShieldCheck } from "lucide-react";
+import { ShoppingBag, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
+import { supabase } from "@/lib/supabase/client";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -16,7 +17,9 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e: React.FormEvent) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.includes("@")) {
       toast.error("Please enter a valid email address");
@@ -27,19 +30,41 @@ export default function LoginPage() {
       return;
     }
 
-    // Mock successful login
-    setUser({
-      id: "u1",
-      name: "Student User",
-      email: email,
-      role: "student",
-      region: "Dar es Salaam",
-      campusName: "UDSM - Main Campus"
-    });
-    setLocation("Dar es Salaam", "UDSM - Main Campus"); // Default
+    setIsLoading(true);
 
-    toast.success("Logged in successfully!");
-    router.push(redirectTo);
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      // Sync state
+      const userMeta = data.user?.user_metadata || {};
+      setUser({
+        id: data.user?.id || "u1",
+        name: userMeta.name || "Student User",
+        email: data.user?.email || email,
+        role: userMeta.role || "student",
+        region: userMeta.region || "Dar es Salaam",
+        campusName: userMeta.campusName || "UDSM - Main Campus"
+      });
+      setLocation(userMeta.region || "Dar es Salaam", userMeta.campusName || "UDSM - Main Campus");
+
+      toast.success("Logged in successfully!");
+      router.push(redirectTo);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message || "Failed to log in");
+      } else {
+        toast.error("Failed to log in");
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -84,9 +109,10 @@ export default function LoginPage() {
             </div>
             <button
               type="submit"
-              className="w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
+              disabled={isLoading}
+              className="w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              Sign In <ShieldCheck className="w-5 h-5" />
+              {isLoading ? "Signing In..." : "Sign In"} <ShieldCheck className="w-5 h-5" />
             </button>
           </form>
       </div>

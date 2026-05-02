@@ -238,7 +238,7 @@ export default function Home() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Product Card 1 */}
-          <Link href="/product/1" className="block">
+          <Link href="/product/p1" className="block">
             <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer h-full flex flex-col">
             <div className="relative h-48 w-full overflow-hidden">
               <Image
@@ -264,7 +264,7 @@ export default function Home() {
           </Link>
 
           {/* Product Card 2 */}
-          <Link href="/product/2" className="block">
+          <Link href="/product/p2" className="block">
             <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer h-full flex flex-col">
             <div className="relative h-48 w-full overflow-hidden">
               <Image
@@ -290,7 +290,7 @@ export default function Home() {
           </Link>
 
           {/* Product Card 3 */}
-          <Link href="/product/3" className="block">
+          <Link href="/product/p3" className="block">
             <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer h-full flex flex-col">
             <div className="relative h-48 w-full overflow-hidden bg-gray-100">
               <Image
@@ -316,7 +316,7 @@ export default function Home() {
           </Link>
 
           {/* Product Card 4 (Added to complete grid of 4) */}
-          <Link href="/product/4" className="block">
+          <Link href="/product/p4" className="block">
             <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer h-full flex flex-col">
             <div className="relative h-48 w-full overflow-hidden bg-gray-100">
               <Image

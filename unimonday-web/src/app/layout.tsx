@@ -5,6 +5,7 @@ import './globals.css';
 import { TopNav } from '@/components/layout/TopNav';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { Toaster } from 'sonner';
+import { AuthProvider } from '@/components/AuthProvider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -33,14 +34,16 @@ export default async function RootLayout({
     <html lang={locale} className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="antialiased min-h-screen pb-20 sm:pb-0 pt-14 bg-background">
         <NextIntlClientProvider messages={messages} locale={locale}>
-          <TopNav />
-          <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            {children}
-          </main>
-          <div className="sm:hidden">
-            <BottomNav />
-          </div>
-          <Toaster position="top-center" />
+          <AuthProvider>
+            <TopNav />
+            <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+              {children}
+            </main>
+            <div className="sm:hidden">
+              <BottomNav />
+            </div>
+            <Toaster position="top-center" />
+          </AuthProvider>
         </NextIntlClientProvider>
       </body>
     </html>

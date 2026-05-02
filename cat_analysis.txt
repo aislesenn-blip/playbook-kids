@@ -1,0 +1,19 @@
+
+--- unimonday-web/src/app/fashion/page.tsx ---
+38: <Link href={`/product/${product.id}`} key={product.id} className="block">
+61: <Link href={`/store/${product.vendorId}`} onClick={(e) => e.stopPropagation()} className="text-muted-foreground text-sm mb-4 hover:text-primary hover:underline transition-colors block z-10 relative">By {product.vendorName}</Link>
+
+--- unimonday-web/src/app/beauty/page.tsx ---
+37: <Link href={`/product/${product.id}`} key={product.id} className="block">
+60: <Link href={`/store/${product.vendorId}`} onClick={(e) => e.stopPropagation()} className="text-muted-foreground text-sm mb-4 hover:text-primary hover:underline transition-colors block z-10 relative">By {product.vendorName}</Link>
+
+--- unimonday-web/src/app/tech/page.tsx ---
+38: <Link href={`/product/${product.id}`} key={product.id} className="block">
+61: <Link href={`/store/${product.vendorId}`} onClick={(e) => e.stopPropagation()} className="text-muted-foreground text-sm mb-4 hover:text-primary hover:underline transition-colors block z-10 relative">By {product.vendorName}</Link>
+
+--- unimonday-web/src/app/home-decor/page.tsx ---
+37: <Link href={`/product/${product.id}`} key={product.id} className="block">
+60: <Link href={`/store/${product.vendorId}`} onClick={(e) => e.stopPropagation()} className="text-muted-foreground text-sm mb-4 hover:text-primary hover:underline transition-colors block z-10 relative">By {product.vendorName}</Link>
+
+--- unimonday-web/src/app/services/page.tsx ---
+88: <Link href={`/product/${service.id}`} key={service.id} className="block">

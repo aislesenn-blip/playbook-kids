@@ -3,9 +3,10 @@
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAppStore } from "@/lib/store/app-store";
-import { ShoppingBag, ArrowRight, ShieldCheck, MapPin } from "lucide-react";
+import { ShoppingBag, ShieldCheck, MapPin } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
+import { supabase } from "@/lib/supabase/client";
 
 const regions = [
   "Arusha", "Dar es Salaam", "Dodoma", "Geita", "Iringa", "Kagera", "Katavi", "Kigoma", "Kilimanjaro", "Lindi", "Manyara", "Mara", "Mbeya", "Morogoro", "Mtwara", "Mwanza", "Njombe", "Pemba North", "Pemba South", "Pwani", "Rukwa", "Ruvuma", "Shinyanga", "Simiyu", "Singida", "Tabora", "Tanga", "Zanzibar North", "Zanzibar South", "Zanzibar West"
@@ -25,7 +26,9 @@ export default function SignupPage() {
     campusName: ""
   });
 
-  const handleSignup = (e: React.FormEvent) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.email.includes("@")) {
       toast.error("Please enter a valid email address");
@@ -40,19 +43,48 @@ export default function SignupPage() {
       return;
     }
 
-    // Mock successful signup
-    setUser({
-      id: "u" + Date.now(),
-      name: formData.name,
-      email: formData.email,
-      role: "student",
-      region: formData.region,
-      campusName: formData.campusName
-    });
-    setLocation(formData.region, formData.campusName);
+    setIsLoading(true);
 
-    toast.success("Account created successfully!");
-    router.push(redirectTo);
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            name: formData.name,
+            role: "student",
+            region: formData.region,
+            campusName: formData.campusName
+          }
+        }
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      // Sync state
+      setUser({
+        id: data.user?.id || "u" + Date.now(),
+        name: formData.name,
+        email: formData.email,
+        role: "student",
+        region: formData.region,
+        campusName: formData.campusName
+      });
+      setLocation(formData.region, formData.campusName);
+
+      toast.success("Account created successfully!");
+      router.push(redirectTo);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast.error(err.message || "Failed to sign up");
+      } else {
+        toast.error("Failed to sign up");
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -141,9 +173,10 @@ export default function SignupPage() {
             </div>
             <button
               type="submit"
-              className="w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 flex items-center justify-center gap-2 mt-2"
+              disabled={isLoading}
+              className="w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 flex items-center justify-center gap-2 mt-2 disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              Create Account <ShieldCheck className="w-5 h-5" />
+              {isLoading ? "Creating..." : "Create Account"} <ShieldCheck className="w-5 h-5" />
             </button>
           </form>
       </div>
