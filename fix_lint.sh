@@ -1,0 +1,2 @@
+sed -i 's/import { Search, SlidersHorizontal, ShoppingBag, ArrowRight } from "lucide-react";/import { ShoppingBag, ArrowRight } from "lucide-react";/g' unimonday-web/src/app/explore/page.tsx
+sed -i 's/import { Search, ShoppingBag, ArrowRight, Star, MapPin, MessageSquareHeart, ShieldCheck, Info, MessageCircle, ChevronLeft, LayoutGrid, List } from "lucide-react";/import { Search, ShoppingBag, ArrowRight, Star, MapPin, MessageSquareHeart, ShieldCheck, Info, MessageCircle, ChevronLeft, LayoutGrid } from "lucide-react";/g' unimonday-web/src/app/store/[vendor_id]/page.tsx

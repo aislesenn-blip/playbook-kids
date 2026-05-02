@@ -1,10 +1,39 @@
 
-> unimonday-web@0.1.0 start
-> next start
+> unimonday-web@0.1.0 dev
+> next dev
 
    ▲ Next.js 15.5.15
    - Local:        http://localhost:3000
    - Network:      http://192.168.0.2:3000
 
  ✓ Starting...
- ✓ Ready in 582ms
+ ✓ Ready in 2s
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Parsing of /app/unimonday-web/node_modules/next-intl/dist/esm/production/extractor/format/index.js for build dependencies failed at 'import(t)'.
+<w> Build dependencies behind this expression are ignored and might cause incorrect cache invalidation.
+ ○ Compiling / ...
+ ✓ Compiled / in 9s (1632 modules)
+ GET / 200 in 10346ms
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Parsing of /app/unimonday-web/node_modules/next-intl/dist/esm/production/extractor/format/index.js for build dependencies failed at 'import(t)'.
+<w> Build dependencies behind this expression are ignored and might cause incorrect cache invalidation.
+ GET / 200 in 257ms
+ ○ Compiling /orders ...
+ ✓ Compiled /orders in 1410ms (1631 modules)
+ GET / 200 in 606ms
+ GET /orders 200 in 2141ms
+ ✓ Compiled in 592ms (716 modules)
+ ✓ Compiled in 2.4s (716 modules)
+ ✓ Compiled in 430ms (716 modules)
+ ✓ Compiled in 317ms (716 modules)
+ ✓ Compiled in 316ms (716 modules)
+ ✓ Compiled in 430ms (716 modules)
+ ✓ Compiled in 2s (1621 modules)
+ ✓ Compiled in 569ms (1621 modules)
+ ✓ Compiled in 646ms (1621 modules)
+ ✓ Compiled in 1420ms (1621 modules)
+ ✓ Compiled in 380ms (1621 modules)
+ ✓ Compiled in 242ms (716 modules)
+ ✓ Compiled in 1461ms (1624 modules)
+ ✓ Compiled in 597ms (1624 modules)
+ ✓ Compiled in 1063ms (1624 modules)
+ ✓ Compiled in 2.4s (1709 modules)
+ ✓ Compiled in 896ms (760 modules)

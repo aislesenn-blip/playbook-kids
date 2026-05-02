@@ -122,7 +122,7 @@ export default function ExplorePage() {
           <div className="flex overflow-x-auto gap-4 sm:gap-6 pb-4 [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full" style={{ scrollSnapType: "x mandatory" }}>
 
             {/* Item 1 */}
-            <Link href="/product/1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
+            <Link href="/product/p1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
             <motion.div whileHover={{ y: -5 }} className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm group cursor-pointer h-full flex flex-col">
               <div className="relative h-48 w-full overflow-hidden bg-gray-50">
                 <Image src="https://images.unsplash.com/photo-1610392462690-84766bd687ca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxjbG90aGluZyUyMHN0cmVldHdlYXJ8ZW58MHx8fHwxNzc3NzM2MzI0fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Streetwear" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -142,7 +142,7 @@ export default function ExplorePage() {
             </Link>
 
             {/* Item 2 */}
-            <Link href="/product/1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
+            <Link href="/product/p1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
             <motion.div whileHover={{ y: -5 }} className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm group cursor-pointer h-full flex flex-col">
               <div className="relative h-48 w-full overflow-hidden bg-gray-50">
                 <Image src="https://images.unsplash.com/photo-1691689761290-2641cf0fc59a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwyfHxjbG90aGluZyUyMHN0cmVldHdlYXJ8ZW58MHx8fHwxNzc3NzM2MzI0fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Casual Shirt" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -161,7 +161,7 @@ export default function ExplorePage() {
             </Link>
 
             {/* Item 3 */}
-            <Link href="/product/1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
+            <Link href="/product/p1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
             <motion.div whileHover={{ y: -5 }} className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm group cursor-pointer h-full flex flex-col">
               <div className="relative h-48 w-full overflow-hidden bg-gray-50">
                 <Image src="https://images.unsplash.com/photo-1542239898-08fcea4abd2e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwzfHxjbG90aGluZyUyMHN0cmVldHdlYXJ8ZW58MHx8fHwxNzc3NzM2MzI0fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Socks" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -258,7 +258,7 @@ export default function ExplorePage() {
           <div className="flex overflow-x-auto gap-4 sm:gap-6 pb-4 [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full" style={{ scrollSnapType: "x mandatory" }}>
 
             {/* Item 6 - Classic Campus Hoodie */}
-            <Link href="/product/1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
+            <Link href="/product/p1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
             <motion.div whileHover={{ y: -5 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-sm group cursor-pointer">
               <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-gray-100">
                 <Image src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Hoodie" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -278,7 +278,7 @@ export default function ExplorePage() {
             </Link>
 
             {/* Item 10 - Vintage Denim */}
-            <Link href="/product/1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
+            <Link href="/product/p1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
             <motion.div whileHover={{ y: -5 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-sm group cursor-pointer">
               <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-gray-100">
                 <Image src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop" alt="Denim" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -298,7 +298,7 @@ export default function ExplorePage() {
             </Link>
 
             {/* Item 7 - Nike Red Runners */}
-            <Link href="/product/1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
+            <Link href="/product/p1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
             <motion.div whileHover={{ y: -5 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-sm group cursor-pointer">
               <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-gray-100">
                 <Image src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Red Sneakers" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -318,7 +318,7 @@ export default function ExplorePage() {
             </Link>
 
             {/* Item 4 - Running Kicks */}
-            <Link href="/product/1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
+            <Link href="/product/p1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
             <motion.div whileHover={{ y: -5 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-sm group cursor-pointer">
               <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-gray-100">
                 <Image src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Sneakers" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -354,7 +354,7 @@ export default function ExplorePage() {
           <div className="flex overflow-x-auto gap-4 sm:gap-6 pb-4 [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full" style={{ scrollSnapType: "x mandatory" }}>
 
             {/* Item 1 - Minimalist Smartwatch */}
-            <Link href="/product/1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
+            <Link href="/product/p1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
             <motion.div whileHover={{ y: -5 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-sm group cursor-pointer">
               <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-gray-100">
                 <Image src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Smart Watch" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -374,7 +374,7 @@ export default function ExplorePage() {
             </Link>
 
             {/* Item 2 */}
-            <Link href="/product/1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
+            <Link href="/product/p1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
             <motion.div whileHover={{ y: -5 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-sm group cursor-pointer">
               <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-gray-100">
                 <Image src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Headphones" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -394,7 +394,7 @@ export default function ExplorePage() {
             </Link>
 
             {/* Item 8 */}
-            <Link href="/product/1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
+            <Link href="/product/p1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
             <motion.div whileHover={{ y: -5 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-sm group cursor-pointer">
               <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-gray-100">
                 <Image src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" alt="Laptop" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
@@ -414,7 +414,7 @@ export default function ExplorePage() {
             </Link>
 
             {/* Item 9 */}
-            <Link href="/product/1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
+            <Link href="/product/p1" className="block min-w-[240px] sm:min-w-[280px] shrink-0" style={{ scrollSnapAlign: "start" }}>
             <motion.div whileHover={{ y: -5 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-sm group cursor-pointer">
               <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-gray-100">
                 <Image src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=2064&auto=format&fit=crop" alt="Apple Watch" fill className="object-cover group-hover:scale-105 transition-transform duration-500" />

@@ -1,6 +1,7 @@
 import { create } from 'zustand'
+import { supabase } from "@/lib/supabase/client"
 import { persist } from 'zustand/middleware'
-import { CartItem, Product, User } from '@/types'
+import { CartItem, Product, User, Order } from '@/types'
 
 interface AppState {
   currentUser: User | null;
@@ -29,7 +30,13 @@ interface AppState {
   addPendingMessage: (vendorId: string, text: string) => void;
   removePendingMessage: (vendorId: string) => void;
 
+  // Orders State (Mock)
+  orders: Order[];
+  addOrder: (order: Order) => void;
+  updateOrderStatus: (orderId: string, status: "Pending" | "Paid" | "Processing" | "In Transit" | "Delivered" | "Cancelled") => void;
+
   resetApp: () => void;
+  initAuth: () => void;
 }
 
 export const useAppStore = create<AppState>()(
@@ -40,6 +47,7 @@ export const useAppStore = create<AppState>()(
       currentCampusName: null,
       isCartOpen: false,
       cart: [],
+      orders: [],
 
       setUser: (user) => set({ currentUser: user }),
       setLocation: (region, campusName) => set({ currentRegion: region, currentCampusName: campusName }),
@@ -92,7 +100,38 @@ export const useAppStore = create<AppState>()(
         pendingMessages: state.pendingMessages.filter(msg => msg.vendorId !== vendorId)
       })),
 
-      resetApp: () => set({ currentUser: null, currentRegion: null, currentCampusName: null, isCartOpen: false, cart: [], pendingMessages: [] }),
+      addOrder: (order) => set((state) => ({
+        orders: [order, ...state.orders]
+      })),
+      updateOrderStatus: (orderId, status) => set((state) => ({
+        orders: state.orders.map(o => o.id === orderId ? { ...o, status } : o)
+      })),
+
+      resetApp: () => set({ currentUser: null, currentRegion: null, currentCampusName: null, isCartOpen: false, cart: [], pendingMessages: [], orders: [] }),
+
+      initAuth: () => {
+        supabase.auth.onAuthStateChange((event, session) => {
+          if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+            if (session?.user) {
+              const userMeta = session.user.user_metadata || {};
+              set({
+                currentUser: {
+                  id: session.user.id,
+                  name: userMeta.name || "Student User",
+                  email: session.user.email || "",
+                  role: userMeta.role || "student",
+                  region: userMeta.region || "Dar es Salaam",
+                  campusName: userMeta.campusName || "UDSM - Main Campus"
+                },
+                currentRegion: userMeta.region || "Dar es Salaam",
+                currentCampusName: userMeta.campusName || "UDSM - Main Campus"
+              });
+            }
+          } else if (event === 'SIGNED_OUT') {
+            set({ currentUser: null });
+          }
+        });
+      }
     }),
     {
       name: 'unimonday-app-storage',

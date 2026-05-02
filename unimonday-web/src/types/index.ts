@@ -10,7 +10,7 @@ export interface User {
 
 export interface Vendor {
   id: string;
-  userId: string;
+  userId?: string;
   storeName: string;
   description: string;
   logoUrl?: string;
@@ -24,7 +24,7 @@ export interface Vendor {
 
 export interface Product {
   id: string;
-  vendorId: string;
+  vendorId?: string;
   vendorName: string;
   name: string;
   description: string;
@@ -44,13 +44,19 @@ export interface CartItem {
 }
 
 export interface Order {
+  type?: string;
+  title?: string;
+  vendor?: string;
+  price?: string;
+  image?: string;
+  date?: string;
   id: string;
-  userId: string;
-  vendorId: string;
-  items: CartItem[];
-  totalAmount: number;
-  deliveryFee: number;
+  userId?: string;
+  vendorId?: string;
+  items?: CartItem[];
+  totalAmount?: number;
+  deliveryFee?: number;
   status: 'Pending' | 'Paid' | 'Processing' | 'In Transit' | 'Delivered' | 'Cancelled';
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
