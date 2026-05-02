@@ -97,7 +97,7 @@ export function TopNav() {
                 onClick={toggleMenu}
                 className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname.includes('/admin') ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
               >
-                <ShieldAlert className="w-5 h-5" /> Staff (Godmode)
+                <ShieldAlert className="w-5 h-5" /> Staff
               </Link>
               <hr className="border-border my-2" />
               <button className="flex items-center justify-center gap-2 w-full p-3 bg-gray-900 text-white rounded-xl font-bold">
