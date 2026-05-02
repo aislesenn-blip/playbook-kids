@@ -1,0 +1,191 @@
+"use client";
+
+import { use } from "react";
+import { mockVendors, mockProducts } from "@/lib/mockData";
+import { notFound, useRouter } from "next/navigation";
+import Image from "next/image";
+import { ShieldCheck, MessageCircle, Star, MapPin, ArrowRight, ShoppingBag, Info, MessageSquareHeart } from "lucide-react";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { useState } from "react";
+
+export default function VendorStore({ params }: { params: Promise<{ vendor_id: string }> }) {
+  const router = useRouter();
+  const unwrappedParams = use(params);
+  const [activeTab, setActiveTab] = useState("shop");
+
+  // For demo we just match or fallback to first vendor
+  const vendor = mockVendors.find((v) => v.id === unwrappedParams.vendor_id) || mockVendors[0];
+  const products = mockProducts.filter((p) => p.vendorId === vendor.id);
+
+  if (!vendor) return notFound();
+
+  return (
+    <div className="max-w-6xl mx-auto px-4 pb-16 pt-4 sm:pt-8">
+      {/* Cover Photo */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="relative w-full h-64 md:h-80 rounded-[2rem] md:rounded-[3rem] overflow-hidden bg-gray-100 mb-8 shadow-xl"
+      >
+        <Image
+          src={vendor.logoUrl || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80"}
+          alt="Cover"
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+      </motion.div>
+
+      {/* Vendor Profile Info */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+        className="relative -mt-32 mb-12 px-4 md:px-12 flex flex-col md:flex-row items-center md:items-end gap-6"
+      >
+        <div className="relative w-40 h-40 md:w-48 md:h-48 rounded-[2rem] border-4 border-white shadow-2xl overflow-hidden bg-white shrink-0 rotate-3 hover:rotate-0 transition-transform duration-300">
+          <Image
+            src={vendor.logoUrl || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80"}
+            alt={vendor.storeName}
+            fill
+            className="object-cover"
+          />
+        </div>
+
+        <div className="flex-1 text-center md:text-left mb-2 z-10">
+          <div className="flex flex-col md:flex-row items-center md:items-center gap-3 mb-2">
+            <h1 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight drop-shadow-sm md:text-white md:-mt-16">{vendor.storeName}</h1>
+            {vendor.isVerified && (
+              <span className="inline-flex items-center gap-1 bg-white md:bg-white/20 text-primary md:text-white backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold shrink-0 md:-mt-16 shadow-sm">
+                <ShieldCheck className="w-4 h-4" /> Verified
+              </span>
+            )}
+          </div>
+          <p className="text-muted-foreground md:text-gray-200 font-medium mb-4 max-w-2xl text-lg md:-mt-2">{vendor.description}</p>
+
+          <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-sm font-bold text-gray-700">
+            <span className="flex items-center gap-1 bg-amber-50 text-amber-600 px-3 py-1 rounded-full">
+              <Star className="w-4 h-4 fill-current" />
+              {vendor.rating} Rating
+            </span>
+            <span className="flex items-center gap-1 bg-gray-100 text-gray-700 px-3 py-1 rounded-full">
+              <MapPin className="w-4 h-4" />
+              {vendor.campusName}, {vendor.region}
+            </span>
+          </div>
+        </div>
+
+        <div className="shrink-0 mb-2 hidden md:block z-10">
+          <button
+            onClick={() => router.push('/chat')}
+            className="bg-primary hover:bg-primary/90 text-white font-bold py-4 px-8 rounded-2xl transition-colors shadow-lg shadow-primary/30 flex items-center justify-center gap-2 hover:scale-105 transform duration-200"
+          >
+            <MessageCircle className="w-5 h-5" /> Chat with Vendor
+          </button>
+        </div>
+      </motion.div>
+
+      {/* Navigation Tabs */}
+      <div className="sticky top-14 z-30 bg-white/80 backdrop-blur-xl border-b border-border mb-8 -mx-4 px-4 py-2 sm:px-6 md:px-0 md:mx-0 flex gap-6 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+        <button
+          onClick={() => setActiveTab("shop")}
+          className={`flex items-center gap-2 font-bold py-3 px-2 border-b-2 transition-colors whitespace-nowrap ${activeTab === 'shop' ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-900'}`}
+        >
+          <ShoppingBag className="w-4 h-4" /> Shop
+        </button>
+        <button
+          onClick={() => setActiveTab("about")}
+          className={`flex items-center gap-2 font-bold py-3 px-2 border-b-2 transition-colors whitespace-nowrap ${activeTab === 'about' ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-900'}`}
+        >
+          <Info className="w-4 h-4" /> About
+        </button>
+        <button
+          onClick={() => setActiveTab("reviews")}
+          className={`flex items-center gap-2 font-bold py-3 px-2 border-b-2 transition-colors whitespace-nowrap ${activeTab === 'reviews' ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-900'}`}
+        >
+          <MessageSquareHeart className="w-4 h-4" /> Reviews
+        </button>
+      </div>
+
+      <div className="mb-8 min-h-[40vh]">
+        {activeTab === "shop" && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+
+        {products.length === 0 ? (
+          <div className="text-center py-16 bg-gray-50 rounded-[2rem] border border-border">
+            <ShoppingBag className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-gray-900 mb-2">No products yet</h3>
+            <p className="text-muted-foreground font-medium">This vendor hasn&apos;t added any products.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
+            {products.map((product) => (
+              <Link key={product.id} href={`/product/${product.id}`} className="block group">
+                <motion.div whileHover={{ y: -8 }} className="bg-white rounded-[2.5rem] overflow-hidden border border-border/50 shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer h-full flex flex-col relative">
+                  <div className="relative h-56 md:h-64 w-full overflow-hidden bg-gray-50">
+                    <Image src={product.images[0] || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80"} alt={product.name} fill className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out" />
+                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-xl text-xs font-bold text-gray-900 shadow-sm">{product.category}</div>
+                  </div>
+                  <div className="p-5 md:p-6 flex flex-col flex-grow bg-white">
+                    <h3 className="font-bold text-lg md:text-xl mb-2 line-clamp-2 leading-tight group-hover:text-primary transition-colors">{product.name}</h3>
+                    <div className="mt-auto flex items-end justify-between pt-4">
+                      <span className="font-black text-xl tracking-tight">Tsh {product.price.toLocaleString()}</span>
+                      <div className="w-10 h-10 rounded-full bg-gray-50 text-gray-900 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all transform group-hover:-rotate-45 shrink-0 shadow-sm border border-border/50">
+                        <ArrowRight className="w-5 h-5" />
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </Link>
+            ))}
+          </div>
+        )}
+          </motion.div>
+        )}
+
+        {activeTab === "about" && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-white rounded-[2rem] p-8 border border-border">
+            <h3 className="text-2xl font-black mb-4">About {vendor.storeName}</h3>
+            <p className="text-muted-foreground font-medium leading-relaxed mb-6">{vendor.description}</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
+                <MapPin className="w-5 h-5 text-gray-500" />
+                <div>
+                  <p className="font-bold">Location</p>
+                  <p className="text-sm text-muted-foreground">{vendor.campusName}, {vendor.region}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
+                <ShieldCheck className="w-5 h-5 text-green-500" />
+                <div>
+                  <p className="font-bold">Status</p>
+                  <p className="text-sm text-muted-foreground">Verified Vendor</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {activeTab === "reviews" && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-16 bg-gray-50 rounded-[2rem] border border-border">
+            <MessageSquareHeart className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-gray-900 mb-2">No reviews yet</h3>
+            <p className="text-muted-foreground font-medium">Be the first to review this vendor after your purchase.</p>
+          </motion.div>
+        )}
+      </div>
+
+      {/* Mobile Sticky CTA */}
+      <div className="md:hidden fixed bottom-16 left-0 right-0 p-4 bg-white/90 backdrop-blur-xl border-t border-border z-40">
+        <button
+          onClick={() => router.push('/chat')}
+          className="w-full bg-primary text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
+        >
+          <MessageCircle className="w-5 h-5" /> Chat with Vendor
+        </button>
+      </div>
+
+    </div>
+  );
+}

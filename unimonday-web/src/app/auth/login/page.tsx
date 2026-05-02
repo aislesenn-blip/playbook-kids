@@ -1,27 +1,29 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAppStore } from "@/lib/store/app-store";
-import { mockCampuses } from "@/lib/mockData";
 import { ShoppingBag, ArrowRight, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { setUser, setCampus } = useAppStore();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get('redirectTo') || '/';
+
+  const { setUser, setLocation } = useAppStore();
   const [step, setStep] = useState<1 | 2>(1);
-  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
 
   const handleSendOtp = (e: React.FormEvent) => {
     e.preventDefault();
-    if (phone.length < 9) {
-      toast.error("Please enter a valid phone number");
+    if (!email.includes("@")) {
+      toast.error("Please enter a valid email address");
       return;
     }
-    toast.success("OTP sent to " + phone);
+    toast.success("OTP sent to " + email);
     setStep(2);
   };
 
@@ -36,14 +38,15 @@ export default function LoginPage() {
     setUser({
       id: "u1",
       name: "Student User",
-      phone: phone,
+      email: email,
       role: "student",
-      campusId: "c1"
+      region: "Dar es Salaam",
+      campusName: "UDSM - Main Campus"
     });
-    setCampus(mockCampuses[0]); // Default to UDSM
+    setLocation("Dar es Salaam", "UDSM - Main Campus"); // Default
 
     toast.success("Logged in successfully!");
-    router.push("/");
+    router.push(redirectTo);
   };
 
   return (
@@ -62,16 +65,15 @@ export default function LoginPage() {
         {step === 1 ? (
           <form onSubmit={handleSendOtp} className="space-y-6">
             <div>
-              <label className="block text-sm font-bold mb-2">Phone Number</label>
+              <label className="block text-sm font-bold mb-2">Email Address</label>
               <div className="relative flex items-center">
-                <span className="absolute left-4 font-bold text-gray-500">+255</span>
                 <input
-                  type="tel"
+                  type="email"
                   required
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="712 345 678"
-                  className="w-full pl-16 pr-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="student@example.com"
+                  className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all"
                 />
               </div>
             </div>
@@ -86,7 +88,7 @@ export default function LoginPage() {
           <form onSubmit={handleLogin} className="space-y-6">
              <div>
               <label className="block text-sm font-bold mb-2">Enter OTP</label>
-              <p className="text-sm text-muted-foreground mb-4">Code sent to +255 {phone}</p>
+              <p className="text-sm text-muted-foreground mb-4">Code sent to {email}</p>
               <input
                 type="text"
                 required
@@ -108,7 +110,7 @@ export default function LoginPage() {
               onClick={() => setStep(1)}
               className="w-full text-gray-500 font-bold py-2 text-sm hover:text-gray-900"
             >
-              Change Phone Number
+              Change Email
             </button>
           </form>
         )}

@@ -1,16 +1,11 @@
-export interface Campus {
-  id: string;
-  name: string;
-  city: string;
-}
-
 export interface User {
   id: string;
   name: string;
-  phone: string;
+  email: string;
   role: 'student' | 'vendor' | 'admin';
   avatarUrl?: string;
-  campusId?: string;
+  region?: string;
+  campusName?: string;
 }
 
 export interface Vendor {
@@ -21,7 +16,8 @@ export interface Vendor {
   logoUrl?: string;
   bannerUrl?: string;
   rating: number;
-  campusId: string;
+  region: string;
+  campusName: string;
   isVerified: boolean;
 }
 

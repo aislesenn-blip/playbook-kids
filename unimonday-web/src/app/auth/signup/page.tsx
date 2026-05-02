@@ -1,31 +1,42 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAppStore } from "@/lib/store/app-store";
-import { mockCampuses } from "@/lib/mockData";
 import { ShoppingBag, ArrowRight, ShieldCheck, MapPin } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 
+const regions = [
+  "Arusha", "Dar es Salaam", "Dodoma", "Geita", "Iringa", "Kagera", "Katavi", "Kigoma", "Kilimanjaro", "Lindi", "Manyara", "Mara", "Mbeya", "Morogoro", "Mtwara", "Mwanza", "Njombe", "Pemba North", "Pemba South", "Pwani", "Rukwa", "Ruvuma", "Shinyanga", "Simiyu", "Singida", "Tabora", "Tanga", "Zanzibar North", "Zanzibar South", "Zanzibar West"
+];
+
 export default function SignupPage() {
   const router = useRouter();
-  const { setUser, setCampus } = useAppStore();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get('redirectTo') || '/';
+
+  const { setUser, setLocation } = useAppStore();
   const [step, setStep] = useState<1 | 2>(1);
   const [formData, setFormData] = useState({
     name: "",
-    phone: "",
-    campusId: mockCampuses[0].id
+    email: "",
+    region: regions[1], // Default Dar es Salaam
+    campusName: ""
   });
   const [otp, setOtp] = useState("");
 
   const handleSendOtp = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.phone.length < 9) {
-      toast.error("Please enter a valid phone number");
+    if (!formData.email.includes("@")) {
+      toast.error("Please enter a valid email address");
       return;
     }
-    toast.success("OTP sent to " + formData.phone);
+    if (!formData.campusName.trim()) {
+      toast.error("Please enter your campus name");
+      return;
+    }
+    toast.success("OTP sent to " + formData.email);
     setStep(2);
   };
 
@@ -36,20 +47,19 @@ export default function SignupPage() {
       return;
     }
 
-    const selectedCampus = mockCampuses.find(c => c.id === formData.campusId) || mockCampuses[0];
-
     // Mock successful signup
     setUser({
       id: "u" + Date.now(),
       name: formData.name,
-      phone: formData.phone,
+      email: formData.email,
       role: "student",
-      campusId: formData.campusId
+      region: formData.region,
+      campusName: formData.campusName
     });
-    setCampus(selectedCampus);
+    setLocation(formData.region, formData.campusName);
 
     toast.success("Account created successfully!");
-    router.push("/");
+    router.push(redirectTo);
   };
 
   return (
@@ -80,35 +90,46 @@ export default function SignupPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-bold mb-2">Campus</label>
+              <label className="block text-sm font-bold mb-2">Region</label>
               <div className="relative">
                  <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
                     <MapPin className="h-5 w-5 text-gray-400" />
                  </div>
                  <select
                    required
-                   value={formData.campusId}
-                   onChange={(e) => setFormData({...formData, campusId: e.target.value})}
+                   value={formData.region}
+                   onChange={(e) => setFormData({...formData, region: e.target.value})}
                    className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all appearance-none"
                  >
-                   {mockCampuses.map(campus => (
-                     <option key={campus.id} value={campus.id}>{campus.name}</option>
+                   {regions.map(region => (
+                     <option key={region} value={region}>{region}</option>
                    ))}
                  </select>
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-bold mb-2">Phone Number</label>
+              <label className="block text-sm font-bold mb-2">Campus Name</label>
+              <input
+                type="text"
+                required
+                value={formData.campusName}
+                onChange={(e) => setFormData({...formData, campusName: e.target.value})}
+                placeholder="e.g. UDSM Main Campus"
+                className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold mb-2">Email Address</label>
               <div className="relative flex items-center">
-                <span className="absolute left-4 font-bold text-gray-500">+255</span>
                 <input
-                  type="tel"
+                  type="email"
                   required
-                  value={formData.phone}
-                  onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                  placeholder="712 345 678"
-                  className="w-full pl-16 pr-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all"
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  placeholder="student@example.com"
+                  className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all"
                 />
               </div>
             </div>
@@ -123,7 +144,7 @@ export default function SignupPage() {
           <form onSubmit={handleSignup} className="space-y-6">
              <div>
               <label className="block text-sm font-bold mb-2">Enter OTP</label>
-              <p className="text-sm text-muted-foreground mb-4">Code sent to +255 {formData.phone}</p>
+              <p className="text-sm text-muted-foreground mb-4">Code sent to {formData.email}</p>
               <input
                 type="text"
                 required

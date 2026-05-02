@@ -3,11 +3,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Store, ArrowLeft, Image as ImageIcon, Search } from "lucide-react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 export default function ChatInterface() {
-  const router = useRouter();
   const [messages, setMessages] = useState([
     { id: 1, text: "Hi there! Is the Vintage Denim Jacket still available?", sender: "user", time: "10:00 AM" },
     { id: 2, text: "Hello! Yes, it is still available. What size are you looking for?", sender: "vendor", time: "10:05 AM" },
@@ -40,7 +38,7 @@ export default function ChatInterface() {
   return (
     <div className="max-w-6xl mx-auto h-[calc(100vh-8rem)] bg-white rounded-[2rem] border border-border shadow-sm overflow-hidden flex">
       {/* Sidebar - Chat List */}
-      <div className="w-full md:w-1/3 border-r border-border flex flex-col hidden md:flex">
+      <div className={`w-full md:w-1/3 border-r border-border flex flex-col ${activeChat ? 'hidden md:flex' : 'flex'}`}>
         <div className="p-4 border-b border-border">
           <h2 className="text-xl font-black mb-4">Messages</h2>
           <div className="relative">
@@ -76,9 +74,9 @@ export default function ChatInterface() {
       </div>
 
       {/* Main Chat Area */}
-      <div className="w-full md:w-2/3 flex flex-col h-full bg-gray-50/50">
+      <div className={`w-full md:w-2/3 flex flex-col h-full bg-gray-50/50 ${!activeChat ? 'hidden md:flex' : 'flex'}`}>
         <div className="p-4 bg-white border-b border-border flex items-center gap-3">
-          <button onClick={() => router.back()} className="md:hidden p-2 -ml-2 text-gray-500 hover:bg-gray-100 rounded-full">
+          <button onClick={() => setActiveChat("")} className="md:hidden p-2 -ml-2 text-gray-500 hover:bg-gray-100 rounded-full">
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div className="w-10 h-10 bg-primary/10 text-primary rounded-full flex items-center justify-center shrink-0 overflow-hidden relative">
@@ -117,16 +115,35 @@ export default function ChatInterface() {
         </div>
 
         <div className="p-4 bg-white border-t border-border">
-          <div className="flex items-center gap-2">
-            <button className="p-3 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition-colors shrink-0">
+          <div className="flex items-center gap-2 relative">
+            <label className="p-3 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition-colors shrink-0 cursor-pointer">
+              <input
+                type="file"
+                className="hidden"
+                accept="image/*"
+                onChange={(e) => {
+                  if (e.target.files && e.target.files[0]) {
+                     setMessages(prev => [
+                        ...prev,
+                        { id: Date.now(), text: "Sent an image", sender: "user", time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
+                     ]);
+                     setTimeout(() => {
+                        setMessages(prev => [
+                          ...prev,
+                          { id: Date.now() + 1, text: "Thanks for sending the payment screenshot. I will verify it now.", sender: "vendor", time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
+                        ]);
+                     }, 1500);
+                  }
+                }}
+              />
               <ImageIcon className="w-5 h-5" />
-            </button>
+            </label>
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSend()}
-              placeholder="Type your message..."
+              placeholder="Type a message or upload payment screenshot..."
               className="flex-1 bg-gray-100 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary text-sm font-medium"
             />
             <button
