@@ -22,7 +22,7 @@ export default function OrdersPage() {
     }
   };
 
-  const activeStatuses = ['Pending', 'Confirmed', 'In Transit'];
+  const activeStatuses = ['Pending', 'Paid', 'Confirmed', 'Processing', 'In Transit'];
   const activeOrders = orders.filter((o: Order) => activeStatuses.includes(o.status));
   const pastOrders = orders.filter((o: Order) => !activeStatuses.includes(o.status));
 
