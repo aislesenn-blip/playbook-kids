@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Package, Clock, CheckCircle2, Wrench, XCircle } from "lucide-react";
+import { Package, Clock, CheckCircle2, Wrench, XCircle, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
 
@@ -55,17 +55,42 @@ export default function OrdersPage() {
 
   if (activeOrders.length === 0 && pastOrders.length === 0) {
     return (
-      <div className="max-w-4xl mx-auto px-4 py-24 text-center">
-        <div className="w-32 h-32 mx-auto mb-8 bg-gray-50 rounded-full flex items-center justify-center border-8 border-white shadow-xl">
-           <Package className="w-12 h-12 text-gray-300" />
-        </div>
-        <h1 className="text-3xl font-black mb-4">No orders yet</h1>
-        <p className="text-muted-foreground font-medium mb-8 max-w-md mx-auto">
-          You haven&apos;t placed any orders yet. Start exploring the marketplace to find what you need.
-        </p>
-        <Link href="/explore" className="inline-flex items-center justify-center bg-primary text-white font-bold py-4 px-8 rounded-xl hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20">
-          Start Shopping
-        </Link>
+      <div className="max-w-4xl mx-auto px-4 py-24 text-center flex flex-col items-center">
+        <motion.div
+           initial={{ scale: 0.8, opacity: 0 }}
+           animate={{ scale: 1, opacity: 1 }}
+           className="w-40 h-40 mx-auto mb-8 bg-gray-50 rounded-full flex items-center justify-center border-[12px] border-white shadow-xl relative"
+        >
+           <Package className="w-16 h-16 text-gray-300" />
+           <div className="absolute -top-2 -right-2 bg-amber-100 text-amber-600 rounded-full w-10 h-10 flex items-center justify-center font-black text-xl shadow-sm rotate-12">
+             ?
+           </div>
+        </motion.div>
+        <motion.h1
+          initial={{ y: 10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.1 }}
+          className="text-4xl font-black mb-4"
+        >
+          No orders yet
+        </motion.h1>
+        <motion.p
+          initial={{ y: 10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="text-muted-foreground text-lg font-medium mb-10 max-w-md mx-auto"
+        >
+          Ready to treat yourself? Discover amazing campus deals and start filling up your orders.
+        </motion.p>
+        <motion.div
+           initial={{ y: 10, opacity: 0 }}
+           animate={{ y: 0, opacity: 1 }}
+           transition={{ delay: 0.3 }}
+        >
+           <Link href="/explore" className="inline-flex items-center justify-center gap-2 bg-primary text-white font-bold py-4 px-10 rounded-full hover:bg-primary/90 transition-all hover:scale-105 shadow-xl shadow-primary/30 text-lg">
+             Discover Deals <ArrowRight className="w-5 h-5" />
+           </Link>
+        </motion.div>
       </div>
     );
   }

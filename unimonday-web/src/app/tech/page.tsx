@@ -4,52 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ShoppingBag } from "lucide-react";
+import { mockProducts } from "@/lib/mockData";
 
 export default function TechPage() {
-  const products = [
-    {
-      id: 101,
-      name: "MacBook Pro M1",
-      vendor: "Mac Dealers",
-      price: "Tsh 2,500,000",
-      image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
-    },
-    {
-      id: 102,
-      name: "Pro Wireless Earbuds",
-      vendor: "TechZone UDSM",
-      price: "Tsh 45,000",
-      image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=2064&auto=format&fit=crop"
-    },
-    {
-      id: 103,
-      name: "Apple Watch Series 7",
-      vendor: "TechZone UDSM",
-      price: "Tsh 600,000",
-      image: "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?q=80&w=2000&auto=format&fit=crop"
-    },
-    {
-      id: 104,
-      name: "Mechanical Keyboard",
-      vendor: "PC Master Race",
-      price: "Tsh 120,000",
-      image: "https://images.unsplash.com/photo-1595225476474-87563907a212?q=80&w=2000&auto=format&fit=crop"
-    },
-    {
-      id: 105,
-      name: "iPhone 13 Pro",
-      vendor: "Phone Hub",
-      price: "Tsh 1,800,000",
-      image: "https://images.unsplash.com/photo-1632661674596-df8be070a5c5?q=80&w=2000&auto=format&fit=crop"
-    },
-    {
-      id: 106,
-      name: "20,000mAh Power Bank",
-      vendor: "Tech Accessories",
-      price: "Tsh 35,000",
-      image: "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?q=80&w=2000&auto=format&fit=crop"
-    }
-  ];
+    const products = mockProducts.filter(p => p.category === 'Tech & Accessories');
 
   return (
     <div className="min-h-screen bg-gray-50/50 pb-24 pt-8">
@@ -87,7 +45,7 @@ export default function TechPage() {
               >
                 <div className="relative h-48 w-full overflow-hidden bg-gray-100">
                   <Image
-                    src={product.image}
+                    src={product.images[0]}
                     alt={product.name}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -100,10 +58,10 @@ export default function TechPage() {
                   <div className="flex justify-between items-start mb-2">
                     <h3 className="font-bold text-xl line-clamp-1" title={product.name}>{product.name}</h3>
                   </div>
-                  <p className="text-muted-foreground text-sm mb-4">By {product.vendor}</p>
+                  <Link href={`/store/${product.vendorId}`} onClick={(e) => e.stopPropagation()} className="text-muted-foreground text-sm mb-4 hover:text-primary hover:underline transition-colors block z-10 relative">By {product.vendorName}</Link>
 
                   <div className="mt-auto flex items-center justify-between pt-4 border-t border-border">
-                    <span className="font-black text-xl text-gray-900">{product.price}</span>
+                    <span className="font-black text-xl text-gray-900">Tsh {product.price.toLocaleString()}</span>
                     <button className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
                       <ShoppingBag className="w-5 h-5" />
                     </button>

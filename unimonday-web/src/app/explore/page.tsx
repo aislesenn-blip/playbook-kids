@@ -25,11 +25,18 @@ export default function ExplorePage() {
   const categories = ["All", "Fashion & Apparels", "Tech & Accessories", "Beauty & Cosmetics", "Home & Decor", "Services"];
 
   const [displayCount, setDisplayCount] = useState(8);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   const mixedProducts = [...mockProducts, ...mockProducts, ...mockProducts, ...mockProducts].map((p, i) => ({ ...p, id: p.id + i }));
 
+  const filteredProducts = activeCategory === "All" ? [] : mockProducts.filter(p => p.category === activeCategory);
+
   const handleLoadMore = () => {
-    setDisplayCount(prev => prev + 8);
+    setIsLoadingMore(true);
+    setTimeout(() => {
+      setDisplayCount(prev => prev + 8);
+      setIsLoadingMore(false);
+    }, 1200);
   };
 
   return (
@@ -58,13 +65,55 @@ export default function ExplorePage() {
       {/* Main Content Area */}
       <div className="max-w-7xl mx-auto px-4 mt-8 space-y-12">
 
+        {activeCategory !== "All" && (
+          <section>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
+                {activeCategory}
+              </h2>
+            </div>
+            {filteredProducts.length === 0 ? (
+              <div className="text-center py-16 bg-white rounded-3xl border border-gray-100">
+                <p className="text-muted-foreground font-medium">No products found in this category.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                {filteredProducts.map((product) => (
+                  <Link href={`/product/${product.id}`} key={product.id} className="block">
+                    <motion.div whileHover={{ y: -5 }} className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm group cursor-pointer h-full flex flex-col relative">
+                      <div className="relative h-40 sm:h-48 w-full overflow-hidden bg-gray-50">
+                        <Image src={product.images[0]} alt={product.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-md px-2 py-0.5 rounded-md text-[10px] font-bold text-gray-800 shadow-sm max-w-[80%] truncate">
+                          {product.category}
+                        </div>
+                      </div>
+                      <div className="p-3 sm:p-4 flex-grow flex flex-col justify-between">
+                        <div>
+                          <h3 className="font-bold text-sm sm:text-base mb-1 line-clamp-2 leading-tight">{product.name}</h3>
+                          <Link href={`/store/${product.vendorId}`} onClick={(e) => e.stopPropagation()} className="text-xs text-gray-500 hover:text-primary hover:underline mb-2 block relative z-10">{product.vendorName}</Link>
+                        </div>
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-3 gap-2">
+                          <span className="font-bold text-sm sm:text-base text-gray-900">Tsh {product.price.toLocaleString()}</span>
+                          <button onClick={(e) => handleAddToCart(e, product.id)} className="text-white bg-primary hover:bg-primary/90 rounded-lg text-xs font-bold px-3 py-2 w-full sm:w-auto text-center transition-colors">Add</button>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
+
+        {activeCategory === "All" && (
+        <>
         {/* Fashion Apparels (Reordered as first item per request) */}
         <section>
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
               <Star className="w-6 h-6 text-primary" /> Trending Products
             </h2>
-            <Link href="/search?sort=trending" className="text-primary font-bold hover:underline flex items-center gap-1 text-sm">
+            <Link href="/trending" className="text-primary font-bold hover:underline flex items-center gap-1 text-sm">
               View All <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -138,7 +187,7 @@ export default function ExplorePage() {
             <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
               <Store className="w-6 h-6 text-primary" /> Top Rated Stores
             </h2>
-            <Link href="/search?type=stores" className="text-primary font-bold hover:underline flex items-center gap-1 text-sm">
+            <Link href="/stores" className="text-primary font-bold hover:underline flex items-center gap-1 text-sm">
               View All <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -429,13 +478,20 @@ export default function ExplorePage() {
             <div className="mt-12 flex justify-center">
               <button
                 onClick={handleLoadMore}
-                className="bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 px-8 rounded-full transition-colors flex items-center gap-2 shadow-md"
+                disabled={isLoadingMore}
+                className="bg-gray-900 hover:bg-gray-800 text-white font-bold py-3 px-8 rounded-full transition-colors flex items-center gap-2 shadow-md disabled:opacity-70"
               >
-                Load More Products
+                {isLoadingMore ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> Loading...
+                  </>
+                ) : "Load More Products"}
               </button>
             </div>
           )}
         </section>
+        </>
+        )}
 
       </div>
     </div>
