@@ -19,7 +19,7 @@ export default function VendorDashboard() {
   const [isBannersOpen, setIsBannersOpen] = useState(false);
   const [paymentInfo, setPaymentInfo] = useState("Free delivery Dar es Salaam. Mobile Money preferred.");
   const { orders, updateOrderStatus, addVendorProduct } = useAppStore();
-  const [newProduct, setNewProduct] = useState({ name: "", price: "", category: "Fashion & Apparels" });
+  const [newProduct, setNewProduct] = useState({ name: "", price: "", category: "Fashion & Apparels", supplierPhone: "", supplierLocation: "" });
   const storeName = "Kicks TZ";
   const vendorOrders = orders.filter((o: Order) => o.vendor === storeName);
 
@@ -40,7 +40,7 @@ export default function VendorDashboard() {
     addVendorProduct(product);
     toast.success("Product added successfully!");
     setIsAddingProduct(false);
-    setNewProduct({ name: "", price: "", category: "Fashion" });
+    setNewProduct({ name: "", price: "", category: "Fashion", supplierPhone: "", supplierLocation: "" });
   }
 
 
@@ -59,9 +59,9 @@ export default function VendorDashboard() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
         <div>
           <h1 className="text-3xl font-black flex items-center gap-2 mb-2">
-            <Store className="w-8 h-8 text-primary" /> Vendor Dashboard
+            <Store className="w-8 h-8 text-primary" /> Internal Inventory Dashboard
           </h1>
-          <p className="text-muted-foreground font-medium text-lg">Welcome back, Kicks TZ</p>
+          <p className="text-muted-foreground font-medium text-lg">Welcome back, uNiMONDAY Inventory Admin</p>
         </div>
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
           <button
@@ -291,7 +291,22 @@ export default function VendorDashboard() {
                     </select>
                   </div>
                 </div>
+
+                <div className="grid grid-cols-2 gap-4 mt-4 border-t border-border pt-4">
+                  <div className="col-span-2">
+                    <span className="text-xs font-black text-primary uppercase tracking-wider bg-primary/10 px-2 py-1 rounded">Internal Use Only (Not visible to users)</span>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-bold mb-1">Supplier Phone</label>
+                    <input required type="text" value={newProduct.supplierPhone} onChange={e => setNewProduct({...newProduct, supplierPhone: e.target.value})} className="w-full border border-border bg-gray-50 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="07XX XXX XXX" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-bold mb-1">Supplier Location</label>
+                    <input required type="text" value={newProduct.supplierLocation} onChange={e => setNewProduct({...newProduct, supplierLocation: e.target.value})} className="w-full border border-border bg-gray-50 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="e.g. Kariakoo, Mtaa wa Congo" />
+                  </div>
+                </div>
                 <button type="submit" className="w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-primary/90 mt-4 shadow-lg shadow-primary/20">Publish Product</button>
+
                  </form>
                </>
              )}
