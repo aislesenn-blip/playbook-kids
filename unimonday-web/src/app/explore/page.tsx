@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Search, SlidersHorizontal, MapPin, Store, Star, ArrowRight, ShoppingBag } from "lucide-react";
+import { Search, SlidersHorizontal, MapPin, Store, Star, ArrowRight, ShoppingBag, Truck } from "lucide-react";
 import { useAppStore } from "@/lib/store/app-store";
 import { mockProducts } from "@/lib/mockData";
 import { toast } from "sonner";
@@ -298,7 +298,7 @@ export default function ExplorePage() {
               </div>
               <div className="p-4 sm:p-5">
                 <h3 className="font-bold text-lg mb-1 truncate">Classic Campus Hoodie</h3>
-                <p className="text-sm text-muted-foreground mb-3 truncate">By Campus Thrift</p>
+                <p className="text-xs text-emerald-600 font-bold mb-3 truncate flex items-center gap-1"><Truck className="w-3 h-3"/> Delivery Anywhere</p>
                 <div className="flex items-center justify-between">
                   <span className="font-black text-lg">Tsh 18,000</span>
                   <button className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
@@ -318,7 +318,7 @@ export default function ExplorePage() {
               </div>
               <div className="p-4 sm:p-5">
                 <h3 className="font-bold text-lg mb-1 truncate">Vintage Denim</h3>
-                <p className="text-sm text-muted-foreground mb-3 truncate">By Campus Thrift</p>
+                <p className="text-xs text-emerald-600 font-bold mb-3 truncate flex items-center gap-1"><Truck className="w-3 h-3"/> Delivery Anywhere</p>
                 <div className="flex items-center justify-between">
                   <span className="font-black text-lg">Tsh 15,000</span>
                   <button className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
@@ -338,7 +338,7 @@ export default function ExplorePage() {
               </div>
               <div className="p-4 sm:p-5">
                 <h3 className="font-bold text-lg mb-1 truncate">Nike Red Runners</h3>
-                <p className="text-sm text-muted-foreground mb-3 truncate">By Kicks TZ</p>
+                <p className="text-xs text-emerald-600 font-bold mb-3 truncate flex items-center gap-1"><Truck className="w-3 h-3"/> Delivery Anywhere</p>
                 <div className="flex items-center justify-between">
                   <span className="font-black text-lg">Tsh 19,500</span>
                   <button className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
@@ -358,7 +358,7 @@ export default function ExplorePage() {
               </div>
               <div className="p-4 sm:p-5">
                 <h3 className="font-bold text-lg mb-1 truncate">Running Kicks</h3>
-                <p className="text-sm text-muted-foreground mb-3 truncate">By Kicks TZ</p>
+                <p className="text-xs text-emerald-600 font-bold mb-3 truncate flex items-center gap-1"><Truck className="w-3 h-3"/> Delivery Anywhere</p>
                 <div className="flex items-center justify-between">
                   <span className="font-black text-lg">Tsh 12,000</span>
                   <button className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
@@ -394,7 +394,7 @@ export default function ExplorePage() {
               </div>
               <div className="p-4 sm:p-5">
                 <h3 className="font-bold text-lg mb-1 truncate">Minimalist Smartwatch</h3>
-                <p className="text-sm text-muted-foreground mb-3 truncate">By TechZone UDSM</p>
+                <p className="text-xs text-emerald-600 font-bold mb-3 truncate flex items-center gap-1"><Truck className="w-3 h-3"/> Delivery Anywhere</p>
                 <div className="flex items-center justify-between">
                   <span className="font-black text-lg">Tsh 65,000</span>
                   <button className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
@@ -414,7 +414,7 @@ export default function ExplorePage() {
               </div>
               <div className="p-4 sm:p-5">
                 <h3 className="font-bold text-lg mb-1 truncate">Noise Cancelling Cans</h3>
-                <p className="text-sm text-muted-foreground mb-3 truncate">By AudioPro</p>
+                <p className="text-xs text-emerald-600 font-bold mb-3 truncate flex items-center gap-1"><Truck className="w-3 h-3"/> Delivery Anywhere</p>
                 <div className="flex items-center justify-between">
                   <span className="font-black text-lg">Tsh 120,000</span>
                   <button className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
@@ -434,7 +434,7 @@ export default function ExplorePage() {
               </div>
               <div className="p-4 sm:p-5">
                 <h3 className="font-bold text-lg mb-1 truncate">MacBook Pro M1</h3>
-                <p className="text-sm text-muted-foreground mb-3 truncate">By Mac Dealers</p>
+                <p className="text-xs text-emerald-600 font-bold mb-3 truncate flex items-center gap-1"><Truck className="w-3 h-3"/> Delivery Anywhere</p>
                 <div className="flex items-center justify-between">
                   <span className="font-black text-lg">Tsh 2.5M</span>
                   <button className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
@@ -454,7 +454,7 @@ export default function ExplorePage() {
               </div>
               <div className="p-4 sm:p-5">
                 <h3 className="font-bold text-lg mb-1 truncate">Apple Watch Series 7</h3>
-                <p className="text-sm text-muted-foreground mb-3 truncate">By TechZone</p>
+                <p className="text-xs text-emerald-600 font-bold mb-3 truncate flex items-center gap-1"><Truck className="w-3 h-3"/> Delivery Anywhere</p>
                 <div className="flex items-center justify-between">
                   <span className="font-black text-lg">Tsh 600,000</span>
                   <button className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">

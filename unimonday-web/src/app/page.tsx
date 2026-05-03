@@ -261,7 +261,7 @@ export default function Home() {
                   <h3 className="font-bold text-lg line-clamp-2">Vintage Denim Jacket</h3>
                 </div>
                 <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold inline-block mb-3">Tsh 35,000</span>
-                <p className="text-muted-foreground text-sm mb-4">By Campus Thrift</p>
+                <p className="text-xs text-emerald-600 font-bold mb-4 flex items-center gap-1"><Truck className="w-4 h-4"/> Delivery Anywhere</p>
               </div>
               <button onClick={(e) => handleAddToCart(e, "p1")} className="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-900 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 mt-auto">
                 <ShoppingBag className="w-4 h-4" /> Order Now
@@ -287,7 +287,7 @@ export default function Home() {
                   <h3 className="font-bold text-lg line-clamp-2">Pro Wireless Earbuds</h3>
                 </div>
                 <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold inline-block mb-3">Tsh 45,000</span>
-                <p className="text-muted-foreground text-sm mb-4">By TechZone UDSM</p>
+                <p className="text-xs text-emerald-600 font-bold mb-4 flex items-center gap-1"><Truck className="w-4 h-4"/> Delivery Anywhere</p>
               </div>
               <button onClick={(e) => handleAddToCart(e, "p2")} className="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-900 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 mt-auto">
                 <ShoppingBag className="w-4 h-4" /> Order Now
@@ -313,7 +313,7 @@ export default function Home() {
                   <h3 className="font-bold text-lg line-clamp-2">Classic Urban Sneakers</h3>
                 </div>
                 <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold inline-block mb-3">Tsh 55,000</span>
-                <p className="text-muted-foreground text-sm mb-4">By Kicks TZ</p>
+                <p className="text-xs text-emerald-600 font-bold mb-4 flex items-center gap-1"><Truck className="w-4 h-4"/> Delivery Anywhere</p>
               </div>
               <button onClick={(e) => handleAddToCart(e, "p3")} className="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-900 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 mt-auto">
                 <ShoppingBag className="w-4 h-4" /> Order Now
@@ -339,7 +339,7 @@ export default function Home() {
                   <h3 className="font-bold text-lg line-clamp-2">Matte Lipstick Set</h3>
                 </div>
                 <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold inline-block mb-3">Tsh 25,000</span>
-                <p className="text-muted-foreground text-sm mb-4">By Campus Cosmetics</p>
+                <p className="text-xs text-emerald-600 font-bold mb-4 flex items-center gap-1"><Truck className="w-4 h-4"/> Delivery Anywhere</p>
               </div>
               <button onClick={(e) => handleAddToCart(e, "p1")} className="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-900 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 mt-auto">
                 <ShoppingBag className="w-4 h-4" /> Order Now
