@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ShoppingBag, MessageCircle, Star, ShieldCheck, ChevronLeft } from "lucide-react";
+import { ShoppingBag, MessageCircle, Star, ShieldCheck, Truck, MapPin, ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { useAppStore } from "@/lib/store/app-store";

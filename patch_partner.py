@@ -1,4 +1,4 @@
-"use client";
+content = """"use client";
 
 import { useState } from "react";
 import { Handshake, Store, Mail, Phone, MapPin, Send } from "lucide-react";
@@ -38,7 +38,7 @@ export default function PartnerApplyPage() {
         </div>
         <h1 className="text-4xl sm:text-5xl font-black mb-4 tracking-tight text-gray-900">Partner With Us</h1>
         <p className="text-lg text-muted-foreground font-medium max-w-xl mx-auto">
-          Do you have great products or exclusive student discounts? Tell us about your business, and let&apos;s get your products in front of thousands of students across Tanzania.
+          Do you have great products or exclusive student discounts? Tell us about your business, and let's get your products in front of thousands of students across Tanzania.
         </p>
       </div>
 
@@ -121,3 +121,7 @@ export default function PartnerApplyPage() {
     </div>
   );
 }
+"""
+
+with open("unimonday-web/src/app/vendor/apply/page.tsx", "w") as f:
+    f.write(content)
