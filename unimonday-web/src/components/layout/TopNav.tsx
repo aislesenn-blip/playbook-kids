@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { ShoppingBag, ShoppingCart, User, Menu, X, Shirt, Smartphone, ShieldCheck, Box, Handshake, ShieldAlert, Search, Sparkles, LampDesk, Store, MessageCircle } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAppStore } from "@/lib/store/app-store";
+import { BellRing } from "lucide-react";
 
 export function TopNav() {
   const pathname = usePathname();
@@ -15,6 +16,15 @@ export function TopNav() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [showNotificationPrompt, setShowNotificationPrompt] = useState(false);
+
+  useEffect(() => {
+    // Only show prompt to logged in users, wait 3 seconds after mount
+    if (currentUser) {
+      const timer = setTimeout(() => setShowNotificationPrompt(true), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [currentUser]);
 
   const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
@@ -28,6 +38,28 @@ export function TopNav() {
 
   return (
     <>
+      <AnimatePresence>
+        {showNotificationPrompt && (
+          <motion.div
+            initial={{ y: -50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -50, opacity: 0 }}
+            className="fixed top-14 left-0 right-0 z-40 bg-gray-900 text-white px-4 py-3 flex items-center justify-between shadow-lg"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center shrink-0">
+                <BellRing className="w-4 h-4 text-white" />
+              </div>
+              <p className="text-xs sm:text-sm font-medium">Turn on notifications to know when a vendor replies or updates your order.</p>
+            </div>
+            <div className="flex items-center gap-4 shrink-0 ml-4">
+              <button onClick={() => setShowNotificationPrompt(false)} className="text-xs font-bold text-gray-400 hover:text-white transition-colors">Not Now</button>
+              <button onClick={() => setShowNotificationPrompt(false)} className="text-xs font-bold bg-primary text-white px-3 py-1.5 rounded-full hover:bg-primary/90 transition-colors">Enable</button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <nav className="fixed top-0 left-0 right-0 h-14 bg-white/80 backdrop-blur-xl border-b border-border z-50 flex items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2 group">
           <div className="w-8 h-8 bg-gray-900 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">

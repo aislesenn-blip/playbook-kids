@@ -6,6 +6,7 @@ import { TopNav } from '@/components/layout/TopNav';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { Toaster } from 'sonner';
 import { AuthProvider } from '@/components/AuthProvider';
+import { OfflineBanner } from '@/components/ui/OfflineBanner';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -43,6 +44,7 @@ export default async function RootLayout({
               <BottomNav />
             </div>
             <Toaster position="top-center" />
+            <OfflineBanner />
           </AuthProvider>
         </NextIntlClientProvider>
       </body>
