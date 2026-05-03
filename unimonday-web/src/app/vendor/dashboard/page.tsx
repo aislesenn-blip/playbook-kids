@@ -9,7 +9,12 @@ import { useAppStore } from "@/lib/store/app-store";
 import { Order, Product } from "@/types";
 
 export default function VendorDashboard() {
+
   const [isAddingProduct, setIsAddingProduct] = useState(false);
+  const [isCropping, setIsCropping] = useState(false);
+  const [tempImage, setTempImage] = useState<string | null>(null);
+  const [croppedImage, setCroppedImage] = useState<string | null>(null);
+
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isBannersOpen, setIsBannersOpen] = useState(false);
   const [paymentInfo, setPaymentInfo] = useState("Free delivery Dar es Salaam. Mobile Money preferred.");
@@ -223,14 +228,50 @@ export default function VendorDashboard() {
                <X className="w-5 h-5"/>
              </button>
 
-             <h2 className="text-2xl font-black mb-6">Add New Product</h2>
-             <form onSubmit={handleAddProduct} className="space-y-4">
-                <div className="w-full h-40 bg-gray-100 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors group">
-                    <ImageIcon className="w-8 h-8 text-gray-400 group-hover:text-primary mb-2 transition-colors" />
-                    <span className="text-sm font-bold text-gray-500">Click to upload and crop</span>
-                    <span className="text-xs text-gray-400 mt-1">1:1 ratio recommended</span>
-                </div>
-                <div>
+
+             {isCropping ? (
+               <div className="space-y-4">
+                 <h2 className="text-2xl font-black mb-2">Perfect Crop</h2>
+                 <p className="text-sm text-gray-500 mb-4 font-medium">Pinch or drag to fit your product in the 1:1 square. This ensures your store looks clean and professional.</p>
+                 <div className="relative w-full aspect-square bg-black rounded-xl overflow-hidden group cursor-move">
+                    {/* Mock crop view */}
+                    <Image src={tempImage || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800"} alt="Crop" fill className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-700" />
+
+                    {/* Crop Grid Overlay */}
+                    <div className="absolute inset-0 pointer-events-none border-2 border-white/50">
+                       <div className="w-full h-1/3 border-b border-white/30"></div>
+                       <div className="w-full h-1/3 border-b border-white/30"></div>
+                    </div>
+                    <div className="absolute inset-0 pointer-events-none flex">
+                       <div className="h-full w-1/3 border-r border-white/30"></div>
+                       <div className="h-full w-1/3 border-r border-white/30"></div>
+                    </div>
+                 </div>
+                 <div className="flex gap-3 mt-6">
+                   <button onClick={() => { setIsCropping(false); setTempImage(null); }} className="flex-1 py-3 px-4 bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-xl font-bold transition-colors">Cancel</button>
+                   <button onClick={() => { setCroppedImage(tempImage); setIsCropping(false); }} className="flex-1 py-3 px-4 bg-primary hover:bg-primary/90 text-white rounded-xl font-bold shadow-lg shadow-primary/20 transition-colors">Done Cropping</button>
+                 </div>
+               </div>
+             ) : (
+               <>
+                 <h2 className="text-2xl font-black mb-6">Add New Product</h2>
+                 <form onSubmit={handleAddProduct} className="space-y-4">
+                    {croppedImage ? (
+                        <div className="w-full h-40 bg-gray-100 rounded-xl border border-border relative overflow-hidden group">
+                           <Image src={croppedImage} alt="Preview" fill className="object-cover" />
+                           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                              <button type="button" onClick={() => setCroppedImage(null)} className="bg-white text-gray-900 px-4 py-2 rounded-lg font-bold text-sm">Remove</button>
+                           </div>
+                        </div>
+                    ) : (
+                        <div onClick={() => { setTempImage("https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800"); setIsCropping(true); }} className="w-full h-40 bg-gray-100 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors group">
+                            <ImageIcon className="w-8 h-8 text-gray-400 group-hover:text-primary mb-2 transition-colors" />
+                            <span className="text-sm font-bold text-gray-500">Click to upload and crop</span>
+                            <span className="text-xs text-gray-400 mt-1">1:1 ratio recommended</span>
+                        </div>
+                    )}
+                    <div>
+
                   <label className="block text-sm font-bold mb-1">Product Name</label>
                   <input required type="text" value={newProduct.name} onChange={e => setNewProduct({...newProduct, name: e.target.value})} className="w-full border border-border bg-gray-50 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="e.g. Nike Air Force 1" />
                 </div>
@@ -251,7 +292,9 @@ export default function VendorDashboard() {
                   </div>
                 </div>
                 <button type="submit" className="w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-primary/90 mt-4 shadow-lg shadow-primary/20">Publish Product</button>
-             </form>
+                 </form>
+               </>
+             )}
 
            </div>
         </div>

@@ -1,0 +1,21 @@
+
+> unimonday-web@0.1.0 dev
+> next dev
+
+ ⚠ Port 3000 is in use by an unknown process, using available port 3004 instead.
+   ▲ Next.js 15.5.15
+   - Local:        http://localhost:3004
+   - Network:      http://192.168.0.2:3004
+
+ ✓ Starting...
+ ✓ Ready in 3.9s
+ ○ Compiling /auth/login ...
+ ✓ Compiled /auth/login in 12.3s (1679 modules)
+ GET /auth/login 200 in 14859ms
+ ○ Compiling /vendor/dashboard ...
+ ✓ Compiled /vendor/dashboard in 2s (1720 modules)
+ GET /vendor/dashboard 200 in 3070ms
+ GET /vendor/dashboard 200 in 1104ms
+ GET /auth/login 200 in 260ms
+ GET /vendor/dashboard 200 in 127ms
+ GET /vendor/dashboard 200 in 203ms
