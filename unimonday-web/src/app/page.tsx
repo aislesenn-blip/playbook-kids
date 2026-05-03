@@ -419,9 +419,15 @@ export default function Home() {
           <p className="text-lg sm:text-xl font-medium mb-10 text-primary-foreground/90 max-w-2xl mx-auto">
             Partner with us to reach thousands of students on campus. Open your digital storefront today and start selling.
           </p>
-          <Link href="/vendor/apply" className="inline-flex items-center gap-2 bg-white text-primary font-bold px-8 py-4 rounded-full hover:bg-gray-100 transition-colors shadow-lg hover:scale-105 transform duration-200">
-            Partner With Us <ArrowRight className="w-5 h-5" />
-          </Link>
+          {useAppStore.getState().currentUser?.role === 'vendor' ? (
+            <Link href="/vendor/dashboard" className="inline-flex items-center gap-2 bg-white text-primary font-bold px-8 py-4 rounded-full hover:bg-gray-100 transition-colors shadow-lg hover:scale-105 transform duration-200">
+              Go to Store Dashboard <ArrowRight className="w-5 h-5" />
+            </Link>
+          ) : (
+            <Link href="/vendor/apply" className="inline-flex items-center gap-2 bg-white text-primary font-bold px-8 py-4 rounded-full hover:bg-gray-100 transition-colors shadow-lg hover:scale-105 transform duration-200">
+              Partner With Us <ArrowRight className="w-5 h-5" />
+            </Link>
+          )}
         </div>
       </section>
 

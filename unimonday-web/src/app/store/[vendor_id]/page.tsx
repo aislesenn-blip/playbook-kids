@@ -5,7 +5,7 @@ import { mockVendors, mockProducts } from "@/lib/mockData";
 import { useAppStore } from "@/lib/store/app-store";
 import { notFound, useRouter } from "next/navigation";
 import Image from "next/image";
-import { ShieldCheck, MessageCircle, Star, MapPin, ArrowRight, ShoppingBag, Info, MessageSquareHeart, LayoutGrid, List } from "lucide-react";
+import { ShieldCheck, MessageCircle, Star, MapPin, ArrowRight, ShoppingBag, Info, MessageSquareHeart, LayoutGrid, List, ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useState } from "react";
@@ -27,6 +27,13 @@ export default function VendorStore({ params }: { params: Promise<{ vendor_id: s
 
   return (
     <div className="max-w-6xl mx-auto px-4 pb-16 pt-4 sm:pt-8">
+      <button
+        onClick={() => router.back()}
+        className="flex items-center gap-2 text-muted-foreground hover:text-gray-900 font-bold mb-6 transition-colors"
+      >
+        <ChevronLeft className="w-5 h-5" /> Back to explore
+      </button>
+
       {/* Cover Photo */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
