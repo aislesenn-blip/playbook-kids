@@ -8,7 +8,8 @@ import Image from "next/image";
 import { ShieldCheck, MessageCircle, Star, MapPin, ArrowRight, ShoppingBag, Info, MessageSquareHeart, LayoutGrid, List, ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { ProductCardSkeleton } from "@/components/ui/Skeleton";
 
 export default function VendorStore({ params }: { params: Promise<{ vendor_id: string }> }) {
   const router = useRouter();
@@ -22,6 +23,12 @@ export default function VendorStore({ params }: { params: Promise<{ vendor_id: s
   // For demo we just match or fallback to first vendor
   const vendor = mockVendors.find((v) => v.id === unwrappedParams.vendor_id) || mockVendors[0];
   const products = mockProducts.filter((p) => p.vendorId === vendor.id);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
 
   if (!vendor) return notFound();
 
@@ -140,7 +147,11 @@ export default function VendorStore({ params }: { params: Promise<{ vendor_id: s
         {activeTab === "shop" && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
 
-        {products.length === 0 ? (
+        {isLoading ? (
+           <div className={`grid gap-4 md:gap-8 ${layout === 'grid2' ? 'grid-cols-2 lg:grid-cols-4' : 'grid-cols-1'}`}>
+              {[1, 2, 3, 4].map(i => <ProductCardSkeleton key={i} />)}
+           </div>
+        ) : products.length === 0 ? (
           <div className="text-center py-16 bg-gray-50 rounded-[2rem] border border-border">
             <ShoppingBag className="w-12 h-12 text-gray-300 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-gray-900 mb-2">No products yet</h3>

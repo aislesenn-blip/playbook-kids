@@ -8,6 +8,8 @@ import { Search, SlidersHorizontal, MapPin, Store, Star, ArrowRight, ShoppingBag
 import { useAppStore } from "@/lib/store/app-store";
 import { mockProducts } from "@/lib/mockData";
 import { toast } from "sonner";
+import { ProductCardSkeleton, HorizontalListSkeleton } from "@/components/ui/Skeleton";
+import { useRef, useCallback, useEffect } from "react";
 
 export default function ExplorePage() {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -32,13 +34,39 @@ export default function ExplorePage() {
 
   const filteredProducts = activeCategory === "All" ? [] : mockProducts.filter(p => p.category === activeCategory);
 
-  const handleLoadMore = () => {
+  const [initialLoading, setInitialLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate initial network request for products
+    const timer = setTimeout(() => {
+      setInitialLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const observer = useRef<IntersectionObserver | null>(null);
+
+  const handleLoadMore = useCallback(() => {
+    if (isLoadingMore || displayCount >= mixedProducts.length) return;
     setIsLoadingMore(true);
     setTimeout(() => {
       setDisplayCount(prev => prev + 8);
       setIsLoadingMore(false);
     }, 1200);
-  };
+  }, [isLoadingMore, displayCount, mixedProducts.length]);
+
+  const lastProductElementRef = useCallback((node: HTMLDivElement | null) => {
+    if (isLoadingMore) return;
+    if (observer.current) observer.current.disconnect();
+
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        handleLoadMore();
+      }
+    });
+
+    if (node) observer.current.observe(node);
+  }, [isLoadingMore, handleLoadMore]);
 
   return (
     <div className="min-h-screen bg-gray-50/50 pb-24">
@@ -73,7 +101,11 @@ export default function ExplorePage() {
                 {activeCategory}
               </h2>
             </div>
-            {filteredProducts.length === 0 ? (
+            {initialLoading ? (
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                {[1, 2, 3, 4].map(i => <ProductCardSkeleton key={i} />)}
+              </div>
+            ) : filteredProducts.length === 0 ? (
               <div className="text-center py-16 bg-white rounded-3xl border border-gray-100">
                 <p className="text-muted-foreground font-medium">No products found in this category.</p>
               </div>
@@ -451,44 +483,47 @@ export default function ExplorePage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {mixedProducts.slice(0, displayCount).map((product) => (
-              <Link href={`/product/${product.id.replace(/[0-9]+$/, '1')}`} key={product.id} className="block">
-                <motion.div whileHover={{ y: -5 }} className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm group cursor-pointer h-full flex flex-col relative">
-                  <div className="relative h-40 sm:h-48 w-full overflow-hidden bg-gray-50">
-                    <Image src={product.images[0]} alt={product.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                    <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-md px-2 py-0.5 rounded-md text-[10px] font-bold text-gray-800 shadow-sm max-w-[80%] truncate">
-                      {product.category}
+          {initialLoading ? (
+             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                {[1, 2, 3, 4, 5, 6, 7, 8].map(i => <ProductCardSkeleton key={i} />)}
+             </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                {mixedProducts.slice(0, displayCount).map((product, index) => {
+                  const isLastElement = index === displayCount - 1;
+                  return (
+                    <div key={product.id} ref={isLastElement ? lastProductElementRef : null}>
+                      <Link href={`/product/${product.id.replace(/[0-9]+$/, '1')}`} className="block h-full">
+                        <motion.div whileHover={{ y: -5 }} className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm group cursor-pointer h-full flex flex-col relative">
+                          <div className="relative h-40 sm:h-48 w-full overflow-hidden bg-gray-50">
+                            <Image src={product.images[0]} alt={product.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                            <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-md px-2 py-0.5 rounded-md text-[10px] font-bold text-gray-800 shadow-sm max-w-[80%] truncate">
+                              {product.category}
+                            </div>
+                          </div>
+                          <div className="p-3 sm:p-4 flex-grow flex flex-col justify-between">
+                            <div>
+                              <h3 className="font-bold text-sm sm:text-base mb-1 line-clamp-2 leading-tight">{product.name}</h3>
+                            </div>
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-3 gap-2">
+                              <span className="font-bold text-sm sm:text-base text-gray-900">Tsh {product.price.toLocaleString()}</span>
+                              <button onClick={(e) => handleAddToCart(e, product.id.replace(/[0-9]+$/, '1'))} className="text-white bg-primary hover:bg-primary/90 rounded-lg text-xs font-bold px-3 py-2 w-full sm:w-auto text-center transition-colors">Add</button>
+                            </div>
+                          </div>
+                        </motion.div>
+                      </Link>
                     </div>
-                  </div>
-                  <div className="p-3 sm:p-4 flex-grow flex flex-col justify-between">
-                    <div>
-                      <h3 className="font-bold text-sm sm:text-base mb-1 line-clamp-2 leading-tight">{product.name}</h3>
-                    </div>
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-3 gap-2">
-                      <span className="font-bold text-sm sm:text-base text-gray-900">Tsh {product.price.toLocaleString()}</span>
-                      <button onClick={(e) => handleAddToCart(e, product.id.replace(/[0-9]+$/, '1'))} className="text-white bg-primary hover:bg-primary/90 rounded-lg text-xs font-bold px-3 py-2 w-full sm:w-auto text-center transition-colors">Add</button>
-                    </div>
-                  </div>
-                </motion.div>
-              </Link>
-            ))}
-          </div>
+                  );
+                })}
+              </div>
 
-          {displayCount < mixedProducts.length && (
-            <div className="mt-12 flex justify-center">
-              <button
-                onClick={handleLoadMore}
-                disabled={isLoadingMore}
-                className="bg-white text-gray-900 border border-gray-200 hover:bg-gray-50 font-bold py-3 px-8 rounded-full transition-colors flex items-center gap-2 shadow-sm disabled:opacity-70"
-              >
-                {isLoadingMore ? (
-                  <>
-                    <div className="w-5 h-5 border-2 border-gray-900 border-t-transparent rounded-full animate-spin"></div> Loading...
-                  </>
-                ) : "Load More Products"}
-              </button>
-            </div>
+              {isLoadingMore && (
+                <div className="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                   {[1, 2, 3, 4].map(i => <ProductCardSkeleton key={`skeleton-${i}`} />)}
+                </div>
+              )}
+            </>
           )}
         </section>
         </>
