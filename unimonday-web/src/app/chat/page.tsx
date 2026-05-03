@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { mockVendors } from "@/lib/mockData";
 import { useAppStore } from "@/lib/store/app-store";
+import { toast } from "sonner";
 
 function ChatInterfaceContent() {
   const searchParams = useSearchParams();
@@ -33,7 +34,7 @@ function ChatInterfaceContent() {
   const [input, setInput] = useState("");
   const [activeChat, setActiveChat] = useState(initialChatId);
 
-  const { pendingMessages, removePendingMessage } = useAppStore();
+  const { pendingMessages, removePendingMessage, currentUser } = useAppStore();
 
   useEffect(() => {
     if (activeChat) {
@@ -185,6 +186,21 @@ function ChatInterfaceContent() {
                 ))}
               </AnimatePresence>
             </div>
+
+            {/* Vendor Quick Actions if the logged in user is a vendor */}
+            {currentUser?.role === 'vendor' && (
+              <div className="px-4 py-2 bg-gray-50 border-t border-border flex gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+                 <button onClick={() => toast.success("Payment confirmed! Student notified.")} className="text-xs font-bold bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded-lg hover:bg-emerald-200 whitespace-nowrap">
+                    Confirm Payment
+                 </button>
+                 <button onClick={() => toast.success("Order status changed to In Transit")} className="text-xs font-bold bg-blue-100 text-blue-700 px-3 py-1.5 rounded-lg hover:bg-blue-200 whitespace-nowrap">
+                    Mark In Transit
+                 </button>
+                 <button onClick={() => toast.error("Cancellation notice sent.")} className="text-xs font-bold bg-red-100 text-red-700 px-3 py-1.5 rounded-lg hover:bg-red-200 whitespace-nowrap">
+                    Cancel Order
+                 </button>
+              </div>
+            )}
 
             <div className="p-4 bg-white border-t border-border">
               <div className="flex items-center gap-2 relative">

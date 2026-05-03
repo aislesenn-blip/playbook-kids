@@ -60,15 +60,27 @@ export default function ProfilePage() {
             <p className="text-sm text-muted-foreground">Track and manage your purchases</p>
           </div>
         </Link>
-        <Link href="/vendor/apply" className="bg-white rounded-[2rem] p-6 border border-border shadow-sm hover:shadow-md transition-shadow group flex items-center gap-4 cursor-pointer">
-          <div className="w-12 h-12 bg-amber-50 text-amber-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-             <ShieldAlert className="w-6 h-6" />
-          </div>
-          <div>
-            <h3 className="font-bold text-lg">Become a Vendor</h3>
-            <p className="text-sm text-muted-foreground">Start selling to your campus</p>
-          </div>
-        </Link>
+        {currentUser.role === 'vendor' ? (
+          <Link href="/vendor/dashboard" className="bg-white rounded-[2rem] p-6 border border-border shadow-sm hover:shadow-md transition-shadow group flex items-center gap-4 cursor-pointer">
+            <div className="w-12 h-12 bg-emerald-50 text-emerald-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+               <Settings className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="font-bold text-lg">Store Dashboard</h3>
+              <p className="text-sm text-muted-foreground">Manage your products and orders</p>
+            </div>
+          </Link>
+        ) : (
+          <Link href="/vendor/apply" className="bg-white rounded-[2rem] p-6 border border-border shadow-sm hover:shadow-md transition-shadow group flex items-center gap-4 cursor-pointer">
+            <div className="w-12 h-12 bg-amber-50 text-amber-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+               <ShieldAlert className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="font-bold text-lg">Become a Vendor</h3>
+              <p className="text-sm text-muted-foreground">Start selling to your campus</p>
+            </div>
+          </Link>
+        )}
       </div>
     </div>
   );

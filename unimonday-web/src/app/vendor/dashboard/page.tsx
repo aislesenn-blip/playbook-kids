@@ -173,6 +173,16 @@ export default function VendorDashboard() {
 
         {/* Quick Actions / Store Info */}
         <div className="space-y-6">
+           {/* Earnings Widget - Psychological Boost */}
+           <div className="bg-gray-900 text-white rounded-[2rem] border border-gray-800 shadow-xl p-6 relative overflow-hidden group">
+              <div className="absolute -right-4 -top-4 w-32 h-32 bg-emerald-500 rounded-full opacity-20 blur-2xl"></div>
+              <h2 className="text-sm font-bold text-gray-400 mb-1">Total Earnings</h2>
+              <p className="text-4xl font-black mb-4">Tsh 450,000</p>
+              <div className="flex items-center gap-2 text-sm font-bold text-emerald-400">
+                 <span className="bg-emerald-500/20 px-2 py-1 rounded">+12% this week</span>
+              </div>
+           </div>
+
            <div className="bg-primary/5 rounded-[2rem] border border-primary/20 shadow-sm p-6 relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                  <Share2 className="w-24 h-24 text-primary" />
@@ -188,7 +198,7 @@ export default function VendorDashboard() {
               </div>
            </div>
 
-                      <div className="bg-white rounded-[2rem] border border-border shadow-sm p-6">
+           <div className="bg-white rounded-[2rem] border border-border shadow-sm p-6">
               <h2 className="text-xl font-black mb-4">Quick Actions</h2>
               <div className="space-y-2">
                 <Link href="/chat" className="w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 rounded-xl font-bold transition-colors">

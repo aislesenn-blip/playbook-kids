@@ -76,6 +76,9 @@ export default function ProductDetails() {
               <Star className="w-5 h-5 fill-current opacity-30" />
               <span className="text-muted-foreground text-sm font-medium ml-2 text-gray-600">(24 Reviews)</span>
             </div>
+            <div className="ml-auto bg-red-50 text-red-600 px-3 py-1 rounded-full text-xs font-bold animate-pulse">
+               Only 2 left in stock!
+            </div>
           </div>
 
           <p className="text-lg text-muted-foreground mb-8 leading-relaxed font-medium">
