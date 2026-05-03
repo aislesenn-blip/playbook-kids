@@ -14,7 +14,7 @@ export default function LoginPage() {
   const redirectTo = searchParams.get('redirectTo') || '/';
 
   const { setUser, setLocation } = useAppStore();
-  const [role, setRole] = useState<'student' | 'vendor'>('student');
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -47,7 +47,7 @@ export default function LoginPage() {
     } finally {
       // ALWAYS sync state for demo
       // Mock logic respects the selected tab
-      const isVendor = role === 'vendor';
+      const isVendor = false;
 
       setUser({
         id: isVendor ? "v1" : "u1",
@@ -60,11 +60,7 @@ export default function LoginPage() {
       setLocation("Dar es Salaam", "UDSM - Main Campus");
 
       toast.success("Logged in successfully!");
-      if (isVendor) {
-        router.push("/vendor/dashboard");
-      } else {
-        router.push(redirectTo);
-      }
+      router.push(redirectTo);
       setIsLoading(false);
     }
   };
@@ -83,24 +79,7 @@ export default function LoginPage() {
 
       <div className="bg-white p-6 sm:p-8 rounded-[2rem] border border-border shadow-sm">
           {/* Role Tabs */}
-          <div className="flex bg-gray-100 p-1 rounded-xl mb-6">
-            <button
-              onClick={() => setRole('student')}
-              className={`flex-1 py-2 text-sm font-bold rounded-lg transition-all ${
-                role === 'student' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-700'
-              }`}
-            >
-              Student
-            </button>
-            <button
-              onClick={() => setRole('vendor')}
-              className={`flex-1 py-2 text-sm font-bold rounded-lg transition-all ${
-                role === 'vendor' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-700'
-              }`}
-            >
-              Vendor
-            </button>
-          </div>
+
 
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
@@ -111,7 +90,7 @@ export default function LoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder={role === 'vendor' ? "vendor@store.com" : "student@example.com"}
+                  placeholder="student@example.com"
                   className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all"
                 />
               </div>

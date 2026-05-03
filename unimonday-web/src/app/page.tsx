@@ -44,6 +44,13 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center w-full overflow-x-hidden selection:bg-primary/20 selection:text-primary">
 
+      {/* Global Trust Prompt */}
+      <div className="w-full bg-primary text-white py-3 px-4 text-center font-bold text-sm sm:text-base tracking-wide flex items-center justify-center gap-2">
+        <ShieldCheck className="w-5 h-5 shrink-0" />
+        Pay AFTER you receive your product and are satisfied with it.
+      </div>
+
+
       {/* Hero Section - Amazon Style Grid */}
       <div className="w-full bg-[#E3E6E6] flex justify-center">
       <section className="w-full max-w-[1500px] pt-16 sm:pt-24 pb-12 px-4">
