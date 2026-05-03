@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ShoppingBag, Wrench, ShieldCheck, ArrowRight, Star, Truck } from "lucide-react";
+import { ShoppingBag, ShieldCheck, ArrowRight, Star, Truck, MapPin, Wrench } from "lucide-react";
 import Link from "next/link";
 import { useAppStore } from "@/lib/store/app-store";
 import { mockProducts } from "@/lib/mockData";
@@ -44,7 +44,19 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center w-full overflow-x-hidden selection:bg-primary/20 selection:text-primary">
 
+
+      {/* Trust Banner */}
+      <div className="w-full bg-emerald-50 border-b border-emerald-100 py-3 px-4 flex justify-center items-center gap-3">
+        <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
+          <ShieldCheck className="w-5 h-5 text-emerald-600" />
+        </div>
+        <p className="text-sm sm:text-base font-bold text-emerald-900">
+          Pay ONLY after you receive and are satisfied with your product! <span className="text-emerald-600">100% Guaranteed.</span>
+        </p>
+      </div>
+
       {/* Hero Section - Amazon Style Grid */}
+
       <div className="w-full bg-[#E3E6E6] flex justify-center">
       <section className="w-full max-w-[1500px] pt-16 sm:pt-24 pb-12 px-4">
         <div ref={heroScrollRef} className="flex overflow-x-auto gap-5 pb-6 snap-x snap-mandatory scroll-smooth">

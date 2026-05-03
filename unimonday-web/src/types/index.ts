@@ -27,6 +27,8 @@ export interface Product {
   id: string;
   vendorId?: string;
   vendorName: string;
+  region?: string;
+  nationwideDelivery?: boolean;
   name: string;
   description: string;
   price: number;

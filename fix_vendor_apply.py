@@ -1,25 +1,24 @@
-"use client";
+import re
+with open("unimonday-web/src/app/vendor/apply/page.tsx", "r") as f:
+    content = f.read()
 
-import { motion } from "framer-motion";
-import Link from "next/link";
-import { Store, ArrowRight, TrendingUp, Zap, ShieldCheck } from "lucide-react";
-
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-
-export default function VendorApply() {
-  const router = useRouter();
-    const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({
+# Replace the state initialization
+content = re.sub(
+    r"const \[formData, setFormData\] = useState\(\{[^}]*\}\);",
+    """const [formData, setFormData] = useState({
     ownerName: "",
     phoneNumber: "",
     businessName: "",
     category: "",
     region: "Dar es Salaam",
-  });
+  });""",
+    content
+)
 
-  const handleApply = async (e: React.FormEvent) => {
+# Replace the handleApply function
+content = re.sub(
+    r"const handleApply = async \(e: React\.FormEvent\) => \{[\s\S]*?^  \};",
+    """const handleApply = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.phoneNumber || formData.phoneNumber.length < 10) {
       toast.error("Please enter a valid phone number");
@@ -38,46 +37,15 @@ export default function VendorApply() {
       router.push("/");
       setIsLoading(false);
     }, 1500);
-  };
+  };""",
+    content,
+    flags=re.MULTILINE
+)
 
-  return (
-    <div className="max-w-4xl mx-auto py-12 px-4">
-      <div className="text-center mb-12">
-        <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mx-auto mb-6">
-          <Store className="w-8 h-8" />
-        </div>
-        <h1 className="text-4xl sm:text-5xl font-black mb-4 tracking-tight">Partner With Us</h1>
-        <p className="text-xl text-muted-foreground font-medium max-w-2xl mx-auto">
-          Turn your campus hustle into a verified business. Reach thousands of students instantly.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-        <div className="bg-white p-6 rounded-[2rem] border border-border shadow-sm text-center">
-          <TrendingUp className="w-8 h-8 text-blue-500 mx-auto mb-4" />
-          <h3 className="font-bold text-lg mb-2">Grow Sales</h3>
-          <p className="text-sm text-muted-foreground">Access the largest verified student market.</p>
-        </div>
-        <div className="bg-white p-6 rounded-[2rem] border border-border shadow-sm text-center">
-          <Zap className="w-8 h-8 text-amber-500 mx-auto mb-4" />
-          <h3 className="font-bold text-lg mb-2">Instant Pay</h3>
-          <p className="text-sm text-muted-foreground">Get paid instantly via mobile money networks.</p>
-        </div>
-        <div className="bg-white p-6 rounded-[2rem] border border-border shadow-sm text-center">
-          <ShieldCheck className="w-8 h-8 text-primary mx-auto mb-4" />
-          <h3 className="font-bold text-lg mb-2">Verified Status</h3>
-          <p className="text-sm text-muted-foreground">Build trust with the official campus verification.</p>
-        </div>
-      </div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-white p-8 rounded-[3rem] border border-border shadow-xl max-w-2xl mx-auto"
-      >
-        <h2 className="text-2xl font-black mb-6">Application Form</h2>
-        <form onSubmit={handleApply} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+# Replace the form inputs
+content = re.sub(
+    r"<div className=\"grid grid-cols-1 md:grid-cols-2 gap-4\">[\s\S]*?<div className=\"pt-4\">",
+    """<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <label className="text-sm font-bold text-gray-700">Full Name</label>
               <input type="text" required value={formData.ownerName} onChange={(e) => setFormData({...formData, ownerName: e.target.value})} placeholder="Your Name" className="w-full p-4 bg-gray-50 border border-border rounded-xl outline-none focus:ring-2 focus:ring-primary transition-all" />
@@ -118,14 +86,15 @@ export default function VendorApply() {
             </div>
           </div>
 
-          <div className="pt-4">
-            <button type="submit" disabled={isLoading} className="w-full flex items-center justify-center gap-2 bg-gray-900 text-white hover:bg-gray-800 font-bold py-4 rounded-xl transition-colors shadow-lg disabled:opacity-70">
-              {isLoading ? "Submitting..." : "Submit Application"} <ArrowRight className="w-5 h-5" />
-            </button>
-            <p className="text-xs text-center text-muted-foreground mt-4 font-medium">By submitting, you agree to our Vendor Terms & Conditions.</p>
-          </div>
-        </form>
-      </motion.div>
-    </div>
-  );
-}
+          <div className="pt-4">""",
+    content
+)
+
+# Replace some imports that are no longer needed
+content = content.replace("import { supabase } from \"@/lib/supabase/client\";\n", "")
+content = content.replace("import { useAppStore } from \"@/lib/store/app-store\";\n", "")
+content = content.replace("const { setUser, setLocation } = useAppStore();\n", "")
+
+
+with open("unimonday-web/src/app/vendor/apply/page.tsx", "w") as f:
+    f.write(content)

@@ -1,0 +1,168 @@
+
+> unimonday-web@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.5.15
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.2:3000
+
+ ✓ Starting...
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+ ✓ Ready in 2.1s
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Parsing of /app/unimonday-web/node_modules/next-intl/dist/esm/production/extractor/format/index.js for build dependencies failed at 'import(t)'.
+<w> Build dependencies behind this expression are ignored and might cause incorrect cache invalidation.
+ ○ Compiling / ...
+ ✓ Compiled / in 13.2s (1735 modules)
+ GET / 200 in 15077ms
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Parsing of /app/unimonday-web/node_modules/next-intl/dist/esm/production/extractor/format/index.js for build dependencies failed at 'import(t)'.
+<w> Build dependencies behind this expression are ignored and might cause incorrect cache invalidation.
+ ✓ Compiled in 1079ms (1717 modules)
+ GET / 200 in 894ms
+ ✓ Compiled in 581ms (1717 modules)
+ GET / 200 in 465ms
+ ○ Compiling /fashion ...
+ ✓ Compiled /fashion in 608ms (1712 modules)
+ ✓ Compiled in 639ms (1726 modules)
+ GET / 200 in 497ms
+ GET /fashion 200 in 79ms
+ ✓ Compiled in 1088ms (1726 modules)
+ ✓ Compiled in 563ms (763 modules)
+ ✓ Compiled in 580ms (749 modules)
+ ⨯ ./src/components/layout/TopNav.tsx
+Error:   [31mx[0m Expected '</', got 'className'
+    ,-[[36;1;4m/app/unimonday-web/src/components/layout/TopNav.tsx[0m:93:1]
+ [2m90[0m |             </Link>
+ [2m91[0m |           </div>
+ [2m92[0m |
+ [2m93[0m |                 <div className="flex items-center gap-3">
+    : [35;1m                     ^^^^^^^^^[0m
+ [2m94[0m |           {!isVendor && (
+ [2m95[0m |             <>
+ [2m96[0m |               <button onClick={() => setIsSearchOpen(true)} className="flex items-center justify-center p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/layout/TopNav.tsx
+ ⨯ ./src/components/layout/TopNav.tsx
+Error:   [31mx[0m Expected '</', got 'className'
+    ,-[[36;1;4m/app/unimonday-web/src/components/layout/TopNav.tsx[0m:93:1]
+ [2m90[0m |             </Link>
+ [2m91[0m |           </div>
+ [2m92[0m |
+ [2m93[0m |                 <div className="flex items-center gap-3">
+    : [35;1m                     ^^^^^^^^^[0m
+ [2m94[0m |           {!isVendor && (
+ [2m95[0m |             <>
+ [2m96[0m |               <button onClick={() => setIsSearchOpen(true)} className="flex items-center justify-center p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/layout/TopNav.tsx
+ ⨯ ./src/components/layout/TopNav.tsx
+Error:   [31mx[0m Expected '</', got 'className'
+    ,-[[36;1;4m/app/unimonday-web/src/components/layout/TopNav.tsx[0m:93:1]
+ [2m90[0m |             </Link>
+ [2m91[0m |           </div>
+ [2m92[0m |
+ [2m93[0m |                 <div className="flex items-center gap-3">
+    : [35;1m                     ^^^^^^^^^[0m
+ [2m94[0m |           {!isVendor && (
+ [2m95[0m |             <>
+ [2m96[0m |               <button onClick={() => setIsSearchOpen(true)} className="flex items-center justify-center p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/layout/TopNav.tsx
+ ⨯ ./src/components/layout/TopNav.tsx
+Error:   [31mx[0m Expected '</', got 'className'
+    ,-[[36;1;4m/app/unimonday-web/src/components/layout/TopNav.tsx[0m:93:1]
+ [2m90[0m |             </Link>
+ [2m91[0m |           </div>
+ [2m92[0m |
+ [2m93[0m |                 <div className="flex items-center gap-3">
+    : [35;1m                     ^^^^^^^^^[0m
+ [2m94[0m |           {!isVendor && (
+ [2m95[0m |             <>
+ [2m96[0m |               <button onClick={() => setIsSearchOpen(true)} className="flex items-center justify-center p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/layout/TopNav.tsx
+ ⨯ ./src/components/layout/TopNav.tsx
+Error:   [31mx[0m Expected '</', got 'className'
+    ,-[[36;1;4m/app/unimonday-web/src/components/layout/TopNav.tsx[0m:93:1]
+ [2m90[0m |             </Link>
+ [2m91[0m |           </div>
+ [2m92[0m |
+ [2m93[0m |                 <div className="flex items-center gap-3">
+    : [35;1m                     ^^^^^^^^^[0m
+ [2m94[0m |           {!isVendor && (
+ [2m95[0m |             <>
+ [2m96[0m |               <button onClick={() => setIsSearchOpen(true)} className="flex items-center justify-center p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/layout/TopNav.tsx
+ ⨯ ./src/components/layout/TopNav.tsx
+Error:   [31mx[0m Expected '</', got 'className'
+    ,-[[36;1;4m/app/unimonday-web/src/components/layout/TopNav.tsx[0m:93:1]
+ [2m90[0m |             </Link>
+ [2m91[0m |           </div>
+ [2m92[0m |
+ [2m93[0m |                 <div className="flex items-center gap-3">
+    : [35;1m                     ^^^^^^^^^[0m
+ [2m94[0m |           {!isVendor && (
+ [2m95[0m |             <>
+ [2m96[0m |               <button onClick={() => setIsSearchOpen(true)} className="flex items-center justify-center p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/layout/TopNav.tsx
+ ⨯ ./src/components/layout/TopNav.tsx
+Error:   [31mx[0m Expected '</', got 'className'
+    ,-[[36;1;4m/app/unimonday-web/src/components/layout/TopNav.tsx[0m:93:1]
+ [2m90[0m |             </Link>
+ [2m91[0m |           </div>
+ [2m92[0m |
+ [2m93[0m |                 <div className="flex items-center gap-3">
+    : [35;1m                     ^^^^^^^^^[0m
+ [2m94[0m |           {!isVendor && (
+ [2m95[0m |             <>
+ [2m96[0m |               <button onClick={() => setIsSearchOpen(true)} className="flex items-center justify-center p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/layout/TopNav.tsx
+ ✓ Compiled in 1021ms (762 modules)
+ ✓ Compiled in 1123ms (761 modules)
+ ✓ Compiled in 1043ms (762 modules)
+ ✓ Compiled in 554ms (762 modules)
+ ✓ Compiled in 577ms (762 modules)
+ ✓ Compiled in 507ms (762 modules)
+ ✓ Compiled in 522ms (762 modules)
+ ✓ Compiled in 554ms (762 modules)

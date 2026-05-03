@@ -6,12 +6,17 @@ import { WifiOff, RefreshCw } from "lucide-react";
 
 export function OfflineBanner() {
   // Initialize state directly from navigator object to avoid setting state in effect mount
-  const [isOffline, setIsOffline] = useState(() => {
-    if (typeof navigator !== 'undefined') {
-       return !navigator.onLine;
-    }
-    return false;
-  });
+  const [isOffline, setIsOffline] = useState(false);
+
+  useEffect(() => {
+    // Initialize on mount without causing sync render warning
+    const initialize = () => setIsOffline(!navigator.onLine);
+    initialize();
+  }, []);
+
+
+
+
 
   useEffect(() => {
     const handleOnline = () => setIsOffline(false);
@@ -33,7 +38,7 @@ export function OfflineBanner() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] bg-white/90 backdrop-blur-md flex flex-col items-center justify-center p-4 text-center"
+          className="fixed inset-0 z-[100] bg-white/90 backdrop-blur-md flex flex-col items-center justify-center p-4 text-center pointer-events-auto"
         >
           <motion.div
             initial={{ scale: 0.8 }}

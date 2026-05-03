@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Search, SlidersHorizontal, MapPin, Store, Star, ArrowRight, ShoppingBag } from "lucide-react";
+import { Search, SlidersHorizontal, MapPin, Store, Star, ArrowRight, ShoppingBag, Truck } from "lucide-react";
 import { useAppStore } from "@/lib/store/app-store";
 import { mockProducts } from "@/lib/mockData";
 import { toast } from "sonner";

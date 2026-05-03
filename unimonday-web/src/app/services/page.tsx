@@ -10,7 +10,7 @@ export default function ServicesPage() {
     {
       id: 201,
       name: "Screen & Battery Repair",
-      provider: "TechFix Pros",
+      provider: "uNiMONDAY Team",
       price: "From Tsh 25,000",
       rating: 4.8,
       reviews: 156,
@@ -21,7 +21,7 @@ export default function ServicesPage() {
     {
       id: 202,
       name: "Campus Food Delivery",
-      provider: "QuickBites Delivery",
+      provider: "uNiMONDAY Express",
       price: "Tsh 2,000/trip",
       rating: 4.9,
       reviews: 342,
@@ -32,7 +32,7 @@ export default function ServicesPage() {
     {
       id: 203,
       name: "PC Software Installation",
-      provider: "Geek Squad UDSM",
+      provider: "uNiMONDAY Tech",
       price: "Tsh 15,000",
       rating: 4.7,
       reviews: 89,
@@ -43,7 +43,7 @@ export default function ServicesPage() {
     {
       id: 204,
       name: "Custom T-Shirt Printing",
-      provider: "InkHouse TZ",
+      provider: "uNiMONDAY Custom",
       price: "From Tsh 15,000",
       rating: 4.6,
       reviews: 64,
@@ -72,7 +72,7 @@ export default function ServicesPage() {
             transition={{ delay: 0.1 }}
             className="text-xl text-muted-foreground font-medium max-w-2xl mx-auto"
           >
-            Trusted professionals for repairs, delivery, printing, and more—all vetted for safety.
+            Premium, managed services provided directly by uNiMONDAY. We guarantee the quality and safety.
           </motion.p>
         </div>
 

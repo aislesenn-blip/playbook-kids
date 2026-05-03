@@ -12,7 +12,7 @@ export function TopNav() {
   const pathname = usePathname();
   const router = useRouter();
   const { currentUser, getCartCount } = useAppStore();
-  const isVendor = currentUser?.role === "vendor";
+  const isVendor = currentUser?.role === "vendor"; // Deprecated, remove later
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -71,16 +71,6 @@ export function TopNav() {
           </div>
         </Link>
 
-                {isVendor ? (
-          <div className="hidden sm:flex items-center gap-6 font-medium">
-            <Link href="/vendor/dashboard" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/vendor/dashboard' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-              <Store className="w-4 h-4" /> Dashboard
-            </Link>
-            <Link href="/chat" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/chat' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-              <MessageCircle className="w-4 h-4" /> Inbox
-            </Link>
-          </div>
-        ) : (
           <div className="hidden sm:flex items-center gap-6 font-medium">
             <Link href="/fashion" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/fashion' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
               <Shirt className="w-4 h-4" /> Fashion
@@ -98,7 +88,6 @@ export function TopNav() {
               <ShieldCheck className="w-4 h-4" /> Services
             </Link>
           </div>
-        )}
 
                 <div className="flex items-center gap-3">
           {!isVendor && (
