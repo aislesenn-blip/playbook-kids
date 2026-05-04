@@ -42,13 +42,13 @@ interface WorkspaceState {
   processAIResponse: (jsonString: string, blockTitle: string) => void;
 }
 
-export const useWorkspaceStore = create<WorkspaceState>((set, get) => ({
+export const useWorkspaceStore = create<WorkspaceState>((set) => ({
   blocks: [],
   messages: [
     {
       id: 'welcome-1',
       sender: 'ai',
-      text: 'Hello! I am your AI Stationary Assistant. Upload your messy documents or type instructions, and I will format them perfectly into A4 pages.',
+      text: 'Hello! I am your AI Formatting Engine. Upload your messy documents or type instructions, and I will format them perfectly into A4 pages.',
       timestamp: Date.now() - 10000,
     }
   ],
@@ -86,13 +86,11 @@ export const useWorkspaceStore = create<WorkspaceState>((set, get) => ({
     setTimeout(() => {
       try {
         // Step 1: Use JSON5 to parse potentially malformed JSON (trailing commas, etc.)
-        // In a real scenario, we might extract JSON from Markdown code blocks first.
         let parsedData;
         try {
            parsedData = JSON5.parse(rawAIResponse);
         } catch (parseError) {
            console.error("JSON5 Parsing failed, attempting manual cleanup", parseError);
-           // Fallback cleanup logic could go here
            throw new Error("Unable to parse AI response structure.");
         }
 
@@ -117,7 +115,7 @@ export const useWorkspaceStore = create<WorkspaceState>((set, get) => ({
             {
               id: `msg-${Date.now()}`,
               sender: 'ai',
-              text: `Draft generated: ${blockTitle}. Tap to review.`,
+              text: `Draft generated: ${blockTitle}. Tap to open the document canvas.`,
               timestamp: Date.now(),
               draftBlockId: newBlockId,
             },

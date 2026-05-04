@@ -148,3 +148,41 @@
 .animate-shake {
   animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
 }
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Hide Scrollbar but keep functionality */
+.hide-scroll-bar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scroll-bar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Edge Masking for smooth scroll lists */
+.mask-edges {
+  mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+}
+
+/* Tiptap A4 Styling */
+.custom-a4-canvas {
+  min-height: 1122px; /* 297mm in pixels at 96dpi */
+  width: 794px; /* 210mm in pixels at 96dpi */
+  max-width: 100%;
+}
