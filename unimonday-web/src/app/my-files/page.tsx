@@ -12,8 +12,8 @@ export default function MyFilesPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20 pb-24">
-      <div className="max-w-6xl mx-auto px-4 w-full">
+    <div className="min-h-screen bg-white pt-20 pb-24">
+      <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto">
 
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
           <div>
