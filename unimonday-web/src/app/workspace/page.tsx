@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Settings, Bot, FileText, Send, Download, Loader2, Sparkles, AlertCircle, UploadCloud, FileType, Columns, Type, CheckCircle, Printer, X } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAppStore } from "@/lib/store/app-store";
 
 export default function WorkspacePage() {
   const { currentUser } = useAppStore();
