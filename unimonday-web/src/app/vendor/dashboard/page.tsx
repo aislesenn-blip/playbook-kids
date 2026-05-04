@@ -13,6 +13,11 @@ export default function VendorDashboardPage() {
     { id: "PJ-103", student: "Michael Johnson", file: "Leave_Letter.pdf", copies: 1, color: "Black & White", time: "1 hour ago", status: "pending" },
   ];
 
+  const completedQueue = [
+    { id: "PJ-099", student: "Alice Brown", file: "Assignment_1.pdf", copies: 1, color: "Black & White", time: "2 hours ago", status: "completed" },
+    { id: "PJ-098", student: "Bob Martin", file: "Resume.pdf", copies: 3, color: "Full Color", time: "5 hours ago", status: "completed" },
+  ];
+
   const [shopSettings, setShopSettings] = useState({
     name: "Mlimani Campus Main Print",
     location: "Near Yombo 4, UDSM",
@@ -91,6 +96,35 @@ export default function VendorDashboardPage() {
           <div className="p-0 sm:p-6">
             <div className="flex flex-col sm:grid sm:grid-cols-1 gap-0 sm:gap-4 divide-y sm:divide-y-0 divide-gray-100">
               {activeTab === "queue" && printQueue.map((job) => (
+                <div key={job.id} className="border-0 sm:border border-gray-200 sm:rounded-2xl p-4 sm:p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 sm:gap-6 hover:shadow-md transition-shadow bg-white">
+                  <div className="flex items-start gap-4 w-full md:w-auto">
+                     <div className="w-12 h-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center shrink-0">
+                       <FileText className="w-6 h-6" />
+                     </div>
+                     <div>
+                       <div className="flex items-center gap-3 mb-1">
+                         <span className="text-xs font-bold px-2 py-0.5 bg-gray-100 rounded text-gray-600">{job.id}</span>
+                         <h3 className="font-bold text-gray-900">{job.file}</h3>
+                       </div>
+                       <p className="text-sm text-gray-500 font-medium">By {job.student} • {job.copies} Copies • {job.color}</p>
+                     </div>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto mt-2 sm:mt-0">
+                     <div className="flex items-center gap-2 text-sm font-bold text-gray-500 bg-gray-50 px-3 py-2 rounded-lg justify-center">
+                        <Clock className="w-4 h-4" /> {job.time}
+                     </div>
+                     <button className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold rounded-lg transition-colors text-sm">
+                       <Download className="w-4 h-4" /> Download
+                     </button>
+                     <button className="flex items-center justify-center gap-2 px-6 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-lg transition-colors shadow-lg shadow-emerald-500/30 text-sm">
+                       <CheckCircle className="w-4 h-4" /> Mark Ready
+                     </button>
+                  </div>
+                </div>
+              ))}
+
+              {activeTab === "completed" && completedQueue.map((job) => (
                 <div key={job.id} className="border-0 sm:border border-gray-200 sm:rounded-2xl p-4 sm:p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 sm:gap-6 hover:shadow-md transition-shadow bg-white">
                   <div className="flex items-start gap-4 w-full md:w-auto">
                      <div className="w-12 h-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center shrink-0">

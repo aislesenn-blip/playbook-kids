@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function WorkspacePage() {
+  const { currentUser } = useAppStore();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<"upload" | "write">("write");
   const [instructions, setInstructions] = useState("");
@@ -18,6 +19,7 @@ export default function WorkspacePage() {
   const [generatedContent, setGeneratedContent] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false); // To toggle Rich Text Editor mode
   const [showCompletionPopup, setShowCompletionPopup] = useState(false);
+  const [fileName, setFileName] = useState("Untitled Document");
 
   const handleGenerate = (e: React.FormEvent) => {
     e.preventDefault();
@@ -259,22 +261,44 @@ export default function WorkspacePage() {
                 </div>
 
                 <h3 className="text-2xl font-black text-center text-gray-900 mb-2">Formatting Complete!</h3>
-                <p className="text-center text-gray-500 font-medium mb-8">
-                  Your document looks perfect. You can review and edit it manually, or send it straight to a Print Station now.
+                <p className="text-center text-gray-500 font-medium mb-6">
+                  Your document looks perfect. Give it a name to save it to your files.
                 </p>
+
+                <div className="mb-6">
+                  <label className="block text-sm font-bold text-gray-700 mb-2">Document Name</label>
+                  <input
+                    type="text"
+                    value={fileName}
+                    onChange={(e) => setFileName(e.target.value)}
+                    placeholder="e.g. Official Leave Letter"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary font-medium"
+                  />
+                </div>
 
                 <div className="flex flex-col gap-3">
                   <button
-                    onClick={() => router.push('/print-station')}
+                    onClick={() => {
+                      if (!currentUser) {
+                        alert("Please log in or create an account to send print jobs. This protects our vendors from fraud.");
+                        router.push("/auth/signup?redirectTo=/workspace");
+                        return;
+                      }
+                      alert(`${fileName} saved to your files!`);
+                      router.push('/print-station');
+                    }}
                     className="w-full bg-primary hover:bg-emerald-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-primary/30 transition-all text-lg"
                   >
-                    <Printer className="w-5 h-5" /> Send to Print Station
+                    <Printer className="w-5 h-5" /> Save & Send to Print Station
                   </button>
                   <button
-                    onClick={() => setShowCompletionPopup(false)}
+                    onClick={() => {
+                       alert(`${fileName} saved to your files!`);
+                       setShowCompletionPopup(false);
+                    }}
                     className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-4 rounded-xl transition-all"
                   >
-                    Review Document First
+                    Save & Review Document
                   </button>
                 </div>
               </motion.div>
@@ -290,7 +314,7 @@ export default function WorkspacePage() {
              <div className="flex items-center gap-6">
                 <div className="flex items-center gap-2 text-sm font-bold text-gray-500">
                   <FileText className="w-4 h-4" />
-                  {generatedContent ? "Document.pdf" : "Untitled Document"}
+                  {fileName}
                 </div>
                 {generatedContent && (
                   <div className="hidden sm:flex items-center gap-1 bg-white border border-gray-200 rounded-lg p-1 shadow-sm">
@@ -321,7 +345,7 @@ export default function WorkspacePage() {
           </div>
 
           {/* The A4 Canvas Container */}
-          <div className="flex-grow bg-[#E5E7EB] p-8 overflow-y-auto flex justify-center custom-scrollbar relative">
+          <div className="flex-grow bg-[#E5E7EB] p-0 sm:p-8 overflow-y-auto flex justify-center custom-scrollbar relative">
 
              {isGenerating ? (
                 <div className="flex flex-col items-center justify-center mt-32 text-center">
@@ -336,9 +360,9 @@ export default function WorkspacePage() {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="relative"
+                  className="relative w-full max-w-[1200px]"
                 >
-                  <div className="absolute -left-12 top-4 flex flex-col gap-2">
+                  <div className="hidden sm:flex absolute -left-12 top-4 flex-col gap-2">
                     <div className="w-8 h-8 bg-gray-900 text-white rounded-full flex items-center justify-center text-xs font-bold shadow-lg">1</div>
                   </div>
 
