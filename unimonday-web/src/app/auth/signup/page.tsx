@@ -17,7 +17,7 @@ export default function SignupPage() {
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get('redirectTo') || '/';
 
-  const { setUser, setLocation } = useAppStore();
+  const { setCurrentUser, setSelectedRegion } = useAppStore();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -69,7 +69,7 @@ export default function SignupPage() {
       console.warn("Supabase failed, falling back to mock auth");
     } finally {
       // ALWAYS sync state for demo
-      setUser({
+      setCurrentUser({
         id: "u" + Date.now(),
         name: formData.name,
         email: formData.email,
@@ -77,7 +77,7 @@ export default function SignupPage() {
         region: formData.region,
         campusName: formData.campusName
       });
-      setLocation(formData.region, formData.campusName);
+      setSelectedRegion(formData.region);
 
       toast.success("Account created successfully!");
       router.push(redirectTo);

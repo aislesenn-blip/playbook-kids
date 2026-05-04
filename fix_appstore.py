@@ -1,4 +1,7 @@
-import { create } from 'zustand';
+with open("unimonday-web/src/lib/store/app-store.ts", "r") as f:
+    content = f.read()
+
+content = """import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { User, PrintJob } from '@/types';
 
@@ -38,3 +41,7 @@ export const useAppStore = create<AppState>()(
     }
   )
 );
+"""
+
+with open("unimonday-web/src/lib/store/app-store.ts", "w") as f:
+    f.write(content)
