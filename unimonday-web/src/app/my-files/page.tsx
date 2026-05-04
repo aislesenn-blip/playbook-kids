@@ -30,7 +30,7 @@ export default function MyFilesPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
+        <div className="bg-white sm:rounded-3xl sm:shadow-sm sm:border border-gray-200 overflow-hidden border-y sm:border-y-0 -mx-4 sm:mx-0">
 
           <div className="p-4 border-b border-gray-100 flex flex-col sm:flex-row gap-4 items-center justify-between bg-gray-50/50">
              <div className="relative w-full sm:w-96">
@@ -46,8 +46,8 @@ export default function MyFilesPage() {
              </button>
           </div>
 
-          <div className="overflow-x-auto min-w-max">
-            <table className="w-full text-left border-collapse">
+          <div className="overflow-x-auto w-full">
+            <table className="w-full text-left border-collapse min-w-max">
               <thead>
                 <tr className="bg-gray-50/80 text-gray-500 text-xs uppercase tracking-wider font-bold">
                   <th className="p-4 pl-6 border-b border-gray-100">File Name</th>
