@@ -1,16 +1,27 @@
 "use client";
 
-import { Printer, Download, CheckCircle, Clock, FileText, Search, Settings } from "lucide-react";
+import { Printer, Download, CheckCircle, Clock, FileText, Search, Settings, MapPin, DollarSign, Edit3, Save } from "lucide-react";
 import { useState } from "react";
 
 export default function VendorDashboardPage() {
-  const [activeTab, setActiveTab] = useState<"queue" | "completed">("queue");
+  const [activeTab, setActiveTab] = useState<"queue" | "completed" | "settings">("queue");
+  const [isEditingSettings, setIsEditingSettings] = useState(false);
 
   const printQueue = [
     { id: "PJ-101", student: "John Doe", file: "Research_Proposal.pdf", copies: 2, color: "Black & White", time: "10 mins ago", status: "pending" },
     { id: "PJ-102", student: "Sarah Smith", file: "Chemistry_Report.pdf", copies: 1, color: "Full Color", time: "25 mins ago", status: "pending" },
     { id: "PJ-103", student: "Michael Johnson", file: "Leave_Letter.pdf", copies: 1, color: "Black & White", time: "1 hour ago", status: "pending" },
   ];
+
+  const [shopSettings, setShopSettings] = useState({
+    name: "Mlimani Campus Main Print",
+    location: "Near Yombo 4, UDSM",
+    bwPrice: "100",
+    colorPrice: "500",
+    bindingPrice: "2000",
+    services: "A4 B&W, Color, Binding",
+    status: "Online"
+  });
 
   return (
     <div className="min-h-screen bg-gray-50 pt-20 pb-24 font-sans">
@@ -44,28 +55,36 @@ export default function VendorDashboardPage() {
         <div className="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
            {/* Tabs & Search */}
            <div className="p-4 border-b border-gray-100 flex flex-col sm:flex-row gap-4 items-center justify-between bg-gray-50/50">
-             <div className="flex gap-2 w-full sm:w-auto">
+             <div className="flex gap-2 w-full sm:w-auto overflow-x-auto hide-scrollbar">
                <button
                  onClick={() => setActiveTab("queue")}
-                 className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-colors ${activeTab === 'queue' ? 'bg-gray-900 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'}`}
+                 className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-colors whitespace-nowrap ${activeTab === 'queue' ? 'bg-gray-900 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'}`}
                >
                  Print Queue
                </button>
                <button
                  onClick={() => setActiveTab("completed")}
-                 className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-colors ${activeTab === 'completed' ? 'bg-gray-900 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'}`}
+                 className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-colors whitespace-nowrap ${activeTab === 'completed' ? 'bg-gray-900 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'}`}
                >
                  Completed
                </button>
+               <button
+                 onClick={() => setActiveTab("settings")}
+                 className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-colors whitespace-nowrap flex items-center gap-2 ${activeTab === 'settings' ? 'bg-gray-900 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'}`}
+               >
+                 <Settings className="w-4 h-4" /> Shop Profile
+               </button>
              </div>
-             <div className="relative w-full sm:w-80">
-                <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
-                <input
-                  type="text"
-                  placeholder="Search by ID or Student..."
-                  className="w-full bg-white border border-gray-200 rounded-xl pl-9 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900"
-                />
-             </div>
+             {activeTab !== "settings" && (
+               <div className="relative w-full sm:w-80">
+                  <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    placeholder="Search by ID or Student..."
+                    className="w-full bg-white border border-gray-200 rounded-xl pl-9 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900"
+                  />
+               </div>
+             )}
           </div>
 
           {/* Queue List */}
@@ -105,6 +124,108 @@ export default function VendorDashboardPage() {
                 <div className="text-center py-20 text-gray-500">
                   <CheckCircle className="w-12 h-12 text-gray-300 mx-auto mb-4" />
                   <p className="font-bold text-lg">No completed jobs to show.</p>
+                </div>
+              )}
+
+              {activeTab === "settings" && (
+                <div className="max-w-3xl mx-auto space-y-8 py-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h2 className="text-2xl font-black text-gray-900">Shop Profile & Pricing</h2>
+                      <p className="text-gray-500 font-medium text-sm mt-1">Configure your stationary details to attract students on the Print Network.</p>
+                    </div>
+                    <button
+                      onClick={() => setIsEditingSettings(!isEditingSettings)}
+                      className={`px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-colors ${isEditingSettings ? 'bg-primary text-white' : 'bg-gray-100 text-gray-800 hover:bg-gray-200'}`}
+                    >
+                      {isEditingSettings ? <><Save className="w-4 h-4"/> Save Changes</> : <><Edit3 className="w-4 h-4"/> Edit Profile</>}
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-2"><Settings className="w-4 h-4"/> Shop Name</label>
+                      <input
+                        type="text"
+                        disabled={!isEditingSettings}
+                        value={shopSettings.name}
+                        onChange={(e) => setShopSettings({...shopSettings, name: e.target.value})}
+                        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-900 disabled:opacity-70 focus:ring-2 focus:ring-primary focus:outline-none"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-2"><MapPin className="w-4 h-4"/> Location</label>
+                      <input
+                        type="text"
+                        disabled={!isEditingSettings}
+                        value={shopSettings.location}
+                        onChange={(e) => setShopSettings({...shopSettings, location: e.target.value})}
+                        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-900 disabled:opacity-70 focus:ring-2 focus:ring-primary focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
+                    <h3 className="font-bold text-lg text-gray-900 mb-4 flex items-center gap-2"><DollarSign className="w-5 h-5 text-primary"/> Pricing per Page (TZS)</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Black & White</label>
+                        <input
+                          type="number"
+                          disabled={!isEditingSettings}
+                          value={shopSettings.bwPrice}
+                          onChange={(e) => setShopSettings({...shopSettings, bwPrice: e.target.value})}
+                          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-900 disabled:opacity-70 focus:ring-2 focus:ring-primary focus:outline-none"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Full Color</label>
+                        <input
+                          type="number"
+                          disabled={!isEditingSettings}
+                          value={shopSettings.colorPrice}
+                          onChange={(e) => setShopSettings({...shopSettings, colorPrice: e.target.value})}
+                          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-900 disabled:opacity-70 focus:ring-2 focus:ring-primary focus:outline-none"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Binding</label>
+                        <input
+                          type="number"
+                          disabled={!isEditingSettings}
+                          value={shopSettings.bindingPrice}
+                          onChange={(e) => setShopSettings({...shopSettings, bindingPrice: e.target.value})}
+                          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-900 disabled:opacity-70 focus:ring-2 focus:ring-primary focus:outline-none"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Services Offered (Comma separated)</label>
+                    <input
+                      type="text"
+                      disabled={!isEditingSettings}
+                      value={shopSettings.services}
+                      onChange={(e) => setShopSettings({...shopSettings, services: e.target.value})}
+                      className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-900 disabled:opacity-70 focus:ring-2 focus:ring-primary focus:outline-none"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Shop Status</label>
+                    <select
+                      disabled={!isEditingSettings}
+                      value={shopSettings.status}
+                      onChange={(e) => setShopSettings({...shopSettings, status: e.target.value})}
+                      className="w-full md:w-1/3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-900 disabled:opacity-70 focus:ring-2 focus:ring-primary focus:outline-none appearance-none"
+                    >
+                      <option>Online</option>
+                      <option>Busy</option>
+                      <option>Offline</option>
+                    </select>
+                  </div>
+
                 </div>
               )}
             </div>

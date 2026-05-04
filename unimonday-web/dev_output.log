@@ -1,0 +1,30 @@
+
+> unimonday-web@0.1.0 dev
+> next dev
+
+ ⚠ Port 3000 is in use by an unknown process, using available port 3001 instead.
+   ▲ Next.js 15.5.15
+   - Local:        http://localhost:3001
+   - Network:      http://192.168.0.2:3001
+
+ ✓ Starting...
+ ✓ Ready in 3.7s
+ ○ Compiling / ...
+ ✓ Compiled / in 4.9s (1654 modules)
+ GET / 200 in 6164ms
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Parsing of /app/unimonday-web/node_modules/next-intl/dist/esm/production/extractor/format/index.js for build dependencies failed at 'import(t)'.
+<w> Build dependencies behind this expression are ignored and might cause incorrect cache invalidation.
+<w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Parsing of /app/unimonday-web/node_modules/next-intl/dist/esm/production/extractor/format/index.js for build dependencies failed at 'import(t)'.
+<w> Build dependencies behind this expression are ignored and might cause incorrect cache invalidation.
+ ○ Compiling /templates ...
+ ✓ Compiled /templates in 1299ms (1663 modules)
+ GET /templates 200 in 2037ms
+ ○ Compiling /print-station ...
+ ✓ Compiled /print-station in 776ms (1680 modules)
+ GET /print-station 200 in 1207ms
+ ○ Compiling /vendor/dashboard ...
+ ✓ Compiled /vendor/dashboard in 904ms (1697 modules)
+ GET /vendor/dashboard 200 in 1368ms
+ ○ Compiling /workspace ...
+ ✓ Compiled /workspace in 819ms (1716 modules)
+ GET /workspace 200 in 1255ms

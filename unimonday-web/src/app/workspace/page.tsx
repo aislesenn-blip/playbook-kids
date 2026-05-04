@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Settings, Bot, FileText, Send, Download, Loader2, Sparkles, AlertCircle, UploadCloud, FileType, Columns, Type, CheckCircle, Printer } from "lucide-react";
+import { Settings, Bot, FileText, Send, Download, Loader2, Sparkles, AlertCircle, UploadCloud, FileType, Columns, Type, CheckCircle, Printer, X } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function WorkspacePage() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<"upload" | "write">("write");
   const [instructions, setInstructions] = useState("");
   const [rawText, setRawText] = useState("");
@@ -15,6 +17,7 @@ export default function WorkspacePage() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedContent, setGeneratedContent] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false); // To toggle Rich Text Editor mode
+  const [showCompletionPopup, setShowCompletionPopup] = useState(false);
 
   const handleGenerate = (e: React.FormEvent) => {
     e.preventDefault();
@@ -105,6 +108,7 @@ export default function WorkspacePage() {
 
       setGeneratedContent(finalContent);
       setIsGenerating(false);
+      setShowCompletionPopup(true);
     }, 3000);
   };
 
@@ -227,6 +231,56 @@ export default function WorkspacePage() {
           </div>
 
         </div>
+
+        {/* Completion Pop-up Modal */}
+        <AnimatePresence>
+          {showCompletionPopup && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full relative"
+              >
+                <button
+                  onClick={() => setShowCompletionPopup(false)}
+                  className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 bg-gray-100 p-2 rounded-full transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+
+                <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <CheckCircle className="w-10 h-10" />
+                </div>
+
+                <h3 className="text-2xl font-black text-center text-gray-900 mb-2">Formatting Complete!</h3>
+                <p className="text-center text-gray-500 font-medium mb-8">
+                  Your document looks perfect. You can review and edit it manually, or send it straight to a Print Station now.
+                </p>
+
+                <div className="flex flex-col gap-3">
+                  <button
+                    onClick={() => router.push('/print-station')}
+                    className="w-full bg-primary hover:bg-emerald-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-primary/30 transition-all text-lg"
+                  >
+                    <Printer className="w-5 h-5" /> Send to Print Station
+                  </button>
+                  <button
+                    onClick={() => setShowCompletionPopup(false)}
+                    className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-4 rounded-xl transition-all"
+                  >
+                    Review Document First
+                  </button>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Right Side - Interactive Output / Rich Text Editor */}
         <div className="w-full flex-grow flex flex-col bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
