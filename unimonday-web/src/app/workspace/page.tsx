@@ -104,13 +104,13 @@ export default function WorkspacePage() {
 
                   {/* Chat Bubble */}
                   <div
-                    className={`px-4 py-3 rounded-2xl shadow-sm ${
+                    className={`px-3 py-2.5 rounded-2xl shadow-sm ${
                       msg.sender === 'user'
-                        ? 'bg-[#007185] text-white rounded-br-sm'
-                        : 'bg-white text-gray-800 rounded-bl-sm border border-gray-100'
+                        ? 'bg-emerald-600 text-white rounded-br-sm'
+                        : 'bg-white text-gray-700 rounded-bl-sm border border-gray-100'
                     }`}
                   >
-                    <p className="whitespace-pre-wrap text-[14px] sm:text-[15px] leading-relaxed">{msg.text}</p>
+                    <p className="whitespace-pre-wrap text-[14px] leading-relaxed">{msg.text}</p>
                   </div>
 
                   {/* AI Draft Card (Tinder-style Progressive Disclosure) */}
@@ -119,22 +119,19 @@ export default function WorkspacePage() {
                       whileHover={{ scale: 1.01 }}
                       whileTap={{ scale: 0.99 }}
                       onClick={() => setActiveBlock(msg.draftBlockId!)}
-                      className="mt-3 bg-white border border-gray-200 p-4 rounded-xl shadow-md cursor-pointer w-full max-w-sm flex flex-col gap-3 group relative overflow-hidden"
+                      className="mt-1.5 bg-white border border-gray-200 p-3 rounded-xl shadow-sm cursor-pointer w-full max-w-[280px] flex items-center gap-3 group"
                     >
-                      <div className="absolute top-0 left-0 w-1 h-full bg-emerald-500"></div>
-                      <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-emerald-100 transition-colors">
-                            <FileText className="w-5 h-5 text-emerald-600" />
-                          </div>
-                          <div className="flex-grow min-w-0">
-                            <p className="font-bold text-gray-900 text-sm truncate">Review Formatting</p>
-                            <p className="text-xs text-gray-500 font-medium truncate flex items-center gap-1 mt-0.5">
-                              <CheckCircle className="w-3 h-3 text-emerald-500" /> JSON parsed successfully
-                            </p>
-                          </div>
+                      <div className="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-emerald-100 transition-colors">
+                        <FileText className="w-5 h-5 text-emerald-600" />
                       </div>
-                      <button className="w-full text-xs sm:text-sm font-bold bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-800 py-2 rounded-lg transition-colors flex justify-center items-center gap-2">
-                        Open Document Canvas <FileDown className="w-4 h-4"/>
+                      <div className="flex-grow min-w-0">
+                        <p className="font-bold text-gray-800 text-[13px] truncate">Review Draft</p>
+                        <p className="text-[11px] text-gray-500 font-medium truncate flex items-center gap-1 mt-0.5">
+                          <CheckCircle className="w-3 h-3 text-emerald-500" /> Ready
+                        </p>
+                      </div>
+                      <button className="text-[11px] font-bold bg-gray-100 hover:bg-gray-200 text-gray-700 px-2.5 py-1.5 rounded-lg transition-colors shrink-0">
+                        Open
                       </button>
                     </motion.div>
                   )}
@@ -215,22 +212,48 @@ export default function WorkspacePage() {
                 )}
             </AnimatePresence>
 
-            <div className="flex flex-col bg-white rounded-2xl sm:rounded-3xl shadow-[0_2px_15px_rgba(0,0,0,0.08)] border border-gray-200 p-2 focus-within:shadow-[0_2px_20px_rgba(16,185,129,0.15)] focus-within:border-emerald-300 transition-all overflow-hidden">
+          <div className="flex flex-col bg-gray-100 rounded-2xl border border-gray-200 focus-within:ring-2 focus-within:ring-emerald-500/20 focus-within:border-emerald-500/30 transition-all shadow-sm overflow-hidden">
+            {/* Text Input */}
+            <textarea
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              placeholder="E.g., Turn this messy text into a neat table..."
+              className="w-full bg-transparent border-none focus:ring-0 resize-none p-4 text-[15px] font-medium text-gray-800 placeholder:text-gray-400 max-h-48 min-h-[80px] custom-scrollbar"
+              rows={2}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSubmit(e);
+                }
+              }}
+            />
 
-                {/* Text Input Area (Expansive) */}
-                <textarea
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-                placeholder="Ask AI to format, draw tables, fix margins, or write..."
-                className="w-full bg-transparent border-none focus:ring-0 resize-none py-3 px-3 sm:px-4 text-[15px] sm:text-[16px] text-gray-800 placeholder:text-gray-400 min-h-[60px] max-h-[150px] custom-scrollbar"
-                rows={prompt.split('\n').length > 1 ? Math.min(prompt.split('\n').length, 5) : 1}
-                onKeyDown={(e) => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    handleSubmit(e);
-                    }
-                }}
+            {/* Bottom Controls inside the Input Box */}
+            <div className="flex items-center justify-between px-3 pb-3 pt-1">
+              <div className="relative">
+                <input
+                  type="file"
+                  id="file-upload"
+                  className="hidden"
+                  onChange={(e) => setUploadedFile(e.target.files?.[0] || null)}
                 />
+                <label
+                  htmlFor="file-upload"
+                  className="p-2 flex items-center justify-center rounded-lg text-gray-500 hover:bg-gray-200 hover:text-gray-700 cursor-pointer transition-colors"
+                >
+                  <UploadCloud className="w-5 h-5" />
+                </label>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isProcessing || (!prompt.trim() && !uploadedFile)}
+                className="w-9 h-9 flex items-center justify-center rounded-lg bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-300 disabled:text-gray-500 text-white transition-colors shadow-sm disabled:shadow-none"
+              >
+                <Send className="w-4 h-4 ml-0.5" />
+              </button>
+            </div>
+          </div>
 
                 {/* Bottom Row Tools within Input */}
                 <div className="flex items-center justify-between px-2 pb-1 pt-2 border-t border-gray-50">
