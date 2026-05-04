@@ -46,6 +46,40 @@ export const simulateAiFormatting = async (
             }
           ]
         });
+      } else if (lowerPrompt.includes("apa") || lowerPrompt.includes("format")) {
+        title = "APA Styled Document";
+        mockJsonStructure = JSON.stringify({
+          type: "doc",
+          content: [
+            { type: "heading", attrs: { level: 1, textAlign: "center" }, content: [{ type: "text", text: "Title of Your Document" }] },
+            { type: "paragraph", attrs: { textAlign: "center" }, content: [{ type: "text", text: "John Doe" }] },
+            { type: "paragraph", attrs: { textAlign: "center" }, content: [{ type: "text", text: "Department of Computer Science, University" }] },
+            { type: "paragraph", attrs: { textAlign: "center" }, content: [{ type: "text", text: "CS 101: Introduction to Formatting" }] },
+            { type: "paragraph", attrs: { textAlign: "center" }, content: [{ type: "text", text: "Prof. Jane Smith" }] },
+            { type: "paragraph", attrs: { textAlign: "center" }, content: [{ type: "text", text: "May 5, 2024" }] },
+            { type: "paragraph", content: [{ type: "text", text: "" }] },
+            { type: "paragraph", attrs: { textAlign: "justify" }, content: [{ type: "text", text: "This is a strictly formatted APA document generated via JSON commands. The margins, line-height, and indentations are handled mathematically behind the scenes, ensuring you do not lose points for bad formatting." }] }
+          ]
+        });
+      } else if (lowerPrompt.includes("barua") || lowerPrompt.includes("letter")) {
+        title = "Official Letter";
+        mockJsonStructure = JSON.stringify({
+          type: "doc",
+          content: [
+            { type: "paragraph", attrs: { textAlign: "right" }, content: [{ type: "text", marks: [{ type: "bold" }], text: "Mawasiliano Yako Hapa," }] },
+            { type: "paragraph", attrs: { textAlign: "right" }, content: [{ type: "text", text: "S.L.P 1234," }] },
+            { type: "paragraph", attrs: { textAlign: "right" }, content: [{ type: "text", text: "Dar es Salaam." }] },
+            { type: "paragraph", attrs: { textAlign: "right" }, content: [{ type: "text", text: "Tarehe: Leo" }] },
+            { type: "paragraph", content: [{ type: "text", text: "Kwa Mkurugenzi," }] },
+            { type: "paragraph", content: [{ type: "text", text: "Kituo Cha Ubunifu," }] },
+            { type: "paragraph", content: [{ type: "text", text: "S.L.P 4321, Dar es Salaam." }] },
+            { type: "paragraph", content: [{ type: "text", text: "" }] },
+            { type: "paragraph", content: [{ type: "text", marks: [{ type: "bold" }, { type: "underline" }], text: "YAH: MAOMBI YA KAZI" }] },
+            { type: "paragraph", content: [{ type: "text", text: "Husika na kichwa cha habari hapo juu. Ninakuandikia kuomba nafasi ya kazi katika kituo chenu, nikiwa na uzoefu wa miaka kadhaa katika masuala ya teknolojia." }] },
+            { type: "paragraph", content: [{ type: "text", text: "Wako Mtiifu," }] },
+            { type: "paragraph", content: [{ type: "text", text: "Jina Langu" }] }
+          ]
+        });
       } else {
         title = "Formatted Document";
         mockJsonStructure = JSON.stringify({
