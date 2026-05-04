@@ -190,14 +190,14 @@ function ChatInterfaceContent() {
             {/* Vendor Quick Actions if the logged in user is a vendor */}
             {currentUser?.role === 'vendor' && (
               <div className="px-4 py-2 bg-gray-50 border-t border-border flex gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden">
-                 <button onClick={() => toast.success("Payment confirmed! Student notified.")} className="text-xs font-bold bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded-lg hover:bg-emerald-200 whitespace-nowrap">
-                    Confirm Payment
+                 <button onClick={() => toast.success("Job accepted! Starting print.")} className="text-xs font-bold bg-blue-100 text-blue-700 px-3 py-1.5 rounded-lg hover:bg-blue-200 whitespace-nowrap">
+                    Start Print Job
                  </button>
-                 <button onClick={() => toast.success("Order status changed to In Transit")} className="text-xs font-bold bg-blue-100 text-blue-700 px-3 py-1.5 rounded-lg hover:bg-blue-200 whitespace-nowrap">
-                    Mark In Transit
+                 <button onClick={() => toast.success("Marked as Ready for pickup.")} className="text-xs font-bold bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded-lg hover:bg-emerald-200 whitespace-nowrap">
+                    Mark Ready
                  </button>
-                 <button onClick={() => toast.error("Cancellation notice sent.")} className="text-xs font-bold bg-red-100 text-red-700 px-3 py-1.5 rounded-lg hover:bg-red-200 whitespace-nowrap">
-                    Cancel Order
+                 <button onClick={() => toast.error("Issue with file. Student notified.")} className="text-xs font-bold bg-red-100 text-red-700 px-3 py-1.5 rounded-lg hover:bg-red-200 whitespace-nowrap">
+                    Report Issue
                  </button>
               </div>
             )}
