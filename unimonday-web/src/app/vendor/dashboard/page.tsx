@@ -25,7 +25,7 @@ export default function VendorDashboardPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 pt-20 pb-24 font-sans">
-      <div className="max-w-7xl mx-auto px-4 w-full">
+      <div className="w-full mx-auto px-4 md:px-8">
 
         {/* Dashboard Header */}
         <div className="bg-gray-900 rounded-3xl p-8 mb-8 text-white flex flex-col md:flex-row justify-between items-center gap-6 shadow-xl">
@@ -128,7 +128,7 @@ export default function VendorDashboardPage() {
               )}
 
               {activeTab === "settings" && (
-                <div className="max-w-3xl mx-auto space-y-8 py-4">
+                <div className="w-full mx-auto space-y-8 py-4">
                   <div className="flex items-center justify-between">
                     <div>
                       <h2 className="text-2xl font-black text-gray-900">Shop Profile & Pricing</h2>
