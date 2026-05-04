@@ -1,26 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import { Store, Compass, MessageCircle, Box, LayoutDashboard, User } from "lucide-react";
+import { FileText, LayoutTemplate, FolderOpen, Printer, User, LayoutDashboard, MessageCircle } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useAppStore } from "@/lib/store/app-store";
 
 export function BottomNav() {
   const pathname = usePathname();
 
-    const { currentUser } = useAppStore();
+  const { currentUser } = useAppStore();
 
   const isVendor = currentUser?.role === 'vendor';
 
   const navItems = isVendor ? [
     { href: "/vendor/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+    { href: "/print-jobs", icon: Printer, label: "Print Jobs" },
     { href: "/chat", icon: MessageCircle, label: "Inbox" },
     { href: "/profile", icon: User, label: "Profile" },
   ] : [
-    { href: "/", icon: Store, label: "Home" },
-    { href: "/explore", icon: Compass, label: "Explore" },
-    { href: "/chat", icon: MessageCircle, label: "Chat" },
-    { href: "/orders", icon: Box, label: "Orders" },
+    { href: "/", icon: FileText, label: "Home" },
+    { href: "/workspace", icon: LayoutTemplate, label: "Workspace" },
+    { href: "/my-files", icon: FolderOpen, label: "Files" },
+    { href: "/print-station", icon: Printer, label: "Print" },
   ];
 
   return (

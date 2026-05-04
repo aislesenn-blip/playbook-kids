@@ -1,122 +1,103 @@
 "use client";
 
-import { useState } from "react";
-import { Handshake, Store, Mail, Phone, MapPin, Send } from "lucide-react";
-import { toast } from "sonner";
+import { Printer, Store, CheckCircle, ArrowRight, UploadCloud, Banknote } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-export default function PartnerApplyPage() {
+export default function ApplyPage() {
   const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
-    businessName: "",
-    category: "Fashion & Apparels",
-    contactName: "",
-    phone: "",
-    email: "",
-    location: "Dar es Salaam",
-    description: ""
-  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      toast.success("Partnership Request Submitted! Our team will contact you shortly.");
-      router.push("/");
-    }, 1500);
+    // In a real app we would submit the form data to an API here.
+    // For now we simulate success and redirect directly to the vendor dashboard.
+    router.push('/vendor/dashboard');
   };
-
   return (
-    <div className="max-w-3xl mx-auto py-12 px-4">
-      <div className="text-center mb-10">
-        <div className="w-20 h-20 bg-primary/10 rounded-3xl flex items-center justify-center mx-auto mb-6">
-          <Handshake className="w-10 h-10 text-primary" />
+    <div className="min-h-screen bg-gray-50 pt-20 pb-24">
+      <div className="max-w-4xl mx-auto px-4 w-full">
+
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 text-primary rounded-full mb-6">
+            <Printer className="w-8 h-8" />
+          </div>
+          <h1 className="text-4xl md:text-5xl font-black tracking-tight mb-4 text-gray-900">
+            Join the uNiMONDAY Print Network
+          </h1>
+          <p className="text-xl text-muted-foreground font-medium max-w-2xl mx-auto">
+            Turn your stationary shop into a smart printing hub. Receive perfect PDF print jobs directly from students on campus.
+          </p>
         </div>
-        <h1 className="text-4xl sm:text-5xl font-black mb-4 tracking-tight text-gray-900">Partner With Us</h1>
-        <p className="text-lg text-muted-foreground font-medium max-w-xl mx-auto">
-          Do you have great products or exclusive student discounts? Tell us about your business, and let&apos;s get your products in front of thousands of students across Tanzania.
-        </p>
-      </div>
 
-      <div className="bg-white rounded-[2rem] border border-border shadow-sm p-6 sm:p-10">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-bold mb-2 text-gray-700">Business/Store Name</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                  <Store className="h-5 w-5 text-gray-400" />
-                </div>
-                <input required type="text" value={formData.businessName} onChange={(e) => setFormData({...formData, businessName: e.target.value})} className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all" placeholder="e.g. Kicks TZ" />
-              </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div className="bg-white p-6 rounded-2xl border border-border text-center shadow-sm">
+            <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <UploadCloud className="w-6 h-6" />
             </div>
-
-            <div>
-              <label className="block text-sm font-bold mb-2 text-gray-700">Product Category</label>
-              <select required value={formData.category} onChange={(e) => setFormData({...formData, category: e.target.value})} className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all appearance-none">
-                <option value="Fashion & Apparels">Fashion & Apparels</option>
-                <option value="Tech & Accessories">Tech & Accessories</option>
-                <option value="Beauty & Cosmetics">Beauty & Cosmetics</option>
-                <option value="Home & Decor">Home & Decor</option>
-                <option value="Services">Services (Repairs, etc.)</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-bold mb-2 text-gray-700">Contact Person Name</label>
-              <input required type="text" value={formData.contactName} onChange={(e) => setFormData({...formData, contactName: e.target.value})} className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all" placeholder="John Doe" />
-            </div>
-
-            <div>
-              <label className="block text-sm font-bold mb-2 text-gray-700">Phone Number</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                  <Phone className="h-5 w-5 text-gray-400" />
-                </div>
-                <input required type="tel" value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all" placeholder="07XX XXX XXX" />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-bold mb-2 text-gray-700">Email Address</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-400" />
-                </div>
-                <input required type="email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all" placeholder="hello@store.com" />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-bold mb-2 text-gray-700">Region</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                  <MapPin className="h-5 w-5 text-gray-400" />
-                </div>
-                <select required value={formData.location} onChange={(e) => setFormData({...formData, location: e.target.value})} className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all appearance-none">
-                  <option value="Dar es Salaam">Dar es Salaam</option>
-                  <option value="Arusha">Arusha</option>
-                  <option value="Mwanza">Mwanza</option>
-                  <option value="Dodoma">Dodoma</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-            </div>
+            <h3 className="font-bold text-lg mb-2">No More Flash Drives</h3>
+            <p className="text-muted-foreground text-sm font-medium">Students send perfectly formatted PDFs directly to your queue. Say goodbye to viruses.</p>
           </div>
-
-          <div>
-            <label className="block text-sm font-bold mb-2 text-gray-700">What kind of products/deals do you offer?</label>
-            <textarea required value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all min-h-[120px]" placeholder="Tell us more about your business and why students would love it..."></textarea>
+          <div className="bg-white p-6 rounded-2xl border border-border text-center shadow-sm">
+            <div className="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <CheckCircle className="w-6 h-6" />
+            </div>
+            <h3 className="font-bold text-lg mb-2">Zero Formatting Issues</h3>
+            <p className="text-muted-foreground text-sm font-medium">Our AI formats the documents. You only need to hit &quot;Print&quot;. Save hours of editing time.</p>
           </div>
+          <div className="bg-white p-6 rounded-2xl border border-border text-center shadow-sm">
+            <div className="w-12 h-12 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <Banknote className="w-6 h-6" />
+            </div>
+            <h3 className="font-bold text-lg mb-2">Increase Revenue</h3>
+            <p className="text-muted-foreground text-sm font-medium">Get listed on our app so students can easily find your shop and send jobs remotely.</p>
+          </div>
+        </div>
 
-          <button type="submit" disabled={isSubmitting} className="w-full bg-gray-900 text-white font-bold py-4 rounded-xl hover:bg-gray-800 transition-colors shadow-lg flex items-center justify-center gap-2 disabled:opacity-70">
-            {isSubmitting ? "Submitting..." : "Submit Partnership Request"} <Send className="w-5 h-5" />
-          </button>
-        </form>
+        <div className="bg-white rounded-3xl p-8 md:p-12 border border-border shadow-xl">
+          <h2 className="text-2xl font-black mb-8 border-b pb-4">Stationary Registration Form</h2>
+
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-700">Stationary Name <span className="text-red-500">*</span></label>
+                <input type="text" placeholder="e.g. Mlimani Campus Print Shop" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 font-medium" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-700">Owner&apos;s Name <span className="text-red-500">*</span></label>
+                <input type="text" placeholder="Full Name" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 font-medium" />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+               <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-700">Phone Number <span className="text-red-500">*</span></label>
+                <input type="tel" placeholder="+255..." className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 font-medium" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-gray-700">Email Address (Optional)</label>
+                <input type="email" placeholder="Email" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 font-medium" />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-bold text-gray-700">Location / Campus <span className="text-red-500">*</span></label>
+              <textarea placeholder="e.g. UDSM Main Campus, Near Yombo 4" rows={2} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/50 font-medium"></textarea>
+            </div>
+
+            <div className="bg-primary/5 p-6 rounded-xl border border-primary/20 flex gap-4 items-start">
+              <Store className="w-6 h-6 text-primary shrink-0 mt-1" />
+              <div>
+                <h4 className="font-bold text-gray-900 mb-1">What happens next?</h4>
+                <p className="text-sm text-gray-600 font-medium">Once you submit this form, our team will verify your shop location. You will then receive login credentials to access the Print Dashboard where you will receive student print jobs.</p>
+              </div>
+            </div>
+
+            <button type="submit" className="w-full bg-gray-900 hover:bg-black text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-colors shadow-lg mt-8 text-lg">
+              Submit Application <ArrowRight className="w-5 h-5" />
+            </button>
+            <p className="text-center text-xs text-muted-foreground font-medium mt-4">By submitting, you agree to our Terms of Service as a Print Partner.</p>
+          </form>
+
+        </div>
       </div>
     </div>
   );

@@ -1,372 +1,238 @@
 "use client";
 
+import { Printer, Download, CheckCircle, Clock, FileText, Search, Settings, MapPin, DollarSign, Edit3, Save } from "lucide-react";
 import { useState } from "react";
-import Image from "next/image";
-import { Store, Package, TrendingUp, Users, Plus, Star, Settings, Image as ImageIcon, X, Copy, Share2, MessageCircle } from "lucide-react";
-import Link from "next/link";
-import { toast } from "sonner";
-import { useAppStore } from "@/lib/store/app-store";
-import { Order, Product } from "@/types";
 
-export default function VendorDashboard() {
+export default function VendorDashboardPage() {
+  const [activeTab, setActiveTab] = useState<"queue" | "completed" | "settings">("queue");
+  const [isEditingSettings, setIsEditingSettings] = useState(false);
 
-  const [isAddingProduct, setIsAddingProduct] = useState(false);
-  const [isCropping, setIsCropping] = useState(false);
-  const [tempImage, setTempImage] = useState<string | null>(null);
-  const [croppedImage, setCroppedImage] = useState<string | null>(null);
+  const printQueue = [
+    { id: "PJ-101", student: "John Doe", file: "Research_Proposal.pdf", copies: 2, color: "Black & White", time: "10 mins ago", status: "pending" },
+    { id: "PJ-102", student: "Sarah Smith", file: "Chemistry_Report.pdf", copies: 1, color: "Full Color", time: "25 mins ago", status: "pending" },
+    { id: "PJ-103", student: "Michael Johnson", file: "Leave_Letter.pdf", copies: 1, color: "Black & White", time: "1 hour ago", status: "pending" },
+  ];
 
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [isBannersOpen, setIsBannersOpen] = useState(false);
-  const [paymentInfo, setPaymentInfo] = useState("Free delivery Dar es Salaam. Mobile Money preferred.");
-  const { orders, updateOrderStatus, addVendorProduct } = useAppStore();
-  const [newProduct, setNewProduct] = useState({ name: "", price: "", category: "Fashion & Apparels", supplierPhone: "", supplierLocation: "" });
-  const storeName = "Kicks TZ";
-  const vendorOrders = orders.filter((o: Order) => o.vendor === storeName);
-
-
-  const handleAddProduct = (e: React.FormEvent) => {
-    e.preventDefault();
-    const product: Product = {
-      id: "p" + Date.now(),
-      vendorId: "v1", // Kicks TZ ID
-      vendorName: storeName,
-      name: newProduct.name,
-      description: "A newly added product.",
-      price: parseInt(newProduct.price),
-      category: newProduct.category as "Fashion & Apparels" | "Tech & Accessories" | "Beauty & Cosmetics" | "Home & Decor" | "Services",
-      images: ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80"], // Default image for demo
-      inStock: true
-    };
-    addVendorProduct(product);
-    toast.success("Product added successfully!");
-    setIsAddingProduct(false);
-    setNewProduct({ name: "", price: "", category: "Fashion", supplierPhone: "", supplierLocation: "" });
-  }
-
-
-  const storeSlug = "kicks-tz"; // Mock store slug for current user
-
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(`https://unimonday.com/store/${storeSlug}`);
-    toast.success("Link copied successfully.", {
-      description: "Paste to your WhatsApp Status to drive traffic.",
-      duration: 5000,
-    });
-  };
+  const [shopSettings, setShopSettings] = useState({
+    name: "Mlimani Campus Main Print",
+    location: "Near Yombo 4, UDSM",
+    bwPrice: "100",
+    colorPrice: "500",
+    bindingPrice: "2000",
+    services: "A4 B&W, Color, Binding",
+    status: "Online"
+  });
 
   return (
-    <div className="max-w-6xl mx-auto py-8 px-4 relative">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-        <div>
-          <h1 className="text-3xl font-black flex items-center gap-2 mb-2">
-            <Store className="w-8 h-8 text-primary" /> Internal Inventory Dashboard
-          </h1>
-          <p className="text-muted-foreground font-medium text-lg">Welcome back, uNiMONDAY Inventory Admin</p>
-        </div>
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
-          <button
-            onClick={handleCopyLink}
-            className="bg-green-100 text-green-700 hover:bg-green-200 px-6 py-3 rounded-full font-bold flex items-center justify-center gap-2 transition-colors shadow-sm whitespace-nowrap"
-          >
-            <Copy className="w-5 h-5" /> Copy Store Link
-          </button>
-          <button onClick={() => setIsAddingProduct(true)} className="bg-primary text-white px-6 py-3 rounded-full font-bold flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 whitespace-nowrap">
-            <Plus className="w-5 h-5" /> Add Product
-          </button>
-        </div>
-      </div>
+    <div className="min-h-screen bg-gray-50 pt-20 pb-24 font-sans">
+      <div className="max-w-7xl mx-auto px-4 w-full">
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
-        <div className="bg-white p-6 rounded-[2rem] border border-border shadow-sm">
-          <div className="flex items-center gap-2 text-muted-foreground mb-2">
-            <TrendingUp className="w-4 h-4" /> Sales (This Week)
-          </div>
-          <div className="text-2xl sm:text-3xl font-black">Tsh 450k</div>
-        </div>
-        <div className="bg-white p-6 rounded-[2rem] border border-border shadow-sm">
-          <div className="flex items-center gap-2 text-muted-foreground mb-2">
-            <Package className="w-4 h-4" /> Active Orders
-          </div>
-          <div className="text-2xl sm:text-3xl font-black">12</div>
-        </div>
-        <div className="bg-white p-6 rounded-[2rem] border border-border shadow-sm">
-          <div className="flex items-center gap-2 text-muted-foreground mb-2">
-            <Star className="w-4 h-4" /> Store Rating
-          </div>
-          <div className="text-2xl sm:text-3xl font-black">4.8</div>
-        </div>
-        <div className="bg-white p-6 rounded-[2rem] border border-border shadow-sm">
-          <div className="flex items-center gap-2 text-muted-foreground mb-2">
-            <Users className="w-4 h-4" /> Profile Views
-          </div>
-          <div className="text-2xl sm:text-3xl font-black">1.2k</div>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        {/* Recent Orders Table */}
-        <div className="lg:col-span-2">
-          <div className="bg-white rounded-[2rem] border border-border shadow-sm p-6 overflow-hidden">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-black">Recent Orders</h2>
-              <button className="text-primary font-bold text-sm hover:underline">View All</button>
+        {/* Dashboard Header */}
+        <div className="bg-gray-900 rounded-3xl p-8 mb-8 text-white flex flex-col md:flex-row justify-between items-center gap-6 shadow-xl">
+          <div className="flex items-center gap-6">
+            <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center border border-white/20">
+              <Printer className="w-8 h-8 text-primary" />
             </div>
-
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="text-muted-foreground border-b border-border text-sm">
-                    <th className="pb-3 font-bold">Order ID</th>
-                    <th className="pb-3 font-bold">Item</th>
-                    <th className="pb-3 font-bold">Price</th>
-                    <th className="pb-3 font-bold">Status</th>
-                  </tr>
-                </thead>
-
-                <tbody className="text-sm font-medium">
-                  {vendorOrders.slice(0, 5).map((order: Order) => (
-                    <tr key={order.id} className="border-b border-border/50">
-                      <td className="py-4 font-bold">{order.id}</td>
-                      <td className="py-4 flex items-center gap-2">
-                        {order.image ? (
-                          <div className="w-10 h-10 rounded-lg bg-gray-100 overflow-hidden relative shrink-0">
-                             <Image src={order.image} alt="item" fill className="object-cover"/>
-                          </div>
-                        ) : (
-                          <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center shrink-0">
-                             <Package className="w-5 h-5 text-gray-400" />
-                          </div>
-                        )}
-                        <span className="truncate max-w-[150px]">{order.title}</span>
-                      </td>
-                      <td className="py-4">{order.price}</td>
-                      <td className="py-4 flex flex-col gap-2">
-                        <span className={`px-2 py-1 rounded font-bold text-xs w-fit ${
-                          order.status === 'Pending' ? 'bg-amber-100 text-amber-700' :
-                          order.status === 'Paid' ? 'bg-blue-100 text-blue-700' :
-                          order.status === 'Delivered' ? 'bg-green-100 text-green-700' :
-                          'bg-gray-100 text-gray-700'
-                        }`}>
-                          {order.status}
-                        </span>
-                        {order.status === 'Pending' && (
-                           <button
-                             onClick={() => {
-                               updateOrderStatus(order.id, 'Paid');
-                               toast.success(`Order ${order.id} confirmed!`);
-                             }}
-                             className="text-[10px] bg-primary text-white px-2 py-1 rounded hover:bg-primary/90 w-fit"
-                           >
-                             Confirm Order
-                           </button>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                  {vendorOrders.length === 0 && (
-                    <tr>
-                      <td colSpan={4} className="py-8 text-center text-muted-foreground">No recent orders.</td>
-                    </tr>
-                  )}
-                </tbody>
-
-              </table>
+            <div>
+              <h1 className="text-3xl font-black tracking-tight mb-1">Mlimani Print Center</h1>
+              <p className="text-gray-400 font-medium text-sm flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Receiving Jobs
+              </p>
             </div>
           </div>
+          <div className="flex gap-4 w-full md:w-auto">
+             <div className="bg-white/10 p-4 rounded-2xl flex-1 md:w-32 text-center border border-white/10">
+               <p className="text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">In Queue</p>
+               <p className="text-2xl font-black text-white">{printQueue.length}</p>
+             </div>
+             <div className="bg-white/10 p-4 rounded-2xl flex-1 md:w-32 text-center border border-white/10">
+               <p className="text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">Completed</p>
+               <p className="text-2xl font-black text-white">124</p>
+             </div>
+          </div>
         </div>
 
-        {/* Quick Actions / Store Info */}
-        <div className="space-y-6">
-           {/* Earnings Widget - Psychological Boost */}
-           <div className="bg-gray-900 text-white rounded-[2rem] border border-gray-800 shadow-xl p-6 relative overflow-hidden group">
-              <div className="absolute -right-4 -top-4 w-32 h-32 bg-emerald-500 rounded-full opacity-20 blur-2xl"></div>
-              <h2 className="text-sm font-bold text-gray-400 mb-1">Total Earnings</h2>
-              <p className="text-4xl font-black mb-4">Tsh 450,000</p>
-              <div className="flex items-center gap-2 text-sm font-bold text-emerald-400">
-                 <span className="bg-emerald-500/20 px-2 py-1 rounded">+12% this week</span>
-              </div>
-           </div>
-
-           <div className="bg-primary/5 rounded-[2rem] border border-primary/20 shadow-sm p-6 relative overflow-hidden group">
-              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                 <Share2 className="w-24 h-24 text-primary" />
-              </div>
-              <h2 className="text-xl font-black mb-2 text-gray-900 relative z-10">Drive Traffic</h2>
-              <p className="text-sm font-medium text-gray-600 mb-6 relative z-10">Share your clean store link on WhatsApp to convert your audience into instant buyers.</p>
-
-              <div className="bg-white rounded-xl border border-border p-3 flex items-center justify-between relative z-10">
-                <span className="text-xs font-bold text-gray-500 truncate mr-2">unimonday.com/store/{storeSlug}</span>
-                <button onClick={handleCopyLink} className="bg-gray-100 hover:bg-gray-200 text-gray-900 p-2 rounded-lg transition-colors shrink-0">
-                  <Copy className="w-4 h-4" />
-                </button>
-              </div>
-           </div>
-
-           <div className="bg-white rounded-[2rem] border border-border shadow-sm p-6">
-              <h2 className="text-xl font-black mb-4">Quick Actions</h2>
-              <div className="space-y-2">
-                <Link href="/chat" className="w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 rounded-xl font-bold transition-colors">
-                  <span className="flex items-center gap-2 text-primary"><MessageCircle className="w-4 h-4"/> Inbox & Orders</span>
-                </Link>
-                <button onClick={() => setIsSettingsOpen(true)} className="w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 rounded-xl font-bold transition-colors">
-                  <span className="flex items-center gap-2"><Settings className="w-4 h-4"/> Store Settings</span>
-                </button>
-                <button onClick={() => setIsBannersOpen(true)} className="w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 rounded-xl font-bold transition-colors">
-                  <span className="flex items-center gap-2"><ImageIcon className="w-4 h-4"/> Update Banners</span>
-                </button>
-              </div>
-           </div>
-        </div>
-      </div>
-
-      {/* Add Product Modal */}
-      {isAddingProduct && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm">
-           <div className="bg-white w-full max-w-md rounded-[2rem] shadow-2xl p-6 border border-border relative">
-             <button onClick={() => setIsAddingProduct(false)} className="absolute top-4 right-4 p-2 bg-gray-100 hover:bg-gray-200 rounded-full">
-               <X className="w-5 h-5"/>
-             </button>
-
-
-             {isCropping ? (
-               <div className="space-y-4">
-                 <h2 className="text-2xl font-black mb-2">Perfect Crop</h2>
-                 <p className="text-sm text-gray-500 mb-4 font-medium">Pinch or drag to fit your product in the 1:1 square. This ensures your store looks clean and professional.</p>
-                 <div className="relative w-full aspect-square bg-black rounded-xl overflow-hidden group cursor-move">
-                    {/* Mock crop view */}
-                    <Image src={tempImage || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800"} alt="Crop" fill className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-700" />
-
-                    {/* Crop Grid Overlay */}
-                    <div className="absolute inset-0 pointer-events-none border-2 border-white/50">
-                       <div className="w-full h-1/3 border-b border-white/30"></div>
-                       <div className="w-full h-1/3 border-b border-white/30"></div>
-                    </div>
-                    <div className="absolute inset-0 pointer-events-none flex">
-                       <div className="h-full w-1/3 border-r border-white/30"></div>
-                       <div className="h-full w-1/3 border-r border-white/30"></div>
-                    </div>
-                 </div>
-                 <div className="flex gap-3 mt-6">
-                   <button onClick={() => { setIsCropping(false); setTempImage(null); }} className="flex-1 py-3 px-4 bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-xl font-bold transition-colors">Cancel</button>
-                   <button onClick={() => { setCroppedImage(tempImage); setIsCropping(false); }} className="flex-1 py-3 px-4 bg-primary hover:bg-primary/90 text-white rounded-xl font-bold shadow-lg shadow-primary/20 transition-colors">Done Cropping</button>
-                 </div>
+        <div className="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
+           {/* Tabs & Search */}
+           <div className="p-4 border-b border-gray-100 flex flex-col sm:flex-row gap-4 items-center justify-between bg-gray-50/50">
+             <div className="flex gap-2 w-full sm:w-auto overflow-x-auto hide-scrollbar">
+               <button
+                 onClick={() => setActiveTab("queue")}
+                 className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-colors whitespace-nowrap ${activeTab === 'queue' ? 'bg-gray-900 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'}`}
+               >
+                 Print Queue
+               </button>
+               <button
+                 onClick={() => setActiveTab("completed")}
+                 className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-colors whitespace-nowrap ${activeTab === 'completed' ? 'bg-gray-900 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'}`}
+               >
+                 Completed
+               </button>
+               <button
+                 onClick={() => setActiveTab("settings")}
+                 className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-colors whitespace-nowrap flex items-center gap-2 ${activeTab === 'settings' ? 'bg-gray-900 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'}`}
+               >
+                 <Settings className="w-4 h-4" /> Shop Profile
+               </button>
+             </div>
+             {activeTab !== "settings" && (
+               <div className="relative w-full sm:w-80">
+                  <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    placeholder="Search by ID or Student..."
+                    className="w-full bg-white border border-gray-200 rounded-xl pl-9 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900"
+                  />
                </div>
-             ) : (
-               <>
-                 <h2 className="text-2xl font-black mb-6">Add New Product</h2>
-                 <form onSubmit={handleAddProduct} className="space-y-4">
-                    {croppedImage ? (
-                        <div className="w-full h-40 bg-gray-100 rounded-xl border border-border relative overflow-hidden group">
-                           <Image src={croppedImage} alt="Preview" fill className="object-cover" />
-                           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                              <button type="button" onClick={() => setCroppedImage(null)} className="bg-white text-gray-900 px-4 py-2 rounded-lg font-bold text-sm">Remove</button>
-                           </div>
-                        </div>
-                    ) : (
-                        <div onClick={() => { setTempImage("https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800"); setIsCropping(true); }} className="w-full h-40 bg-gray-100 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors group">
-                            <ImageIcon className="w-8 h-8 text-gray-400 group-hover:text-primary mb-2 transition-colors" />
-                            <span className="text-sm font-bold text-gray-500">Click to upload and crop</span>
-                            <span className="text-xs text-gray-400 mt-1">1:1 ratio recommended</span>
-                        </div>
-                    )}
-                    <div>
+             )}
+          </div>
 
-                  <label className="block text-sm font-bold mb-1">Product Name</label>
-                  <input required type="text" value={newProduct.name} onChange={e => setNewProduct({...newProduct, name: e.target.value})} className="w-full border border-border bg-gray-50 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="e.g. Nike Air Force 1" />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-bold mb-1">Price (Tsh)</label>
-                    <input required type="number" value={newProduct.price} onChange={e => setNewProduct({...newProduct, price: e.target.value})} className="w-full border border-border bg-gray-50 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="45000" />
+          {/* Queue List */}
+          <div className="p-6">
+            <div className="grid grid-cols-1 gap-4">
+              {activeTab === "queue" && printQueue.map((job) => (
+                <div key={job.id} className="border border-gray-200 rounded-2xl p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 hover:shadow-md transition-shadow bg-white">
+                  <div className="flex items-start gap-4 w-full md:w-auto">
+                     <div className="w-12 h-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center shrink-0">
+                       <FileText className="w-6 h-6" />
+                     </div>
+                     <div>
+                       <div className="flex items-center gap-3 mb-1">
+                         <span className="text-xs font-bold px-2 py-0.5 bg-gray-100 rounded text-gray-600">{job.id}</span>
+                         <h3 className="font-bold text-gray-900">{job.file}</h3>
+                       </div>
+                       <p className="text-sm text-gray-500 font-medium mb-2">Student: {job.student}</p>
+                       <div className="flex flex-wrap gap-2">
+                         <span className="text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-600 px-2 py-1 rounded-full">{job.copies} Copies</span>
+                         <span className="text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-600 px-2 py-1 rounded-full">{job.color}</span>
+                         <span className="text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 text-amber-600 bg-amber-50 px-2 py-1 rounded-full"><Clock className="w-3 h-3"/> {job.time}</span>
+                       </div>
+                     </div>
                   </div>
-                  <div>
-                    <label className="block text-sm font-bold mb-1">Category</label>
-                    <select value={newProduct.category} onChange={e => setNewProduct({...newProduct, category: e.target.value})} className="w-full border border-border bg-gray-50 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary appearance-none">
-                      <option value="Fashion & Apparels">Fashion & Apparels</option>
-                      <option value="Tech & Accessories">Tech & Accessories</option>
-                      <option value="Beauty & Cosmetics">Beauty & Cosmetics</option>
-                      <option value="Home & Decor">Home & Decor</option>
-                      <option value="Services">Services</option>
+
+                  <div className="flex items-center gap-3 w-full md:w-auto border-t md:border-t-0 border-gray-100 pt-4 md:pt-0">
+                    <button className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-900 font-bold px-6 py-3 rounded-xl transition-colors text-sm">
+                      <Download className="w-4 h-4" /> Download PDF
+                    </button>
+                    <button className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white font-bold px-6 py-3 rounded-xl transition-colors text-sm shadow-md">
+                      <CheckCircle className="w-4 h-4" /> Mark Printed
+                    </button>
+                  </div>
+                </div>
+              ))}
+              {activeTab === "completed" && (
+                <div className="text-center py-20 text-gray-500">
+                  <CheckCircle className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+                  <p className="font-bold text-lg">No completed jobs to show.</p>
+                </div>
+              )}
+
+              {activeTab === "settings" && (
+                <div className="max-w-3xl mx-auto space-y-8 py-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h2 className="text-2xl font-black text-gray-900">Shop Profile & Pricing</h2>
+                      <p className="text-gray-500 font-medium text-sm mt-1">Configure your stationary details to attract students on the Print Network.</p>
+                    </div>
+                    <button
+                      onClick={() => setIsEditingSettings(!isEditingSettings)}
+                      className={`px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition-colors ${isEditingSettings ? 'bg-primary text-white' : 'bg-gray-100 text-gray-800 hover:bg-gray-200'}`}
+                    >
+                      {isEditingSettings ? <><Save className="w-4 h-4"/> Save Changes</> : <><Edit3 className="w-4 h-4"/> Edit Profile</>}
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-2"><Settings className="w-4 h-4"/> Shop Name</label>
+                      <input
+                        type="text"
+                        disabled={!isEditingSettings}
+                        value={shopSettings.name}
+                        onChange={(e) => setShopSettings({...shopSettings, name: e.target.value})}
+                        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-900 disabled:opacity-70 focus:ring-2 focus:ring-primary focus:outline-none"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-2"><MapPin className="w-4 h-4"/> Location</label>
+                      <input
+                        type="text"
+                        disabled={!isEditingSettings}
+                        value={shopSettings.location}
+                        onChange={(e) => setShopSettings({...shopSettings, location: e.target.value})}
+                        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-900 disabled:opacity-70 focus:ring-2 focus:ring-primary focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
+                    <h3 className="font-bold text-lg text-gray-900 mb-4 flex items-center gap-2"><DollarSign className="w-5 h-5 text-primary"/> Pricing per Page (TZS)</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Black & White</label>
+                        <input
+                          type="number"
+                          disabled={!isEditingSettings}
+                          value={shopSettings.bwPrice}
+                          onChange={(e) => setShopSettings({...shopSettings, bwPrice: e.target.value})}
+                          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-900 disabled:opacity-70 focus:ring-2 focus:ring-primary focus:outline-none"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Full Color</label>
+                        <input
+                          type="number"
+                          disabled={!isEditingSettings}
+                          value={shopSettings.colorPrice}
+                          onChange={(e) => setShopSettings({...shopSettings, colorPrice: e.target.value})}
+                          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-900 disabled:opacity-70 focus:ring-2 focus:ring-primary focus:outline-none"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Binding</label>
+                        <input
+                          type="number"
+                          disabled={!isEditingSettings}
+                          value={shopSettings.bindingPrice}
+                          onChange={(e) => setShopSettings({...shopSettings, bindingPrice: e.target.value})}
+                          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-900 disabled:opacity-70 focus:ring-2 focus:ring-primary focus:outline-none"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Services Offered (Comma separated)</label>
+                    <input
+                      type="text"
+                      disabled={!isEditingSettings}
+                      value={shopSettings.services}
+                      onChange={(e) => setShopSettings({...shopSettings, services: e.target.value})}
+                      className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-900 disabled:opacity-70 focus:ring-2 focus:ring-primary focus:outline-none"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Shop Status</label>
+                    <select
+                      disabled={!isEditingSettings}
+                      value={shopSettings.status}
+                      onChange={(e) => setShopSettings({...shopSettings, status: e.target.value})}
+                      className="w-full md:w-1/3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-900 disabled:opacity-70 focus:ring-2 focus:ring-primary focus:outline-none appearance-none"
+                    >
+                      <option>Online</option>
+                      <option>Busy</option>
+                      <option>Offline</option>
                     </select>
                   </div>
+
                 </div>
-
-                <div className="grid grid-cols-2 gap-4 mt-4 border-t border-border pt-4">
-                  <div className="col-span-2">
-                    <span className="text-xs font-black text-primary uppercase tracking-wider bg-primary/10 px-2 py-1 rounded">Internal Use Only (Not visible to users)</span>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-bold mb-1">Supplier Phone</label>
-                    <input required type="text" value={newProduct.supplierPhone} onChange={e => setNewProduct({...newProduct, supplierPhone: e.target.value})} className="w-full border border-border bg-gray-50 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="07XX XXX XXX" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-bold mb-1">Supplier Location</label>
-                    <input required type="text" value={newProduct.supplierLocation} onChange={e => setNewProduct({...newProduct, supplierLocation: e.target.value})} className="w-full border border-border bg-gray-50 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary" placeholder="e.g. Kariakoo, Mtaa wa Congo" />
-                  </div>
-                </div>
-                <button type="submit" className="w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-primary/90 mt-4 shadow-lg shadow-primary/20">Publish Product</button>
-
-                 </form>
-               </>
-             )}
-
-           </div>
+              )}
+            </div>
+          </div>
         </div>
-      )}
 
-      {/* Store Settings Modal */}
-      {isSettingsOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm">
-           <div className="bg-white w-full max-w-md rounded-[2rem] shadow-2xl p-6 border border-border relative">
-             <button onClick={() => setIsSettingsOpen(false)} className="absolute top-4 right-4 p-2 bg-gray-100 hover:bg-gray-200 rounded-full">
-               <X className="w-5 h-5"/>
-             </button>
-             <h2 className="text-2xl font-black mb-6">Store Settings</h2>
-             <form onSubmit={(e) => { e.preventDefault(); toast.success("Settings saved successfully."); setIsSettingsOpen(false); }} className="space-y-4">
-                <div>
-                  <label className="block text-sm font-bold mb-1">Store Name</label>
-                  <input required type="text" defaultValue="Kicks TZ" className="w-full border border-border bg-gray-50 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary font-medium" />
-                </div>
-                <div>
-                  <label className="block text-sm font-bold mb-1">Payment & Delivery Policy</label>
-                  <textarea required value={paymentInfo} onChange={(e) => setPaymentInfo(e.target.value)} className="w-full border border-border bg-gray-50 rounded-xl px-4 py-3 min-h-[100px] focus:outline-none focus:ring-2 focus:ring-primary font-medium" placeholder="E.g. Pay via M-Pesa 07XX... Free delivery on campus."></textarea>
-                  <p className="text-xs text-muted-foreground mt-1 font-medium">This will be displayed to students during Checkout.</p>
-                </div>
-                <button type="submit" className="w-full bg-gray-900 text-white font-bold py-4 rounded-xl hover:bg-gray-800 mt-4 shadow-lg shadow-gray-900/20">Save Settings</button>
-             </form>
-           </div>
-        </div>
-      )}
-
-      {/* Update Banners Modal */}
-      {isBannersOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm">
-           <div className="bg-white w-full max-w-md rounded-[2rem] shadow-2xl p-6 border border-border relative">
-             <button onClick={() => setIsBannersOpen(false)} className="absolute top-4 right-4 p-2 bg-gray-100 hover:bg-gray-200 rounded-full">
-               <X className="w-5 h-5"/>
-             </button>
-             <h2 className="text-2xl font-black mb-6">Update Banners</h2>
-             <div className="space-y-6">
-                <div>
-                  <label className="block text-sm font-bold mb-2">Store Cover Photo</label>
-                  <div className="w-full h-32 bg-gray-100 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors group relative overflow-hidden">
-                    <Image src="https://images.unsplash.com/photo-1542239898-08fcea4abd2e?w=800&auto=format&fit=crop" alt="Cover" fill className="object-cover opacity-50" />
-                    <ImageIcon className="w-6 h-6 text-gray-900 mb-2 relative z-10" />
-                    <span className="text-sm font-bold text-gray-900 relative z-10">Change Cover</span>
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-sm font-bold mb-2">Store Logo (Avatar)</label>
-                  <div className="w-20 h-20 bg-gray-100 rounded-full border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors group mx-auto">
-                    <ImageIcon className="w-6 h-6 text-gray-400 group-hover:text-primary transition-colors" />
-                  </div>
-                </div>
-                <button onClick={() => { toast.success("Banners updated."); setIsBannersOpen(false); }} className="w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-primary/90 shadow-lg shadow-primary/20">Apply Changes</button>
-             </div>
-           </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 }

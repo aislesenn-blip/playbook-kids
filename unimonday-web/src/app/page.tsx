@@ -1,45 +1,13 @@
 "use client";
 
-import Image from "next/image";
-import { useRef, useEffect } from "react";
-import { motion } from "framer-motion";
-import { ShoppingBag, Wrench, ShieldCheck, ArrowRight, Star, Truck } from "lucide-react";
+import { motion, useAnimationControls } from "framer-motion";
+import { PenTool, FileText, LayoutTemplate, Printer, ArrowRight, ShieldCheck, Zap, UploadCloud, Edit3, Settings } from "lucide-react";
 import Link from "next/link";
 import { useAppStore } from "@/lib/store/app-store";
-import { mockProducts } from "@/lib/mockData";
-import { toast } from "sonner";
+import { useEffect } from "react";
 
 export default function Home() {
-  const heroScrollRef = useRef<HTMLDivElement>(null);
-  const { addToCart } = useAppStore();
-
-  const handleAddToCart = (e: React.MouseEvent, productId: string) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const product = mockProducts.find(p => p.id === productId);
-    if (product) {
-      addToCart(product);
-      toast.success("Added to cart");
-    }
-  };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (heroScrollRef.current) {
-        const { scrollLeft, scrollWidth, clientWidth } = heroScrollRef.current;
-        if (scrollLeft + clientWidth >= scrollWidth - 10) {
-          heroScrollRef.current.scrollTo({ left: 0, behavior: "smooth" });
-        } else {
-          heroScrollRef.current.scrollBy({ left: 340, behavior: "smooth" });
-        }
-      }
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-
-
+  const { currentUser } = useAppStore();
 
   return (
     <div className="flex flex-col items-center justify-center w-full overflow-x-hidden selection:bg-primary/20 selection:text-primary">
@@ -47,392 +15,164 @@ export default function Home() {
       {/* Global Trust Prompt */}
       <div className="w-full bg-primary text-white py-3 px-4 text-center font-bold text-sm sm:text-base tracking-wide flex items-center justify-center gap-2">
         <ShieldCheck className="w-5 h-5 shrink-0" />
-        Pay AFTER you receive your product and are satisfied with it.
+        The Ultimate Student Cloud Stationary. Upload. Format. Print.
       </div>
 
+      {/* Hero Section - High End Visual First Design */}
+      <section className="w-full bg-gradient-to-b from-emerald-50/30 to-white pt-16 md:pt-24 pb-12 px-4 overflow-hidden border-b border-border">
+        <div className="max-w-7xl mx-auto flex flex-col items-center text-center mb-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-800 px-4 py-2 rounded-full font-bold text-xs sm:text-sm mb-6 border border-emerald-200"
+          >
+            <Settings className="w-4 h-4" /> AI-Powered Formatting Engine
+          </motion.div>
 
-      {/* Hero Section - Amazon Style Grid */}
-      <div className="w-full bg-[#E3E6E6] flex justify-center">
-      <section className="w-full max-w-[1500px] pt-16 sm:pt-24 pb-12 px-4">
-        <div ref={heroScrollRef} className="flex overflow-x-auto gap-5 pb-6 snap-x snap-mandatory scroll-smooth">
-          {/* Card 1 */}
-          <Link href="/fashion" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
-            <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
-              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Find gifts for Mom</h2>
-              <div className="relative flex-grow overflow-hidden mb-3">
-                <Image
-                  src="https://images.unsplash.com/photo-1730389658758-e61f3293b94d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxnaWZ0cyUyMGZvciUyMG1vbXxlbnwwfHx8fDE3Nzc3NDA2Mjd8MA&ixlib=rb-4.1.0&q=80&w=1080"
-                  alt="Find gifts for Mom"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop Fashion</span>
-            </div>
-          </Link>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl sm:text-5xl md:text-7xl font-black text-gray-900 tracking-tight leading-[1.1] mb-6"
+          >
+            Your work. <br className="hidden md:block"/>
+            <span className="text-primary">Perfectly formatted.</span>
+          </motion.h1>
 
-          {/* Card 2 */}
-          <Link href="/tech" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
-            <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
-              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Score top PCs &amp; Accessories</h2>
-              <div className="relative flex-grow overflow-hidden mb-3">
-                <Image
-                  src="https://images.unsplash.com/photo-1636914011676-039d36b73765?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxwYyUyMHNldHVwJTIwZ2FtaW5nfGVufDB8fHx8MTc3Nzc0MDYyN3ww&ixlib=rb-4.1.0&q=80&w=1080"
-                  alt="Score top PCs & Accessories"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop Tech</span>
-            </div>
-          </Link>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-base sm:text-lg md:text-xl text-gray-500 font-medium max-w-2xl mb-8 leading-relaxed px-2"
+          >
+            Upload your rough draft, provide a reference style, or type raw notes.
+            Our engine fixes grammar, aligns margins, draws complex tables, and outputs a print-ready A4 PDF.
+          </motion.p>
 
-          {/* Card 3 */}
-          <Link href="/beauty" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
-            <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
-              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Find gifts for Kids</h2>
-              <div className="relative flex-grow overflow-hidden mb-3">
-                <Image
-                  src="https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxraWRzJTIwdG95c3xlbnwwfHx8fDE3Nzc3NDA2Mjd8MA&ixlib=rb-4.1.0&q=80&w=1080"
-                  alt="Find gifts for Kids"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop Beauty</span>
-            </div>
-          </Link>
-
-          {/* Card 4 */}
-          <Link href="/home-decor" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
-            <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
-              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Study Space Upgrades</h2>
-              <div className="relative flex-grow overflow-hidden mb-3">
-                <Image
-                  src="https://images.unsplash.com/photo-1534004471323-19f1a470c4c1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwyfHxyb29tJTIwZGVjb3IlMjBuZW9ufGVufDB8fHx8MTc3NzczNjMyNXww&ixlib=rb-4.1.0&q=80&w=1080"
-                  alt="Study Space Upgrades"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop Decor</span>
-            </div>
-          </Link>
-
-          {/* Card 5 */}
-          <Link href="/services" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
-            <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
-              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Campus Essentials</h2>
-              <div className="relative flex-grow overflow-hidden mb-3">
-                <Image
-                  src="https://images.unsplash.com/photo-1516351464815-9a44f19888c2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxjb2xsZWdlJTIwZXNzZW50aWFsc3xlbnwwfHx8fDE3Nzc3NDA2Mjh8MA&ixlib=rb-4.1.0&q=80&w=1080"
-                  alt="Campus Essentials"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Find Pros</span>
-            </div>
-          </Link>
-
-          {/* Card 6 */}
-          <Link href="/fashion" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
-            <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
-              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Fresh Kicks</h2>
-              <div className="relative flex-grow overflow-hidden mb-3">
-                <Image
-                  src="https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?q=80&w=2070&auto=format&fit=crop"
-                  alt="Study Space Upgrades"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop now</span>
-            </div>
-          </Link>
-
-          {/* Card 7 */}
-          <Link href="/explore" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
-            <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
-              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Room Decor</h2>
-              <div className="relative flex-grow overflow-hidden mb-3">
-                <Image
-                  src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=2070&auto=format&fit=crop"
-                  alt="Room Decor"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop now</span>
-            </div>
-          </Link>
-
-          {/* Card 8 */}
-          <Link href="/explore" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
-            <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
-              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Dorm Essentials</h2>
-              <div className="relative flex-grow overflow-hidden mb-3">
-                <Image
-                  src="https://images.unsplash.com/photo-1555636222-cae831e670b3?q=80&w=2077&auto=format&fit=crop"
-                  alt="Dorm Essentials"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop now</span>
-            </div>
-          </Link>
-
-          {/* Card 9 */}
-          <Link href="/explore" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
-            <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
-              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Top Beauty Picks</h2>
-              <div className="relative flex-grow overflow-hidden mb-3">
-                <Image
-                  src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
-                  alt="Beauty Picks"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop now</span>
-            </div>
-          </Link>
-
-          {/* Card 10 */}
-          <Link href="/explore" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
-            <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
-              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Healthy Snacks</h2>
-              <div className="relative flex-grow overflow-hidden mb-3">
-                <Image
-                  src="https://images.unsplash.com/photo-1599490659213-e2b9527bd087?q=80&w=2070&auto=format&fit=crop"
-                  alt="Healthy Snacks"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop now</span>
-            </div>
-          </Link>
-
-          {/* Card 11 */}
-          <Link href="/explore" className="shrink-0 w-[280px] sm:w-[320px] lg:w-[350px] snap-start">
-            <div className="bg-white p-5 flex flex-col h-[420px] z-10 relative">
-              <h2 className="text-[21px] font-bold text-[#0F1111] mb-3 line-clamp-2">Stationery Haul</h2>
-              <div className="relative flex-grow overflow-hidden mb-3">
-                <Image
-                  src="https://images.unsplash.com/photo-1517842645767-c639042777db?q=80&w=2070&auto=format&fit=crop"
-                  alt="Stationery Haul"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <span className="text-[#007185] text-[13px] hover:text-[#C7511F] hover:underline mt-auto font-medium">Shop now</span>
-            </div>
-          </Link>
-        </div>
-      </section>
-      </div>
-
-      {/* Featured Products */}
-      <section className="w-full max-w-7xl mx-auto px-4 pt-16 pb-24">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Featured Products</h2>
-          <Link href="/explore" className="text-primary font-bold hover:underline flex items-center gap-1">
-            See All <ArrowRight className="w-4 h-4" />
-          </Link>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto px-4"
+          >
+            <Link href="/workspace" className="w-full sm:w-auto bg-primary hover:bg-emerald-600 text-white font-bold px-8 py-4 rounded-xl transition-all shadow-xl shadow-emerald-500/20 flex items-center justify-center gap-2 text-base md:text-lg">
+              <UploadCloud className="w-5 h-5" /> Enter Workspace
+            </Link>
+            <Link href="/print-station" className="w-full sm:w-auto bg-white hover:bg-gray-50 text-gray-900 border-2 border-gray-200 font-bold px-8 py-4 rounded-xl transition-all flex items-center justify-center gap-2 text-base md:text-lg">
+              <Printer className="w-5 h-5" /> Find Print Shops
+            </Link>
+          </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Product Card 1 */}
-          <Link href="/product/p1" className="block">
-            <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer h-full flex flex-col">
-            <div className="relative h-48 w-full overflow-hidden">
-              <Image
-                src="https://images.unsplash.com/photo-1691689761290-2641cf0fc59a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwyfHxjbG90aGluZyUyMHN0cmVldHdlYXJ8ZW58MHx8fHwxNzc3NzM2MzI0fDA&ixlib=rb-4.1.0&q=80&w=1080"
-                alt="Vintage Jacket"
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-            </div>
-            <div className="p-5 flex-grow flex flex-col justify-between">
-              <div>
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="font-bold text-lg line-clamp-2">Vintage Denim Jacket</h3>
-                </div>
-                <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold inline-block mb-3">Tsh 35,000</span>
-                <p className="text-xs text-emerald-600 font-bold mb-4 flex items-center gap-1"><Truck className="w-4 h-4"/> Delivery Anywhere</p>
-              </div>
-              <button onClick={(e) => handleAddToCart(e, "p1")} className="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-900 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 mt-auto">
-                <ShoppingBag className="w-4 h-4" /> Order Now
-              </button>
-            </div>
-          </motion.div>
-          </Link>
+        {/* Visual Flat Cards Auto Scroll */}
+        <div className="relative w-full overflow-hidden mt-12 pb-12">
+          <div className="absolute left-0 top-0 bottom-0 w-8 md:w-32 bg-gradient-to-r from-gray-50 to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-8 md:w-32 bg-gradient-to-l from-gray-50 to-transparent z-10 pointer-events-none" />
 
-          {/* Product Card 2 */}
-          <Link href="/product/p2" className="block">
-            <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer h-full flex flex-col">
-            <div className="relative h-48 w-full overflow-hidden">
-              <Image
-                src="https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwyfHxoZWFkcGhvbmVzfGVufDB8fHx8MTc3NzczNjMyNHww&ixlib=rb-4.1.0&q=80&w=1080"
-                alt="Wireless Earbuds"
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-            </div>
-            <div className="p-5 flex-grow flex flex-col justify-between">
-              <div>
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="font-bold text-lg line-clamp-2">Pro Wireless Earbuds</h3>
+          <motion.div
+            initial={{ x: "0%" }}
+            animate={{ x: "-50%" }}
+            transition={{
+              repeat: Infinity,
+              ease: "linear",
+              duration: 40
+            }}
+            className="flex gap-4 md:gap-6 px-4 w-max hover:animation-play-state-paused"
+          >
+            {[
+              { img: "https://images.unsplash.com/photo-1513258496099-48168024aec0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Assignment Drafting", icon: <FileText className="w-5 h-5"/> },
+              { img: "https://images.unsplash.com/photo-1568205612837-017257d2310a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Direct to Printer", icon: <Printer className="w-5 h-5"/> },
+              { img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Smart Formatting", icon: <LayoutTemplate className="w-5 h-5"/> },
+              { img: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Leave Letters", icon: <PenTool className="w-5 h-5"/> },
+              { img: "https://images.unsplash.com/photo-1456324504439-367cee3b3c32?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Margin Alignment", icon: <Edit3 className="w-5 h-5"/> },
+              // Duplicate for infinite scroll
+              { img: "https://images.unsplash.com/photo-1513258496099-48168024aec0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Assignment Drafting", icon: <FileText className="w-5 h-5"/> },
+              { img: "https://images.unsplash.com/photo-1568205612837-017257d2310a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Direct to Printer", icon: <Printer className="w-5 h-5"/> },
+              { img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Smart Formatting", icon: <LayoutTemplate className="w-5 h-5"/> },
+              { img: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Leave Letters", icon: <PenTool className="w-5 h-5"/> },
+              { img: "https://images.unsplash.com/photo-1456324504439-367cee3b3c32?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Margin Alignment", icon: <Edit3 className="w-5 h-5"/> },
+            ].map((item, i) => (
+              <div key={i} className="relative w-72 md:w-96 h-48 md:h-64 rounded-2xl overflow-hidden shadow-lg border border-gray-200 shrink-0 group cursor-pointer bg-white">
+                <img src={item.img} alt={item.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4 text-white flex items-center gap-3">
+                  <div className="p-2 bg-white/20 backdrop-blur-md rounded-xl">
+                    {item.icon}
+                  </div>
+                  <span className="font-bold text-sm md:text-base">{item.title}</span>
                 </div>
-                <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold inline-block mb-3">Tsh 45,000</span>
-                <p className="text-xs text-emerald-600 font-bold mb-4 flex items-center gap-1"><Truck className="w-4 h-4"/> Delivery Anywhere</p>
               </div>
-              <button onClick={(e) => handleAddToCart(e, "p2")} className="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-900 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 mt-auto">
-                <ShoppingBag className="w-4 h-4" /> Order Now
-              </button>
-            </div>
+            ))}
           </motion.div>
-          </Link>
-
-          {/* Product Card 3 */}
-          <Link href="/product/p3" className="block">
-            <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer h-full flex flex-col">
-            <div className="relative h-48 w-full overflow-hidden bg-gray-100">
-              <Image
-                src="https://images.unsplash.com/photo-1542239898-08fcea4abd2e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwzfHxjbG90aGluZyUyMHN0cmVldHdlYXJ8ZW58MHx8fHwxNzc3NzM2MzI0fDA&ixlib=rb-4.1.0&q=80&w=1080"
-                alt="Classic Sneakers"
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-            </div>
-            <div className="p-5 flex-grow flex flex-col justify-between">
-              <div>
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="font-bold text-lg line-clamp-2">Classic Urban Sneakers</h3>
-                </div>
-                <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold inline-block mb-3">Tsh 55,000</span>
-                <p className="text-xs text-emerald-600 font-bold mb-4 flex items-center gap-1"><Truck className="w-4 h-4"/> Delivery Anywhere</p>
-              </div>
-              <button onClick={(e) => handleAddToCart(e, "p3")} className="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-900 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 mt-auto">
-                <ShoppingBag className="w-4 h-4" /> Order Now
-              </button>
-            </div>
-          </motion.div>
-          </Link>
-
-          {/* Product Card 4 (Added to complete grid of 4) */}
-          <Link href="/product/p4" className="block">
-            <motion.div whileHover={{ y: -10 }} className="bg-white rounded-[2rem] overflow-hidden border border-border shadow-md group cursor-pointer h-full flex flex-col">
-            <div className="relative h-48 w-full overflow-hidden bg-gray-100">
-              <Image
-                src="https://images.unsplash.com/photo-1586495777744-4413f21062fa?q=80&w=2000&auto=format&fit=crop"
-                alt="Matte Lipstick"
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-            </div>
-            <div className="p-5 flex-grow flex flex-col justify-between">
-              <div>
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="font-bold text-lg line-clamp-2">Matte Lipstick Set</h3>
-                </div>
-                <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-xs font-bold inline-block mb-3">Tsh 25,000</span>
-                <p className="text-xs text-emerald-600 font-bold mb-4 flex items-center gap-1"><Truck className="w-4 h-4"/> Delivery Anywhere</p>
-              </div>
-              <button onClick={(e) => handleAddToCart(e, "p1")} className="w-full bg-gray-100 hover:bg-primary hover:text-white text-gray-900 font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2 mt-auto">
-                <ShoppingBag className="w-4 h-4" /> Order Now
-              </button>
-            </div>
-          </motion.div>
-          </Link>
         </div>
       </section>
 
-      {/* Verified Services Section */}
-      <section className="pb-24 max-w-6xl mx-auto px-4 w-full">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-black tracking-tight mb-4">Verified Services</h2>
-          <p className="text-xl text-muted-foreground font-medium max-w-2xl mx-auto">
-            Vetted professionals for your campus needs. Safe, reliable, and affordable.
+      {/* The Workspace Breakdown */}
+      <section className="py-16 md:py-24 max-w-7xl mx-auto px-4 w-full bg-white">
+        <div className="text-center mb-12 md:mb-16">
+          <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">A true Stationary Engine.</h2>
+          <p className="text-lg md:text-xl text-gray-500 font-medium max-w-2xl mx-auto px-4">
+            Built to handle the specific formatting demands of university coursework.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <motion.div
-            whileHover={{ y: -10 }}
-            className="flex flex-col p-10 rounded-[3rem] bg-white border border-border/50 shadow-lg group relative overflow-hidden"
-          >
-            <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
-              <Wrench className="w-32 h-32" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          <div className="flex flex-col">
+            <div className="bg-gray-50 rounded-3xl p-6 md:p-8 h-full border border-gray-200 hover:border-primary/50 transition-colors">
+              <div className="w-12 h-12 bg-white shadow-sm border border-gray-100 text-primary rounded-xl flex items-center justify-center mb-6">
+                <UploadCloud className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-bold mb-3">1. Bring your content</h3>
+              <p className="text-gray-600 font-medium text-sm md:text-base leading-relaxed">
+                Upload a messy Word document, a text file, or simply type out your raw thoughts. You provide the substance, we handle the presentation.
+              </p>
             </div>
-            <div className="w-16 h-16 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center mb-8 relative z-10 border border-blue-100">
-              <ShieldCheck className="w-8 h-8" />
-            </div>
-            <h3 className="text-2xl font-black mb-4 relative z-10">Phone Repair</h3>
-            <p className="text-muted-foreground font-medium leading-relaxed text-lg relative z-10 mb-6">
-              Cracked screen? Battery issues? Get it fixed by a verified technician right on campus.
-            </p>
-            <Link href="/services" className="mt-auto flex items-center gap-2 text-blue-500 font-bold hover:underline">
-               Find a Technician <ArrowRight className="w-4 h-4" />
-            </Link>
-          </motion.div>
+          </div>
 
-          <motion.div
-            whileHover={{ y: -10 }}
-            className="flex flex-col p-10 rounded-[3rem] bg-white border border-border/50 shadow-lg group relative overflow-hidden"
-          >
-            <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
-              <Truck className="w-32 h-32" />
+          <div className="flex flex-col">
+            <div className="bg-gray-50 rounded-3xl p-6 md:p-8 h-full border border-gray-200 hover:border-primary/50 transition-colors">
+              <div className="w-12 h-12 bg-white shadow-sm border border-gray-100 text-primary rounded-xl flex items-center justify-center mb-6">
+                <Settings className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-bold mb-3">2. Instruct the Engine</h3>
+              <p className="text-gray-600 font-medium text-sm md:text-base leading-relaxed">
+                Want it in APA format? Need to extract data into a 4-column table? Have a specific campus cover-page style? Just upload the reference or type the instruction.
+              </p>
             </div>
-            <div className="w-16 h-16 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center mb-8 relative z-10 border border-amber-100">
-              <Truck className="w-8 h-8" />
-            </div>
-            <h3 className="text-2xl font-black mb-4 relative z-10">Campus Delivery</h3>
-            <p className="text-muted-foreground font-medium leading-relaxed text-lg relative z-10 mb-6">
-              Get your food or packages delivered straight to your hostel with our trusted network.
-            </p>
-            <Link href="/services" className="mt-auto flex items-center gap-2 text-amber-500 font-bold hover:underline">
-               Book Delivery <ArrowRight className="w-4 h-4" />
-            </Link>
-          </motion.div>
+          </div>
 
-          <motion.div
-            whileHover={{ y: -10 }}
-            className="flex flex-col p-10 rounded-[3rem] bg-white border border-border/50 shadow-lg group relative overflow-hidden"
-          >
-            <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
-              <Star className="w-32 h-32" />
+          <div className="flex flex-col">
+            <div className="bg-gray-50 rounded-3xl p-6 md:p-8 h-full border border-gray-200 hover:border-primary/50 transition-colors">
+              <div className="w-12 h-12 bg-white shadow-sm border border-gray-100 text-primary rounded-xl flex items-center justify-center mb-6">
+                <Printer className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-bold mb-3">3. Direct to Print Shop</h3>
+              <p className="text-gray-600 font-medium text-sm md:text-base leading-relaxed">
+                Review the AI&apos;s output. Make manual adjustments to margins before sending it directly to a local stationary&apos;s print queue.
+              </p>
             </div>
-            <div className="w-16 h-16 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mb-8 relative z-10 border border-primary/20">
-              <Star className="w-8 h-8" />
-            </div>
-            <h3 className="text-2xl font-black mb-4 relative z-10">PC Maintenance</h3>
-            <p className="text-muted-foreground font-medium leading-relaxed text-lg relative z-10 mb-6">
-              Software installation, virus removal, or hardware upgrades. Handled by pros.
-            </p>
-            <Link href="/services" className="mt-auto flex items-center gap-2 text-primary font-bold hover:underline">
-               Find a Pro <ArrowRight className="w-4 h-4" />
-            </Link>
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Vendor CTA Section */}
-      <section className="w-full bg-primary text-white py-16 sm:py-24">
+      {/* Vendor/Stationary CTA Section */}
+      <section className="w-full bg-primary text-white py-16 md:py-24 border-t border-emerald-400">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl sm:text-5xl font-black mb-6">Want to become a Vendor?</h2>
-          <p className="text-lg sm:text-xl font-medium mb-10 text-primary-foreground/90 max-w-2xl mx-auto">
-            Partner with us to reach thousands of students on campus. Open your digital storefront today and start selling.
+          <div className="inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 bg-white/20 text-white rounded-2xl mb-6 md:mb-8">
+            <Printer className="w-8 h-8 md:w-10 md:h-10" />
+          </div>
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-black mb-4 md:mb-6 tracking-tight text-white">Are you a Print Shop?</h2>
+          <p className="text-base md:text-xl font-medium mb-8 md:mb-10 text-emerald-50 max-w-2xl mx-auto leading-relaxed px-4">
+            Stop dealing with messy formatting and virus-filled flash drives.
+            Join our network to receive perfectly formatted, ready-to-print PDFs directly into your dashboard.
           </p>
-          {useAppStore.getState().currentUser?.role === 'vendor' ? (
-            <Link href="/vendor/dashboard" className="inline-flex items-center gap-2 bg-white text-primary font-bold px-8 py-4 rounded-full hover:bg-gray-100 transition-colors shadow-lg hover:scale-105 transform duration-200">
-              Go to Store Dashboard <ArrowRight className="w-5 h-5" />
+          {currentUser?.role === 'vendor' ? (
+            <Link href="/vendor/dashboard" className="inline-flex items-center gap-2 bg-gray-900 text-white font-bold px-6 py-3 md:px-8 md:py-4 rounded-xl hover:bg-black transition-colors shadow-xl text-sm md:text-base">
+              Open Print Dashboard <ArrowRight className="w-5 h-5" />
             </Link>
           ) : (
-            <Link href="/vendor/apply" className="inline-flex items-center gap-2 bg-white text-primary font-bold px-8 py-4 rounded-full hover:bg-gray-100 transition-colors shadow-lg hover:scale-105 transform duration-200">
-              Partner With Us <ArrowRight className="w-5 h-5" />
+            <Link href="/vendor/apply" className="inline-flex items-center gap-2 bg-gray-900 text-white font-bold px-6 py-3 md:px-8 md:py-4 rounded-xl hover:bg-black transition-colors shadow-xl text-sm md:text-base">
+              Register Your Stationary <ArrowRight className="w-5 h-5" />
             </Link>
           )}
         </div>

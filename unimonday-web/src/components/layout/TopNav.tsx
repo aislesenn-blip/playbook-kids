@@ -1,30 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingBag, ShoppingCart, User, Menu, X, Shirt, Smartphone, ShieldCheck, Box, Handshake, ShieldAlert, Search, Sparkles, LampDesk, Store, MessageCircle } from "lucide-react";
+import { User, Menu, X, Search, FileText, PenTool, LayoutTemplate, FolderOpen, Printer, PlusCircle } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAppStore } from "@/lib/store/app-store";
-import { BellRing } from "lucide-react";
 
 export function TopNav() {
   const pathname = usePathname();
   const router = useRouter();
-  const { currentUser, getCartCount } = useAppStore();
-  const isVendor = currentUser?.role === "vendor";
+  const { currentUser } = useAppStore();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [showNotificationPrompt, setShowNotificationPrompt] = useState(false);
-
-  useEffect(() => {
-    // Only show prompt to logged in users, wait 3 seconds after mount
-    if (currentUser) {
-      const timer = setTimeout(() => setShowNotificationPrompt(true), 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [currentUser]);
 
   const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
@@ -38,84 +27,44 @@ export function TopNav() {
 
   return (
     <>
-      <AnimatePresence>
-        {showNotificationPrompt && (
-          <motion.div
-            initial={{ y: -50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -50, opacity: 0 }}
-            className="fixed top-14 left-0 right-0 z-40 bg-gray-900 text-white px-4 py-3 flex items-center justify-between shadow-lg"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center shrink-0">
-                <BellRing className="w-4 h-4 text-white" />
-              </div>
-              <p className="text-xs sm:text-sm font-medium">Turn on notifications to know when a vendor replies or updates your order.</p>
-            </div>
-            <div className="flex items-center gap-4 shrink-0 ml-4">
-              <button onClick={() => setShowNotificationPrompt(false)} className="text-xs font-bold text-gray-400 hover:text-white transition-colors">Not Now</button>
-              <button onClick={() => setShowNotificationPrompt(false)} className="text-xs font-bold bg-primary text-white px-3 py-1.5 rounded-full hover:bg-primary/90 transition-colors">Enable</button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <nav className="fixed top-0 left-0 right-0 h-14 bg-white/80 backdrop-blur-xl border-b border-border z-50 flex items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 bg-gray-900 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
-            <ShoppingBag className="w-5 h-5 text-white" />
+      <nav className="fixed top-0 left-0 right-0 h-14 bg-white/90 backdrop-blur-xl border-b border-border z-50 flex items-center justify-between px-4">
+        {/* Logo area */}
+        <Link href="/" className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/30 shrink-0">
+            <FileText className="w-5 h-5 text-white" />
           </div>
           <div className="flex flex-col">
-            <span className="font-black text-xl tracking-tight text-gray-900 leading-none mt-1">uNi<span className="text-primary">MONDAY</span></span>
-            <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mt-0.5">students Deals & Discounts ....</span>
+            <span className="font-black text-xl tracking-tight text-gray-900 leading-none mt-1">
+              uNi<span className="text-primary">MONDAY</span>
+            </span>
+            <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mt-0.5">
+              Cloud Stationary
+            </span>
           </div>
         </Link>
 
-                {isVendor ? (
-          <div className="hidden sm:flex items-center gap-6 font-medium">
-            <Link href="/vendor/dashboard" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/vendor/dashboard' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-              <Store className="w-4 h-4" /> Dashboard
-            </Link>
-            <Link href="/chat" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/chat' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-              <MessageCircle className="w-4 h-4" /> Inbox
-            </Link>
-          </div>
-        ) : (
-          <div className="hidden sm:flex items-center gap-6 font-medium">
-            <Link href="/fashion" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/fashion' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-              <Shirt className="w-4 h-4" /> Fashion
-            </Link>
-            <Link href="/tech" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/tech' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-              <Smartphone className="w-4 h-4" /> Tech
-            </Link>
-            <Link href="/beauty" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/beauty' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-              <Sparkles className="w-4 h-4" /> Beauty
-            </Link>
-            <Link href="/home-decor" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/home-decor' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-              <LampDesk className="w-4 h-4" /> Decor
-            </Link>
-            <Link href="/services" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/services' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-              <ShieldCheck className="w-4 h-4" /> Services
-            </Link>
-          </div>
-        )}
+        {/* Desktop Links */}
+        <div className="hidden sm:flex items-center gap-6 font-medium">
+          <Link href="/workspace" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/workspace' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+            <PlusCircle className="w-4 h-4" /> New Document
+          </Link>
+          <Link href="/templates" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/templates' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+            <LayoutTemplate className="w-4 h-4" /> Templates
+          </Link>
+          <Link href="/my-files" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/my-files' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+            <FolderOpen className="w-4 h-4" /> My Files
+          </Link>
+          <Link href="/print-station" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/print-station' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+            <Printer className="w-4 h-4" /> Print Station
+          </Link>
+        </div>
 
-                <div className="flex items-center gap-3">
-          {!isVendor && (
-            <>
-              <button onClick={() => setIsSearchOpen(true)} className="flex items-center justify-center p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
-                <Search className="w-5 h-5" />
-              </button>
-              <Link href="/checkout" className="flex items-center justify-center p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors relative">
-                <ShoppingCart className="w-5 h-5" />
-                {getCartCount() > 0 && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-primary text-white text-[10px] font-bold flex items-center justify-center rounded-full">
-                    {getCartCount()}
-                  </span>
-                )}
-              </Link>
-            </>
-          )}
+        {/* Right Actions */}
+        <div className="flex items-center gap-3">
+          <button onClick={() => setIsSearchOpen(true)} className="flex items-center justify-center p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
+            <Search className="w-5 h-5" />
+          </button>
+
           {currentUser ? (
             <Link href="/profile" className="hidden sm:flex items-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-full font-bold text-sm transition-colors">
               <User className="w-4 h-4" /> {currentUser.name.split(' ')[0]}
@@ -131,6 +80,7 @@ export function TopNav() {
         </div>
       </nav>
 
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -140,65 +90,27 @@ export function TopNav() {
             className="fixed top-14 bottom-20 left-0 right-0 bg-white border-b border-border z-40 sm:hidden shadow-lg overflow-y-auto overscroll-contain"
           >
             <div className="flex flex-col p-4 gap-4 pb-8">
-              <Link
-                href="/fashion"
-                onClick={toggleMenu}
-                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/fashion' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
-              >
-                <Shirt className="w-5 h-5" /> Fashion & Apparels
+              <Link href="/workspace" onClick={toggleMenu} className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/workspace' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}>
+                <PlusCircle className="w-5 h-5" /> New Document
               </Link>
-              <Link
-                href="/tech"
-                onClick={toggleMenu}
-                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/tech' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
-              >
-                <Smartphone className="w-5 h-5" /> Tech & Accessories
+              <Link href="/templates" onClick={toggleMenu} className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/templates' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}>
+                <LayoutTemplate className="w-5 h-5" /> Templates
               </Link>
-              <Link
-                href="/beauty"
-                onClick={toggleMenu}
-                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/beauty' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
-              >
-                <Sparkles className="w-5 h-5" /> Beauty & Cosmetics
+              <Link href="/my-files" onClick={toggleMenu} className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/my-files' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}>
+                <FolderOpen className="w-5 h-5" /> My Files
               </Link>
-              <Link
-                href="/home-decor"
-                onClick={toggleMenu}
-                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/home-decor' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
-              >
-                <LampDesk className="w-5 h-5" /> Home & Decor
+              <Link href="/print-station" onClick={toggleMenu} className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/print-station' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}>
+                <Printer className="w-5 h-5" /> Print Station
               </Link>
-              <Link
-                href="/services"
-                onClick={toggleMenu}
-                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/services' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
-              >
-                <ShieldCheck className="w-5 h-5" /> Verified Services
-              </Link>
+
               <hr className="border-border my-2" />
-              <Link
-                href="/orders"
-                onClick={toggleMenu}
-                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/orders' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
-              >
-                <Box className="w-5 h-5" /> My Orders
+
+              <Link href="/vendor/apply" onClick={toggleMenu} className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname.includes('/vendor') ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}>
+                <Printer className="w-5 h-5" /> Register Stationary Shop
               </Link>
+
               <hr className="border-border my-2" />
-              <Link
-                href="/vendor/apply"
-                onClick={toggleMenu}
-                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname.includes('/vendor') ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
-              >
-                <Handshake className="w-5 h-5" /> Partner With Us
-              </Link>
-              <Link
-                href="/admin/dashboard"
-                onClick={toggleMenu}
-                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname.includes('/admin') ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
-              >
-                <ShieldAlert className="w-5 h-5" /> Staff
-              </Link>
-              <hr className="border-border my-2" />
+
               {currentUser ? (
                 <Link href="/profile" onClick={toggleMenu} className="flex items-center justify-center gap-2 w-full p-3 bg-primary/10 text-primary rounded-xl font-bold">
                   <User className="w-5 h-5" /> My Profile
@@ -213,6 +125,7 @@ export function TopNav() {
         )}
       </AnimatePresence>
 
+      {/* Search Modal */}
       <AnimatePresence>
         {isSearchOpen && (
            <motion.div
@@ -235,7 +148,7 @@ export function TopNav() {
                  value={searchQuery}
                  onChange={(e) => setSearchQuery(e.target.value)}
                  onKeyDown={handleSearch}
-                 placeholder="Search products, vendors, or services... (Press Enter)"
+                 placeholder="Search templates, files, or print shops... (Press Enter)"
                  className="flex-1 bg-transparent border-none outline-none text-lg font-medium"
                  autoFocus
                />
