@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { supabase } from "@/lib/supabase/client"
 import { persist } from 'zustand/middleware'
-import { CartItem, Product, User, Order } from '@/types'
+import { CartItem, Product, User, Order, WorkspaceDocument, DocumentBlock } from '@/types'
 
 interface AppState {
   currentUser: User | null;
@@ -38,6 +38,12 @@ interface AppState {
   updateOrderStatus: (orderId: string, status: "Pending" | "Paid" | "Processing" | "In Transit" | "Delivered" | "Cancelled") => void;
 
   resetApp: () => void;
+
+  // Workspace Architecture
+  activeDocument: WorkspaceDocument | null;
+  setActiveDocument: (doc: WorkspaceDocument | null) => void;
+  updateDocumentBlock: (blockId: string, updates: Partial<DocumentBlock>) => void;
+  addDocumentBlock: (block: DocumentBlock, afterBlockId?: string) => void;
   initAuth: () => void;
 }
 
@@ -112,6 +118,42 @@ export const useAppStore = create<AppState>()(
       })),
 
       resetApp: () => set({ currentUser: null, currentRegion: null, currentCampusName: null, isCartOpen: false, cart: [], pendingMessages: [], orders: [], vendorProducts: [] }),
+
+
+      // Workspace Actions
+      activeDocument: null,
+      setActiveDocument: (doc) => set({ activeDocument: doc }),
+      updateDocumentBlock: (blockId, updates) => set((state) => {
+        if (!state.activeDocument) return state;
+        return {
+          activeDocument: {
+            ...state.activeDocument,
+            blocks: state.activeDocument.blocks.map(block =>
+              block.id === blockId ? { ...block, ...updates } : block
+            )
+          }
+        };
+      }),
+      addDocumentBlock: (block, afterBlockId) => set((state) => {
+        if (!state.activeDocument) return state;
+        const blocks = [...state.activeDocument.blocks];
+        if (afterBlockId) {
+          const index = blocks.findIndex(b => b.id === afterBlockId);
+          if (index !== -1) {
+            blocks.splice(index + 1, 0, block);
+          } else {
+            blocks.push(block);
+          }
+        } else {
+          blocks.push(block);
+        }
+        return {
+          activeDocument: {
+            ...state.activeDocument,
+            blocks
+          }
+        };
+      }),
 
       initAuth: () => {
         supabase.auth.onAuthStateChange((event, session) => {
