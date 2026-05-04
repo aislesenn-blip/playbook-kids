@@ -52,10 +52,10 @@ export default function VendorDashboardPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
+        <div className="bg-white sm:rounded-3xl shadow-sm border-y sm:border border-gray-200 overflow-hidden -mx-4 sm:mx-0">
            {/* Tabs & Search */}
            <div className="p-4 border-b border-gray-100 flex flex-col sm:flex-row gap-4 items-center justify-between bg-gray-50/50">
-             <div className="flex gap-2 w-full sm:w-auto overflow-x-auto hide-scrollbar">
+             <div className="flex gap-2 w-full sm:w-auto overflow-x-auto hide-scrollbar pb-2 sm:pb-0">
                <button
                  onClick={() => setActiveTab("queue")}
                  className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-colors whitespace-nowrap ${activeTab === 'queue' ? 'bg-gray-900 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'}`}
@@ -88,10 +88,10 @@ export default function VendorDashboardPage() {
           </div>
 
           {/* Queue List */}
-          <div className="p-6">
-            <div className="grid grid-cols-1 gap-4">
+          <div className="p-0 sm:p-6">
+            <div className="flex flex-col sm:grid sm:grid-cols-1 gap-0 sm:gap-4 divide-y sm:divide-y-0 divide-gray-100">
               {activeTab === "queue" && printQueue.map((job) => (
-                <div key={job.id} className="border border-gray-200 rounded-2xl p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 hover:shadow-md transition-shadow bg-white">
+                <div key={job.id} className="border-0 sm:border border-gray-200 sm:rounded-2xl p-4 sm:p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 sm:gap-6 hover:shadow-md transition-shadow bg-white">
                   <div className="flex items-start gap-4 w-full md:w-auto">
                      <div className="w-12 h-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center shrink-0">
                        <FileText className="w-6 h-6" />

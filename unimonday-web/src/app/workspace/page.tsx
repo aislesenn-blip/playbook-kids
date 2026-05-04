@@ -114,7 +114,7 @@ export default function WorkspacePage() {
 
   return (
     <div className="min-h-screen bg-white pt-20 flex flex-col font-sans">
-      <div className="w-full px-4 md:px-8 flex-grow flex flex-col xl:flex-row gap-8 lg:gap-12 pb-10">
+      <div className="w-full px-0 sm:px-4 md:px-8 flex-grow flex flex-col xl:flex-row gap-8 lg:gap-12 pb-10">
 
         {/* Left Side - The Engine Input Controls */}
         <div className="w-full xl:w-[500px] flex flex-col gap-6 shrink-0">
