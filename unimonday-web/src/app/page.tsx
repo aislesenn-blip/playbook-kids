@@ -65,9 +65,9 @@ export default function Home() {
         </div>
 
         {/* Visual Flat Cards Auto Scroll */}
-        <div className="relative w-full max-w-[100vw] overflow-hidden -mx-4 pb-8">
-          <div className="absolute left-0 top-0 bottom-0 w-8 md:w-32 bg-gradient-to-r from-white to-transparent z-10" />
-          <div className="absolute right-0 top-0 bottom-0 w-8 md:w-32 bg-gradient-to-l from-white to-transparent z-10" />
+        <div className="relative w-full overflow-hidden mt-12 pb-12">
+          <div className="absolute left-0 top-0 bottom-0 w-8 md:w-32 bg-gradient-to-r from-gray-50 to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-8 md:w-32 bg-gradient-to-l from-gray-50 to-transparent z-10 pointer-events-none" />
 
           <motion.div
             initial={{ x: "0%" }}
@@ -75,22 +75,24 @@ export default function Home() {
             transition={{
               repeat: Infinity,
               ease: "linear",
-              duration: 30
+              duration: 40
             }}
-            className="flex gap-4 md:gap-6 px-4 w-max"
+            className="flex gap-4 md:gap-6 px-4 w-max hover:animation-play-state-paused"
           >
             {[
-              { img: "https://images.unsplash.com/photo-1704748082614-8163a88e56b8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHx1bml2ZXJzaXR5JTIwc3R1ZGVudCUyMHN0dWR5aW5nfGVufDB8fHx8MTc3Nzg4NTk5N3ww&ixlib=rb-4.1.0&q=80&w=1080", title: "Assignment Drafting", icon: <FileText className="w-5 h-5"/> },
-              { img: "https://images.unsplash.com/photo-1593499881934-2a652f450a85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxwcmludGluZyUyMHBhcGVyJTIwc3RhdGlvbmFyeXxlbnwwfHx8fDE3Nzc4ODU5OTd8MA&ixlib=rb-4.1.0&q=80&w=1080", title: "Direct to Printer", icon: <Printer className="w-5 h-5"/> },
-              { img: "https://images.unsplash.com/photo-1758612214882-03f8a1d7211f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHx0eXBpbmclMjBsYXB0b3AlMjBzdHVkZW50fGVufDB8fHx8MTc3Nzg4NTk5OHww&ixlib=rb-4.1.0&q=80&w=1080", title: "Smart Formatting", icon: <LayoutTemplate className="w-5 h-5"/> },
-              { img: "https://images.unsplash.com/photo-1546953304-5d96f43c2e94?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxsaWJyYXJ5JTIwc3R1ZHl8ZW58MHx8fHwxNzc3ODg1OTk4fDA&ixlib=rb-4.1.0&q=80&w=1080", title: "Leave Letters", icon: <PenTool className="w-5 h-5"/> },
-              { img: "https://images.unsplash.com/photo-1748609422318-7301636fb625?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHx3cml0aW5nJTIwbm90ZXMlMjBwYXBlcnxlbnwwfHx8fDE3Nzc4ODU5OTl8MA&ixlib=rb-4.1.0&q=80&w=1080", title: "Margin Alignment", icon: <Edit3 className="w-5 h-5"/> },
+              { img: "https://images.unsplash.com/photo-1513258496099-48168024aec0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Assignment Drafting", icon: <FileText className="w-5 h-5"/> },
+              { img: "https://images.unsplash.com/photo-1568205612837-017257d2310a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Direct to Printer", icon: <Printer className="w-5 h-5"/> },
+              { img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Smart Formatting", icon: <LayoutTemplate className="w-5 h-5"/> },
+              { img: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Leave Letters", icon: <PenTool className="w-5 h-5"/> },
+              { img: "https://images.unsplash.com/photo-1456324504439-367cee3b3c32?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Margin Alignment", icon: <Edit3 className="w-5 h-5"/> },
               // Duplicate for infinite scroll
-              { img: "https://images.unsplash.com/photo-1704748082614-8163a88e56b8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHx1bml2ZXJzaXR5JTIwc3R1ZGVudCUyMHN0dWR5aW5nfGVufDB8fHx8MTc3Nzg4NTk5N3ww&ixlib=rb-4.1.0&q=80&w=1080", title: "Assignment Drafting", icon: <FileText className="w-5 h-5"/> },
-              { img: "https://images.unsplash.com/photo-1593499881934-2a652f450a85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxwcmludGluZyUyMHBhcGVyJTIwc3RhdGlvbmFyeXxlbnwwfHx8fDE3Nzc4ODU5OTd8MA&ixlib=rb-4.1.0&q=80&w=1080", title: "Direct to Printer", icon: <Printer className="w-5 h-5"/> },
-              { img: "https://images.unsplash.com/photo-1758612214882-03f8a1d7211f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHx0eXBpbmclMjBsYXB0b3AlMjBzdHVkZW50fGVufDB8fHx8MTc3Nzg4NTk5OHww&ixlib=rb-4.1.0&q=80&w=1080", title: "Smart Formatting", icon: <LayoutTemplate className="w-5 h-5"/> },
+              { img: "https://images.unsplash.com/photo-1513258496099-48168024aec0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Assignment Drafting", icon: <FileText className="w-5 h-5"/> },
+              { img: "https://images.unsplash.com/photo-1568205612837-017257d2310a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Direct to Printer", icon: <Printer className="w-5 h-5"/> },
+              { img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Smart Formatting", icon: <LayoutTemplate className="w-5 h-5"/> },
+              { img: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Leave Letters", icon: <PenTool className="w-5 h-5"/> },
+              { img: "https://images.unsplash.com/photo-1456324504439-367cee3b3c32?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Margin Alignment", icon: <Edit3 className="w-5 h-5"/> },
             ].map((item, i) => (
-              <div key={i} className="relative w-64 md:w-80 h-40 md:h-56 rounded-2xl md:rounded-3xl overflow-hidden shadow-sm shrink-0 group">
+              <div key={i} className="relative w-72 md:w-96 h-48 md:h-64 rounded-2xl overflow-hidden shadow-lg border border-gray-200 shrink-0 group cursor-pointer bg-white">
                 <img src={item.img} alt={item.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4 text-white flex items-center gap-3">
@@ -154,22 +156,22 @@ export default function Home() {
       </section>
 
       {/* Vendor/Stationary CTA Section */}
-      <section className="w-full bg-emerald-950 text-white py-16 md:py-24 border-t border-emerald-900">
+      <section className="w-full bg-primary text-white py-16 md:py-24 border-t border-emerald-400">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 bg-emerald-900 text-emerald-400 rounded-2xl md:rounded-3xl mb-6 md:mb-8 border border-emerald-800">
+          <div className="inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 bg-white/20 text-white rounded-2xl mb-6 md:mb-8">
             <Printer className="w-8 h-8 md:w-10 md:h-10" />
           </div>
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-black mb-4 md:mb-6 tracking-tight">Are you a Print Shop?</h2>
-          <p className="text-base md:text-xl font-medium mb-8 md:mb-10 text-emerald-100/70 max-w-2xl mx-auto leading-relaxed px-4">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-black mb-4 md:mb-6 tracking-tight text-white">Are you a Print Shop?</h2>
+          <p className="text-base md:text-xl font-medium mb-8 md:mb-10 text-emerald-50 max-w-2xl mx-auto leading-relaxed px-4">
             Stop dealing with messy formatting and virus-filled flash drives.
             Join our network to receive perfectly formatted, ready-to-print PDFs directly into your dashboard.
           </p>
           {currentUser?.role === 'vendor' ? (
-            <Link href="/vendor/dashboard" className="inline-flex items-center gap-2 bg-primary text-white font-bold px-6 py-3 md:px-8 md:py-4 rounded-xl hover:bg-emerald-400 transition-colors shadow-xl shadow-primary/20 text-sm md:text-base">
+            <Link href="/vendor/dashboard" className="inline-flex items-center gap-2 bg-gray-900 text-white font-bold px-6 py-3 md:px-8 md:py-4 rounded-xl hover:bg-black transition-colors shadow-xl text-sm md:text-base">
               Open Print Dashboard <ArrowRight className="w-5 h-5" />
             </Link>
           ) : (
-            <Link href="/vendor/apply" className="inline-flex items-center gap-2 bg-white text-emerald-950 font-bold px-6 py-3 md:px-8 md:py-4 rounded-xl hover:bg-gray-100 transition-colors shadow-xl text-sm md:text-base">
+            <Link href="/vendor/apply" className="inline-flex items-center gap-2 bg-gray-900 text-white font-bold px-6 py-3 md:px-8 md:py-4 rounded-xl hover:bg-black transition-colors shadow-xl text-sm md:text-base">
               Register Your Stationary <ArrowRight className="w-5 h-5" />
             </Link>
           )}

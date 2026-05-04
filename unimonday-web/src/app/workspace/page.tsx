@@ -113,13 +113,13 @@ export default function WorkspacePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20 pb-24 flex flex-col font-sans">
-      <div className="max-w-[1600px] mx-auto px-4 w-full flex-grow flex flex-col xl:flex-row gap-6">
+    <div className="min-h-screen bg-white pt-20 flex flex-col font-sans">
+      <div className="w-full px-4 md:px-8 flex-grow flex flex-col xl:flex-row gap-8 lg:gap-12 pb-10">
 
         {/* Left Side - The Engine Input Controls */}
-        <div className="w-full xl:w-[450px] flex flex-col gap-6 shrink-0">
+        <div className="w-full xl:w-[500px] flex flex-col gap-6 shrink-0">
 
-          <div className="bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden flex flex-col">
+          <div className="bg-white overflow-hidden flex flex-col flex-grow pt-4">
 
             {/* Engine Header */}
             <div className="p-6 border-b border-gray-100 bg-gray-900 text-white">
@@ -283,10 +283,10 @@ export default function WorkspacePage() {
         </AnimatePresence>
 
         {/* Right Side - Interactive Output / Rich Text Editor */}
-        <div className="w-full flex-grow flex flex-col bg-white rounded-3xl shadow-sm border border-gray-200 overflow-hidden">
+        <div className="w-full flex-grow flex flex-col bg-gray-50/50 border border-gray-200 rounded-3xl overflow-hidden relative">
 
           {/* Editor Toolbar */}
-          <div className="h-16 border-b border-gray-200 bg-gray-50 flex items-center justify-between px-6 shrink-0">
+          <div className="h-16 border-b border-gray-200 bg-white flex items-center justify-between px-6 shrink-0">
              <div className="flex items-center gap-6">
                 <div className="flex items-center gap-2 text-sm font-bold text-gray-500">
                   <FileText className="w-4 h-4" />

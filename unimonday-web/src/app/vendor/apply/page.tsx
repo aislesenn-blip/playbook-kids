@@ -1,10 +1,17 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Printer, Store, CheckCircle, ArrowRight, UploadCloud, Banknote } from "lucide-react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function ApplyPage() {
+  const router = useRouter();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // In a real app we would submit the form data to an API here.
+    // For now we simulate success and redirect directly to the vendor dashboard.
+    router.push('/vendor/dashboard');
+  };
   return (
     <div className="min-h-screen bg-gray-50 pt-20 pb-24">
       <div className="max-w-4xl mx-auto px-4 w-full">
@@ -48,7 +55,7 @@ export default function ApplyPage() {
         <div className="bg-white rounded-3xl p-8 md:p-12 border border-border shadow-xl">
           <h2 className="text-2xl font-black mb-8 border-b pb-4">Stationary Registration Form</h2>
 
-          <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-sm font-bold text-gray-700">Stationary Name <span className="text-red-500">*</span></label>

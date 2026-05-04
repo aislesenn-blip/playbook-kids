@@ -46,9 +46,9 @@ export default function PrintStationPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20 pb-24">
+    <div className="min-h-screen bg-white pt-20 pb-24">
       {/* Uber for Stationary Header */}
-      <div className="max-w-6xl mx-auto px-4 w-full mb-10 text-center">
+      <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto mb-10 text-center">
         <h1 className="text-4xl md:text-5xl font-black tracking-tight mb-4 text-gray-900">
           The Print Network
         </h1>
@@ -57,11 +57,11 @@ export default function PrintStationPage() {
         </p>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 w-full flex flex-col lg:flex-row gap-8">
+      <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto flex flex-col lg:flex-row gap-8 lg:gap-12">
 
         {/* Left Side - Upload & Print Settings */}
-        <div className="w-full lg:w-[35%] flex flex-col gap-6">
-          <div className="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-gray-200 flex flex-col h-full">
+        <div className="w-full lg:w-[450px] flex flex-col gap-6 shrink-0">
+          <div className="bg-gray-50/50 p-6 sm:p-8 rounded-3xl border border-gray-100 flex flex-col h-full">
             <h2 className="font-black text-xl mb-6 flex items-center gap-2 text-gray-900">
               <FileText className="w-6 h-6 text-primary" /> Print Setup
             </h2>
@@ -117,7 +117,7 @@ export default function PrintStationPage() {
         </div>
 
         {/* Right Side - Stationary Network List */}
-        <div className="w-full lg:w-[65%]">
+        <div className="w-full flex-grow flex flex-col">
           <div className="bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-gray-200 h-full flex flex-col">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
               <div>

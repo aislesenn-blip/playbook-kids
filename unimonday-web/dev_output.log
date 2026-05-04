@@ -28,3 +28,60 @@
  ○ Compiling /workspace ...
  ✓ Compiled /workspace in 819ms (1716 modules)
  GET /workspace 200 in 1255ms
+ ✓ Compiled in 23.5s (761 modules)
+ ✓ Compiled in 2.5s (1705 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Restoring pack from /app/unimonday-web/.next/cache/webpack/client-development.pack.gz failed: TypeError: Cannot read properties of undefined (reading 'hasStartTime')
+ ✓ Compiled in 1833ms (1705 modules)
+ ✓ Compiled in 1282ms (1705 modules)
+ ✓ Compiled in 353ms (761 modules)
+ ✓ Compiled in 596ms (761 modules)
+ ✓ Compiled in 661ms (761 modules)
+ ✓ Compiled in 505ms (761 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Restoring pack from /app/unimonday-web/.next/cache/webpack/server-development.pack.gz failed: TypeError: Cannot read properties of undefined (reading 'hasStartTime')
+ ✓ Compiled in 1001ms (1705 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename '/app/unimonday-web/.next/cache/webpack/client-development/0.pack.gz_' -> '/app/unimonday-web/.next/cache/webpack/client-development/0.pack.gz'
+ GET / 200 in 420ms
+ ○ Compiling /auth/login ...
+ ✓ Compiled /auth/login in 1673ms (950 modules)
+ ✓ Compiled in 785ms (756 modules)
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- /app/unimonday-web/.next/server/webpack-runtime.js
+- /app/unimonday-web/.next/server/app/workspace/page.js
+- /app/unimonday-web/node_modules/next/dist/server/require.js
+- /app/unimonday-web/node_modules/next/dist/server/load-components.js
+- /app/unimonday-web/node_modules/next/dist/build/utils.js
+- /app/unimonday-web/node_modules/next/dist/build/swc/options.js
+- /app/unimonday-web/node_modules/next/dist/build/swc/index.js
+- /app/unimonday-web/node_modules/next/dist/build/analysis/parse-module.js
+- /app/unimonday-web/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /app/unimonday-web/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /app/unimonday-web/node_modules/next/dist/server/lib/router-server.js
+- /app/unimonday-web/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/workspace/page.js:69:7990)
+    at Object.<anonymous> (.next/server/app/workspace/page.js:69:8044) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/workspace'
+}
+ ○ Compiling /_error ...
+ GET /templates 200 in 4384ms
+ GET /my-files 200 in 4682ms
+ GET /print-station 200 in 4683ms
+ GET /auth/login 200 in 4678ms
+ GET /workspace 500 in 4740ms
+ GET /templates 200 in 2056ms
+ ✓ Compiled /_error in 5.7s (2077 modules)
+ GET /print-station 200 in 725ms
+ ○ Compiling /vendor/dashboard ...
+ ✓ Compiled /vendor/dashboard in 595ms (1178 modules)
+ GET /vendor/dashboard 200 in 1217ms
+ GET /workspace 200 in 203ms
+ GET / 200 in 242ms
+ GET /templates 200 in 279ms
+ GET /print-station 200 in 259ms
+ GET /vendor/dashboard 200 in 193ms
+ GET /workspace 200 in 212ms
+ GET / 200 in 214ms
+ GET /print-station 200 in 192ms
+ GET /workspace 200 in 165ms
