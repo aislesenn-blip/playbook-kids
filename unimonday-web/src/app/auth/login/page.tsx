@@ -13,7 +13,7 @@ export default function LoginPage() {
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get('redirectTo') || '/';
 
-  const { setUser, setLocation } = useAppStore();
+  const { setCurrentUser, setSelectedRegion } = useAppStore();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -47,17 +47,17 @@ export default function LoginPage() {
     } finally {
       // ALWAYS sync state for demo
       // Mock logic respects the selected tab
-      const isVendor = false;
 
-      setUser({
-        id: isVendor ? "v1" : "u1",
-        name: isVendor ? "Store Vendor" : "Student User",
+
+      setCurrentUser({
+        id: "u1",
+        name: "Student User",
         email: email,
-        role: isVendor ? "vendor" : "student",
+        role: "student",
         region: "Dar es Salaam",
         campusName: "UDSM - Main Campus"
       });
-      setLocation("Dar es Salaam", "UDSM - Main Campus");
+      setSelectedRegion("Dar es Salaam");
 
       toast.success("Logged in successfully!");
       router.push(redirectTo);

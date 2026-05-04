@@ -1,69 +1,67 @@
-import { Product, Vendor } from '@/types';
+import { DocumentTemplate, StationaryPartner } from '@/types';
 
-export const mockVendors: Vendor[] = [
+export const documentTemplates: DocumentTemplate[] = [
   {
-    id: 'v1',
-    userId: 'u2',
-    storeName: 'TechZone UDSM',
-    storeSlug: 'store-1',
-    description: 'Best gadgets and phone repairs on campus.',
-    logoUrl: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=2064&auto=format&fit=crop',
-    rating: 4.8,
-    region: 'Dar es Salaam',
-    campusName: 'HQ',
-    isVerified: true,
-    paymentAndDeliveryInfo: 'Free Delivery around Dar es Salaam. Pay on Delivery or via Mobile Money.',
+    id: "tpl-1",
+    title: "Official Request Letter",
+    description: "Standard format for requesting permissions, transcripts, or official documents from the university.",
+    category: "Letters",
+    icon: "FileText",
+    color: "blue",
+    popularity: 98
   },
   {
-    id: 'v2',
-    userId: 'u3',
-    storeName: 'Campus Thrift',
-    storeSlug: 'store-2',
-    description: 'Fresh vintage clothes and sneakers.',
-    logoUrl: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop',
-    rating: 4.5,
-    region: 'Dar es Salaam',
-    campusName: 'HQ',
-    isVerified: true,
-    paymentAndDeliveryInfo: 'Delivery depends on where you are. Mobile money preferred.',
+    id: "tpl-2",
+    title: "Coursework Assignment",
+    description: "APA/MLA formatted template with automated cover page, page numbers, and reference sections.",
+    category: "Assignments",
+    icon: "BookOpen",
+    color: "emerald",
+    popularity: 95
   },
+  {
+    id: "tpl-3",
+    title: "Professional Internship CV",
+    description: "ATS-friendly layout tailored for students applying for field attachments and internships.",
+    category: "CVs & Resumes",
+    icon: "Briefcase",
+    color: "purple",
+    popularity: 92
+  },
+  {
+    id: "tpl-4",
+    title: "Project Proposal",
+    description: "Structured template for final year project proposals including budget tables and timelines.",
+    category: "Reports",
+    icon: "PieChart",
+    color: "amber",
+    popularity: 88
+  }
 ];
 
-export const mockProducts: Product[] = [
+export const stationaryPartners: StationaryPartner[] = [
   {
-    id: 'p1',
-    vendorId: 'v2',
-    vendorName: 'Campus Thrift',
-    name: 'Vintage Denim Jacket',
-    description: 'Classic vintage denim jacket in excellent condition.',
-    price: 35000,
-    category: 'Fashion & Apparels',
-    images: ['https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop'],
-    inStock: true,
-    rating: 4.9,
-  },
-  {
-    id: 'p2',
-    vendorId: 'v1',
-    vendorName: 'TechZone UDSM',
-    name: 'Pro Wireless Earbuds',
-    description: 'High quality wireless earbuds with noise cancellation.',
-    price: 45000,
-    category: 'Tech & Accessories',
-    images: ['https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=2064&auto=format&fit=crop'],
-    inStock: true,
+    id: "stat-1",
+    storeName: "UDSM Main Campus Printers",
+    storeSlug: "udsm-main-printers",
+    description: "Fast and reliable printing near the library.",
     rating: 4.8,
+    region: "Dar es Salaam",
+    campusName: "UDSM",
+    isVerified: true,
+    printCostPerPage: 100,
+    locationDetails: "Yombo Building, Ground Floor"
   },
   {
-    id: 'p3',
-    vendorId: 'v2',
-    vendorName: 'Kicks TZ',
-    name: 'Classic Urban Sneakers',
-    description: 'Comfortable everyday sneakers.',
-    price: 55000,
-    category: 'Fashion & Apparels',
-    images: ['https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=2080&auto=format&fit=crop'],
-    inStock: true,
-    rating: 4.7,
-  },
+    id: "stat-2",
+    storeName: "Mlimani City Express Print",
+    storeSlug: "mlimani-express",
+    description: "High quality color printing and binding.",
+    rating: 4.5,
+    region: "Dar es Salaam",
+    campusName: "Near UDSM",
+    isVerified: true,
+    printCostPerPage: 150,
+    locationDetails: "Mlimani City Mall, Shop 42"
+  }
 ];

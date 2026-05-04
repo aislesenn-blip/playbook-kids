@@ -8,7 +8,10 @@ import Link from "next/link";
 
 export default function ProfilePage() {
   const router = useRouter();
-  const { currentUser, resetApp } = useAppStore();
+  const { currentUser } = useAppStore();
+  const resetApp = () => {
+    useAppStore.getState().setCurrentUser(null);
+  };
 
   if (!currentUser) {
     router.push("/auth/login");
@@ -51,22 +54,22 @@ export default function ProfilePage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Link href="/orders" className="bg-white rounded-[2rem] p-6 border border-border shadow-sm hover:shadow-md transition-shadow group flex items-center gap-4 cursor-pointer">
+        <Link href="/print-jobs" className="bg-white rounded-[2rem] p-6 border border-border shadow-sm hover:shadow-md transition-shadow group flex items-center gap-4 cursor-pointer">
           <div className="w-12 h-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
              <Settings className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="font-bold text-lg">My Orders</h3>
+            <h3 className="font-bold text-lg">My Print Jobs</h3>
             <p className="text-sm text-muted-foreground">Track and manage your purchases</p>
           </div>
         </Link>
-        {currentUser.role === 'vendor' ? (
-          <Link href="/vendor/dashboard" className="bg-white rounded-[2rem] p-6 border border-border shadow-sm hover:shadow-md transition-shadow group flex items-center gap-4 cursor-pointer">
+        {currentUser.role === 'stationary' ? (
+          <Link href="/stationary/dashboard" className="bg-white rounded-[2rem] p-6 border border-border shadow-sm hover:shadow-md transition-shadow group flex items-center gap-4 cursor-pointer">
             <div className="w-12 h-12 bg-emerald-50 text-emerald-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
                <Settings className="w-6 h-6" />
             </div>
             <div>
-              <h3 className="font-bold text-lg">Store Dashboard</h3>
+              <h3 className="font-bold text-lg">Stationary Dashboard</h3>
               <p className="text-sm text-muted-foreground">Manage your products and orders</p>
             </div>
           </Link>

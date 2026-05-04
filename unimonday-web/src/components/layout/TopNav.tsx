@@ -11,8 +11,9 @@ import { BellRing } from "lucide-react";
 export function TopNav() {
   const pathname = usePathname();
   const router = useRouter();
-  const { currentUser, getCartCount } = useAppStore();
-  const isVendor = currentUser?.role === "vendor";
+  const { currentUser } = useAppStore();
+  const getCartCount = () => 0;
+  const isStationary = currentUser?.role === "stationary";
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -71,9 +72,9 @@ export function TopNav() {
           </div>
         </Link>
 
-                {isVendor ? (
+                {isStationary ? (
           <div className="hidden sm:flex items-center gap-6 font-medium">
-            <Link href="/vendor/dashboard" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/vendor/dashboard' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+            <Link href="/stationary/dashboard" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/stationary/dashboard' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
               <Store className="w-4 h-4" /> Dashboard
             </Link>
             <Link href="/chat" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/chat' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
@@ -101,7 +102,7 @@ export function TopNav() {
         )}
 
                 <div className="flex items-center gap-3">
-          {!isVendor && (
+          {!isStationary && (
             <>
               <button onClick={() => setIsSearchOpen(true)} className="flex items-center justify-center p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
                 <Search className="w-5 h-5" />

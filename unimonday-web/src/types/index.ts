@@ -2,13 +2,13 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  role: 'student' | 'vendor' | 'admin';
+  role: 'student' | 'stationary' | 'admin';
   avatarUrl?: string;
   region?: string;
   campusName?: string;
 }
 
-export interface Vendor {
+export interface StationaryPartner {
   id: string;
   userId?: string;
   storeName: string;
@@ -20,44 +20,31 @@ export interface Vendor {
   region: string;
   campusName: string;
   isVerified: boolean;
-  paymentAndDeliveryInfo?: string;
+  printCostPerPage?: number;
+  locationDetails?: string;
 }
 
-export interface Product {
+export interface DocumentTemplate {
   id: string;
-  vendorId?: string;
-  vendorName: string;
-  name: string;
+  title: string;
   description: string;
-  price: number;
-  originalPrice?: number;
-  category: 'Fashion & Apparels' | 'Tech & Accessories' | 'Beauty & Cosmetics' | 'Home & Decor' | 'Services';
-  images: string[];
-  inStock: boolean;
-  rating?: number;
+  category: 'Letters' | 'Assignments' | 'CVs & Resumes' | 'Reports' | 'Forms';
+  icon?: string;
+  color?: string;
+  popularity?: number;
 }
 
-export interface CartItem {
+export interface PrintJob {
   id: string;
-  product: Product;
-  quantity: number;
-  selectedOptions?: Record<string, string>;
-}
-
-export interface Order {
-  type?: string;
-  title?: string;
-  vendor?: string;
-  price?: string;
-  image?: string;
-  date?: string;
-  id: string;
-  userId?: string;
-  vendorId?: string;
-  items?: CartItem[];
-  totalAmount?: number;
-  deliveryFee?: number;
-  status: 'Pending' | 'Paid' | 'Processing' | 'In Transit' | 'Delivered' | 'Cancelled';
-  createdAt?: string;
+  userId: string;
+  stationaryId: string;
+  documentTitle: string;
+  pageCount: number;
+  copies: number;
+  color: boolean;
+  totalCost: number;
+  status: 'Pending' | 'Printing' | 'Ready' | 'Completed' | 'Cancelled';
+  fileUrl?: string;
+  createdAt: string;
   updatedAt?: string;
 }
