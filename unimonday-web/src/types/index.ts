@@ -61,3 +61,18 @@ export interface Order {
   createdAt?: string;
   updatedAt?: string;
 }
+
+export interface DocumentBlock {
+  id: string;
+  type: 'heading' | 'paragraph' | 'table' | 'list';
+  content: string; // The HTML or JSON content of this chunk
+  isEditing?: boolean;
+  isHighlighting?: boolean; // For the dopamine feedback effect
+}
+
+export interface WorkspaceDocument {
+  id: string;
+  title: string;
+  blocks: DocumentBlock[];
+  updatedAt: string;
+}
