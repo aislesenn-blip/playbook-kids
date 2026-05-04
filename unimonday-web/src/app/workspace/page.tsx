@@ -1,68 +1,36 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Send, FileText, Loader2, Sparkles, AlertCircle, UploadCloud, FileType, CheckCircle, Bot } from "lucide-react";
-import { useWorkspaceStore } from "@/lib/store/workspace-store";
-import TipTapModal from "@/components/workspace/TipTapModal";
+import { useState, useRef, useEffect } from 'react';
+import { useWorkspaceStore } from '@/lib/store/workspace-store';
+import { Send, UploadCloud, FileType, AlertCircle, Sparkles, Loader2, Bot, FileText, CheckCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import TipTapModal from '@/components/workspace/TipTapModal';
+import { simulateAiFormatting } from '@/lib/services/ai-formatter';
 
 export default function WorkspacePage() {
-  const { messages, isProcessing, addMessage, processAIResponse, setActiveBlock } = useWorkspaceStore();
+  const { messages, addMessage, isProcessing, processAIResponse, setActiveBlock } = useWorkspaceStore();
   const [prompt, setPrompt] = useState("");
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to bottom of chat
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
   useEffect(() => {
-    scrollToBottom();
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isProcessing]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!prompt.trim() && !uploadedFile) return;
 
     const userMessage = prompt.trim() || `Uploaded: ${uploadedFile?.name}`;
     addMessage({ sender: 'user', text: userMessage });
 
+    const currentPrompt = prompt;
     setPrompt("");
     setUploadedFile(null);
 
-    // Simulate sending to DeepSeek API
-    const mockJsonStructure = JSON.stringify({
-      type: "doc",
-      content: [
-        { type: "heading", attrs: { level: 2 }, content: [{ type: "text", text: "Extracted Data Table" }] },
-        { type: "paragraph", content: [{ type: "text", text: "As requested, here is the beautifully structured table." }] },
-        {
-          type: "table",
-          content: [
-             {
-               type: "tableRow",
-               content: [
-                 { type: "tableHeader", content: [{ type: "paragraph", content: [{ type: "text", text: "Item" }] }] },
-                 { type: "tableHeader", content: [{ type: "paragraph", content: [{ type: "text", text: "Amount" }] }] }
-               ]
-             },
-             {
-               type: "tableRow",
-               content: [
-                 { type: "tableCell", content: [{ type: "paragraph", content: [{ type: "text", text: "Stationary Supplies" }] }] },
-                 { type: "tableCell", content: [{ type: "paragraph", content: [{ type: "text", text: "$450" }] }] }
-               ]
-             }
-          ]
-        }
-      ]
-    });
-
-    // Simulate AI thinking delay before calling the store
-    setTimeout(() => {
-       processAIResponse(mockJsonStructure, "Data Table Extraction");
-    }, 1500);
+    // Call our simulated DeepSeek Formatting service
+    await simulateAiFormatting(currentPrompt, processAIResponse);
   };
 
   return (
