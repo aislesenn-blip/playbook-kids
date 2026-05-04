@@ -78,7 +78,7 @@ function ChatInterfaceContent() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto h-[calc(100vh-8rem)] bg-white rounded-[2rem] border border-border shadow-sm overflow-hidden flex">
+    <div className="w-full h-[calc(100vh-4rem)] bg-white overflow-hidden flex">
       {/* Sidebar - Chat List */}
       <div className={`w-full md:w-1/3 border-r border-border flex flex-col ${activeChat ? 'hidden md:flex' : 'flex'}`}>
         <div className="p-4 border-b border-border">

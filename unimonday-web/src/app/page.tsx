@@ -1,13 +1,32 @@
 "use client";
 
-import { motion, useAnimationControls } from "framer-motion";
-import { PenTool, FileText, LayoutTemplate, Printer, ArrowRight, ShieldCheck, Zap, UploadCloud, Edit3, Settings } from "lucide-react";
+import { motion } from "framer-motion";
+import { PenTool, FileText, LayoutTemplate, Printer, ArrowRight, ShieldCheck, UploadCloud, Edit3, Settings } from "lucide-react";
 import Link from "next/link";
 import { useAppStore } from "@/lib/store/app-store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { AnimatePresence } from "framer-motion";
 
 export default function Home() {
   const { currentUser } = useAppStore();
+
+  // Amazon-style Carousel State
+  const carouselItems = [
+    { img: "https://images.unsplash.com/photo-1513258496099-48168024aec0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Assignment Drafting", icon: <FileText className="w-5 h-5"/> },
+    { img: "https://images.unsplash.com/photo-1568205612837-017257d2310a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Direct to Printer", icon: <Printer className="w-5 h-5"/> },
+    { img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Smart Formatting", icon: <LayoutTemplate className="w-5 h-5"/> },
+    { img: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Leave Letters", icon: <PenTool className="w-5 h-5"/> },
+    { img: "https://images.unsplash.com/photo-1456324504439-367cee3b3c32?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Margin Alignment", icon: <Edit3 className="w-5 h-5"/> },
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % carouselItems.length);
+    }, 4000); // Pauses for 4 seconds before sliding
+    return () => clearInterval(timer);
+  }, [carouselItems.length]);
 
   return (
     <div className="flex flex-col items-center justify-center w-full overflow-x-hidden selection:bg-primary/20 selection:text-primary">
@@ -64,46 +83,63 @@ export default function Home() {
           </motion.div>
         </div>
 
-        {/* Visual Flat Cards Auto Scroll */}
-        <div className="relative w-full overflow-hidden mt-12 pb-12">
-          <div className="absolute left-0 top-0 bottom-0 w-8 md:w-32 bg-gradient-to-r from-gray-50 to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-8 md:w-32 bg-gradient-to-l from-gray-50 to-transparent z-10 pointer-events-none" />
+        {/* Amazon-Style Visual Flat Cards Carousel */}
+        <div className="relative w-full max-w-7xl mx-auto overflow-hidden mt-12 pb-12 px-4">
+          <div className="relative h-48 md:h-80 w-full flex justify-center items-center">
+            <AnimatePresence mode="popLayout">
+              {carouselItems.map((item, i) => {
+                // Calculate position relative to center
+                const offset = (i - currentIndex + carouselItems.length) % carouselItems.length;
 
-          <motion.div
-            initial={{ x: "0%" }}
-            animate={{ x: "-50%" }}
-            transition={{
-              repeat: Infinity,
-              ease: "linear",
-              duration: 40
-            }}
-            className="flex gap-4 md:gap-6 px-4 w-max hover:animation-play-state-paused"
-          >
-            {[
-              { img: "https://images.unsplash.com/photo-1513258496099-48168024aec0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Assignment Drafting", icon: <FileText className="w-5 h-5"/> },
-              { img: "https://images.unsplash.com/photo-1568205612837-017257d2310a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Direct to Printer", icon: <Printer className="w-5 h-5"/> },
-              { img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Smart Formatting", icon: <LayoutTemplate className="w-5 h-5"/> },
-              { img: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Leave Letters", icon: <PenTool className="w-5 h-5"/> },
-              { img: "https://images.unsplash.com/photo-1456324504439-367cee3b3c32?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Margin Alignment", icon: <Edit3 className="w-5 h-5"/> },
-              // Duplicate for infinite scroll
-              { img: "https://images.unsplash.com/photo-1513258496099-48168024aec0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Assignment Drafting", icon: <FileText className="w-5 h-5"/> },
-              { img: "https://images.unsplash.com/photo-1568205612837-017257d2310a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Direct to Printer", icon: <Printer className="w-5 h-5"/> },
-              { img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Smart Formatting", icon: <LayoutTemplate className="w-5 h-5"/> },
-              { img: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Leave Letters", icon: <PenTool className="w-5 h-5"/> },
-              { img: "https://images.unsplash.com/photo-1456324504439-367cee3b3c32?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Margin Alignment", icon: <Edit3 className="w-5 h-5"/> },
-            ].map((item, i) => (
-              <div key={i} className="relative w-72 md:w-96 h-48 md:h-64 rounded-2xl overflow-hidden shadow-lg border border-gray-200 shrink-0 group cursor-pointer bg-white">
-                <img src={item.img} alt={item.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4 text-white flex items-center gap-3">
-                  <div className="p-2 bg-white/20 backdrop-blur-md rounded-xl">
-                    {item.icon}
-                  </div>
-                  <span className="font-bold text-sm md:text-base">{item.title}</span>
-                </div>
-              </div>
+                // Only show a few items around the center for performance and clarity
+                if (offset > 1 && offset < carouselItems.length - 1) return null;
+
+                let initialX = "0%";
+
+                if (offset === 1) {
+                  initialX = "50%";
+                } else if (offset === carouselItems.length - 1) {
+                  initialX = "-50%";
+                }
+
+                return (
+                  <motion.div
+                    key={`${item.title}-${i}`}
+                    initial={{ x: initialX, opacity: 0, scale: 0.8 }}
+                    animate={{
+                      x: offset === 0 ? "0%" : offset === 1 ? "105%" : "-105%",
+                      opacity: offset === 0 ? 1 : 0.6,
+                      scale: offset === 0 ? 1 : 0.85,
+                      zIndex: offset === 0 ? 20 : 10
+                    }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    className={`w-[85%] md:w-[600px] h-full rounded-3xl overflow-hidden shadow-2xl border border-gray-200 cursor-pointer bg-white absolute`}
+                  >
+                    <img src={item.img} alt={item.title} className="absolute inset-0 w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                    <div className="absolute bottom-6 left-6 right-6 text-white flex flex-col gap-2">
+                      <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/10 shadow-lg mb-2">
+                        {item.icon}
+                      </div>
+                      <span className="font-black text-2xl md:text-3xl tracking-tight">{item.title}</span>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+          </div>
+
+          {/* Carousel Indicators */}
+          <div className="flex justify-center gap-2 mt-8">
+            {carouselItems.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentIndex(i)}
+                className={`h-2 rounded-full transition-all duration-500 ${i === currentIndex ? "w-8 bg-primary" : "w-2 bg-gray-300"}`}
+              />
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 

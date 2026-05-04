@@ -48,7 +48,7 @@ export default function PrintStationPage() {
   return (
     <div className="min-h-screen bg-white pt-20 pb-24">
       {/* Uber for Stationary Header */}
-      <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto mb-10 text-center">
+      <div className="w-full px-4 md:px-8 mx-auto mb-10 text-center">
         <h1 className="text-4xl md:text-5xl font-black tracking-tight mb-4 text-gray-900">
           The Print Network
         </h1>
@@ -57,7 +57,7 @@ export default function PrintStationPage() {
         </p>
       </div>
 
-      <div className="w-full px-4 md:px-8 max-w-[1600px] mx-auto flex flex-col lg:flex-row gap-8 lg:gap-12">
+      <div className="w-full px-4 md:px-8 mx-auto flex flex-col lg:flex-row gap-8 lg:gap-12">
 
         {/* Left Side - Upload & Print Settings */}
         <div className="w-full lg:w-[450px] flex flex-col gap-6 shrink-0">

@@ -245,7 +245,7 @@ export default function WorkspacePage() {
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
-                className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full relative"
+                className="bg-white rounded-3xl shadow-2xl p-8 w-full md:w-3/4 lg:w-1/2 relative mx-4"
               >
                 <button
                   onClick={() => setShowCompletionPopup(false)}
@@ -342,11 +342,11 @@ export default function WorkspacePage() {
                     <div className="w-8 h-8 bg-gray-900 text-white rounded-full flex items-center justify-center text-xs font-bold shadow-lg">1</div>
                   </div>
 
-                  {/* A4 Paper Dimensions: ~210mm x 297mm */}
+                  {/* Expanded Document Canvas Canvas */}
                   <div
                     contentEditable={isEditing}
                     suppressContentEditableWarning={true}
-                    className={`bg-white w-full max-w-[800px] min-h-[1131px] shadow-2xl p-16 sm:p-24 border border-gray-300 font-serif text-gray-900 ${isEditing ? 'ring-4 ring-amber-400/50 outline-none' : ''}`}
+                    className={`bg-white w-full min-h-[1131px] shadow-2xl p-8 sm:p-16 md:p-24 border border-gray-300 font-serif text-gray-900 ${isEditing ? 'ring-4 ring-amber-400/50 outline-none' : ''}`}
                   >
                      <div
                        className="prose prose-sm sm:prose-base max-w-none w-full prose-p:leading-relaxed prose-headings:font-sans"
