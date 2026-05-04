@@ -2,21 +2,39 @@
 
 import { Printer, MapPin, Search, Send, FileText, CheckCircle, UploadCloud, Star, DollarSign } from "lucide-react";
 import { useState } from "react";
+import { useAppStore } from "@/lib/store/app-store";
+import { useRouter } from "next/navigation";
+
 import { motion } from "framer-motion";
 
 export default function PrintStationPage() {
+  const { currentUser } = useAppStore();
+  const router = useRouter();
   const [selectedStationary, setSelectedStationary] = useState<number | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [activeFilter, setActiveFilter] = useState("Nearest");
 
-  const stationaries = [
+  const rawStationaries = [
     { id: 1, name: "Mlimani Campus Main Print", location: "Near Yombo 4, UDSM", distance: "0.2 km", status: "Online", rating: 4.8, reviews: 124, pricePerPage: "TZS 100", services: ["A4 B&W", "Color", "Binding"] },
     { id: 2, name: "Smart Copy & Tech", location: "CoICT Kijitonyama", distance: "1.5 km", status: "Online", rating: 4.9, reviews: 89, pricePerPage: "TZS 150", services: ["A4 B&W", "Color", "Lamination"] },
     { id: 3, name: "Student Center Hub", location: "UDSM Student Center", distance: "0.5 km", status: "Busy", rating: 4.5, reviews: 342, pricePerPage: "TZS 100", services: ["A4 B&W", "Binding"] },
     { id: 4, name: "QuickPrint Mabibo", location: "Mabibo Hostel Block A", distance: "4.2 km", status: "Online", rating: 4.7, reviews: 56, pricePerPage: "TZS 100", services: ["A4 B&W", "Color", "Scanning"] },
   ];
 
+  const sortedStationaries = [...rawStationaries].sort((a, b) => {
+    if (activeFilter === "Nearest") return parseFloat(a.distance) - parseFloat(b.distance);
+    if (activeFilter === "Top Rated") return b.rating - a.rating;
+    if (activeFilter === "Cheapest") return parseInt(a.pricePerPage.split(" ")[1]) - parseInt(b.pricePerPage.split(" ")[1]);
+    return 0;
+  });
+
   const handleSubmit = () => {
+    if (!currentUser) {
+      alert("Please log in or create an account to send print jobs. This protects our vendors from fraud.");
+      router.push("/auth/signup?redirectTo=/print-station");
+      return;
+    }
     if (selectedStationary) {
       setIsSubmitted(true);
     }
@@ -136,14 +154,14 @@ export default function PrintStationPage() {
 
             {/* Filter Pills */}
             <div className="flex gap-2 w-full overflow-x-auto pb-2 sm:pb-4 hide-scrollbar mb-2">
-              <button className="whitespace-nowrap px-4 py-2 bg-gray-900 text-white rounded-lg font-bold text-xs shadow-sm">Nearest</button>
-              <button className="whitespace-nowrap px-4 py-2 bg-gray-50 border border-gray-200 text-gray-700 hover:bg-gray-100 rounded-lg font-bold text-xs">Top Rated</button>
-              <button className="whitespace-nowrap px-4 py-2 bg-gray-50 border border-gray-200 text-gray-700 hover:bg-gray-100 rounded-lg font-bold text-xs">Cheapest B&W</button>
-              <button className="whitespace-nowrap px-4 py-2 bg-gray-50 border border-gray-200 text-gray-700 hover:bg-gray-100 rounded-lg font-bold text-xs">Color Print</button>
+              <button onClick={() => setActiveFilter("Nearest")} className={`whitespace-nowrap px-4 py-2 rounded-lg font-bold text-xs transition-colors ${activeFilter === "Nearest" ? "bg-gray-900 text-white shadow-sm" : "bg-gray-50 border border-gray-200 text-gray-700 hover:bg-gray-100"}`}>Nearest</button>
+              <button onClick={() => setActiveFilter("Top Rated")} className={`whitespace-nowrap px-4 py-2 rounded-lg font-bold text-xs transition-colors ${activeFilter === "Top Rated" ? "bg-gray-900 text-white shadow-sm" : "bg-gray-50 border border-gray-200 text-gray-700 hover:bg-gray-100"}`}>Top Rated</button>
+              <button onClick={() => setActiveFilter("Cheapest")} className={`whitespace-nowrap px-4 py-2 rounded-lg font-bold text-xs transition-colors ${activeFilter === "Cheapest" ? "bg-gray-900 text-white shadow-sm" : "bg-gray-50 border border-gray-200 text-gray-700 hover:bg-gray-100"}`}>Cheapest B&W</button>
+              <button onClick={() => setActiveFilter("Color Print")} className={`whitespace-nowrap px-4 py-2 rounded-lg font-bold text-xs transition-colors ${activeFilter === "Color Print" ? "bg-gray-900 text-white shadow-sm" : "bg-gray-50 border border-gray-200 text-gray-700 hover:bg-gray-100"}`}>Color Print</button>
             </div>
 
             <div className="space-y-4 flex-grow overflow-y-auto pr-2 custom-scrollbar">
-              {stationaries.map((shop) => (
+              {sortedStationaries.map((shop) => (
                 <div
                   key={shop.id}
                   onClick={() => setSelectedStationary(shop.id)}

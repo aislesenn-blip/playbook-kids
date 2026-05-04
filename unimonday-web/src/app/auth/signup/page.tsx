@@ -93,7 +93,7 @@ export default function SignupPage() {
         </div>
         <h1 className="text-3xl font-black mb-2 tracking-tight">Create Account</h1>
         <p className="text-muted-foreground font-medium">
-          Join the largest campus marketplace
+          Join the ultimate student cloud stationary
         </p>
       </div>
 

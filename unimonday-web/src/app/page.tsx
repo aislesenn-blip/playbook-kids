@@ -38,9 +38,9 @@ export default function Home() {
     <div className="flex flex-col items-center w-full min-h-screen bg-[#E3E6E6] overflow-x-hidden selection:bg-primary/20 selection:text-primary pb-20">
 
       {/* Global Trust Prompt */}
-      <div className="w-full bg-primary text-white py-2 px-4 text-center font-bold text-sm tracking-wide flex items-center justify-center gap-2 z-20 relative">
-        <ShieldCheck className="w-4 h-4 shrink-0" />
-        The Ultimate Student Cloud Stationary. Upload. Format. Print.
+      <div className="w-full bg-primary text-white py-2 px-4 text-center font-bold text-xs sm:text-sm tracking-wide flex items-center justify-center gap-2 z-20 relative">
+        <ShieldCheck className="w-4 h-4 shrink-0 hidden sm:block" />
+        Skip Microsoft Word. Edit documents, fix spacing, draw tables & margins just by chatting with AI.
       </div>
 
       {/* Amazon-style Hero Section */}
@@ -81,18 +81,18 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
 
             {/* Intro Card / CTA */}
-            <div className="bg-white p-4 md:p-5 rounded flex flex-col h-[350px] md:h-[420px] z-20 relative">
+            <div className="bg-white p-4 md:p-5 rounded flex flex-col h-[350px] md:h-[420px] z-20 relative shadow-sm hover:shadow-md transition-shadow">
               <h2 className="text-xl md:text-2xl font-bold mb-3 text-gray-900 tracking-tight leading-tight">
-                Your work.<br/>Perfectly formatted.
+                Tired of using Microsoft Word?
               </h2>
-              <div className="flex-grow flex flex-col justify-center items-center text-center bg-emerald-50 rounded p-4 mb-3">
+              <div className="flex-grow flex flex-col justify-center items-center text-center bg-emerald-50/80 rounded p-4 mb-3 border border-emerald-100">
                 <Settings className="w-10 h-10 text-emerald-600 mb-3" />
-                <p className="text-sm text-gray-700 font-medium">
-                  AI engine fixes grammar, aligns margins, & outputs print-ready PDFs.
+                <p className="text-[15px] text-gray-800 font-medium leading-relaxed">
+                  Skip Microsoft Word. Edit documents, adjust spacing, draw tables, and align margins instantly by chatting with our AI Engine.
                 </p>
               </div>
-              <Link href="/workspace" className="mt-auto text-[#007185] hover:text-[#C7511F] hover:underline text-sm md:text-base flex items-center gap-1">
-                Enter Workspace
+              <Link href="/workspace" className="mt-auto text-[#007185] hover:text-[#C7511F] hover:underline text-sm md:text-base font-medium flex items-center gap-1">
+                Experience the magic
               </Link>
             </div>
 
@@ -113,7 +113,7 @@ export default function Home() {
                 <h2 className="text-xl md:text-2xl font-bold mb-3 text-gray-900">Sign in for your best experience</h2>
                 <div className="flex-grow flex flex-col justify-center items-center w-full">
                    {!currentUser ? (
-                     <Link href="/login" className="w-full bg-[#FFD814] hover:bg-[#F7CA00] text-black text-center py-2 rounded-full font-medium shadow-sm transition-colors text-sm">
+                     <Link href="/auth/login" className="w-full bg-[#FFD814] hover:bg-[#F7CA00] text-black text-center py-2 rounded-full font-medium shadow-sm transition-colors text-sm">
                        Sign in securely
                      </Link>
                    ) : (
@@ -127,7 +127,7 @@ export default function Home() {
                 </div>
                 {!currentUser && (
                   <div className="mt-auto text-sm text-[#007185] text-center w-full">
-                    <Link href="/signup" className="hover:text-[#C7511F] hover:underline">Create an account</Link>
+                    <Link href="/auth/signup" className="hover:text-[#C7511F] hover:underline">Create an account</Link>
                   </div>
                 )}
             </div>
