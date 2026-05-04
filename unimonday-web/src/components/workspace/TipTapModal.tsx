@@ -1,6 +1,7 @@
 "use client";
 
 import { useEditor, EditorContent } from '@tiptap/react';
+import { BubbleMenu } from '@tiptap/react/menus';
 import StarterKit from '@tiptap/starter-kit';
 import { Table } from '@tiptap/extension-table';
 import { TableRow } from '@tiptap/extension-table-row';
@@ -10,10 +11,11 @@ import { TextAlign } from '@tiptap/extension-text-align';
 import { Underline } from '@tiptap/extension-underline';
 import { Image } from '@tiptap/extension-image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Printer, Download, Sparkles, Wand2 } from 'lucide-react';
+import { X, Printer, Sparkles, Wand2, Bold, Italic, Underline as UnderlineIcon, AlignLeft, AlignCenter } from 'lucide-react';
 import { useWorkspaceStore } from '@/lib/store/workspace-store';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import PdfExportButton from './PdfExportButton';
 
 export default function TipTapModal() {
   const router = useRouter();
@@ -81,14 +83,8 @@ export default function TipTapModal() {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
-            <button
-              className="hidden sm:flex px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-sm font-bold transition-colors items-center gap-2"
-              onClick={() => {
-                alert("This would open AI prompt to edit the document");
-              }}
-            >
-              <Wand2 className="w-4 h-4" /> Edit with AI
-            </button>
+            <PdfExportButton documentContent={activeBlock.content} title={activeBlock.title} />
+
             <button
               onClick={() => {
                 setActiveBlock(null);
@@ -96,22 +92,27 @@ export default function TipTapModal() {
               }}
               className="bg-gray-900 hover:bg-black text-white px-4 sm:px-6 py-2 rounded-xl text-sm font-bold transition-all shadow-lg flex items-center gap-2"
             >
-              <Printer className="w-4 h-4" /> <span className="hidden sm:inline">Save & </span>Print
+              <Printer className="w-4 h-4" /> <span className="hidden sm:inline">Print Locally</span>
             </button>
           </div>
         </div>
 
-        {/* Editor Toolbar (Only show if editor is ready) */}
+        {/* Floating Contextual Toolbar (Bubble Menu) */}
         {editor && (
-           <div className="bg-white border-b border-gray-200 px-4 py-2 flex gap-2 overflow-x-auto custom-scrollbar shadow-sm z-10 shrink-0">
-              <button onClick={() => editor.chain().focus().toggleBold().run()} className={`p-2 rounded ${editor.isActive('bold') ? 'bg-gray-200' : 'hover:bg-gray-100'}`}><b>B</b></button>
-              <button onClick={() => editor.chain().focus().toggleItalic().run()} className={`p-2 rounded ${editor.isActive('italic') ? 'bg-gray-200' : 'hover:bg-gray-100'}`}><i>I</i></button>
-              <button onClick={() => editor.chain().focus().toggleUnderline().run()} className={`p-2 rounded ${editor.isActive('underline') ? 'bg-gray-200' : 'hover:bg-gray-100'}`}><u>U</u></button>
-              <div className="w-px h-6 bg-gray-300 mx-2 self-center" />
-              <button onClick={() => editor.chain().focus().setTextAlign('left').run()} className={`p-2 rounded ${editor.isActive({ textAlign: 'left' }) ? 'bg-gray-200' : 'hover:bg-gray-100'}`}>Left</button>
-              <button onClick={() => editor.chain().focus().setTextAlign('center').run()} className={`p-2 rounded ${editor.isActive({ textAlign: 'center' }) ? 'bg-gray-200' : 'hover:bg-gray-100'}`}>Center</button>
-              <button onClick={() => editor.chain().focus().setTextAlign('right').run()} className={`p-2 rounded ${editor.isActive({ textAlign: 'right' }) ? 'bg-gray-200' : 'hover:bg-gray-100'}`}>Right</button>
-           </div>
+          <BubbleMenu editor={editor} className="bg-white border border-gray-200 shadow-xl rounded-xl p-1.5 flex gap-1 items-center">
+            <button
+               onClick={() => alert("This opens the micro AI chat to edit this specific selection.")}
+               className="p-2 rounded hover:bg-emerald-50 text-emerald-600 font-bold flex items-center gap-1 text-sm border-r border-gray-100 pr-3 mr-1"
+            >
+              <Wand2 className="w-4 h-4" /> Chat to Edit
+            </button>
+            <button onClick={() => editor.chain().focus().toggleBold().run()} className={`p-2 rounded ${editor.isActive('bold') ? 'bg-gray-200 text-gray-900' : 'hover:bg-gray-100 text-gray-600'}`}><Bold className="w-4 h-4" /></button>
+            <button onClick={() => editor.chain().focus().toggleItalic().run()} className={`p-2 rounded ${editor.isActive('italic') ? 'bg-gray-200 text-gray-900' : 'hover:bg-gray-100 text-gray-600'}`}><Italic className="w-4 h-4" /></button>
+            <button onClick={() => editor.chain().focus().toggleUnderline().run()} className={`p-2 rounded ${editor.isActive('underline') ? 'bg-gray-200 text-gray-900' : 'hover:bg-gray-100 text-gray-600'}`}><UnderlineIcon className="w-4 h-4" /></button>
+            <div className="w-px h-5 bg-gray-300 mx-1" />
+            <button onClick={() => editor.chain().focus().setTextAlign('left').run()} className={`p-2 rounded ${editor.isActive({ textAlign: 'left' }) ? 'bg-gray-200 text-gray-900' : 'hover:bg-gray-100 text-gray-600'}`}><AlignLeft className="w-4 h-4" /></button>
+            <button onClick={() => editor.chain().focus().setTextAlign('center').run()} className={`p-2 rounded ${editor.isActive({ textAlign: 'center' }) ? 'bg-gray-200 text-gray-900' : 'hover:bg-gray-100 text-gray-600'}`}><AlignCenter className="w-4 h-4" /></button>
+          </BubbleMenu>
         )}
 
         {/* Scrollable Canvas Area */}
