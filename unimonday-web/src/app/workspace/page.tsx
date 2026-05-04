@@ -1,398 +1,243 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Settings, Bot, FileText, Send, Download, Loader2, Sparkles, AlertCircle, UploadCloud, FileType, Columns, Type, CheckCircle, Printer, X } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useAppStore } from "@/lib/store/app-store";
+import { Send, FileText, Loader2, Sparkles, AlertCircle, UploadCloud, FileType, CheckCircle, Bot } from "lucide-react";
+import { useWorkspaceStore } from "@/lib/store/workspace-store";
+import TipTapModal from "@/components/workspace/TipTapModal";
 
 export default function WorkspacePage() {
-  const { currentUser } = useAppStore();
-  const router = useRouter();
-  const [activeTab, setActiveTab] = useState<"upload" | "write">("write");
-  const [instructions, setInstructions] = useState("");
-  const [rawText, setRawText] = useState("");
+  const { messages, isProcessing, addMessage, processAIResponse, setActiveBlock } = useWorkspaceStore();
+  const [prompt, setPrompt] = useState("");
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-  const [referenceFile, setReferenceFile] = useState<File | null>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedContent, setGeneratedContent] = useState<string | null>(null);
-  const [isEditing, setIsEditing] = useState(false); // To toggle Rich Text Editor mode
-  const [showCompletionPopup, setShowCompletionPopup] = useState(false);
-  const [fileName, setFileName] = useState("Untitled Document");
+  // Auto-scroll to bottom of chat
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
-  const handleGenerate = (e: React.FormEvent) => {
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, isProcessing]);
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (activeTab === "write" && !rawText.trim()) return;
-    if (activeTab === "upload" && !uploadedFile) return;
+    if (!prompt.trim() && !uploadedFile) return;
 
-    setIsGenerating(true);
-    setGeneratedContent(null);
-    setIsEditing(false);
+    const userMessage = prompt.trim() || `Uploaded: ${uploadedFile?.name}`;
+    addMessage({ sender: 'user', text: userMessage });
 
-    // Simulate AI parsing, formatting, grammar fixing, table drawing
+    setPrompt("");
+    setUploadedFile(null);
+
+    // Simulate sending to DeepSeek API
+    const mockJsonStructure = JSON.stringify({
+      type: "doc",
+      content: [
+        { type: "heading", attrs: { level: 2 }, content: [{ type: "text", text: "Extracted Data Table" }] },
+        { type: "paragraph", content: [{ type: "text", text: "As requested, here is the beautifully structured table." }] },
+        {
+          type: "table",
+          content: [
+             {
+               type: "tableRow",
+               content: [
+                 { type: "tableHeader", content: [{ type: "paragraph", content: [{ type: "text", text: "Item" }] }] },
+                 { type: "tableHeader", content: [{ type: "paragraph", content: [{ type: "text", text: "Amount" }] }] }
+               ]
+             },
+             {
+               type: "tableRow",
+               content: [
+                 { type: "tableCell", content: [{ type: "paragraph", content: [{ type: "text", text: "Stationary Supplies" }] }] },
+                 { type: "tableCell", content: [{ type: "paragraph", content: [{ type: "text", text: "$450" }] }] }
+               ]
+             }
+          ]
+        }
+      ]
+    });
+
+    // Simulate AI thinking delay before calling the store
     setTimeout(() => {
-      let finalContent = "";
-
-      if (instructions.toLowerCase().includes("table") || instructions.toLowerCase().includes("jedwali")) {
-        finalContent = `
-           <h2 class="text-2xl font-bold text-center mb-6 text-gray-900">Extracted Data Table</h2>
-           <p class="mb-4 text-gray-700">As per your instructions, the messy data has been extracted and structured into a professional table.</p>
-           <table class="w-full border-collapse border border-gray-400 text-sm">
-             <thead>
-               <tr class="bg-gray-100 font-bold">
-                 <th class="border border-gray-400 p-3 text-left">No.</th>
-                 <th class="border border-gray-400 p-3 text-left">Item / Description</th>
-                 <th class="border border-gray-400 p-3 text-center">Amount (TZS)</th>
-                 <th class="border border-gray-400 p-3 text-right">Status</th>
-               </tr>
-             </thead>
-             <tbody>
-               <tr>
-                 <td class="border border-gray-400 p-3">1</td>
-                 <td class="border border-gray-400 p-3">Stationary Supplies</td>
-                 <td class="border border-gray-400 p-3 text-center">15,000</td>
-                 <td class="border border-gray-400 p-3 text-right text-emerald-600 font-bold">Cleared</td>
-               </tr>
-               <tr>
-                 <td class="border border-gray-400 p-3">2</td>
-                 <td class="border border-gray-400 p-3">Research Field Work</td>
-                 <td class="border border-gray-400 p-3 text-center">50,000</td>
-                 <td class="border border-gray-400 p-3 text-right text-amber-600 font-bold">Pending</td>
-               </tr>
-                <tr>
-                 <td class="border border-gray-400 p-3">3</td>
-                 <td class="border border-gray-400 p-3">Printing & Binding</td>
-                 <td class="border border-gray-400 p-3 text-center">25,000</td>
-                 <td class="border border-gray-400 p-3 text-right text-emerald-600 font-bold">Cleared</td>
-               </tr>
-               <tr class="bg-gray-50 font-bold">
-                 <td class="border border-gray-400 p-3 text-right" colspan="2">Total</td>
-                 <td class="border border-gray-400 p-3 text-center">90,000</td>
-                 <td class="border border-gray-400 p-3"></td>
-               </tr>
-             </tbody>
-           </table>
-        `;
-      } else {
-        // Standard formatted document with grammar fix simulation
-        finalContent = `
-          <div class="text-right mb-12 text-sm text-gray-800">
-            <p class="font-bold">John Doe</p>
-            <p>Registration Number: 2023-04-12345</p>
-            <p>Department of Computer Science</p>
-            <p>Date: ${new Date().toLocaleDateString()}</p>
-          </div>
-
-          <div class="mb-10 text-sm text-gray-800">
-            <p>To,</p>
-            <p class="font-bold">The Head of Department,</p>
-            <p>Faculty of Science,</p>
-          </div>
-
-          <div class="mb-8 font-black underline text-center text-lg text-gray-900 tracking-wide">
-            <p>REF: SUBMISSION OF RESEARCH PROPOSAL</p>
-          </div>
-
-          <div class="space-y-6 text-justify text-base leading-loose text-gray-800">
-            <p>Dear Sir/Madam,</p>
-            <p>I am writing to formally submit my research proposal titled "AI-Powered Stationary Engines for African Universities" for your review and approval. The document has been prepared in accordance with the departmental guidelines.</p>
-            <p>My raw notes have been automatically corrected for grammatical errors and structural inconsistencies. The margins have been aligned perfectly for A4 printing.</p>
-            <p>I kindly request your feedback at your earliest convenience.</p>
-          </div>
-
-          <div class="mt-16 text-sm text-gray-800">
-            <p>Yours Sincerely,</p>
-            <p class="mt-12 border-t border-black w-48 pt-2">John Doe</p>
-          </div>
-        `;
-      }
-
-      setGeneratedContent(finalContent);
-      setIsGenerating(false);
-      setShowCompletionPopup(true);
-    }, 3000);
+       processAIResponse(mockJsonStructure, "Data Table Extraction");
+    }, 1500);
   };
 
   return (
-    <div className="min-h-screen bg-white pt-20 flex flex-col font-sans">
-      <div className="w-full px-0 sm:px-4 md:px-8 flex-grow flex flex-col xl:flex-row gap-8 lg:gap-12 pb-10">
+    <div className="flex flex-col h-[calc(100vh-64px)] bg-[#f0f2f5] relative overflow-hidden">
 
-        {/* Left Side - The Engine Input Controls */}
-        <div className="w-full xl:w-[500px] flex flex-col gap-6 shrink-0">
+      {/* Main Chat Thread Area */}
+      <div className="flex-grow overflow-y-auto p-4 sm:p-6 custom-scrollbar pb-32">
+        <div className="max-w-3xl mx-auto space-y-6">
 
-          <div className="bg-white overflow-hidden flex flex-col flex-grow pt-4">
+          <div className="text-center text-xs font-bold text-gray-400 my-4 uppercase tracking-wider">Today</div>
 
-            {/* Engine Header */}
-            <div className="p-6 border-b border-gray-100 bg-gray-900 text-white">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="bg-white/10 p-2 rounded-xl">
-                  <Settings className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <h2 className="text-lg font-bold tracking-tight">Formatting Engine</h2>
-                </div>
-              </div>
-              <p className="text-xs text-gray-400 font-medium leading-relaxed">
-                Provide your raw content and instructions. The AI will correct grammar, align margins, draw tables, and prep it for printing.
-              </p>
-            </div>
-
-            {/* Input Method Tabs */}
-            <div className="flex p-2 bg-gray-50 border-b border-gray-100">
-              <button
-                onClick={() => setActiveTab("write")}
-                className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold transition-all ${activeTab === "write" ? "bg-white text-gray-900 shadow-sm border border-gray-200" : "text-gray-500 hover:text-gray-900"}`}
+          <AnimatePresence initial={false}>
+            {messages.map((msg) => (
+              <motion.div
+                key={msg.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`flex w-full ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
-                <Type className="w-4 h-4" /> Type / Paste
-              </button>
-              <button
-                onClick={() => setActiveTab("upload")}
-                className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-bold transition-all ${activeTab === "upload" ? "bg-white text-gray-900 shadow-sm border border-gray-200" : "text-gray-500 hover:text-gray-900"}`}
-              >
-                <UploadCloud className="w-4 h-4" /> Upload File
-              </button>
-            </div>
-
-            <form onSubmit={handleGenerate} className="p-6 flex flex-col gap-6 flex-grow overflow-y-auto custom-scrollbar">
-
-              {/* Primary Content Input */}
-              {activeTab === "write" ? (
-                <div className="space-y-2">
-                  <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Raw Content</label>
-                  <textarea
-                    value={rawText}
-                    onChange={(e) => setRawText(e.target.value)}
-                    placeholder="Paste your messy notes, rough draft, or unformatted text here..."
-                    className="w-full h-48 p-4 bg-gray-50 border border-gray-200 rounded-2xl resize-none focus:outline-none focus:ring-2 focus:ring-gray-900 text-gray-800 placeholder-gray-400 text-sm leading-relaxed"
-                  />
-                </div>
-              ) : (
-                <div className="space-y-2">
-                  <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Raw Document</label>
-                  <div className="border-2 border-dashed border-gray-300 rounded-2xl p-8 flex flex-col items-center justify-center text-center hover:bg-gray-50 transition-colors cursor-pointer bg-gray-50/50">
-                    <FileType className="w-10 h-10 text-gray-400 mb-3" />
-                    <p className="text-sm font-bold text-gray-700 mb-1">Click to upload document</p>
-                    <p className="text-xs text-gray-500">Supports .docx, .txt, .pdf</p>
-                    <input type="file" className="hidden" onChange={(e) => setUploadedFile(e.target.files?.[0] || null)} />
-                    {uploadedFile && (
-                      <div className="mt-4 flex items-center gap-2 text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-200">
-                        <CheckCircle className="w-4 h-4" /> {uploadedFile.name}
-                      </div>
-                    )}
+                {msg.sender === 'ai' && (
+                  <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center mr-2 shrink-0 self-end mb-1">
+                    <Bot className="w-5 h-5 text-emerald-600" />
                   </div>
-                </div>
-              )}
-
-              {/* Advanced Instructions */}
-              <div className="space-y-2 pt-4 border-t border-gray-100">
-                <label className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center justify-between">
-                  Formatting Instructions
-                  <span className="bg-primary/10 text-primary px-2 py-0.5 rounded text-[10px]">AI Prompt</span>
-                </label>
-                <textarea
-                  value={instructions}
-                  onChange={(e) => setInstructions(e.target.value)}
-                  placeholder="e.g. 'Extract the numbers and draw a 4-column table', or 'Fix grammar and format this as a formal APA letter'."
-                  className="w-full h-24 p-4 bg-gray-50 border border-gray-200 rounded-2xl resize-none focus:outline-none focus:ring-2 focus:ring-gray-900 text-gray-800 placeholder-gray-400 text-sm leading-relaxed"
-                />
-              </div>
-
-              {/* Reference Upload (Optional) */}
-              <div className="space-y-2 pt-4 border-t border-gray-100">
-                <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Reference Style (Optional)</label>
-                <div className="border border-gray-200 rounded-xl p-4 flex items-center justify-between bg-white hover:bg-gray-50 transition-colors cursor-pointer">
-                   <div className="flex items-center gap-3">
-                     <Columns className="w-5 h-5 text-gray-400" />
-                     <div className="text-left">
-                       <p className="text-sm font-bold text-gray-700">Upload Example Format</p>
-                       <p className="text-xs text-gray-500">Make it look exactly like this file.</p>
-                     </div>
-                   </div>
-                   <input type="file" className="hidden" onChange={(e) => setReferenceFile(e.target.files?.[0] || null)} />
-                   {referenceFile && <CheckCircle className="w-5 h-5 text-emerald-500" />}
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                disabled={isGenerating || (activeTab === "write" ? !rawText.trim() : !uploadedFile)}
-                className="w-full bg-gray-900 hover:bg-black disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed text-white font-bold py-5 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-xl mt-4"
-              >
-                {isGenerating ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin" /> Engine Processing...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="w-5 h-5" /> Execute Formatting
-                  </>
                 )}
-              </button>
-            </form>
-          </div>
 
-        </div>
+                <div className={`flex flex-col max-w-[85%] sm:max-w-[75%] ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}>
 
-        {/* Completion Pop-up Modal */}
-        <AnimatePresence>
-          {showCompletionPopup && (
+                  {/* Chat Bubble */}
+                  <div
+                    className={`px-4 py-3 rounded-2xl shadow-sm ${
+                      msg.sender === 'user'
+                        ? 'bg-emerald-600 text-white rounded-br-sm'
+                        : 'bg-white text-gray-800 rounded-bl-sm border border-gray-100'
+                    }`}
+                  >
+                    <p className="whitespace-pre-wrap text-[15px] leading-relaxed">{msg.text}</p>
+                  </div>
+
+                  {/* AI Draft Card (Progressive Disclosure) */}
+                  {msg.draftBlockId && (
+                    <motion.div
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setActiveBlock(msg.draftBlockId!)}
+                      className="mt-2 bg-white border border-gray-200 p-4 rounded-xl shadow-md cursor-pointer w-full max-w-sm flex items-center gap-4 group"
+                    >
+                      <div className="w-12 h-12 bg-emerald-50 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-emerald-100 transition-colors">
+                        <FileText className="w-6 h-6 text-emerald-600" />
+                      </div>
+                      <div className="flex-grow min-w-0">
+                        <p className="font-bold text-gray-900 text-sm truncate">Review Document Draft</p>
+                        <p className="text-xs text-gray-500 font-medium truncate flex items-center gap-1 mt-1">
+                          <CheckCircle className="w-3 h-3 text-emerald-500" /> Ready for review
+                        </p>
+                      </div>
+                      <button className="text-xs font-bold bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 rounded-lg transition-colors shrink-0">
+                        Open
+                      </button>
+                    </motion.div>
+                  )}
+
+                  <span className="text-[10px] font-bold text-gray-400 mt-1 mx-1">
+                    {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </span>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+
+          {/* Typing Indicator */}
+          {isProcessing && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+              className="flex items-center gap-2 text-gray-500"
             >
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                className="bg-white rounded-3xl shadow-2xl p-8 w-full md:w-3/4 lg:w-1/2 relative mx-4"
-              >
-                <button
-                  onClick={() => setShowCompletionPopup(false)}
-                  className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 bg-gray-100 p-2 rounded-full transition-colors"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-
-                <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <CheckCircle className="w-10 h-10" />
-                </div>
-
-                <h3 className="text-2xl font-black text-center text-gray-900 mb-2">Formatting Complete!</h3>
-                <p className="text-center text-gray-500 font-medium mb-6">
-                  Your document looks perfect. Give it a name to save it to your files.
-                </p>
-
-                <div className="mb-6">
-                  <label className="block text-sm font-bold text-gray-700 mb-2">Document Name</label>
-                  <input
-                    type="text"
-                    value={fileName}
-                    onChange={(e) => setFileName(e.target.value)}
-                    placeholder="e.g. Official Leave Letter"
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary font-medium"
-                  />
-                </div>
-
-                <div className="flex flex-col gap-3">
-                  <button
-                    onClick={() => {
-                      if (!currentUser) {
-                        alert("Please log in or create an account to send print jobs. This protects our vendors from fraud.");
-                        router.push("/auth/signup?redirectTo=/workspace");
-                        return;
-                      }
-                      alert(`${fileName} saved to your files!`);
-                      router.push('/print-station');
-                    }}
-                    className="w-full bg-primary hover:bg-emerald-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-primary/30 transition-all text-lg"
-                  >
-                    <Printer className="w-5 h-5" /> Save & Send to Print Station
-                  </button>
-                  <button
-                    onClick={() => {
-                       alert(`${fileName} saved to your files!`);
-                       setShowCompletionPopup(false);
-                    }}
-                    className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-4 rounded-xl transition-all"
-                  >
-                    Save & Review Document
-                  </button>
-                </div>
-              </motion.div>
+              <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center mr-2 shrink-0">
+                <Loader2 className="w-5 h-5 text-emerald-600 animate-spin" />
+              </div>
+              <div className="bg-white px-4 py-3 rounded-2xl rounded-bl-sm border border-gray-100 shadow-sm flex items-center gap-1">
+                <span className="w-2 h-2 bg-gray-300 rounded-full animate-bounce"></span>
+                <span className="w-2 h-2 bg-gray-300 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></span>
+                <span className="w-2 h-2 bg-gray-300 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></span>
+              </div>
             </motion.div>
           )}
-        </AnimatePresence>
 
-        {/* Right Side - Interactive Output / Rich Text Editor */}
-        <div className="w-full flex-grow flex flex-col bg-gray-50/50 border border-gray-200 rounded-3xl overflow-hidden relative">
-
-          {/* Editor Toolbar */}
-          <div className="h-16 border-b border-gray-200 bg-white flex items-center justify-between px-6 shrink-0">
-             <div className="flex items-center gap-6">
-                <div className="flex items-center gap-2 text-sm font-bold text-gray-500">
-                  <FileText className="w-4 h-4" />
-                  {fileName}
-                </div>
-                {generatedContent && (
-                  <div className="hidden sm:flex items-center gap-1 bg-white border border-gray-200 rounded-lg p-1 shadow-sm">
-                    <button className="px-3 py-1.5 hover:bg-gray-100 rounded text-xs font-bold text-gray-700">B</button>
-                    <button className="px-3 py-1.5 hover:bg-gray-100 rounded text-xs font-bold italic text-gray-700">I</button>
-                    <button className="px-3 py-1.5 hover:bg-gray-100 rounded text-xs font-bold underline text-gray-700">U</button>
-                    <div className="w-px h-4 bg-gray-300 mx-1"></div>
-                    <button className="px-3 py-1.5 hover:bg-gray-100 rounded text-xs font-bold text-gray-700">Align</button>
-                  </div>
-                )}
-             </div>
-
-             <div className="flex items-center gap-3">
-                {generatedContent && (
-                  <>
-                    <button
-                      onClick={() => setIsEditing(!isEditing)}
-                      className={`px-4 py-2 rounded-xl text-sm font-bold transition-colors ${isEditing ? 'bg-amber-100 text-amber-700' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'}`}
-                    >
-                      {isEditing ? "Finish Editing" : "Manual Edit"}
-                    </button>
-                    <Link href="/print-station" className="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-xl text-sm font-bold transition-colors shadow-lg shadow-primary/20 flex items-center gap-2">
-                      <Printer className="w-4 h-4" /> Print PDF
-                    </Link>
-                  </>
-                )}
-             </div>
-          </div>
-
-          {/* The A4 Canvas Container */}
-          <div className="flex-grow bg-[#E5E7EB] p-0 sm:p-8 overflow-y-auto flex justify-center custom-scrollbar relative">
-
-             {isGenerating ? (
-                <div className="flex flex-col items-center justify-center mt-32 text-center">
-                  <div className="w-24 h-32 bg-white shadow-xl rounded-lg flex flex-col items-center justify-center mb-8 border border-gray-300 relative overflow-hidden">
-                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent animate-[scan_2s_ease-in-out_infinite]"></div>
-                     <Settings className="w-8 h-8 text-gray-400 animate-spin-slow mb-2" />
-                  </div>
-                  <h3 className="text-xl font-black text-gray-900 mb-2 tracking-tight">Engine is structuring your document...</h3>
-                  <p className="text-gray-500 font-medium">Fixing grammar, aligning margins, and generating tables.</p>
-                </div>
-             ) : generatedContent ? (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="relative w-full max-w-[1200px]"
-                >
-                  <div className="hidden sm:flex absolute -left-12 top-4 flex-col gap-2">
-                    <div className="w-8 h-8 bg-gray-900 text-white rounded-full flex items-center justify-center text-xs font-bold shadow-lg">1</div>
-                  </div>
-
-                  {/* Expanded Document Canvas Canvas */}
-                  <div
-                    contentEditable={isEditing}
-                    suppressContentEditableWarning={true}
-                    className={`bg-white w-full min-h-[1131px] shadow-2xl p-8 sm:p-16 md:p-24 border border-gray-300 font-serif text-gray-900 ${isEditing ? 'ring-4 ring-amber-400/50 outline-none' : ''}`}
-                  >
-                     <div
-                       className="prose prose-sm sm:prose-base max-w-none w-full prose-p:leading-relaxed prose-headings:font-sans"
-                       dangerouslySetInnerHTML={{ __html: generatedContent }}
-                     />
-                  </div>
-                </motion.div>
-             ) : (
-                <div className="flex flex-col items-center justify-center mt-32 text-center opacity-50">
-                  <div className="w-24 h-32 bg-white/50 shadow-sm rounded-lg flex items-center justify-center mb-6 border-2 border-dashed border-gray-400">
-                     <FileText className="w-8 h-8 text-gray-400" />
-                  </div>
-                  <p className="font-bold text-xl text-gray-500 tracking-tight">Print Preview</p>
-                  <p className="text-sm font-medium text-gray-500 mt-2">Your perfectly formatted A4 document will appear here.</p>
-                </div>
-             )}
-          </div>
-
+          <div ref={messagesEndRef} />
         </div>
-
       </div>
+
+      {/* Input Area (Magic Drawer) */}
+      <div className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-3 sm:px-6 z-10 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
+        <form onSubmit={handleSubmit} className="max-w-3xl mx-auto">
+
+          {/* File Upload Preview */}
+          <AnimatePresence>
+            {uploadedFile && (
+              <motion.div
+                initial={{ opacity: 0, y: 10, height: 0 }}
+                animate={{ opacity: 1, y: 0, height: 'auto' }}
+                exit={{ opacity: 0, y: 10, height: 0 }}
+                className="mb-3 flex items-center gap-3 bg-gray-50 p-2 rounded-xl border border-gray-200"
+              >
+                <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm border border-gray-100">
+                  <FileType className="w-5 h-5 text-gray-500" />
+                </div>
+                <div className="flex-grow min-w-0">
+                  <p className="text-sm font-bold text-gray-700 truncate">{uploadedFile.name}</p>
+                  <p className="text-xs text-gray-400 font-medium">Ready to process</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setUploadedFile(null)}
+                  className="p-2 hover:bg-gray-200 rounded-lg text-gray-500 transition-colors"
+                >
+                  <AlertCircle className="w-4 h-4" />
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <div className="flex items-end gap-2 bg-gray-100 rounded-3xl p-1.5 focus-within:ring-2 focus-within:ring-emerald-500/20 transition-all border border-transparent focus-within:border-emerald-500/30">
+            {/* File Upload Button */}
+            <div className="relative shrink-0">
+              <input
+                type="file"
+                id="file-upload"
+                className="hidden"
+                onChange={(e) => setUploadedFile(e.target.files?.[0] || null)}
+              />
+              <label
+                htmlFor="file-upload"
+                className="w-10 h-10 flex items-center justify-center rounded-full bg-white hover:bg-gray-50 text-gray-500 cursor-pointer transition-colors shadow-sm"
+              >
+                <UploadCloud className="w-5 h-5" />
+              </label>
+            </div>
+
+            {/* Text Input */}
+            <textarea
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              placeholder="E.g., Turn this messy text into a neat table..."
+              className="flex-grow bg-transparent border-none focus:ring-0 resize-none py-3 px-2 text-[15px] font-medium text-gray-800 placeholder:text-gray-400 max-h-32 min-h-[44px] custom-scrollbar"
+              rows={1}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSubmit(e);
+                }
+              }}
+            />
+
+            {/* Send Button */}
+            <button
+              type="submit"
+              disabled={isProcessing || (!prompt.trim() && !uploadedFile)}
+              className="w-10 h-10 shrink-0 flex items-center justify-center rounded-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-300 disabled:text-gray-500 text-white transition-colors shadow-md disabled:shadow-none"
+            >
+              <Send className="w-4 h-4 ml-0.5" />
+            </button>
+          </div>
+
+          <div className="text-center mt-2">
+             <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center justify-center gap-1">
+               <Sparkles className="w-3 h-3" /> Powered by DeepSeek V4 Formatting Engine
+             </span>
+          </div>
+        </form>
+      </div>
+
+      {/* The Full-Screen A4 Canvas Modal */}
+      <TipTapModal />
+
     </div>
   );
 }
