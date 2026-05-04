@@ -2,8 +2,10 @@
 
 import { FolderOpen, FileText, Download, Printer, Trash2, Search, Filter } from "lucide-react";
 import Link from "next/link";
+import { useAppStore } from "@/lib/store/app-store";
 
 export default function MyFilesPage() {
+  const { savedFiles } = useAppStore();
   const dummyFiles = [
     { id: 1, name: "Research_Proposal_Final.pdf", type: "PDF", date: "Oct 24, 2023", size: "2.4 MB" },
     { id: 2, name: "Leave_of_Absence_Letter.pdf", type: "PDF", date: "Oct 20, 2023", size: "1.1 MB" },
@@ -57,7 +59,7 @@ export default function MyFilesPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {dummyFiles.map((file) => (
+                {((savedFiles && savedFiles.length > 0) ? savedFiles : dummyFiles).map((file) => (
                   <tr key={file.id} className="hover:bg-gray-50/50 transition-colors group cursor-pointer">
                     <td className="p-4 pl-6">
                       <div className="flex items-center gap-3">

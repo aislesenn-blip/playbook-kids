@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Settings, Bot, FileText, Send, Download, Loader2, Sparkles, AlertCircle, UploadCloud, FileType, Columns, Type, CheckCircle, Printer, X } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAppStore } from "@/lib/store/app-store";
 
 export default function WorkspacePage() {
   const router = useRouter();
@@ -18,6 +19,9 @@ export default function WorkspacePage() {
   const [generatedContent, setGeneratedContent] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false); // To toggle Rich Text Editor mode
   const [showCompletionPopup, setShowCompletionPopup] = useState(false);
+  const [showSaveModal, setShowSaveModal] = useState(false);
+  const [fileName, setFileName] = useState('');
+  const { addSavedFile } = useAppStore();
 
   const handleGenerate = (e: React.FormEvent) => {
     e.preventDefault();
@@ -232,6 +236,65 @@ export default function WorkspacePage() {
 
         </div>
 
+
+        {/* Save Naming Modal */}
+        <AnimatePresence>
+          {showSaveModal && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                className="bg-white rounded-3xl shadow-2xl p-8 w-full md:w-3/4 lg:w-1/3 relative mx-4"
+              >
+                <button
+                  onClick={() => setShowSaveModal(false)}
+                  className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 bg-gray-100 p-2 rounded-full transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+
+                <h3 className="text-2xl font-black text-center text-gray-900 mb-4">Name your document</h3>
+
+                <input
+                  type="text"
+                  autoFocus
+                  placeholder="e.g. Biology Lab Report"
+                  value={fileName}
+                  onChange={(e) => setFileName(e.target.value)}
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl mb-6 focus:outline-none focus:ring-2 focus:ring-primary font-medium"
+                />
+
+                <div className="flex flex-col gap-3">
+                  <button
+                    onClick={() => {
+                        if(fileName.trim()){
+                            addSavedFile({
+                                id: crypto.randomUUID(),
+                                name: fileName.trim() + ".pdf",
+                                type: "PDF",
+                                date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+                                size: "1.2 MB"
+                            });
+                            setShowSaveModal(false);
+                            router.push('/my-files');
+                        }
+                    }}
+                    className="w-full bg-gray-900 hover:bg-black text-white font-bold py-4 rounded-xl flex items-center justify-center transition-all"
+                  >
+                    Save & Go to Files
+                  </button>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* Completion Pop-up Modal */}
         <AnimatePresence>
           {showCompletionPopup && (
@@ -269,6 +332,12 @@ export default function WorkspacePage() {
                     className="w-full bg-primary hover:bg-emerald-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-primary/30 transition-all text-lg"
                   >
                     <Printer className="w-5 h-5" /> Send to Print Station
+                  </button>
+                  <button
+                    onClick={() => { setShowCompletionPopup(false); setShowSaveModal(true); }}
+                    className="w-full bg-gray-900 hover:bg-black text-white font-bold py-4 rounded-xl transition-all"
+                  >
+                    Save to Files
                   </button>
                   <button
                     onClick={() => setShowCompletionPopup(false)}
@@ -312,6 +381,9 @@ export default function WorkspacePage() {
                     >
                       {isEditing ? "Finish Editing" : "Manual Edit"}
                     </button>
+                    <button onClick={() => setShowSaveModal(true)} className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-5 py-2 rounded-xl text-sm font-bold transition-colors">
+                      Save to Files
+                    </button>
                     <Link href="/print-station" className="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-xl text-sm font-bold transition-colors shadow-lg shadow-primary/20 flex items-center gap-2">
                       <Printer className="w-4 h-4" /> Print PDF
                     </Link>
@@ -321,7 +393,7 @@ export default function WorkspacePage() {
           </div>
 
           {/* The A4 Canvas Container */}
-          <div className="flex-grow bg-[#E5E7EB] p-8 overflow-y-auto flex justify-center custom-scrollbar relative">
+          <div className="flex-grow bg-[#E5E7EB] p-2 sm:p-8 overflow-y-auto custom-scrollbar relative">
 
              {isGenerating ? (
                 <div className="flex flex-col items-center justify-center mt-32 text-center">

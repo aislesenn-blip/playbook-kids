@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { User, Menu, X, Search, FileText, PenTool, LayoutTemplate, FolderOpen, Printer, PlusCircle } from "lucide-react";
+import { User, Menu, X, Search, FileText, PenTool, LayoutTemplate, FolderOpen, Printer, PlusCircle, Bell, CheckCircle } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -12,14 +12,14 @@ export function TopNav() {
   const router = useRouter();
   const { currentUser } = useAppStore();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isNotifOpen, setIsNotifOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
   const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && searchQuery.trim()) {
-      setIsSearchOpen(false);
+      setIsNotifOpen(false);
       router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
       setSearchQuery("");
     }
@@ -61,8 +61,9 @@ export function TopNav() {
 
         {/* Right Actions */}
         <div className="flex items-center gap-3">
-          <button onClick={() => setIsSearchOpen(true)} className="flex items-center justify-center p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
-            <Search className="w-5 h-5" />
+          <button onClick={() => setIsNotifOpen(true)} className="flex items-center justify-center p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors relative">
+            <Bell className="w-5 h-5" />
+            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
           </button>
 
           {currentUser ? (
@@ -125,36 +126,47 @@ export function TopNav() {
         )}
       </AnimatePresence>
 
-      {/* Search Modal */}
+      {/* Notification Modal */}
       <AnimatePresence>
-        {isSearchOpen && (
+        {isNotifOpen && (
            <motion.div
              initial={{ opacity: 0 }}
              animate={{ opacity: 1 }}
              exit={{ opacity: 0 }}
-             className="fixed inset-0 bg-black/50 z-[60] flex flex-col pt-20 px-4"
-             onClick={() => setIsSearchOpen(false)}
+             className="fixed inset-0 bg-black/20 z-[60] flex flex-col pt-16 px-4 items-end"
+             onClick={() => setIsNotifOpen(false)}
            >
              <motion.div
-               initial={{ y: -20, opacity: 0 }}
-               animate={{ y: 0, opacity: 1 }}
-               exit={{ y: -20, opacity: 0 }}
-               className="bg-white w-full max-w-2xl mx-auto rounded-2xl p-4 shadow-2xl flex items-center gap-3"
+               initial={{ y: -10, opacity: 0, scale: 0.95 }}
+               animate={{ y: 0, opacity: 1, scale: 1 }}
+               exit={{ y: -10, opacity: 0, scale: 0.95 }}
+               className="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden border border-gray-100"
                onClick={(e) => e.stopPropagation()}
              >
-               <Search className="w-6 h-6 text-gray-400" />
-               <input
-                 type="text"
-                 value={searchQuery}
-                 onChange={(e) => setSearchQuery(e.target.value)}
-                 onKeyDown={handleSearch}
-                 placeholder="Search templates, files, or print shops... (Press Enter)"
-                 className="flex-1 bg-transparent border-none outline-none text-lg font-medium"
-                 autoFocus
-               />
-               <button onClick={() => setIsSearchOpen(false)} className="p-2 text-gray-400 hover:bg-gray-100 rounded-full">
-                 <X className="w-5 h-5" />
-               </button>
+               <div className="p-4 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
+                 <h3 className="font-black text-gray-900">Notifications</h3>
+                 <button onClick={() => setIsNotifOpen(false)} className="p-1 text-gray-400 hover:bg-gray-200 rounded-full transition-colors">
+                   <X className="w-5 h-5" />
+                 </button>
+               </div>
+
+               <div className="p-2 max-h-[60vh] overflow-y-auto">
+                 {/* Dummy Notification */}
+                 <div className="p-3 hover:bg-gray-50 rounded-xl transition-colors cursor-pointer flex gap-3 items-start">
+                   <div className="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center shrink-0">
+                     <CheckCircle className="w-5 h-5" />
+                   </div>
+                   <div>
+                     <p className="text-sm font-bold text-gray-900 mb-0.5">Your Document is Ready</p>
+                     <p className="text-xs text-gray-500 line-clamp-2">The stationary shop has completed your print job. It is ready for pickup.</p>
+                     <p className="text-[10px] font-bold text-gray-400 mt-1">2 mins ago</p>
+                   </div>
+                 </div>
+               </div>
+
+               <div className="p-3 border-t border-gray-100 text-center">
+                 <button className="text-sm font-bold text-primary hover:text-primary/80 transition-colors">Mark all as read</button>
+               </div>
              </motion.div>
            </motion.div>
         )}

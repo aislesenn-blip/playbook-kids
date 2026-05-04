@@ -1,10 +1,15 @@
 "use client";
 
 import { Printer, MapPin, Search, Send, FileText, CheckCircle, UploadCloud, Star, DollarSign } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useAppStore } from "@/lib/store/app-store";
+import { toast } from "sonner";
 import { motion } from "framer-motion";
 
 export default function PrintStationPage() {
+  const router = useRouter();
+  const { currentUser } = useAppStore();
   const [selectedStationary, setSelectedStationary] = useState<number | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
@@ -17,6 +22,11 @@ export default function PrintStationPage() {
   ];
 
   const handleSubmit = () => {
+    if (!currentUser) {
+      toast.error("Please create an account to send a job, to prevent fraud.");
+      router.push("/auth/login?redirectTo=/print-station");
+      return;
+    }
     if (selectedStationary) {
       setIsSubmitted(true);
     }

@@ -40,7 +40,7 @@ export default function Home() {
       {/* Global Trust Prompt */}
       <div className="w-full bg-primary text-white py-2 px-4 text-center font-bold text-sm tracking-wide flex items-center justify-center gap-2 z-20 relative">
         <ShieldCheck className="w-4 h-4 shrink-0" />
-        The Ultimate Student Cloud Stationary. Upload. Format. Print.
+        Skip Microsoft Word. Edit documents instantly with your own instructions, spacing. Draw tables. Margins.
       </div>
 
       {/* Amazon-style Hero Section */}
@@ -83,12 +83,12 @@ export default function Home() {
             {/* Intro Card / CTA */}
             <div className="bg-white p-4 md:p-5 rounded flex flex-col h-[350px] md:h-[420px] z-20 relative">
               <h2 className="text-xl md:text-2xl font-bold mb-3 text-gray-900 tracking-tight leading-tight">
-                Your work.<br/>Perfectly formatted.
+                Tired of Microsoft Word?<br/>Skip it.
               </h2>
               <div className="flex-grow flex flex-col justify-center items-center text-center bg-emerald-50 rounded p-4 mb-3">
                 <Settings className="w-10 h-10 text-emerald-600 mb-3" />
                 <p className="text-sm text-gray-700 font-medium">
-                  AI engine fixes grammar, aligns margins, & outputs print-ready PDFs.
+                  Draw tables, align margins, and edit instantly by just chatting. No hard formatting.
                 </p>
               </div>
               <Link href="/workspace" className="mt-auto text-[#007185] hover:text-[#C7511F] hover:underline text-sm md:text-base flex items-center gap-1">
@@ -113,7 +113,7 @@ export default function Home() {
                 <h2 className="text-xl md:text-2xl font-bold mb-3 text-gray-900">Sign in for your best experience</h2>
                 <div className="flex-grow flex flex-col justify-center items-center w-full">
                    {!currentUser ? (
-                     <Link href="/login" className="w-full bg-[#FFD814] hover:bg-[#F7CA00] text-black text-center py-2 rounded-full font-medium shadow-sm transition-colors text-sm">
+                     <Link href="/auth/login" className="w-full bg-[#FFD814] hover:bg-[#F7CA00] text-black text-center py-2 rounded-full font-medium shadow-sm transition-colors text-sm">
                        Sign in securely
                      </Link>
                    ) : (
@@ -127,7 +127,7 @@ export default function Home() {
                 </div>
                 {!currentUser && (
                   <div className="mt-auto text-sm text-[#007185] text-center w-full">
-                    <Link href="/signup" className="hover:text-[#C7511F] hover:underline">Create an account</Link>
+                    <Link href="/auth/signup" className="hover:text-[#C7511F] hover:underline">Create an account</Link>
                   </div>
                 )}
             </div>

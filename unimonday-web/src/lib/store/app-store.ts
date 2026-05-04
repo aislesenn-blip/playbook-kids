@@ -4,6 +4,8 @@ import { persist } from 'zustand/middleware'
 import { CartItem, Product, User, Order } from '@/types'
 
 interface AppState {
+  savedFiles: { id: string, name: string, type: string, date: string, size: string }[];
+  addSavedFile: (file: { id: string, name: string, type: string, date: string, size: string }) => void;
   currentUser: User | null;
   currentRegion: string | null;
   currentCampusName: string | null;
@@ -48,6 +50,7 @@ export const useAppStore = create<AppState>()(
       currentRegion: null,
       currentCampusName: null,
       isCartOpen: false,
+      savedFiles: [],
       cart: [],
       orders: [],
       vendorProducts: [],
@@ -103,6 +106,7 @@ export const useAppStore = create<AppState>()(
         pendingMessages: state.pendingMessages.filter(msg => msg.vendorId !== vendorId)
       })),
 
+      addSavedFile: (file) => set((state) => ({ savedFiles: [file, ...state.savedFiles] })),
       addVendorProduct: (product) => set((state) => ({ vendorProducts: [product, ...state.vendorProducts] })),
       addOrder: (order) => set((state) => ({
         orders: [order, ...state.orders]
@@ -111,7 +115,7 @@ export const useAppStore = create<AppState>()(
         orders: state.orders.map(o => o.id === orderId ? { ...o, status } : o)
       })),
 
-      resetApp: () => set({ currentUser: null, currentRegion: null, currentCampusName: null, isCartOpen: false, cart: [], pendingMessages: [], orders: [], vendorProducts: [] }),
+      resetApp: () => set({ savedFiles: [], currentUser: null, currentRegion: null, currentCampusName: null, isCartOpen: false, cart: [], pendingMessages: [], orders: [], vendorProducts: [] }),
 
       initAuth: () => {
         supabase.auth.onAuthStateChange((event, session) => {
