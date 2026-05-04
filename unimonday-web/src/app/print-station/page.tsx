@@ -1,6 +1,7 @@
 "use client";
 
-import { Printer, MapPin, Search, Send, FileText, CheckCircle, UploadCloud, Star, DollarSign } from "lucide-react";
+import { Printer, MapPin, Search, Send, FileText, CheckCircle, UploadCloud, Star, DollarSign, Map as MapIcon } from "lucide-react";
+import { MapModal } from "./MapModal";
 import { useState } from "react";
 import { useAppStore } from "@/lib/store/app-store";
 import { useRouter } from "next/navigation";
@@ -14,12 +15,14 @@ export default function PrintStationPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [activeFilter, setActiveFilter] = useState("Nearest");
+  const [mapModalOpen, setMapModalOpen] = useState(false);
+  const [mapStationary, setMapStationary] = useState<{name: string, lat: number, lng: number} | null>(null);
 
   const rawStationaries = [
-    { id: 1, name: "Mlimani Campus Main Print", location: "Near Yombo 4, UDSM", distance: "0.2 km", status: "Online", rating: 4.8, reviews: 124, pricePerPage: "TZS 100", services: ["A4 B&W", "Color", "Binding"] },
-    { id: 2, name: "Smart Copy & Tech", location: "CoICT Kijitonyama", distance: "1.5 km", status: "Online", rating: 4.9, reviews: 89, pricePerPage: "TZS 150", services: ["A4 B&W", "Color", "Lamination"] },
-    { id: 3, name: "Student Center Hub", location: "UDSM Student Center", distance: "0.5 km", status: "Busy", rating: 4.5, reviews: 342, pricePerPage: "TZS 100", services: ["A4 B&W", "Binding"] },
-    { id: 4, name: "QuickPrint Mabibo", location: "Mabibo Hostel Block A", distance: "4.2 km", status: "Online", rating: 4.7, reviews: 56, pricePerPage: "TZS 100", services: ["A4 B&W", "Color", "Scanning"] },
+    { id: 1, lat: -6.7788, lng: 39.2046, name: "Mlimani Campus Main Print", location: "Near Yombo 4, UDSM", distance: "0.2 km", status: "Online", rating: 4.8, reviews: 124, pricePerPage: "TZS 100", services: ["A4 B&W", "Color", "Binding"], paymentNumber: "0754 000 111 (Juma)", paymentPolicy: "deposit_first" },
+    { id: 2, lat: -6.7722, lng: 39.2405, name: "Smart Copy & Tech", location: "CoICT Kijitonyama", distance: "1.5 km", status: "Online", rating: 4.9, reviews: 89, pricePerPage: "TZS 150", services: ["A4 B&W", "Color", "Lamination"], paymentNumber: "0712 333 444 (Smart Tech)", paymentPolicy: "pay_on_pickup" },
+    { id: 3, lat: -6.7801, lng: 39.2062, name: "Student Center Hub", location: "UDSM Student Center", distance: "0.5 km", status: "Busy", rating: 4.5, reviews: 342, pricePerPage: "TZS 100", services: ["A4 B&W", "Binding"], paymentNumber: "0655 999 888 (Center Hub)", paymentPolicy: "pay_first" },
+    { id: 4, lat: -6.8041, lng: 39.2155, name: "QuickPrint Mabibo", location: "Mabibo Hostel Block A", distance: "4.2 km", status: "Online", rating: 4.7, reviews: 56, pricePerPage: "TZS 100", services: ["A4 B&W", "Color", "Scanning"], paymentNumber: "0788 111 222 (QuickPrint)", paymentPolicy: "pay_on_pickup" },
   ];
 
   const sortedStationaries = [...rawStationaries].sort((a, b) => {
@@ -182,11 +185,31 @@ export default function PrintStationPage() {
                         <span className="flex items-center gap-1"><MapPin className="w-3 h-3" /> {shop.distance}</span>
                         <span className="flex items-center gap-1 text-amber-500 font-bold"><Star className="w-3 h-3 fill-amber-500" /> {shop.rating} ({shop.reviews})</span>
                       </div>
+
                       <div className="flex items-center gap-1 mt-2 flex-wrap">
                         {shop.services.map((srv, i) => (
                           <span key={i} className="text-[10px] bg-gray-100 text-gray-600 px-2 py-0.5 rounded-md font-bold">{srv}</span>
                         ))}
+                        <button
+                          onClick={(e) => { e.stopPropagation(); setMapStationary({name: shop.name, lat: shop.lat, lng: shop.lng}); setMapModalOpen(true); }}
+                          className="ml-auto flex items-center gap-1 text-[10px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-md font-bold hover:bg-emerald-100 transition-colors"
+                        >
+                          <MapIcon className="w-3 h-3" /> View Map
+                        </button>
                       </div>
+
+
+                      {selectedStationary === shop.id && (
+                        <div className="mt-3 p-3 bg-amber-50 rounded-xl border border-amber-100">
+                          <p className="text-[10px] font-bold text-amber-800 uppercase tracking-wider mb-1">Payment Policy</p>
+                          <div className="text-sm font-bold text-gray-900 mb-1">
+                            {shop.paymentPolicy === 'pay_first' ? 'Pay Before Printing' : shop.paymentPolicy === 'pay_on_pickup' ? 'Pay On Pickup (Print First)' : 'Pay Deposit First'}
+                          </div>
+                          <div className="text-xs text-gray-600 flex items-center gap-1">
+                            <DollarSign className="w-3 h-3"/> Payment No: <span className="font-bold">{shop.paymentNumber}</span>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -221,6 +244,16 @@ export default function PrintStationPage() {
         </div>
 
       </div>
+
+      {mapStationary && (
+        <MapModal
+          isOpen={mapModalOpen}
+          onClose={() => setMapModalOpen(false)}
+          stationaryName={mapStationary.name}
+          lat={mapStationary.lat}
+          lng={mapStationary.lng}
+        />
+      )}
     </div>
   );
 }

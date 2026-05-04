@@ -21,6 +21,8 @@ export interface Vendor {
   campusName: string;
   isVerified: boolean;
   paymentAndDeliveryInfo?: string;
+  paymentNumber?: string;
+  paymentPolicy?: string;
 }
 
 export interface Product {

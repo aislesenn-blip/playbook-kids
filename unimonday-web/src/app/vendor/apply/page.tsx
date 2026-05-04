@@ -26,6 +26,11 @@ export default function ApplyPage() {
           <p className="text-xl text-muted-foreground font-medium max-w-2xl mx-auto">
             Turn your stationary shop into a smart printing hub. Receive perfect PDF print jobs directly from students on campus.
           </p>
+          <div className="mt-6">
+            <button onClick={() => router.push('/auth/login?role=vendor')} className="text-primary font-bold hover:underline">
+              Already a Partner? Login to your Dashboard
+            </button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">

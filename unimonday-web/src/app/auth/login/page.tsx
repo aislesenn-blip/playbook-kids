@@ -11,7 +11,10 @@ import { supabase } from "@/lib/supabase/client";
 export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectTo = searchParams.get('redirectTo') || '/';
+  const redirectToParam = searchParams.get('redirectTo');
+  const roleParam = searchParams.get('role');
+  const redirectTo = redirectToParam || (roleParam === 'vendor' ? '/vendor/dashboard' : '/');
+  const isVendor = roleParam === 'vendor';
 
   const { setUser, setLocation } = useAppStore();
 
@@ -46,9 +49,6 @@ export default function LoginPage() {
        console.warn("Supabase failed, falling back to mock auth");
     } finally {
       // ALWAYS sync state for demo
-      // Mock logic respects the selected tab
-      const isVendor = false;
-
       setUser({
         id: isVendor ? "v1" : "u1",
         name: isVendor ? "Store Vendor" : "Student User",

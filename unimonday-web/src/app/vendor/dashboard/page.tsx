@@ -25,7 +25,9 @@ export default function VendorDashboardPage() {
     colorPrice: "500",
     bindingPrice: "2000",
     services: "A4 B&W, Color, Binding",
-    status: "Online"
+    status: "Online",
+    paymentNumber: "0754000000 (Juma Kapuya)",
+    paymentPolicy: "pay_first"
   });
 
   return (
@@ -244,6 +246,36 @@ export default function VendorDashboardPage() {
                       onChange={(e) => setShopSettings({...shopSettings, services: e.target.value})}
                       className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-900 disabled:opacity-70 focus:ring-2 focus:ring-primary focus:outline-none"
                     />
+                  </div>
+
+                  <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
+                    <h3 className="font-bold text-lg text-gray-900 mb-4 flex items-center gap-2">Payment Details & Rules</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Payment Number (Mobile Money)</label>
+                        <input
+                          type="text"
+                          disabled={!isEditingSettings}
+                          value={shopSettings.paymentNumber}
+                          onChange={(e) => setShopSettings({...shopSettings, paymentNumber: e.target.value})}
+                          placeholder="e.g. 0754 123 456 (John Doe)"
+                          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-900 disabled:opacity-70 focus:ring-2 focus:ring-primary focus:outline-none"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">Payment Policy</label>
+                        <select
+                          disabled={!isEditingSettings}
+                          value={shopSettings.paymentPolicy}
+                          onChange={(e) => setShopSettings({...shopSettings, paymentPolicy: e.target.value})}
+                          className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 font-bold text-gray-900 disabled:opacity-70 focus:ring-2 focus:ring-primary focus:outline-none appearance-none"
+                        >
+                          <option value="pay_first">Pay First (Before Printing)</option>
+                          <option value="pay_on_pickup">Pay on Pickup (Print First)</option>
+                          <option value="deposit_first">Pay Deposit First</option>
+                        </select>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="space-y-2">
