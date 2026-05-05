@@ -16,3 +16,19 @@
 <w> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Parsing of /app/unimonday-web/node_modules/next-intl/dist/esm/production/extractor/format/index.js for build dependencies failed at 'import(t)'.
 <w> Build dependencies behind this expression are ignored and might cause incorrect cache invalidation.
  GET / 200 in 167ms
+ ✓ Compiled in 7.5s (1634 modules)
+ ✓ Compiled in 1922ms (1585 modules)
+ ✓ Compiled in 1121ms (1587 modules)
+ ✓ Compiled in 1574ms (1587 modules)
+ ✓ Compiled in 905ms (1587 modules)
+ ✓ Compiled in 934ms (1587 modules)
+ ✓ Compiled in 602ms (1587 modules)
+ ⨯ ReferenceError: window is not defined
+    at <unknown> (.next/server/app/page.js:15:3250)
+    at Array.map (<anonymous>)
+    at x (.next/server/app/page.js:15:3170) {
+  digest: '859197018'
+}
+ GET / 500 in 673ms
+   Reload env: .env.local
+ ✓ Compiled in 10.3s (1605 modules)

@@ -4,14 +4,6 @@
 @plugin "tailwindcss-animate";
 
 @theme {
-  --color-unidays-green: #10B981;
-  --color-unidays-green-dark: #059669;
-  --color-unidays-green-light: #34D399;
-
-  --color-background-offwhite: #FAFAFA;
-  --color-text-dark: #171717;
-  --color-text-muted: #525252;
-
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
 
   --radius-lg: var(--radius);
@@ -45,12 +37,6 @@
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
-
-  --color-chart-1: hsl(var(--chart-1));
-  --color-chart-2: hsl(var(--chart-2));
-  --color-chart-3: hsl(var(--chart-3));
-  --color-chart-4: hsl(var(--chart-4));
-  --color-chart-5: hsl(var(--chart-5));
 }
 
 @layer base {
@@ -64,31 +50,38 @@
 }
 
 :root {
-  --background: 0 0% 100%; /* Pure white */
-  --foreground: 0 0% 9%; /* Near black */
-  --card: 0 0% 100%;
-  --card-foreground: 0 0% 9%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 9%;
-  --primary: 160 84% 39%; /* Emerald */
-  --primary-foreground: 0 0% 100%;
-  --secondary: 0 0% 96.1%;
-  --secondary-foreground: 0 0% 9%;
-  --muted: 0 0% 96.1%;
-  --muted-foreground: 0 0% 45.1%;
-  --accent: 0 0% 96.1%;
-  --accent-foreground: 0 0% 9%;
+  /* Warm Beige/Cream background, avoiding harsh white */
+  --background: 44 26% 96%; /* #FDFBF7 approx */
+  /* Very dark black text for high contrast */
+  --foreground: 0 0% 5%;
+
+  --card: 44 26% 96%;
+  --card-foreground: 0 0% 5%;
+
+  --popover: 44 26% 96%;
+  --popover-foreground: 0 0% 5%;
+
+  /* Primary color is now Black instead of Green */
+  --primary: 0 0% 10%;
+  --primary-foreground: 0 0% 98%;
+
+  --secondary: 44 20% 90%;
+  --secondary-foreground: 0 0% 5%;
+
+  --muted: 44 20% 90%;
+  --muted-foreground: 0 0% 30%;
+
+  --accent: 44 20% 90%;
+  --accent-foreground: 0 0% 5%;
+
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 0 0% 98%;
-  --border: 0 0% 89.8%;
-  --input: 0 0% 89.8%;
-  --ring: 160 84% 39%;
-  --radius: 1.5rem; /* Very rounded, Apple-style */
-  --chart-1: 12 76% 61%;
-  --chart-2: 173 58% 39%;
-  --chart-3: 197 37% 24%;
-  --chart-4: 43 74% 66%;
-  --chart-5: 27 87% 67%;
+
+  --border: 44 15% 85%;
+  --input: 44 15% 85%;
+  --ring: 0 0% 10%;
+
+  --radius: 1.5rem;
 }
 
 @layer base {
@@ -111,17 +104,23 @@
   animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
 }
 
-@keyframes draw {
-  0% { stroke-dashoffset: 100; }
-  100% { stroke-dashoffset: 0; }
-}
-
-.animate-draw {
-  stroke-dasharray: 100;
-  animation: draw 2s ease-out forwards;
-}
-
 /* Ensure no dark mode overrides */
 .dark {
   display: none !important;
+}
+
+/* Custom scrollbar for simulated code editors */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
 }
