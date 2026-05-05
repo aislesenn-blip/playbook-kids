@@ -1,33 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import { FileText, LayoutTemplate, FolderOpen, Printer, User, LayoutDashboard, MessageCircle } from "lucide-react";
+import { FileText, LayoutTemplate, FolderOpen, User } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useAppStore } from "@/lib/store/app-store";
 
 export function BottomNav() {
   const pathname = usePathname();
-
   const { currentUser } = useAppStore();
 
-  const isVendor = currentUser?.role === 'vendor';
-
-  const navItems = isVendor ? [
-    { href: "/vendor/dashboard", icon: LayoutDashboard, label: "Dashboard" },
-    { href: "/print-jobs", icon: Printer, label: "Print Jobs" },
-    { href: "/chat", icon: MessageCircle, label: "Inbox" },
-    { href: "/profile", icon: User, label: "Profile" },
-  ] : [
+  const navItems = [
     { href: "/", icon: FileText, label: "Home" },
     { href: "/workspace", icon: LayoutTemplate, label: "Workspace" },
     { href: "/my-files", icon: FolderOpen, label: "Files" },
-    { href: "/print-station", icon: Printer, label: "Print" },
+    { href: "/profile", icon: User, label: "Profile" },
   ];
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 h-20 bg-white/90 backdrop-blur-xl border-t border-border z-50 flex items-center justify-around px-2 pb-safe">
       {navItems.map((item) => {
-        const isActive = pathname === item.href;
+        const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
         return (
           <Link
             key={item.href}

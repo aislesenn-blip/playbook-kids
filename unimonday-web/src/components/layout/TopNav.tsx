@@ -38,7 +38,7 @@ export function TopNav() {
               uNi<span className="text-primary">MONDAY</span>
             </span>
             <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mt-0.5">
-              Cloud Stationary
+              AI Workspace
             </span>
           </div>
         </Link>
@@ -48,16 +48,10 @@ export function TopNav() {
           <Link href="/workspace" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/workspace' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
             <PlusCircle className="w-4 h-4" /> New Document
           </Link>
-          <Link href="/templates" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/templates' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-            <LayoutTemplate className="w-4 h-4" /> Templates
-          </Link>
           <Link href="/my-files" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/my-files' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
             <FolderOpen className="w-4 h-4" /> My Files
           </Link>
-          <Link href="/print-station" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/print-station' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-            <Printer className="w-4 h-4" /> Print Station
-          </Link>
-        </div>
+          </div>
 
         {/* Right Actions */}
         <div className="flex items-center gap-3">
@@ -96,21 +90,10 @@ export function TopNav() {
               <Link href="/workspace" onClick={toggleMenu} className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/workspace' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}>
                 <PlusCircle className="w-5 h-5" /> New Document
               </Link>
-              <Link href="/templates" onClick={toggleMenu} className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/templates' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}>
-                <LayoutTemplate className="w-5 h-5" /> Templates
-              </Link>
               <Link href="/my-files" onClick={toggleMenu} className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/my-files' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}>
                 <FolderOpen className="w-5 h-5" /> My Files
               </Link>
-              <Link href="/print-station" onClick={toggleMenu} className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/print-station' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}>
-                <Printer className="w-5 h-5" /> Print Station
-              </Link>
-
               <hr className="border-border my-2" />
-
-              <Link href="/vendor/apply" onClick={toggleMenu} className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname.includes('/vendor') ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}>
-                <Printer className="w-5 h-5" /> Register Stationary Shop
-              </Link>
 
               <hr className="border-border my-2" />
 
@@ -165,8 +148,8 @@ export function TopNav() {
                           <Printer className="w-5 h-5" />
                         </div>
                         <div>
-                          <p className="text-sm font-bold text-gray-900">Your print job is ready!</p>
-                          <p className="text-xs text-gray-500 mt-0.5">Please pick it up at Mlimani Campus Main Print.</p>
+                          <p className="text-sm font-bold text-gray-900">Your document is formatted!</p>
+                          <p className="text-xs text-gray-500 mt-0.5">Check your workspace to review the AI changes.</p>
                           <p className="text-[10px] text-gray-400 mt-1 font-medium">2 mins ago</p>
                         </div>
                      </div>
