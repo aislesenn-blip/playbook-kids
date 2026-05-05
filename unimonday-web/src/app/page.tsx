@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, CheckCircle, X, ArrowRight, Terminal, Globe, RefreshCcw, LayoutTemplate, Briefcase, Store, Code2, Sparkles, Database, Layers, PenTool, LayoutDashboard, Users, Mail, Building2, HomeIcon, FileText, Utensils, Search } from "lucide-react";
+import { Send, Code, ArrowUp, CheckCircle, X, ArrowRight, Terminal, Globe, RefreshCcw, LayoutTemplate, Briefcase, Store, Code2, Sparkles, Database, Layers, PenTool, LayoutDashboard, Users, Mail, Building2, HomeIcon, FileText, Utensils, Search } from "lucide-react";
 import Link from "next/link";
 
 const templates = [
@@ -451,7 +451,7 @@ export default function Home() {
           </motion.div>
         )}
 
-        {/* State: Generated Preview */}
+        {/* State: Generated Preview with Chat-to-Edit */}
         {appState === "generated" && (
           <motion.div
             key="generated"
@@ -460,7 +460,7 @@ export default function Home() {
             className="w-full h-screen flex flex-col z-10 bg-neutral-100"
           >
              {/* Header */}
-             <div className="h-16 border-b-2 border-black/10 bg-[#DDA359] px-6 flex items-center justify-between shadow-md">
+             <div className="h-16 border-b-2 border-black/10 bg-[#DDA359] px-6 flex items-center justify-between shadow-md z-20">
                 <div className="flex items-center gap-4">
                   <button onClick={reset} className="text-black hover:text-neutral-800 transition-colors flex items-center gap-2 text-sm font-bold">
                     <RefreshCcw className="w-5 h-5" /> Start Over
@@ -478,36 +478,119 @@ export default function Home() {
                 </button>
              </div>
 
-             {/* Canvas Wrapper */}
-             <div className="flex-1 p-6 sm:p-12 overflow-hidden flex items-center justify-center">
-                <div className="w-full max-w-5xl h-full bg-[#DDA359] rounded-2xl shadow-2xl border-2 border-black/10 overflow-hidden flex flex-col">
-                   {/* Browser Chrome */}
-                   <div className="h-12 border-b border-black/10 bg-white flex items-center px-4 gap-2">
-                      <div className="flex gap-2">
-                         <div className="w-3.5 h-3.5 rounded-full bg-red-500" />
-                         <div className="w-3.5 h-3.5 rounded-full bg-yellow-500" />
-                         <div className="w-3.5 h-3.5 rounded-full bg-green-500" />
-                      </div>
-                      <div className="ml-4 flex-1 max-w-md mx-auto bg-neutral-100 rounded-md border border-neutral-200 h-8 flex items-center justify-center text-xs text-black font-mono font-bold shadow-inner">
-                         localhost:3000
-                      </div>
-                   </div>
-                   {/* Fake Website Content */}
-                   <div className="flex-1 p-12 overflow-y-auto bg-white">
-                      <div className="max-w-3xl mx-auto space-y-12">
-                         <div className="space-y-4 text-center">
-                            <div className="w-24 h-24 bg-neutral-200 rounded-3xl mx-auto mb-8 animate-pulse shadow-inner" />
-                            <div className="h-12 bg-neutral-200 rounded-xl w-3/4 mx-auto animate-pulse" />
-                            <div className="h-4 bg-neutral-200 rounded w-1/2 mx-auto animate-pulse" />
+             {/* Workspace Split */}
+             <div className="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
+
+                {/* Canvas Area (Left/Top) */}
+                <div className="flex-1 p-4 sm:p-8 flex items-center justify-center overflow-hidden bg-neutral-100/50 relative z-0">
+                   <div className="w-full h-full max-w-5xl bg-white rounded-2xl shadow-2xl border-2 border-black/10 overflow-hidden flex flex-col">
+                      {/* Browser Chrome */}
+                      <div className="h-12 border-b border-black/10 bg-neutral-50 flex items-center px-4 gap-2 shrink-0">
+                         <div className="flex gap-2">
+                            <div className="w-3.5 h-3.5 rounded-full bg-red-400" />
+                            <div className="w-3.5 h-3.5 rounded-full bg-yellow-400" />
+                            <div className="w-3.5 h-3.5 rounded-full bg-green-400" />
                          </div>
-                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-12">
-                            <div className="h-56 bg-neutral-100 border border-neutral-200 rounded-2xl animate-pulse shadow-sm" />
-                            <div className="h-56 bg-neutral-100 border border-neutral-200 rounded-2xl animate-pulse shadow-sm" />
-                            <div className="h-56 bg-neutral-100 border border-neutral-200 rounded-2xl animate-pulse shadow-sm" />
+                         <div className="ml-4 flex-1 max-w-md mx-auto bg-white rounded-md border border-neutral-200 h-8 flex items-center justify-center text-xs text-black/50 font-mono font-bold shadow-sm">
+                            localhost:3000
+                         </div>
+                      </div>
+                      {/* Fake Website Content (Scrollable) */}
+                      <div className="flex-1 p-8 overflow-y-auto no-scrollbar relative">
+                         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white/50 pointer-events-none z-10" />
+                         <div className="max-w-3xl mx-auto space-y-12 pb-20">
+                            {/* Hero Section Mock */}
+                            <div className="space-y-6 text-center pt-8">
+                               <div className="w-20 h-20 bg-blue-100 text-blue-500 rounded-3xl mx-auto flex items-center justify-center shadow-inner">
+                                  <Code className="w-10 h-10" />
+                               </div>
+                               <h1 className="text-4xl font-extrabold text-black tracking-tight">{prompt || "Your App Name"}</h1>
+                               <p className="text-xl text-black/60 max-w-xl mx-auto">This is a live preview of your generated application. Use the chat panel to ask the AI to modify text, colors, layout, or add new sections.</p>
+                               <div className="flex gap-4 justify-center pt-4">
+                                  <div className="px-6 py-3 bg-black text-white rounded-xl font-bold shadow-lg">Get Started</div>
+                                  <div className="px-6 py-3 bg-neutral-200 text-black rounded-xl font-bold">Learn More</div>
+                               </div>
+                            </div>
+                            {/* Feature Grid Mock */}
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-12">
+                               <div className="p-6 bg-neutral-50 border border-neutral-100 rounded-2xl shadow-sm space-y-4 hover:shadow-md transition-shadow">
+                                  <div className="w-10 h-10 bg-green-100 rounded-full mb-2" />
+                                  <div className="h-4 bg-neutral-200 rounded w-3/4" />
+                                  <div className="h-3 bg-neutral-100 rounded w-full" />
+                                  <div className="h-3 bg-neutral-100 rounded w-5/6" />
+                               </div>
+                               <div className="p-6 bg-neutral-50 border border-neutral-100 rounded-2xl shadow-sm space-y-4 hover:shadow-md transition-shadow">
+                                  <div className="w-10 h-10 bg-purple-100 rounded-full mb-2" />
+                                  <div className="h-4 bg-neutral-200 rounded w-2/3" />
+                                  <div className="h-3 bg-neutral-100 rounded w-full" />
+                                  <div className="h-3 bg-neutral-100 rounded w-4/5" />
+                               </div>
+                               <div className="p-6 bg-neutral-50 border border-neutral-100 rounded-2xl shadow-sm space-y-4 hover:shadow-md transition-shadow">
+                                  <div className="w-10 h-10 bg-orange-100 rounded-full mb-2" />
+                                  <div className="h-4 bg-neutral-200 rounded w-3/4" />
+                                  <div className="h-3 bg-neutral-100 rounded w-full" />
+                                  <div className="h-3 bg-neutral-100 rounded w-full" />
+                               </div>
+                            </div>
                          </div>
                       </div>
                    </div>
                 </div>
+
+                {/* Chat to Edit Panel (Right/Bottom) */}
+                <div className="w-full lg:w-[400px] h-[50vh] lg:h-full bg-white border-t lg:border-t-0 lg:border-l border-neutral-200 flex flex-col z-10 shadow-2xl lg:shadow-none">
+                   <div className="p-4 border-b border-neutral-100 flex items-center justify-between shrink-0 bg-neutral-50/50">
+                      <div className="flex items-center gap-2">
+                         <Sparkles className="w-5 h-5 text-yellow-500" />
+                         <span className="font-bold text-black text-sm">AI Architect</span>
+                      </div>
+                      <span className="text-xs font-bold px-2 py-1 bg-green-100 text-green-700 rounded-full">Online</span>
+                   </div>
+
+                   <div className="flex-1 overflow-y-auto no-scrollbar p-4 space-y-4 bg-neutral-50/30">
+                      <div className="flex gap-3 max-w-[85%]">
+                         <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center shrink-0">
+                            <Sparkles className="w-4 h-4 text-white" />
+                         </div>
+                         <div className="bg-white border border-neutral-200 p-3 rounded-2xl rounded-tl-sm shadow-sm">
+                            <p className="text-sm text-black">I&apos;ve built the initial version of your app! How does it look?</p>
+                         </div>
+                      </div>
+                      <div className="flex gap-3 max-w-[85%]">
+                         <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center shrink-0">
+                            <Sparkles className="w-4 h-4 text-white" />
+                         </div>
+                         <div className="bg-white border border-neutral-200 p-3 rounded-2xl rounded-tl-sm shadow-sm space-y-2">
+                            <p className="text-sm text-black">You can ask me to change things like:</p>
+                            <ul className="text-xs text-black/70 list-disc pl-4 space-y-1">
+                               <li>&quot;Make the hero button rounded&quot;</li>
+                               <li>&quot;Change the primary color to dark blue&quot;</li>
+                               <li>&quot;Add a pricing section below features&quot;</li>
+                            </ul>
+                         </div>
+                      </div>
+                   </div>
+
+                   <div className="p-4 bg-white border-t border-neutral-100 shrink-0">
+                      <div className="relative">
+                         <input
+                            type="text"
+                            placeholder="Ask AI to edit the app..."
+                            className="w-full bg-neutral-100 text-black text-sm rounded-2xl py-3 pl-4 pr-12 outline-none focus:ring-2 focus:ring-black/5 transition-all placeholder:text-black/40 font-medium"
+                            onKeyDown={(e) => {
+                               if (e.key === 'Enter') {
+                                  e.currentTarget.value = '';
+                                  // In a real app, this would append a user message and trigger AI modification
+                               }
+                            }}
+                         />
+                         <button className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 bg-black text-white rounded-xl hover:bg-neutral-800 transition-colors">
+                            <ArrowUp className="w-4 h-4" />
+                         </button>
+                      </div>
+                   </div>
+                </div>
+
              </div>
           </motion.div>
         )}

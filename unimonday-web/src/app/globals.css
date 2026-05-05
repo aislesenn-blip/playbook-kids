@@ -137,3 +137,14 @@
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+
+/* Hide scrollbar universally to prevent any edge-case scrollbars */
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+    display: none;
+}
+* {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
