@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, CheckCircle, Terminal, Globe, RefreshCcw, LayoutTemplate, Briefcase, Store, Code2, Sparkles, Database, Layers } from "lucide-react";
+import { Send, CheckCircle, Terminal, Globe, RefreshCcw, LayoutTemplate, Briefcase, Store, Code2, Sparkles, Database, Layers, Camera, Pencil, Coffee, Music, Heart, Zap, FolderTree, Cpu, Activity, X, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 const placeholders = [
@@ -34,6 +34,8 @@ export default function BuilderPage() {
   const [phIndex, setPhIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [currentNavView, setCurrentNavView] = useState("home");
 
   useEffect(() => {
     if (appState !== "initial") return;
@@ -106,15 +108,17 @@ export default function BuilderPage() {
 
       {/* Top Navigation */}
       {appState === "initial" && (
-        <nav className="w-full flex items-center justify-between p-6 z-20">
-          <div className="flex items-center gap-2 text-black font-semibold text-xl tracking-tight">
-             <Sparkles className="w-6 h-6" />
-             <span>BuilderAI</span>
+        <nav className="w-full flex items-center justify-between p-6 z-50 relative">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-6 h-6 text-black" />
+            <span className="text-xl font-bold tracking-tight text-black">uNiMONDAY</span>
           </div>
-          <div className="flex items-center gap-6 text-sm font-medium">
-            <Link href="#" className="text-neutral-600 hover:text-black transition-colors">Showcase</Link>
-            <Link href="#" className="text-neutral-600 hover:text-black transition-colors">Docs</Link>
-            <button className="bg-black text-[#DDA359] px-4 py-2 rounded-full hover:bg-neutral-800 transition-colors">Sign In</button>
+          <div className="hidden md:flex items-center gap-8">
+            <button onClick={() => setCurrentNavView('showcase')} className="text-sm font-medium text-black hover:text-black/70 transition-colors">Showcase</button>
+            <button onClick={() => setCurrentNavView('docs')} className="text-sm font-medium text-black hover:text-black/70 transition-colors">Docs</button>
+            <button onClick={() => setShowAuthModal(true)} className="text-sm font-medium bg-black text-white px-5 py-2.5 rounded-full hover:bg-black/80 transition-colors shadow-lg">
+              Sign In
+            </button>
           </div>
         </nav>
       )}
@@ -138,8 +142,55 @@ export default function BuilderPage() {
 
       <AnimatePresence mode="wait">
 
+        {/* State: Auth Modal */}
+        {showAuthModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl relative">
+              <button onClick={() => setShowAuthModal(false)} className="absolute top-4 right-4 p-2 text-black/50 hover:text-black bg-neutral-100 rounded-full">
+                 <X className="w-5 h-5" />
+              </button>
+              <h3 className="text-2xl font-bold text-black mb-2">Welcome Back</h3>
+              <p className="text-black/60 mb-6">Sign in to your uNiMONDAY account to continue.</p>
+              <div className="space-y-4">
+                <input type="email" placeholder="Email address" className="w-full px-4 py-3 rounded-xl border border-neutral-200 bg-neutral-50 text-black outline-none focus:border-black transition-colors" />
+                <button className="w-full bg-black text-white font-bold py-3 rounded-xl hover:bg-neutral-800 transition-colors">Continue with Email</button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+
+        {/* State: Showcase/Docs Views (Mock) */}
+        {currentNavView !== 'home' && (
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="absolute inset-0 z-40 bg-[#DDA359] flex flex-col items-center justify-center p-8">
+             <button onClick={() => setCurrentNavView('home')} className="absolute top-24 left-8 flex items-center gap-2 text-black font-bold hover:underline">
+               <ArrowRight className="w-5 h-5 rotate-180" /> Back to Builder
+             </button>
+             <h2 className="text-5xl font-bold text-black mb-4 capitalize">{currentNavView}</h2>
+             <p className="text-xl text-black/80 max-w-2xl text-center">
+               This is a mock view for the {currentNavView} section. In production, this would route to a dedicated page.
+             </p>
+          </motion.div>
+        )}
+
+
+        {/* Nav Views */}
+        {appState === "initial" && currentNavView === "showcase" && (
+           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex-1 w-full max-w-6xl px-6 flex flex-col items-center justify-center z-10 text-center">
+              <h1 className="text-6xl font-bold text-black mb-6">Made with uNiMONDAY</h1>
+              <p className="text-xl text-black/80 max-w-2xl font-medium">Explore incredible projects generated entirely through prompts by our community.</p>
+           </motion.div>
+        )}
+
+        {appState === "initial" && currentNavView === "docs" && (
+           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex-1 w-full max-w-4xl px-6 flex flex-col items-start justify-center z-10">
+              <h1 className="text-6xl font-bold text-black mb-6">Documentation</h1>
+              <p className="text-xl text-black/80 font-medium mb-8">Learn how to write the perfect prompts to generate bulletproof frontend and backend code.</p>
+              <div className="w-full bg-black/5 border-2 border-black/10 rounded-2xl p-6 font-mono text-sm text-black">npm install builder-ai</div>
+           </motion.div>
+        )}
+
         {/* State: Initial Prompt */}
-        {appState === "initial" && (
+        {appState === "initial" && currentNavView === "home" && (
           <motion.div
             key="initial"
             initial={{ opacity: 0, y: 20 }}
@@ -148,9 +199,12 @@ export default function BuilderPage() {
             transition={{ duration: 0.5, ease: "easeInOut" }}
             className="flex-1 w-full max-w-4xl px-6 flex flex-col items-center justify-center z-10 pb-20 mt-10"
           >
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-center mb-8 text-black">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-center mb-4 text-black">
               What do you want to build?
             </h1>
+            <p className="text-lg md:text-xl text-black/80 font-medium text-center max-w-2xl mb-10 leading-relaxed">
+              Stop coding. Start shipping. Describe your idea and watch uNiMONDAY generate a production-ready application in seconds.
+            </p>
 
             <div className="w-full max-w-3xl relative group">
               <div className="absolute -inset-1 bg-gradient-to-r from-neutral-200 to-neutral-300 rounded-3xl blur-md opacity-30 group-hover:opacity-60 transition duration-1000" />
@@ -159,7 +213,7 @@ export default function BuilderPage() {
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
                   placeholder={prompt ? "" : placeholder}
-                  className="w-full min-h-[140px] max-h-[400px] p-4 bg-transparent resize-none outline-none text-xl md:text-2xl text-black placeholder:text-neutral-400 font-medium leading-relaxed"
+                  className="w-full min-h-[140px] max-h-[400px] p-4 bg-transparent resize-none outline-none text-xl md:text-2xl text-black placeholder:text-black/80 font-medium leading-relaxed"
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && !e.shiftKey) {
                       e.preventDefault();
@@ -168,11 +222,11 @@ export default function BuilderPage() {
                   }}
                 />
                 <div className="flex justify-between items-center px-4 pb-2 mt-2">
-                  <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Press Enter to Build</span>
+                  <span className="text-xs font-semibold text-black/80 uppercase tracking-wider">Press Enter to Build</span>
                   <button
                     onClick={handleBuild}
                     disabled={!prompt.trim()}
-                    className="p-4 bg-black hover:bg-neutral-800 disabled:bg-neutral-200 disabled:text-neutral-400 text-white rounded-full transition-colors flex items-center justify-center shadow-md disabled:shadow-none"
+                    className="p-4 bg-black hover:bg-neutral-800 disabled:bg-neutral-200 disabled:text-black/80 text-white rounded-full transition-colors flex items-center justify-center shadow-md disabled:shadow-none"
                   >
                     <Send className="w-6 h-6" />
                   </button>
@@ -181,137 +235,251 @@ export default function BuilderPage() {
             </div>
 
             {/* Templates Section */}
-            <div className="mt-16 w-full max-w-4xl">
+            <div className="mt-12 w-full max-w-6xl px-4">
                <div className="flex items-center justify-center mb-6 gap-2">
-                  <LayoutTemplate className="w-5 h-5 text-neutral-500" />
-                  <h3 className="text-sm font-semibold text-neutral-500 uppercase tracking-widest">Start with a Template</h3>
+                  <LayoutTemplate className="w-5 h-5 text-black" />
+                  <h3 className="text-sm font-bold text-black uppercase tracking-widest">Start with a Template</h3>
                </div>
-               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+
                   <div
                     onClick={() => setPrompt("A professional portfolio for a freelance designer")}
-                    className="bg-[#DDA359] border border-neutral-200 hover:border-black p-5 rounded-2xl cursor-pointer transition-all hover:-translate-y-1 shadow-sm hover:shadow-md flex flex-col items-center text-center group"
+                    className="bg-[#DDA359] border-2 border-black/10 hover:border-black p-4 rounded-2xl cursor-pointer transition-all hover:-translate-y-1 shadow-sm flex flex-col items-center text-center group"
                   >
-                     <div className="w-12 h-12 bg-neutral-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-black group-hover:text-white transition-colors">
-                        <Briefcase className="w-6 h-6" />
+                     <div className="w-10 h-10 bg-black/5 rounded-full flex items-center justify-center mb-3 group-hover:bg-black group-hover:text-[#DDA359] text-black transition-colors">
+                        <Briefcase className="w-5 h-5" />
                      </div>
-                     <h4 className="font-semibold text-black mb-1">Portfolio</h4>
-                     <p className="text-sm text-neutral-500">Showcase your work and skills</p>
+                     <h4 className="font-bold text-black text-sm mb-1">Portfolio</h4>
+                     <p className="text-xs font-medium text-black/80">Showcase your work and skills</p>
                   </div>
-
                   <div
                     onClick={() => setPrompt("A minimalist e-commerce store for physical products")}
-                    className="bg-[#DDA359] border border-neutral-200 hover:border-black p-5 rounded-2xl cursor-pointer transition-all hover:-translate-y-1 shadow-sm hover:shadow-md flex flex-col items-center text-center group"
+                    className="bg-[#DDA359] border-2 border-black/10 hover:border-black p-4 rounded-2xl cursor-pointer transition-all hover:-translate-y-1 shadow-sm flex flex-col items-center text-center group"
                   >
-                     <div className="w-12 h-12 bg-neutral-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-black group-hover:text-white transition-colors">
-                        <Store className="w-6 h-6" />
+                     <div className="w-10 h-10 bg-black/5 rounded-full flex items-center justify-center mb-3 group-hover:bg-black group-hover:text-[#DDA359] text-black transition-colors">
+                        <Store className="w-5 h-5" />
                      </div>
-                     <h4 className="font-semibold text-black mb-1">E-Commerce</h4>
-                     <p className="text-sm text-neutral-500">Sell products online easily</p>
+                     <h4 className="font-bold text-black text-sm mb-1">E-Commerce</h4>
+                     <p className="text-xs font-medium text-black/80">Sell products online easily</p>
                   </div>
-
                   <div
                     onClick={() => setPrompt("A modern landing page for a SaaS product")}
-                    className="bg-[#DDA359] border border-neutral-200 hover:border-black p-5 rounded-2xl cursor-pointer transition-all hover:-translate-y-1 shadow-sm hover:shadow-md flex flex-col items-center text-center group"
+                    className="bg-[#DDA359] border-2 border-black/10 hover:border-black p-4 rounded-2xl cursor-pointer transition-all hover:-translate-y-1 shadow-sm flex flex-col items-center text-center group"
                   >
-                     <div className="w-12 h-12 bg-neutral-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-black group-hover:text-white transition-colors">
-                        <Code2 className="w-6 h-6" />
+                     <div className="w-10 h-10 bg-black/5 rounded-full flex items-center justify-center mb-3 group-hover:bg-black group-hover:text-[#DDA359] text-black transition-colors">
+                        <Code2 className="w-5 h-5" />
                      </div>
-                     <h4 className="font-semibold text-black mb-1">Landing Page</h4>
-                     <p className="text-sm text-neutral-500">Convert visitors into customers</p>
+                     <h4 className="font-bold text-black text-sm mb-1">Landing Page</h4>
+                     <p className="text-xs font-medium text-black/80">Convert visitors into customers</p>
+                  </div>
+                  <div
+                    onClick={() => setPrompt("A clean, reading-focused blog template")}
+                    className="bg-[#DDA359] border-2 border-black/10 hover:border-black p-4 rounded-2xl cursor-pointer transition-all hover:-translate-y-1 shadow-sm flex flex-col items-center text-center group"
+                  >
+                     <div className="w-10 h-10 bg-black/5 rounded-full flex items-center justify-center mb-3 group-hover:bg-black group-hover:text-[#DDA359] text-black transition-colors">
+                        <Pencil className="w-5 h-5" />
+                     </div>
+                     <h4 className="font-bold text-black text-sm mb-1">Blog</h4>
+                     <p className="text-xs font-medium text-black/80">Share your thoughts and stories</p>
+                  </div>
+                  <div
+                    onClick={() => setPrompt("A high-end photography portfolio grid")}
+                    className="bg-[#DDA359] border-2 border-black/10 hover:border-black p-4 rounded-2xl cursor-pointer transition-all hover:-translate-y-1 shadow-sm flex flex-col items-center text-center group"
+                  >
+                     <div className="w-10 h-10 bg-black/5 rounded-full flex items-center justify-center mb-3 group-hover:bg-black group-hover:text-[#DDA359] text-black transition-colors">
+                        <Camera className="w-5 h-5" />
+                     </div>
+                     <h4 className="font-bold text-black text-sm mb-1">Photography</h4>
+                     <p className="text-xs font-medium text-black/80">Display your photo gallery</p>
+                  </div>
+                  <div
+                    onClick={() => setPrompt("A cozy cafe website with a menu and booking system")}
+                    className="bg-[#DDA359] border-2 border-black/10 hover:border-black p-4 rounded-2xl cursor-pointer transition-all hover:-translate-y-1 shadow-sm flex flex-col items-center text-center group"
+                  >
+                     <div className="w-10 h-10 bg-black/5 rounded-full flex items-center justify-center mb-3 group-hover:bg-black group-hover:text-[#DDA359] text-black transition-colors">
+                        <Coffee className="w-5 h-5" />
+                     </div>
+                     <h4 className="font-bold text-black text-sm mb-1">Cafe</h4>
+                     <p className="text-xs font-medium text-black/80">Menu and reservations</p>
+                  </div>
+                  <div
+                    onClick={() => setPrompt("A dark-themed musician profile with audio player")}
+                    className="bg-[#DDA359] border-2 border-black/10 hover:border-black p-4 rounded-2xl cursor-pointer transition-all hover:-translate-y-1 shadow-sm flex flex-col items-center text-center group"
+                  >
+                     <div className="w-10 h-10 bg-black/5 rounded-full flex items-center justify-center mb-3 group-hover:bg-black group-hover:text-[#DDA359] text-black transition-colors">
+                        <Music className="w-5 h-5" />
+                     </div>
+                     <h4 className="font-bold text-black text-sm mb-1">Music</h4>
+                     <p className="text-xs font-medium text-black/80">Tracks and tour dates</p>
+                  </div>
+                  <div
+                    onClick={() => setPrompt("A charity website focused on storytelling and donations")}
+                    className="bg-[#DDA359] border-2 border-black/10 hover:border-black p-4 rounded-2xl cursor-pointer transition-all hover:-translate-y-1 shadow-sm flex flex-col items-center text-center group"
+                  >
+                     <div className="w-10 h-10 bg-black/5 rounded-full flex items-center justify-center mb-3 group-hover:bg-black group-hover:text-[#DDA359] text-black transition-colors">
+                        <Heart className="w-5 h-5" />
+                     </div>
+                     <h4 className="font-bold text-black text-sm mb-1">Non-Profit</h4>
+                     <p className="text-xs font-medium text-black/80">Collect donations & awareness</p>
+                  </div>
+                  <div
+                    onClick={() => setPrompt("An energetic tech startup landing page")}
+                    className="bg-[#DDA359] border-2 border-black/10 hover:border-black p-4 rounded-2xl cursor-pointer transition-all hover:-translate-y-1 shadow-sm flex flex-col items-center text-center group"
+                  >
+                     <div className="w-10 h-10 bg-black/5 rounded-full flex items-center justify-center mb-3 group-hover:bg-black group-hover:text-[#DDA359] text-black transition-colors">
+                        <Zap className="w-5 h-5" />
+                     </div>
+                     <h4 className="font-bold text-black text-sm mb-1">Startup</h4>
+                     <p className="text-xs font-medium text-black/80">Launch your new idea fast</p>
+                  </div>
+                  <div
+                    onClick={() => setPrompt("A bold creative agency portfolio")}
+                    className="bg-[#DDA359] border-2 border-black/10 hover:border-black p-4 rounded-2xl cursor-pointer transition-all hover:-translate-y-1 shadow-sm flex flex-col items-center text-center group"
+                  >
+                     <div className="w-10 h-10 bg-black/5 rounded-full flex items-center justify-center mb-3 group-hover:bg-black group-hover:text-[#DDA359] text-black transition-colors">
+                        <Layers className="w-5 h-5" />
+                     </div>
+                     <h4 className="font-bold text-black text-sm mb-1">Agency</h4>
+                     <p className="text-xs font-medium text-black/80">Creative studio showcase</p>
+                  </div>
+                  <div
+                    onClick={() => setPrompt("A local business directory with search and filters")}
+                    className="bg-[#DDA359] border-2 border-black/10 hover:border-black p-4 rounded-2xl cursor-pointer transition-all hover:-translate-y-1 shadow-sm flex flex-col items-center text-center group"
+                  >
+                     <div className="w-10 h-10 bg-black/5 rounded-full flex items-center justify-center mb-3 group-hover:bg-black group-hover:text-[#DDA359] text-black transition-colors">
+                        <FolderTree className="w-5 h-5" />
+                     </div>
+                     <h4 className="font-bold text-black text-sm mb-1">Directory</h4>
+                     <p className="text-xs font-medium text-black/80">Listings and categories</p>
+                  </div>
+                  <div
+                    onClick={() => setPrompt("A SaaS admin dashboard layout with charts")}
+                    className="bg-[#DDA359] border-2 border-black/10 hover:border-black p-4 rounded-2xl cursor-pointer transition-all hover:-translate-y-1 shadow-sm flex flex-col items-center text-center group"
+                  >
+                     <div className="w-10 h-10 bg-black/5 rounded-full flex items-center justify-center mb-3 group-hover:bg-black group-hover:text-[#DDA359] text-black transition-colors">
+                        <Activity className="w-5 h-5" />
+                     </div>
+                     <h4 className="font-bold text-black text-sm mb-1">Dashboard</h4>
+                     <p className="text-xs font-medium text-black/80">Analytics and metrics</p>
                   </div>
                </div>
             </div>
           </motion.div>
         )}
 
-        {/* State: Building - Highly Interactive Dopamine Hit */}
+                {/* State: Building - Full Screen IDE App Builder Experience */}
         {appState === "building" && (
           <motion.div
             key="building"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-            className="fixed inset-0 bg-[#DDA359] z-50 flex flex-col items-center justify-center overflow-hidden"
+            className="fixed inset-0 bg-[#DDA359] z-50 flex flex-col"
           >
-            {/* Background Chaos / Construction */}
-            <div className="absolute inset-0 pointer-events-none">
-               {/* Floating Code Windows */}
-               <motion.div
-                 initial={{ opacity: 0, x: -100, y: -50 }}
-                 animate={{ opacity: [0, 0.5, 0], x: 50, y: 100 }}
-                 transition={{ duration: 4, repeat: Infinity, delay: 0.5 }}
-                 className="absolute top-20 left-20 bg-black text-[#DDA359] p-4 rounded-lg font-mono text-xs w-64 shadow-2xl"
-               >
-                 <div className="flex gap-2 mb-2">
-                   <div className="w-2 h-2 rounded-full bg-red-500" />
-                   <div className="w-2 h-2 rounded-full bg-yellow-500" />
-                   <div className="w-2 h-2 rounded-full bg-green-500" />
-                 </div>
-                 {`function buildLayout() {
-  return <MainLayout />
+             {/* Header Bar */}
+             <div className="h-16 border-b-2 border-black flex items-center justify-between px-6 bg-[#DDA359]">
+               <div className="flex items-center gap-3">
+                  <Cpu className="w-6 h-6 text-black animate-pulse" />
+                  <span className="font-bold text-black text-xl">Builder Engine Active</span>
+               </div>
+               <div className="flex items-center gap-2 bg-black text-[#DDA359] px-6 py-2 rounded-full font-mono text-sm font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,0.3)]">
+                 <motion.span
+                   key={loadingText}
+                   initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }}
+                 >
+                   &gt; {loadingText}
+                 </motion.span>
+                 <span className="w-2 h-4 bg-[#DDA359] animate-pulse ml-1" />
+               </div>
+             </div>
+
+             {/* IDE Layout */}
+             <div className="flex-1 flex overflow-hidden">
+                {/* Left Sidebar - File Structure */}
+                <div className="w-64 border-r-2 border-black p-4 flex flex-col">
+                   <div className="text-xs font-bold text-black/60 tracking-widest uppercase mb-4">Project Structure</div>
+                   <div className="space-y-3 font-mono text-sm font-bold text-black">
+                      <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }} className="flex items-center gap-2">
+                        <FolderTree className="w-4 h-4 text-black" /> src/
+                      </motion.div>
+                      <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.6 }} className="flex items-center gap-2 pl-4">
+                        <Layers className="w-4 h-4 text-black" /> components/
+                      </motion.div>
+                      <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1.0 }} className="flex items-center gap-2 pl-8">
+                        <Code2 className="w-4 h-4 text-black" /> Header.tsx
+                      </motion.div>
+                      <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1.4 }} className="flex items-center gap-2 pl-8">
+                        <Code2 className="w-4 h-4 text-black" /> Layout.tsx
+                      </motion.div>
+                      <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1.8 }} className="flex items-center gap-2 pl-4">
+                        <Database className="w-4 h-4 text-black" /> lib/db.ts
+                      </motion.div>
+                      <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 2.2 }} className="flex items-center gap-2 pl-4">
+                        <Terminal className="w-4 h-4 text-black" /> api/route.ts
+                      </motion.div>
+                   </div>
+                </div>
+
+                {/* Main Content Area - Code Editor & Logs */}
+                <div className="flex-1 flex flex-col">
+                   {/* Code Editor */}
+                   <div className="flex-1 p-6 relative">
+                      <div className="absolute inset-4 border-2 border-black rounded-xl bg-[#DDA359]/50 overflow-hidden flex flex-col shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                         <div className="h-10 border-b-2 border-black flex items-center px-4 gap-2 bg-[#DDA359]">
+                            <div className="w-3 h-3 rounded-full bg-black" />
+                            <div className="w-3 h-3 rounded-full bg-black/60" />
+                            <div className="w-3 h-3 rounded-full bg-black/30" />
+                            <span className="ml-4 font-mono text-xs font-bold text-black/80">App.tsx</span>
+                         </div>
+                         <div className="p-6 font-mono text-sm font-bold text-black leading-relaxed whitespace-pre overflow-hidden">
+                            <motion.div
+                              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}
+                            >
+                               {`import { useState, useEffect } from "react";
+import { MainLayout } from "./components/Layout";
+import { Header } from "./components/Header";
+
+export default function App() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    // Initializing components...`}
+                            </motion.div>
+                            <motion.div
+                              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2, duration: 0.5 }}
+                            >
+                               {`    fetch("/api/init").then(res => res.json()).then(setData);
+  }, []);
+
+  return (
+    <MainLayout>
+      <Header title="Generated App" />
+      <main>
+        {/* Content injected here */}
+      </main>
+    </MainLayout>
+  );
 }`}
-               </motion.div>
+                            </motion.div>
+                         </div>
+                      </div>
+                   </div>
 
-               <motion.div
-                 initial={{ opacity: 0, x: 100, y: 50 }}
-                 animate={{ opacity: [0, 0.4, 0], x: -50, y: -100 }}
-                 transition={{ duration: 3.5, repeat: Infinity, delay: 1 }}
-                 className="absolute bottom-32 right-20 bg-white border border-neutral-200 p-4 rounded-lg w-72 shadow-xl"
-               >
-                 <div className="h-2 bg-neutral-200 w-1/2 mb-3 rounded" />
-                 <div className="h-2 bg-neutral-100 w-full mb-2 rounded" />
-                 <div className="h-2 bg-neutral-100 w-full mb-2 rounded" />
-                 <div className="h-2 bg-neutral-100 w-3/4 rounded" />
-               </motion.div>
-
-               {/* Drawing Tables / DBs */}
-               <motion.div
-                 initial={{ opacity: 0, scale: 0.8 }}
-                 animate={{ opacity: [0, 0.6, 0], scale: 1.1 }}
-                 transition={{ duration: 5, repeat: Infinity, delay: 2 }}
-                 className="absolute top-40 right-40 flex flex-col items-center"
-               >
-                  <Database className="w-12 h-12 text-neutral-300 mb-2" />
-                  <span className="text-xs font-mono text-neutral-400">user_schema.sql</span>
-               </motion.div>
-
-               <motion.div
-                 initial={{ opacity: 0, scale: 0.8 }}
-                 animate={{ opacity: [0, 0.6, 0], scale: 1.1 }}
-                 transition={{ duration: 4.5, repeat: Infinity, delay: 1.5 }}
-                 className="absolute bottom-40 left-40 flex flex-col items-center"
-               >
-                  <Layers className="w-12 h-12 text-neutral-300 mb-2" />
-                  <span className="text-xs font-mono text-neutral-400">App.tsx</span>
-               </motion.div>
-            </div>
-
-            {/* Central Loading Status */}
-            <div className="relative z-10 flex flex-col items-center bg-[#DDA359]/80 backdrop-blur-md p-12 rounded-3xl border border-neutral-200 shadow-2xl">
-              <div className="w-24 h-24 bg-black rounded-full flex items-center justify-center mb-8 shadow-inner relative">
-                 <motion.div
-                   animate={{ rotate: 360 }}
-                   transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                   className="absolute inset-0 rounded-full border-t-4 border-l-4 border-white opacity-50"
-                 />
-                 <Code2 className="w-10 h-10 text-white" />
-              </div>
-              <motion.h2
-                 key={loadingText}
-                 initial={{ opacity: 0, y: 10 }}
-                 animate={{ opacity: 1, y: 0 }}
-                 exit={{ opacity: 0, y: -10 }}
-                 className="text-3xl font-bold text-black tracking-tight mb-2"
-              >
-                {loadingText}
-              </motion.h2>
-              <p className="text-neutral-500 font-mono text-sm">AI is writing the code...</p>
-            </div>
+                   {/* Terminal/Logs Bottom Panel */}
+                   <div className="h-48 border-t-2 border-black bg-black p-4 font-mono text-sm text-green-400 overflow-y-auto">
+                      <div className="flex gap-2 mb-2"><span className="text-white">root@builder:~#</span> npm install dependencies</div>
+                      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="text-white/60">Installing react, react-dom, tailwindcss...</motion.div>
+                      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }} className="text-white/60">Resolving packages...</motion.div>
+                      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.5 }} className="text-[#DDA359]">✓ Added 342 packages in 2s</motion.div>
+                      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 3.5 }} className="flex gap-2 mt-2"><span className="text-white">root@builder:~#</span> configuring database schema</motion.div>
+                      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 4.5 }} className="text-[#DDA359]">✓ Connected to DB</motion.div>
+                   </div>
+                </div>
+             </div>
           </motion.div>
         )}
 
-        {/* State: Generated Preview */}
+{/* State: Generated Preview */}
         {appState === "generated" && (
           <motion.div
             key="generated"
@@ -322,7 +490,7 @@ export default function BuilderPage() {
              {/* Header */}
              <div className="h-16 border-b border-neutral-300 bg-[#DDA359] px-6 flex items-center justify-between shadow-sm">
                 <div className="flex items-center gap-4">
-                  <button onClick={reset} className="text-neutral-600 hover:text-black transition-colors flex items-center gap-2 text-sm font-semibold">
+                  <button onClick={reset} className="text-black hover:text-black transition-colors flex items-center gap-2 text-sm font-semibold">
                     <RefreshCcw className="w-4 h-4" /> Start Over
                   </button>
                   <div className="h-4 w-[1px] bg-neutral-300" />
@@ -348,7 +516,7 @@ export default function BuilderPage() {
                          <div className="w-3 h-3 rounded-full bg-yellow-400" />
                          <div className="w-3 h-3 rounded-full bg-green-400" />
                       </div>
-                      <div className="ml-4 flex-1 max-w-md mx-auto bg-white rounded-md border border-neutral-200 h-7 flex items-center justify-center text-xs text-neutral-500 font-mono">
+                      <div className="ml-4 flex-1 max-w-md mx-auto bg-white rounded-md border border-neutral-200 h-7 flex items-center justify-center text-xs text-black/80 font-mono">
                          localhost:3000
                       </div>
                    </div>
@@ -382,7 +550,7 @@ export default function BuilderPage() {
           >
              <Terminal className="w-20 h-20 text-black animate-bounce mb-8" />
              <h2 className="text-3xl font-bold text-black mb-3 tracking-tight">Deploying to GitHub...</h2>
-             <p className="text-neutral-500 text-lg">Pushing code and setting up pages</p>
+             <p className="text-black/80 text-lg">Pushing code and setting up pages</p>
              <div className="w-80 h-3 bg-neutral-200 rounded-full mt-10 overflow-hidden">
                 <motion.div
                   initial={{ width: "0%" }}
@@ -407,13 +575,13 @@ export default function BuilderPage() {
                 <div className="absolute inset-0 border-4 border-green-200 rounded-full animate-ping opacity-50" />
              </div>
              <h2 className="text-4xl font-bold text-black mb-4 tracking-tight">Your site is live!</h2>
-             <p className="text-neutral-600 mb-10 text-lg leading-relaxed">
+             <p className="text-black mb-10 text-lg leading-relaxed">
                We&apos;ve successfully generated and hosted your new website. It&apos;s ready to share with the world.
              </p>
 
              <div className="w-full bg-white border border-neutral-300 rounded-2xl p-5 flex items-center justify-between mb-10 shadow-lg">
                 <div className="flex items-center gap-3 overflow-hidden">
-                   <Globe className="w-6 h-6 text-neutral-400 shrink-0" />
+                   <Globe className="w-6 h-6 text-black/80 shrink-0" />
                    <span className="text-black font-mono text-base truncate">{mockUrl}</span>
                 </div>
                 <Link
@@ -428,7 +596,7 @@ export default function BuilderPage() {
 
              <button
                onClick={reset}
-               className="text-neutral-500 hover:text-black font-bold transition-colors underline underline-offset-4"
+               className="text-black/80 hover:text-black font-bold transition-colors underline underline-offset-4"
              >
                Build something else
              </button>

@@ -1,22 +1,19 @@
-with open("unimonday-web/src/app/page.tsx", "r") as f:
-    content = f.read()
+def fix():
+    file_path = 'unimonday-web/src/components/layout/TopNav.tsx'
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
 
-# Fix unused imports
-content = content.replace("Loader2, CheckCircle, Terminal, Globe, RefreshCcw, LayoutTemplate, Briefcase, Store, PenTool, Code2, Sparkles, Database, Layers", "CheckCircle, Terminal, Globe, RefreshCcw, LayoutTemplate, Briefcase, Store, Code2, Sparkles, Database, Layers")
+        # Remove unused imports
+        content = content.replace(', Search', '')
+        content = content.replace('PenTool, ', '')
+        content = content.replace('useEffect, ', '')
 
-# Fix setState inside useEffect by using setTimeout
-content = content.replace(
-"""    } else if (isDeleting && charIndex === 0) {
-      setIsDeleting(false);
-      setPhIndex((prev) => (prev + 1) % placeholders.length);
-    }""",
-"""    } else if (isDeleting && charIndex === 0) {
-      timeout = setTimeout(() => {
-        setIsDeleting(false);
-        setPhIndex((prev) => (prev + 1) % placeholders.length);
-      }, 500); // Pause before next string
-    }"""
-)
+        with open(file_path, 'w', encoding='utf-8') as f:
+            f.write(content)
+        print("Fixed lint errors")
 
-with open("unimonday-web/src/app/page.tsx", "w") as f:
-    f.write(content)
+    except Exception as e:
+        print(f"Error: {e}")
+
+fix()

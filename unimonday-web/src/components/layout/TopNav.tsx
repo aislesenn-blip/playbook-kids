@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { User, Menu, X, Search, Bell, FileText, PenTool, LayoutTemplate, FolderOpen, Printer, PlusCircle } from "lucide-react";
+import { User, Menu, X, Bell, FileText, LayoutTemplate, FolderOpen, Printer, PlusCircle } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
