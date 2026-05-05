@@ -140,7 +140,7 @@ export default function SignupPage() {
                 required
                 value={formData.campusName}
                 onChange={(e) => setFormData({...formData, campusName: e.target.value})}
-                placeholder="e.g. UDSM Main Campus"
+                placeholder="e.g. Harvard University"
                 className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all"
               />
             </div>

@@ -113,10 +113,10 @@ export default function EngineWorkspace() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100 pt-14 pb-20 overflow-hidden">
+    <div className="flex flex-col md:flex-row h-screen bg-gray-100 pt-14 pb-20 overflow-hidden">
 
       {/* Left Panel: JSON AST Input */}
-      <div className="w-1/2 flex flex-col border-r border-gray-300 bg-[#1E1E1E]">
+      <div className="w-full md:w-1/2 h-[40vh] md:h-full flex flex-col border-b md:border-b-0 md:border-r border-gray-300 bg-[#1E1E1E] shrink-0">
         <div className="flex items-center justify-between p-3 bg-[#2D2D2D] border-b border-gray-600">
           <div className="flex items-center gap-2 text-white">
             <Code className="w-5 h-5 text-emerald-400" />
@@ -145,14 +145,14 @@ export default function EngineWorkspace() {
       </div>
 
       {/* Center Divider / Magic Indicator */}
-      <div className="w-8 flex flex-col items-center justify-center bg-gray-200 z-10 shadow-inner">
+      <div className="hidden md:flex w-8 flex-col items-center justify-center bg-gray-200 z-10 shadow-inner">
          <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center shadow-md border border-emerald-200 -ml-8">
            <ChevronRight className="w-5 h-5 text-emerald-600" />
          </div>
       </div>
 
       {/* Right Panel: A4 Document Viewer */}
-      <div className="w-1/2 flex flex-col bg-gray-100 overflow-y-auto items-center p-8 custom-scrollbar">
+      <div className="w-full md:w-1/2 flex-grow flex flex-col bg-gray-100 overflow-y-auto items-center p-4 md:p-8 custom-scrollbar">
 
          <div className="w-full max-w-[800px] mb-4 flex items-center gap-2 text-gray-500">
            <LayoutTemplate className="w-5 h-5" />
@@ -160,7 +160,7 @@ export default function EngineWorkspace() {
          </div>
 
          {/* A4 Paper Container */}
-         <div className="bg-white w-full max-w-[800px] min-h-[1123px] p-12 sm:p-16 lg:p-24 shadow-2xl rounded-sm mb-12 relative group ring-1 ring-black/5">
+         <div className="bg-white w-full max-w-[800px] min-h-screen md:min-h-[1123px] p-6 sm:p-12 md:p-16 lg:p-24 shadow-2xl rounded-sm mb-12 relative group ring-1 ring-black/5">
             <EditorContent editor={editor} />
          </div>
 

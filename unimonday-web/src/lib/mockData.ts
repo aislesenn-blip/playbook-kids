@@ -4,7 +4,7 @@ export const mockVendors: Vendor[] = [
   {
     id: 'v1',
     userId: 'u2',
-    storeName: 'TechZone UDSM',
+    storeName: 'AI Cloud Storage',
     storeSlug: 'store-1',
     description: 'Best gadgets and phone repairs on campus.',
     logoUrl: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=2064&auto=format&fit=crop',
@@ -45,7 +45,7 @@ export const mockProducts: Product[] = [
   {
     id: 'p2',
     vendorId: 'v1',
-    vendorName: 'TechZone UDSM',
+    vendorName: 'AI Cloud Storage',
     name: 'Pro Wireless Earbuds',
     description: 'High quality wireless earbuds with noise cancellation.',
     price: 45000,

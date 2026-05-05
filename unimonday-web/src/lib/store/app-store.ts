@@ -167,10 +167,10 @@ export const useAppStore = create<AppState>()(
                   email: session.user.email || "",
                   role: userMeta.role || "student",
                   region: userMeta.region || "Dar es Salaam",
-                  campusName: userMeta.campusName || "UDSM - Main Campus"
+                  campusName: userMeta.campusName || "Global"
                 },
                 currentRegion: userMeta.region || "Dar es Salaam",
-                currentCampusName: userMeta.campusName || "UDSM - Main Campus"
+                currentCampusName: userMeta.campusName || "Global"
               });
             }
           } else if (event === 'SIGNED_OUT') {

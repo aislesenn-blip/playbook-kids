@@ -3,7 +3,7 @@
 uNiMONDAY is a high-end, ultra-fast transaction layer for university campuses. It allows students to order food and stationary from their phones, pay instantly using local mobile money, and pick up their items without waiting in line.
 
 ## Key Features
-- **Hyper-Local Discovery**: Automatically detects if a user is at UDSM, UDOM, etc., using geolocation.
+- **Universal Accessibility**: Available instantly globally without geolocation limits.
 - **Anti-Screenshot Tickets**: Features a 15-second dynamic ticket that changes colors and counts down to prevent fraud.
 - **Instant Checkout**: Integrates with Snippe.io for seamless mobile money payments.
 - **Billion-Dollar Aesthetics**: Built with Next.js, Tailwind v4, and Framer Motion for fluid, Bolt/TikTok-like navigations.

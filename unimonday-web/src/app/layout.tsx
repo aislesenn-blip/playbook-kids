@@ -37,7 +37,7 @@ export default async function RootLayout({
         <NextIntlClientProvider messages={messages} locale={locale}>
           <AuthProvider>
             <TopNav />
-            <main className="max-w-5xl mx-auto px-0 sm:px-6 lg:px-8 sm:py-6 w-full">
+            <main className="w-full">
               {children}
             </main>
             <div className="sm:hidden">

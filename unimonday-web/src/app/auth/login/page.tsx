@@ -55,9 +55,9 @@ export default function LoginPage() {
         email: email,
         role: isVendor ? "vendor" : "student",
         region: "Dar es Salaam",
-        campusName: "UDSM - Main Campus"
+        campusName: "Stanford University"
       });
-      setLocation("Dar es Salaam", "UDSM - Main Campus");
+      setLocation("California", "Stanford University");
 
       toast.success("Logged in successfully!");
       router.push(redirectTo);
