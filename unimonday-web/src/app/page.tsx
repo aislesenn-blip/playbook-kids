@@ -2,8 +2,23 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, CheckCircle, Terminal, Globe, RefreshCcw, LayoutTemplate, Briefcase, Store, Code2, Sparkles, Database, Layers, PenTool, LayoutDashboard, Users, Mail, Building2, HomeIcon, FileText, Utensils, Search } from "lucide-react";
+import { Send, CheckCircle, X, ArrowRight, Terminal, Globe, RefreshCcw, LayoutTemplate, Briefcase, Store, Code2, Sparkles, Database, Layers, PenTool, LayoutDashboard, Users, Mail, Building2, HomeIcon, FileText, Utensils, Search } from "lucide-react";
 import Link from "next/link";
+
+const templates = [
+  { title: "Portfolio", desc: "Showcase your work", icon: Briefcase, prompt: "A professional portfolio for a freelance designer", image: "https://images.unsplash.com/photo-1634084462412-b54873c0a56d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxjcmVhdGl2ZSUyMHdlYiUyMGRlc2lnbiUyMHBvcnRmb2xpbyUyMHNsZWVrfGVufDB8MHx8fDE3NzgwMjAwNjl8MA&ixlib=rb-4.1.0&q=80&w=1080" },
+  { title: "E-Commerce", desc: "Sell products online", icon: Store, prompt: "A minimalist e-commerce store for physical products", image: "https://images.unsplash.com/photo-1648134859177-66e35b61e106?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwZWNvbW1lcmNlJTIwd2Vic2l0ZSUyMHVpJTIwZGVzaWdufGVufDB8MHx8fDE3NzgwMjAwNzB8MA&ixlib=rb-4.1.0&q=80&w=1080" },
+  { title: "Landing Page", desc: "Convert visitors", icon: Code2, prompt: "A modern landing page for a SaaS product", image: "https://images.unsplash.com/photo-1642132652860-603f4e3c19b7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBzYWFzJTIwbGFuZGluZyUyMHBhZ2UlMjBkYXNoYm9hcmQlMjBjbGVhbnxlbnwwfDB8fHwxNzc4MDIwMDcxfDA&ixlib=rb-4.1.0&q=80&w=1080" },
+  { title: "Personal Blog", desc: "Share your thoughts", icon: PenTool, prompt: "A personal blog about modern technology", image: "https://images.unsplash.com/photo-1490013616775-3ca8865fb129?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwY2xlYW4lMjBibG9nJTIwd2Vic2l0ZSUyMGRlc2lnbiUyMHR5cG9ncmFwaHl8ZW58MHwwfHx8MTc3ODAyMDA3Mnww&ixlib=rb-4.1.0&q=80&w=1080" },
+  { title: "SaaS Dashboard", desc: "Manage metrics", icon: LayoutDashboard, prompt: "A comprehensive SaaS dashboard with charts", image: "https://images.unsplash.com/photo-1776702701448-36220108225d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBhbmFseXRpY3MlMjBkYXNoYm9hcmQlMjB1aSUyMGRlc2lnbiUyMGRhcmslMjBtb2RlfGVufDB8MHx8fDE3NzgwMjAwNzN8MA&ixlib=rb-4.1.0&q=80&w=1080" },
+  { title: "Social Network", desc: "Connect with people", icon: Users, prompt: "A community-driven social networking platform", image: "https://images.unsplash.com/photo-1706700392642-dee59f678a09?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxjbGVhbiUyMHNvY2lhbCUyMG1lZGlhJTIwYXBwJTIwaW50ZXJmYWNlJTIwZGVzaWdufGVufDB8MHx8fDE3NzgwMjAwNzR8MA&ixlib=rb-4.1.0&q=80&w=1080" },
+  { title: "Newsletter", desc: "Send weekly updates", icon: Mail, prompt: "A newsletter subscription landing page", image: "https://images.unsplash.com/photo-1584504923091-71d79a3371b6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxuZXdzbGV0dGVyJTIwZW1haWwlMjB0ZW1wbGF0ZSUyMGRlc2lnbiUyMGVsZWdhbnR8ZW58MHwwfHx8MTc3ODAyMDA3NXww&ixlib=rb-4.1.0&q=80&w=1080" },
+  { title: "Agency Site", desc: "Corporate website", icon: Building2, prompt: "A corporate website for a digital agency", image: "https://images.unsplash.com/photo-1634084462412-b54873c0a56d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxjb3Jwb3JhdGUlMjBidXNpbmVzcyUyMHdlYnNpdGUlMjBkZXNpZ24lMjBwcm9mZXNzaW9uYWx8ZW58MHwwfHx8MTc3ODAyMDA3Nnww&ixlib=rb-4.1.0&q=80&w=1080" },
+  { title: "Real Estate", desc: "List properties", icon: HomeIcon, prompt: "A real estate property listing website", image: "https://images.unsplash.com/photo-1591533103012-040525c4d054?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjByZWFsJTIwZXN0YXRlJTIwd2Vic2l0ZSUyMGRlc2lnbiUyMHVpfGVufDB8MHx8fDE3NzgwMjAwNzd8MA&ixlib=rb-4.1.0&q=80&w=1080" },
+  { title: "Resume / CV", desc: "Online resume", icon: FileText, prompt: "An interactive online resume and CV", image: "https://images.unsplash.com/photo-1693045181224-9fc2f954f054?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBjbGVhbiUyMHJlc3VtZSUyMGN2JTIwZGVzaWduJTIwdGVtcGxhdGV8ZW58MHwwfHx8MTc3ODAyMDA3OHww&ixlib=rb-4.1.0&q=80&w=1080" },
+  { title: "Recipe App", desc: "Discover recipes", icon: Utensils, prompt: "A recipe sharing platform with categories", image: "https://images.unsplash.com/photo-1730817403334-d723c05591e6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxmb29kJTIwcmVjaXBlJTIwYXBwJTIwaW50ZXJmYWNlJTIwZGVzaWduJTIwdWl8ZW58MHwwfHx8MTc3ODAyMDA3OXww&ixlib=rb-4.1.0&q=80&w=1080" },
+  { title: "Job Board", desc: "Post job openings", icon: Search, prompt: "A specialized job board for remote workers", image: "https://images.unsplash.com/photo-1767449356630-c60094b1d1b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxjbGVhbiUyMGpvYiUyMGJvYXJkJTIwd2Vic2l0ZSUyMGRlc2lnbiUyMFVJfGVufDB8MHx8fDE3NzgwMjAwODB8MA&ixlib=rb-4.1.0&q=80&w=1080" }
+];
 
 const placeholders = [
   "A minimalist portfolio for a photographer...",
@@ -98,6 +113,7 @@ export default function Home() {
   const [appState, setAppState] = useState<"initial" | "building" | "generated" | "deploying" | "success">("initial");
   const [loadingText, setLoadingText] = useState("Initializing workspace...");
   const [mockUrl, setMockUrl] = useState("");
+  const [selectedTemplate, setSelectedTemplate] = useState<typeof templates[0] | null>(null);
 
   const [placeholder, setPlaceholder] = useState("");
   const [phIndex, setPhIndex] = useState(0);
@@ -132,8 +148,9 @@ export default function Home() {
     return () => clearTimeout(timeout);
   }, [charIndex, isDeleting, phIndex, appState]);
 
-  const handleBuild = () => {
-    if (!prompt.trim()) return;
+  const handleBuild = (forcePrompt?: string) => {
+    const activePrompt = forcePrompt || prompt;
+    if (!activePrompt.trim()) return;
     setAppState("building");
 
     const stages = [
@@ -246,7 +263,7 @@ export default function Home() {
                 <div className="flex justify-between items-center px-4 pb-2 mt-2">
                   <span className="text-xs font-bold text-black/70 uppercase tracking-widest">Press Enter to Build</span>
                   <button
-                    onClick={handleBuild}
+                    onClick={() => handleBuild()}
                     disabled={!prompt.trim()}
                     className="p-4 bg-black hover:bg-neutral-800 disabled:bg-black/20 disabled:text-black/40 text-white rounded-full transition-colors flex items-center justify-center shadow-lg disabled:shadow-none"
                   >
@@ -263,23 +280,10 @@ export default function Home() {
                   <h3 className="text-sm font-bold text-black uppercase tracking-widest">Start with a Template</h3>
                </div>
                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {[
-                    { title: "Portfolio", desc: "Showcase your work", icon: Briefcase, prompt: "A professional portfolio for a freelance designer" },
-                    { title: "E-Commerce", desc: "Sell products online", icon: Store, prompt: "A minimalist e-commerce store for physical products" },
-                    { title: "Landing Page", desc: "Convert visitors", icon: Code2, prompt: "A modern landing page for a SaaS product" },
-                    { title: "Personal Blog", desc: "Share your thoughts", icon: PenTool, prompt: "A personal blog about modern technology" },
-                    { title: "SaaS Dashboard", desc: "Manage metrics", icon: LayoutDashboard, prompt: "A comprehensive SaaS dashboard with charts" },
-                    { title: "Social Network", desc: "Connect with people", icon: Users, prompt: "A community-driven social networking platform" },
-                    { title: "Newsletter", desc: "Send weekly updates", icon: Mail, prompt: "A newsletter subscription landing page" },
-                    { title: "Agency Site", desc: "Corporate website", icon: Building2, prompt: "A corporate website for a digital agency" },
-                    { title: "Real Estate", desc: "List properties", icon: HomeIcon, prompt: "A real estate property listing website" },
-                    { title: "Resume / CV", desc: "Online resume", icon: FileText, prompt: "An interactive online resume and CV" },
-                    { title: "Recipe App", desc: "Discover recipes", icon: Utensils, prompt: "A recipe sharing platform with categories" },
-                    { title: "Job Board", desc: "Post job openings", icon: Search, prompt: "A specialized job board for remote workers" }
-                  ].map((tpl, i) => (
+                  {templates.map((tpl, i) => (
                     <div
                       key={i}
-                      onClick={() => setPrompt(tpl.prompt)}
+                      onClick={() => setSelectedTemplate(tpl)}
                       className="bg-[#DDA359] border-2 border-black/10 hover:border-black p-5 rounded-2xl cursor-pointer transition-all hover:-translate-y-1 shadow-sm hover:shadow-lg flex flex-col items-center text-center group"
                     >
                        <div className="w-12 h-12 bg-black/5 rounded-full flex items-center justify-center mb-4 group-hover:bg-black group-hover:text-[#DDA359] text-black transition-colors">
@@ -291,6 +295,69 @@ export default function Home() {
                   ))}
                </div>
             </div>
+
+            {/* Modal for Template Preview */}
+            <AnimatePresence>
+              {selectedTemplate && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+                  onClick={() => setSelectedTemplate(null)}
+                >
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                    transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                    className="w-full max-w-5xl bg-[#FAFAFA] rounded-[32px] overflow-hidden shadow-2xl flex flex-col md:flex-row relative"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {/* Close Button */}
+                    <button
+                      onClick={() => setSelectedTemplate(null)}
+                      className="absolute top-6 right-6 z-10 w-10 h-10 bg-black/5 hover:bg-black/10 rounded-full flex items-center justify-center transition-colors"
+                    >
+                      <X className="w-5 h-5 text-black" />
+                    </button>
+
+                    {/* Left: Image Preview */}
+                    <div className="w-full md:w-3/5 h-[300px] md:h-[600px] relative bg-neutral-200">
+                      <img
+                        src={selectedTemplate.image}
+                        alt={selectedTemplate.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent" />
+                    </div>
+
+                    {/* Right: Content */}
+                    <div className="w-full md:w-2/5 p-10 md:p-12 flex flex-col justify-center bg-white">
+                      <div className="w-16 h-16 bg-[#DDA359]/20 rounded-2xl flex items-center justify-center mb-8">
+                        <selectedTemplate.icon className="w-8 h-8 text-[#DDA359]" />
+                      </div>
+                      <h2 className="text-4xl font-extrabold text-black mb-4 tracking-tight">{selectedTemplate.title}</h2>
+                      <p className="text-lg text-neutral-500 font-medium mb-10 leading-relaxed">
+                        {selectedTemplate.desc}. Start with this high-end foundation and customize it to match your exact vision using our AI architect.
+                      </p>
+
+                      <button
+                        onClick={() => {
+                          setPrompt(selectedTemplate.prompt);
+                          setSelectedTemplate(null);
+                          handleBuild(selectedTemplate.prompt);
+                        }}
+                        className="w-full py-4 bg-black text-white rounded-2xl font-bold text-lg flex items-center justify-center gap-3 hover:bg-neutral-800 transition-all hover:-translate-y-1 shadow-xl hover:shadow-2xl"
+                      >
+                        Build This App <ArrowRight className="w-5 h-5" />
+                      </button>
+                    </div>
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
           </motion.div>
         )}
 
