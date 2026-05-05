@@ -110,7 +110,7 @@ function TypewriterText({ content, speed = 10 }: { content: string, speed?: numb
 
 export default function Home() {
   const [prompt, setPrompt] = useState("");
-  const [appState, setAppState] = useState<"initial" | "building" | "generated" | "deploying" | "success">("initial");
+  const [appState, setAppState] = useState<"initial" | "building" | "generated" | "deploying" | "success" | "showcase" | "docs">("initial");
   const [loadingText, setLoadingText] = useState("Initializing workspace...");
   const [mockUrl, setMockUrl] = useState("");
   const [selectedTemplate, setSelectedTemplate] = useState<typeof templates[0] | null>(null);
@@ -188,7 +188,8 @@ export default function Home() {
   };
 
   const handleNavClick = (navItem: string) => {
-    alert(`Navigating to ${navItem}... Wiring ready!`);
+    if (navItem === "Showcase") setAppState("showcase");
+    else if (navItem === "Docs") setAppState("docs");
   };
 
   return (
@@ -197,9 +198,10 @@ export default function Home() {
       {/* Top Navigation */}
       {appState === "initial" && (
         <nav className="w-full flex items-center justify-between p-6 z-20">
-          <div className="flex items-center gap-2 text-black font-bold text-2xl tracking-tight">
-             <Sparkles className="w-7 h-7" />
-             <span>uNiMONDAY</span>
+          <div className="flex items-center gap-1 text-black font-extrabold text-2xl tracking-tight">
+             <Code className="w-7 h-7 mr-1 text-black" />
+             <span>CODE</span>
+             <span className="text-black/60">BOOK</span>
           </div>
           <div className="flex items-center gap-6 text-sm font-bold">
             <button onClick={() => handleNavClick("Showcase")} className="text-black hover:text-neutral-800 transition-colors">Showcase</button>
@@ -346,7 +348,6 @@ export default function Home() {
                         onClick={() => {
                           setPrompt(selectedTemplate.prompt);
                           setSelectedTemplate(null);
-                          handleBuild(selectedTemplate.prompt);
                         }}
                         className="w-full py-4 bg-black text-white rounded-2xl font-bold text-lg flex items-center justify-center gap-3 hover:bg-neutral-800 transition-all hover:-translate-y-1 shadow-xl hover:shadow-2xl"
                       >
@@ -356,7 +357,8 @@ export default function Home() {
                   </motion.div>
                 </motion.div>
               )}
-            </AnimatePresence>
+
+      </AnimatePresence>
 
           </motion.div>
         )}
@@ -658,6 +660,33 @@ export default function Home() {
           </motion.div>
         )}
 
+
+        {appState === "showcase" && (
+          <div className="w-full h-screen flex flex-col items-center justify-center bg-neutral-100 z-10 p-8">
+             <h2 className="text-4xl font-extrabold text-black mb-4">Showcase</h2>
+             <p className="text-black/60 mb-8">Discover amazing applications built by the community.</p>
+             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl">
+                {[1,2,3].map(i => (
+                   <div key={i} className="h-64 bg-white rounded-2xl shadow-sm border border-neutral-200"></div>
+                ))}
+             </div>
+             <button onClick={reset} className="mt-12 text-black font-bold hover:underline">Back to Builder</button>
+          </div>
+        )}
+
+        {appState === "docs" && (
+          <div className="w-full h-screen flex flex-col items-center justify-center bg-neutral-100 z-10 p-8">
+             <h2 className="text-4xl font-extrabold text-black mb-4">Documentation</h2>
+             <p className="text-black/60 mb-8">Learn how to leverage our AI architect.</p>
+             <div className="w-full max-w-3xl bg-white rounded-2xl shadow-sm border border-neutral-200 p-8 min-h-[400px]">
+                <div className="h-4 bg-neutral-100 rounded w-1/4 mb-6"></div>
+                <div className="h-3 bg-neutral-50 rounded w-full mb-3"></div>
+                <div className="h-3 bg-neutral-50 rounded w-5/6 mb-3"></div>
+                <div className="h-3 bg-neutral-50 rounded w-full mb-3"></div>
+             </div>
+             <button onClick={reset} className="mt-12 text-black font-bold hover:underline">Back to Builder</button>
+          </div>
+        )}
       </AnimatePresence>
     </div>
   );
