@@ -102,7 +102,7 @@ export default function BuilderPage() {
   };
 
   return (
-    <div className="w-full min-h-screen bg-[#FDFCF8] flex flex-col items-center font-sans text-black selection:bg-neutral-200 selection:text-black relative overflow-hidden">
+    <div className="w-full min-h-screen bg-[#DDA359] flex flex-col items-center font-sans text-black selection:bg-neutral-200 selection:text-black relative overflow-hidden">
 
       {/* Top Navigation */}
       {appState === "initial" && (
@@ -114,7 +114,7 @@ export default function BuilderPage() {
           <div className="flex items-center gap-6 text-sm font-medium">
             <Link href="#" className="text-neutral-600 hover:text-black transition-colors">Showcase</Link>
             <Link href="#" className="text-neutral-600 hover:text-black transition-colors">Docs</Link>
-            <button className="bg-black text-[#FDFCF8] px-4 py-2 rounded-full hover:bg-neutral-800 transition-colors">Sign In</button>
+            <button className="bg-black text-[#DDA359] px-4 py-2 rounded-full hover:bg-neutral-800 transition-colors">Sign In</button>
           </div>
         </nav>
       )}
@@ -154,7 +154,7 @@ export default function BuilderPage() {
 
             <div className="w-full max-w-3xl relative group">
               <div className="absolute -inset-1 bg-gradient-to-r from-neutral-200 to-neutral-300 rounded-3xl blur-md opacity-30 group-hover:opacity-60 transition duration-1000" />
-              <div className="relative bg-[#FDFCF8] border border-neutral-300 rounded-3xl shadow-lg hover:shadow-xl transition-all p-3 flex flex-col">
+              <div className="relative bg-[#DDA359] border border-neutral-300 rounded-3xl shadow-lg hover:shadow-xl transition-all p-3 flex flex-col">
                 <textarea
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
@@ -189,7 +189,7 @@ export default function BuilderPage() {
                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div
                     onClick={() => setPrompt("A professional portfolio for a freelance designer")}
-                    className="bg-[#FDFCF8] border border-neutral-200 hover:border-black p-5 rounded-2xl cursor-pointer transition-all hover:-translate-y-1 shadow-sm hover:shadow-md flex flex-col items-center text-center group"
+                    className="bg-[#DDA359] border border-neutral-200 hover:border-black p-5 rounded-2xl cursor-pointer transition-all hover:-translate-y-1 shadow-sm hover:shadow-md flex flex-col items-center text-center group"
                   >
                      <div className="w-12 h-12 bg-neutral-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-black group-hover:text-white transition-colors">
                         <Briefcase className="w-6 h-6" />
@@ -200,7 +200,7 @@ export default function BuilderPage() {
 
                   <div
                     onClick={() => setPrompt("A minimalist e-commerce store for physical products")}
-                    className="bg-[#FDFCF8] border border-neutral-200 hover:border-black p-5 rounded-2xl cursor-pointer transition-all hover:-translate-y-1 shadow-sm hover:shadow-md flex flex-col items-center text-center group"
+                    className="bg-[#DDA359] border border-neutral-200 hover:border-black p-5 rounded-2xl cursor-pointer transition-all hover:-translate-y-1 shadow-sm hover:shadow-md flex flex-col items-center text-center group"
                   >
                      <div className="w-12 h-12 bg-neutral-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-black group-hover:text-white transition-colors">
                         <Store className="w-6 h-6" />
@@ -211,7 +211,7 @@ export default function BuilderPage() {
 
                   <div
                     onClick={() => setPrompt("A modern landing page for a SaaS product")}
-                    className="bg-[#FDFCF8] border border-neutral-200 hover:border-black p-5 rounded-2xl cursor-pointer transition-all hover:-translate-y-1 shadow-sm hover:shadow-md flex flex-col items-center text-center group"
+                    className="bg-[#DDA359] border border-neutral-200 hover:border-black p-5 rounded-2xl cursor-pointer transition-all hover:-translate-y-1 shadow-sm hover:shadow-md flex flex-col items-center text-center group"
                   >
                      <div className="w-12 h-12 bg-neutral-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-black group-hover:text-white transition-colors">
                         <Code2 className="w-6 h-6" />
@@ -232,7 +232,7 @@ export default function BuilderPage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
-            className="fixed inset-0 bg-[#FDFCF8] z-50 flex flex-col items-center justify-center overflow-hidden"
+            className="fixed inset-0 bg-[#DDA359] z-50 flex flex-col items-center justify-center overflow-hidden"
           >
             {/* Background Chaos / Construction */}
             <div className="absolute inset-0 pointer-events-none">
@@ -241,7 +241,7 @@ export default function BuilderPage() {
                  initial={{ opacity: 0, x: -100, y: -50 }}
                  animate={{ opacity: [0, 0.5, 0], x: 50, y: 100 }}
                  transition={{ duration: 4, repeat: Infinity, delay: 0.5 }}
-                 className="absolute top-20 left-20 bg-black text-[#FDFCF8] p-4 rounded-lg font-mono text-xs w-64 shadow-2xl"
+                 className="absolute top-20 left-20 bg-black text-[#DDA359] p-4 rounded-lg font-mono text-xs w-64 shadow-2xl"
                >
                  <div className="flex gap-2 mb-2">
                    <div className="w-2 h-2 rounded-full bg-red-500" />
@@ -288,7 +288,7 @@ export default function BuilderPage() {
             </div>
 
             {/* Central Loading Status */}
-            <div className="relative z-10 flex flex-col items-center bg-[#FDFCF8]/80 backdrop-blur-md p-12 rounded-3xl border border-neutral-200 shadow-2xl">
+            <div className="relative z-10 flex flex-col items-center bg-[#DDA359]/80 backdrop-blur-md p-12 rounded-3xl border border-neutral-200 shadow-2xl">
               <div className="w-24 h-24 bg-black rounded-full flex items-center justify-center mb-8 shadow-inner relative">
                  <motion.div
                    animate={{ rotate: 360 }}
@@ -320,7 +320,7 @@ export default function BuilderPage() {
             className="w-full h-screen flex flex-col z-10 bg-neutral-100"
           >
              {/* Header */}
-             <div className="h-16 border-b border-neutral-300 bg-[#FDFCF8] px-6 flex items-center justify-between shadow-sm">
+             <div className="h-16 border-b border-neutral-300 bg-[#DDA359] px-6 flex items-center justify-between shadow-sm">
                 <div className="flex items-center gap-4">
                   <button onClick={reset} className="text-neutral-600 hover:text-black transition-colors flex items-center gap-2 text-sm font-semibold">
                     <RefreshCcw className="w-4 h-4" /> Start Over
@@ -340,7 +340,7 @@ export default function BuilderPage() {
 
              {/* Canvas Wrapper */}
              <div className="flex-1 p-6 sm:p-12 overflow-hidden flex items-center justify-center">
-                <div className="w-full max-w-5xl h-full bg-[#FDFCF8] rounded-2xl shadow-2xl border border-neutral-300 overflow-hidden flex flex-col">
+                <div className="w-full max-w-5xl h-full bg-[#DDA359] rounded-2xl shadow-2xl border border-neutral-300 overflow-hidden flex flex-col">
                    {/* Browser Chrome */}
                    <div className="h-12 border-b border-neutral-200 bg-neutral-100 flex items-center px-4 gap-2">
                       <div className="flex gap-1.5">
