@@ -64,14 +64,14 @@
 }
 
 :root {
-  --background: 0 0% 100%; /* Pure white */
+  --background: 34 65% 61%; /* Pure white */
   --foreground: 0 0% 9%; /* Near black */
-  --card: 0 0% 100%;
+  --card: 48 33% 97%;
   --card-foreground: 0 0% 9%;
-  --popover: 0 0% 100%;
+  --popover: 48 33% 97%;
   --popover-foreground: 0 0% 9%;
-  --primary: 160 84% 39%; /* Emerald */
-  --primary-foreground: 0 0% 100%;
+  --primary: 0 0% 9%; /* Emerald */
+  --primary-foreground: 48 33% 97%;
   --secondary: 0 0% 96.1%;
   --secondary-foreground: 0 0% 9%;
   --muted: 0 0% 96.1%;
@@ -82,7 +82,7 @@
   --destructive-foreground: 0 0% 98%;
   --border: 0 0% 89.8%;
   --input: 0 0% 89.8%;
-  --ring: 160 84% 39%;
+  --ring: 0 0% 9%;
   --radius: 1.5rem; /* Very rounded, Apple-style */
   --chart-1: 12 76% 61%;
   --chart-2: 173 58% 39%;
