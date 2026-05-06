@@ -1,0 +1,83 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import { supabase } from "@/lib/supabase/client";
+import { Terminal } from "lucide-react";
+
+export default function LivePage() {
+  const { id } = useParams();
+  const [appData, setAppData] = useState<{id: string, html: string, js: string, css: string} | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadApp() {
+      try {
+        const { data, error } = await supabase
+          .from('generated_apps')
+          .select('*')
+          .eq('app_id', Array.isArray(id) ? id[0] : id)
+          .single();
+
+        if (error || !data) {
+          console.error("Error loading app data:", error);
+          // Set a friendly fallback for the user if not found
+          setAppData({
+            id: Array.isArray(id) ? id[0] : id || 'default',
+            html: `<div style="text-align:center; padding: 50px; font-family: sans-serif;"><h2>App Not Found</h2><p>The requested application could not be found or is currently unavailable.</p></div>`,
+            css: '',
+            js: ''
+          });
+        } else {
+          setAppData(data);
+        }
+      } catch (e) {
+         console.error("Exception loading app data:", e);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadApp();
+  }, [id]);
+
+  if (loading) {
+    return <div className="min-h-screen bg-neutral-900 flex items-center justify-center text-white"><Terminal className="w-8 h-8 animate-bounce" /></div>;
+  }
+
+  // Inject ENV (empty mock key for public view, user must set it within the app logic if needed, or we keep it blank)
+  const injectedHtml = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+           body { font-family: system-ui, -apple-system, sans-serif; }
+           ${appData?.css || ''}
+        </style>
+        <script>
+           // Safely inject JSON to prevent XSS
+           window.ENV = {
+             SUPABASE_URL: ""
+           };
+        </script>
+      </head>
+      <body>
+        ${appData?.html || ''}
+        <script>${(appData?.js || '').replace(/<\/script>/gi, '<\\/script>')}</script>
+      </body>
+    </html>
+  `;
+
+  return (
+    <div className="w-full h-screen flex flex-col bg-white">
+      <iframe
+        title="Live App"
+        className="flex-1 w-full h-full border-none"
+        sandbox="allow-scripts allow-forms allow-popups allow-modals"
+        srcDoc={injectedHtml}
+      />
+    </div>
+  );
+}

@@ -19,7 +19,9 @@ export default function PreviewPage() {
   const [isUpdating, setIsUpdating] = useState(false);
 
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(window.location.href);
+    const livePath = '/live/' + (Array.isArray(id) ? id[0] : id);
+    const liveLink = window.location.origin + livePath;
+    navigator.clipboard.writeText(liveLink);
     alert("Live Link Copied to Clipboard!");
   };
 
@@ -169,7 +171,7 @@ export default function PreviewPage() {
       </head>
       <body>
         ${appData?.html || ''}
-        <script>${appData?.js || ''}</script>
+        <script>${(appData?.js || '').replace(/<\/script>/gi, '<\\/script>')}</script>
       </body>
     </html>
   `;
@@ -198,7 +200,7 @@ export default function PreviewPage() {
         <iframe
           title="App Preview"
           className="flex-1 w-full h-full border-none"
-          sandbox="allow-scripts allow-forms allow-popups"
+          sandbox="allow-scripts allow-forms allow-popups allow-modals"
           srcDoc={injectedHtml}
         />
         {/* Chat-to-Edit Side Drawer */}
