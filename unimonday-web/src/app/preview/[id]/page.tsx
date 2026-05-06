@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
-import { Terminal, Lock } from "lucide-react";
+import { Bot, Lock } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
@@ -58,11 +58,14 @@ const handleChatEdit = async () => {
       // Update Database
       const { error: dbError } = await supabase
         .from('generated_apps')
-        .update({ html: data.html, css: data.css, js: data.js })
+        .update({ html: data.html !== undefined ? data.html : appData.html, css: data.css !== undefined ? data.css : appData.css, js: data.js !== undefined ? data.js : appData.js })
         .eq('app_id', Array.isArray(id) ? id[0] : id);
 
       if (!dbError) {
-        setAppData({ ...appData, html: data.html, css: data.css, js: data.js });
+        const newHtml = data.html !== undefined ? data.html : appData.html;
+        const newCss = data.css !== undefined ? data.css : appData.css;
+        const newJs = data.js !== undefined ? data.js : appData.js;
+        setAppData({ ...appData, html: newHtml, css: newCss, js: newJs });
         setChatHistory(prev => [...prev, { role: 'ai', content: "I've successfully applied your requested changes. Let me know if you need anything else!" }]);
       } else {
         throw new Error("Failed to save edits to DB");
@@ -153,7 +156,7 @@ const handleChatEdit = async () => {
   }, [appData, mockKey, loading]);
 
   if (loading) {
-    return <div className="min-h-screen bg-neutral-900 flex items-center justify-center text-white"><Terminal className="w-8 h-8 animate-bounce" /></div>;
+    return <div className="min-h-screen bg-neutral-900 flex items-center justify-center text-white"><Bot className="w-8 h-8 animate-bounce" /></div>;
   }
 
   if (showSetup) {
@@ -186,7 +189,7 @@ const handleChatEdit = async () => {
   }
 
   if (loading) {
-    return <div className="min-h-screen bg-neutral-900 flex items-center justify-center text-white"><Terminal className="w-8 h-8 animate-bounce" /></div>;
+    return <div className="min-h-screen bg-neutral-900 flex items-center justify-center text-white"><Bot className="w-8 h-8 animate-bounce" /></div>;
   }
 
   if (showSetup) {
@@ -267,7 +270,7 @@ const handleChatEdit = async () => {
            </button>
          </div>
       </div>
-      <div className="flex flex-1 flex-col md:flex-row overflow-hidden">
+      <div className="flex flex-col md:flex-row flex-1 overflow-hidden">
         {/* Main Preview */}
         {blobUrl && (
           <iframe
@@ -278,10 +281,10 @@ const handleChatEdit = async () => {
           />
         )}
         {/* Chat-to-Edit Side Drawer */}
-        <div className="w-full md:w-80 h-1/2 md:h-auto border-t md:border-t-0 md:border-l border-gray-200 bg-gray-50 flex flex-col shrink-0">
+        <div className="w-full md:w-80 border-t md:border-t-0 md:border-l border-gray-200 bg-gray-50 flex flex-col shrink-0 min-h-[40vh] md:min-h-0">
           <div className="p-4 border-b border-gray-200 bg-white">
             <h3 className="font-bold text-sm text-black flex items-center gap-2">
-              <Terminal className="w-4 h-4 text-[#DDA359]" />
+              <Bot className="w-4 h-4 text-[#DDA359]" />
               Chat to Edit
             </h3>
             <p className="text-xs text-gray-500 mt-1">Request modifications to the UI or Logic.</p>
@@ -289,7 +292,7 @@ const handleChatEdit = async () => {
 <div className="flex-1 p-4 overflow-y-auto no-scrollbar flex flex-col gap-3">
             {chatHistory.map((msg, i) => (
               <div key={i} className={`p-3 rounded-xl border text-sm shadow-sm max-w-[90%] ${msg.role === 'ai' ? 'bg-white border-gray-100 self-start rounded-tl-sm' : 'bg-black text-white border-black self-end rounded-tr-sm'}`}>
-                 {msg.role === 'ai' && <span className="font-bold text-xs text-[#DDA359] block mb-1">Architect</span>}
+                 {msg.role === 'ai' && <span className="font-bold text-xs text-[#DDA359] block mb-1">Bot</span>}
                  {msg.content}
               </div>
             ))}
@@ -300,7 +303,7 @@ const handleChatEdit = async () => {
             )}
           </div>
           <div className="p-4 bg-white border-t border-gray-200">
-            <div className="relative flex items-center bg-gray-100 rounded-2xl p-1">
+            <div className="relative flex items-center bg-gray-100 rounded-2xl p-2">
               <input
                 type="text"
                 value={chatPrompt}
@@ -315,7 +318,7 @@ const handleChatEdit = async () => {
                  disabled={isUpdating || !chatPrompt.trim()}
                  className="bg-black text-white p-2 rounded-xl shrink-0 hover:bg-neutral-800 transition-transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:hover:scale-100"
               >
-                {isUpdating ? <span className="animate-spin text-xs">...</span> : <Terminal className="w-4 h-4" />}
+                {isUpdating ? <span className="animate-spin text-xs">...</span> : <Bot className="w-4 h-4" />}
               </button>
             </div>
           </div>
