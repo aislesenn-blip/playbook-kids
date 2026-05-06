@@ -100,18 +100,58 @@ export default function PreviewPage() {
 
   return (
     <div className="w-full h-screen flex flex-col bg-white">
-      <div className="h-12 border-b border-gray-200 flex items-center justify-between px-4 bg-gray-50">
-         <span className="text-sm font-bold text-gray-500 font-mono">App Viewer | ID: {id}</span>
-         <button onClick={() => setShowSetup(true)} className="text-sm font-bold text-black flex items-center gap-2 hover:bg-gray-200 px-3 py-1 rounded-md transition-colors">
-            <Lock className="w-4 h-4" /> Setup Variables
-         </button>
+      <div className="h-14 border-b border-gray-200 flex items-center justify-between px-4 bg-gray-50 shrink-0">
+         <div className="flex flex-col">
+           <span className="text-sm font-bold text-gray-800 font-mono">Live Product | ID: {id}</span>
+           <span className="text-xs text-green-600 font-medium tracking-tight">Active</span>
+         </div>
+         <div className="flex items-center gap-3">
+           <a href="#" className="text-xs font-bold text-blue-600 hover:underline flex items-center gap-1">
+             User Manual & Setup
+           </a>
+           <button onClick={() => setShowSetup(true)} className="text-sm font-bold text-black flex items-center gap-2 hover:bg-gray-200 px-3 py-1 rounded-md transition-colors">
+              <Lock className="w-4 h-4" /> Environment Secrets
+           </button>
+         </div>
       </div>
-      <iframe
-        title="App Preview"
-        className="w-full flex-1 border-none"
-        sandbox="allow-scripts"
-        srcDoc={injectedHtml}
-      />
+      <div className="flex flex-1 overflow-hidden">
+        {/* Main Preview */}
+        <iframe
+          title="App Preview"
+          className="flex-1 w-full h-full border-none"
+          sandbox="allow-scripts allow-forms allow-popups"
+          srcDoc={injectedHtml}
+        />
+        {/* Chat-to-Edit Side Drawer */}
+        <div className="w-80 border-l border-gray-200 bg-gray-50 flex flex-col shrink-0">
+          <div className="p-4 border-b border-gray-200 bg-white">
+            <h3 className="font-bold text-sm text-black flex items-center gap-2">
+              <Terminal className="w-4 h-4 text-[#DDA359]" />
+              Chat to Edit
+            </h3>
+            <p className="text-xs text-gray-500 mt-1">Request modifications to the UI or Logic.</p>
+          </div>
+          <div className="flex-1 p-4 overflow-y-auto no-scrollbar flex flex-col gap-3">
+            {/* Dummy chat history for UX */}
+            <div className="bg-white p-3 rounded-xl border border-gray-100 text-sm shadow-sm">
+               <span className="font-bold text-xs text-[#DDA359] block mb-1">Architect</span>
+               Your product is live. What would you like to change?
+            </div>
+          </div>
+          <div className="p-4 bg-white border-t border-gray-200">
+            <div className="relative flex items-center bg-gray-100 rounded-2xl p-1">
+              <input
+                type="text"
+                placeholder="Make the button blue..."
+                className="w-full bg-transparent text-sm px-3 py-2 outline-none"
+              />
+              <button className="bg-black text-white p-2 rounded-xl shrink-0 hover:bg-neutral-800 transition-transform hover:scale-105 active:scale-95">
+                <Terminal className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
