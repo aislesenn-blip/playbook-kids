@@ -140,9 +140,10 @@
 
 /* Hide scrollbar universally to prevent any edge-case scrollbars */
 ::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
-    display: none;
+    width: 0px !important;
+    height: 0px !important;
+    background: transparent !important;
+    display: none !important;
 }
 * {
   scrollbar-width: none !important;

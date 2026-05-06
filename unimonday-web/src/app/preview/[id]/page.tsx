@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { supabase } from "@/lib/supabase/client";
 import { Terminal, Lock } from "lucide-react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 export default function PreviewPage() {
   const { id } = useParams();
@@ -31,12 +32,16 @@ export default function PreviewPage() {
 
     setIsUpdating(true);
     try {
-      const fullPrompt = `Here is my current code:\nHTML: ${appData.html}\nCSS: ${appData.css}\nJS: ${appData.js}\n\nI need you to modify it according to this new request: ${chatPrompt}. Output the full new code.`;
-
       const res = await fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: fullPrompt })
+        body: JSON.stringify({
+          action: 'edit',
+          prompt: chatPrompt,
+          html: appData.html,
+          css: appData.css,
+          prd: appData.js // passing js in prd variable to match api structure for brevity
+        })
       });
 
       if (!res.ok) throw new Error("Modification failed");
@@ -52,10 +57,12 @@ export default function PreviewPage() {
       if (!dbError) {
         setAppData({ ...appData, html: data.html, css: data.css, js: data.js });
         setChatPrompt("");
+      } else {
+        throw new Error("Failed to save edits to DB");
       }
     } catch (e) {
       console.error(e);
-      alert("Failed to apply edits.");
+      alert("Failed to apply edits. Please try again.");
     } finally {
       setIsUpdating(false);
     }
@@ -104,6 +111,8 @@ export default function PreviewPage() {
             <script src="https://cdn.tailwindcss.com"></script>
             <style>
                body { font-family: system-ui, -apple-system, sans-serif; }
+               ::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
+               * { -ms-overflow-style: none !important; scrollbar-width: none !important; }
                ${appData.css || ''}
             </style>
             <script>
@@ -226,6 +235,9 @@ export default function PreviewPage() {
            <span className="text-xs text-green-600 font-medium tracking-tight">Active</span>
          </div>
          <div className="flex items-center gap-3">
+           <Link href="/" className="text-xs font-bold text-[#DDA359] hover:underline flex items-center mr-4 border border-[#DDA359]/30 px-3 py-1 rounded-md bg-[#DDA359]/10">
+             Build New App
+           </Link>
            <button onClick={() => setShowManual(true)} className="text-xs font-bold text-blue-600 hover:underline flex items-center gap-1 bg-transparent border-none cursor-pointer outline-none">
              User Manual & Setup
            </button>
