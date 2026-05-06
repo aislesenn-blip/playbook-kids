@@ -121,6 +121,11 @@ export default function Home() {
   const [charIndex, setCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
+  const [terminalLogsState, setTerminalLogsState] = useState("");
+  const [sqlCodeState, setSqlCodeState] = useState("");
+  const [dynamicReactCode, setDynamicReactCode] = useState("");
+  const [isGenerating, setIsGenerating] = useState(false);
+
   useEffect(() => {
     if (appState !== "initial") return;
 
@@ -149,7 +154,7 @@ export default function Home() {
     return () => clearTimeout(timeout);
   }, [charIndex, isDeleting, phIndex, appState]);
 
-  const handleBuild = (forcePrompt?: string) => {
+  const handleBuild = async (forcePrompt?: string) => {
     const activePrompt = forcePrompt || prompt;
     if (!activePrompt.trim()) return;
     setAppState("building");
