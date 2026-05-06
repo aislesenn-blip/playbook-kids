@@ -2,9 +2,24 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, CheckCircle, Terminal, Globe, RefreshCcw, LayoutTemplate, Briefcase, Store, Code2, Sparkles, Database, Layers, PenTool, LayoutDashboard, Users, Mail, Building2, HomeIcon, FileText, Utensils, Search } from "lucide-react";
+import { Send, Code, ArrowUp, CheckCircle, X, ArrowRight, Terminal, Globe, RefreshCcw, LayoutTemplate, Briefcase, Store, Code2, Sparkles, Database, Layers, PenTool, LayoutDashboard, Users, Mail, Building2, HomeIcon, FileText, Utensils, Search } from "lucide-react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase/client";
+
+const templates = [
+  { title: "Portfolio", desc: "Showcase your work", icon: Briefcase, prompt: "A professional portfolio for a freelance designer", image: "https://images.unsplash.com/photo-1634084462412-b54873c0a56d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxjcmVhdGl2ZSUyMHdlYiUyMGRlc2lnbiUyMHBvcnRmb2xpbyUyMHNsZWVrfGVufDB8MHx8fDE3NzgwMjAwNjl8MA&ixlib=rb-4.1.0&q=80&w=1080" },
+  { title: "E-Commerce", desc: "Sell products online", icon: Store, prompt: "A minimalist e-commerce store for physical products", image: "https://images.unsplash.com/photo-1648134859177-66e35b61e106?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwZWNvbW1lcmNlJTIwd2Vic2l0ZSUyMHVpJTIwZGVzaWdufGVufDB8MHx8fDE3NzgwMjAwNzB8MA&ixlib=rb-4.1.0&q=80&w=1080" },
+  { title: "Landing Page", desc: "Convert visitors", icon: Code2, prompt: "A modern landing page for a SaaS product", image: "https://images.unsplash.com/photo-1642132652860-603f4e3c19b7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBzYWFzJTIwbGFuZGluZyUyMHBhZ2UlMjBkYXNoYm9hcmQlMjBjbGVhbnxlbnwwfDB8fHwxNzc4MDIwMDcxfDA&ixlib=rb-4.1.0&q=80&w=1080" },
+  { title: "Personal Blog", desc: "Share your thoughts", icon: PenTool, prompt: "A personal blog about modern technology", image: "https://images.unsplash.com/photo-1490013616775-3ca8865fb129?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwY2xlYW4lMjBibG9nJTIwd2Vic2l0ZSUyMGRlc2lnbiUyMHR5cG9ncmFwaHl8ZW58MHwwfHx8MTc3ODAyMDA3Mnww&ixlib=rb-4.1.0&q=80&w=1080" },
+  { title: "SaaS Dashboard", desc: "Manage metrics", icon: LayoutDashboard, prompt: "A comprehensive SaaS dashboard with charts", image: "https://images.unsplash.com/photo-1776702701448-36220108225d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBhbmFseXRpY3MlMjBkYXNoYm9hcmQlMjB1aSUyMGRlc2lnbiUyMGRhcmslMjBtb2RlfGVufDB8MHx8fDE3NzgwMjAwNzN8MA&ixlib=rb-4.1.0&q=80&w=1080" },
+  { title: "Social Network", desc: "Connect with people", icon: Users, prompt: "A community-driven social networking platform", image: "https://images.unsplash.com/photo-1706700392642-dee59f678a09?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxjbGVhbiUyMHNvY2lhbCUyMG1lZGlhJTIwYXBwJTIwaW50ZXJmYWNlJTIwZGVzaWdufGVufDB8MHx8fDE3NzgwMjAwNzR8MA&ixlib=rb-4.1.0&q=80&w=1080" },
+  { title: "Newsletter", desc: "Send weekly updates", icon: Mail, prompt: "A newsletter subscription landing page", image: "https://images.unsplash.com/photo-1584504923091-71d79a3371b6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxuZXdzbGV0dGVyJTIwZW1haWwlMjB0ZW1wbGF0ZSUyMGRlc2lnbiUyMGVsZWdhbnR8ZW58MHwwfHx8MTc3ODAyMDA3NXww&ixlib=rb-4.1.0&q=80&w=1080" },
+  { title: "Agency Site", desc: "Corporate website", icon: Building2, prompt: "A corporate website for a digital agency", image: "https://images.unsplash.com/photo-1634084462412-b54873c0a56d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxjb3Jwb3JhdGUlMjBidXNpbmVzcyUyMHdlYnNpdGUlMjBkZXNpZ24lMjBwcm9mZXNzaW9uYWx8ZW58MHwwfHx8MTc3ODAyMDA3Nnww&ixlib=rb-4.1.0&q=80&w=1080" },
+  { title: "Real Estate", desc: "List properties", icon: HomeIcon, prompt: "A real estate property listing website", image: "https://images.unsplash.com/photo-1591533103012-040525c4d054?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjByZWFsJTIwZXN0YXRlJTIwd2Vic2l0ZSUyMGRlc2lnbiUyMHVpfGVufDB8MHx8fDE3NzgwMjAwNzd8MA&ixlib=rb-4.1.0&q=80&w=1080" },
+  { title: "Resume / CV", desc: "Online resume", icon: FileText, prompt: "An interactive online resume and CV", image: "https://images.unsplash.com/photo-1693045181224-9fc2f954f054?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBjbGVhbiUyMHJlc3VtZSUyMGN2JTIwZGVzaWduJTIwdGVtcGxhdGV8ZW58MHwwfHx8MTc3ODAyMDA3OHww&ixlib=rb-4.1.0&q=80&w=1080" },
+  { title: "Recipe App", desc: "Discover recipes", icon: Utensils, prompt: "A recipe sharing platform with categories", image: "https://images.unsplash.com/photo-1730817403334-d723c05591e6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxmb29kJTIwcmVjaXBlJTIwYXBwJTIwaW50ZXJmYWNlJTIwZGVzaWduJTIwdWl8ZW58MHwwfHx8MTc3ODAyMDA3OXww&ixlib=rb-4.1.0&q=80&w=1080" },
+  { title: "Job Board", desc: "Post job openings", icon: Search, prompt: "A specialized job board for remote workers", image: "https://images.unsplash.com/photo-1767449356630-c60094b1d1b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxjbGVhbiUyMGpvYiUyMGJvYXJkJTIwd2Vic2l0ZSUyMGRlc2lnbiUyMFVJfGVufDB8MHx8fDE3NzgwMjAwODB8MA&ixlib=rb-4.1.0&q=80&w=1080" }
+];
 
 const placeholders = [
   "A minimalist portfolio for a photographer...",
@@ -96,13 +111,10 @@ function TypewriterText({ content, speed = 10 }: { content: string, speed?: numb
 
 export default function Home() {
   const [prompt, setPrompt] = useState("");
-  const [appState, setAppState] = useState<"initial" | "building" | "generated" | "deploying" | "success">("initial");
+  const [appState, setAppState] = useState<"initial" | "building" | "generated" | "deploying" | "success" | "showcase" | "docs">("initial");
   const [loadingText, setLoadingText] = useState("Initializing workspace...");
   const [mockUrl, setMockUrl] = useState("");
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [terminalLogsState, setTerminalLogsState] = useState("");
-  const [sqlCodeState, setSqlCodeState] = useState("");
-  const [dynamicReactCode, setDynamicReactCode] = useState("");
+  const [selectedTemplate, setSelectedTemplate] = useState<typeof templates[0] | null>(null);
 
   const [placeholder, setPlaceholder] = useState("");
   const [phIndex, setPhIndex] = useState(0);
@@ -137,9 +149,9 @@ export default function Home() {
     return () => clearTimeout(timeout);
   }, [charIndex, isDeleting, phIndex, appState]);
 
-  const handleBuild = async () => {
-    if (!prompt.trim() || isGenerating) return;
-    setIsGenerating(true);
+  const handleBuild = (forcePrompt?: string) => {
+    const activePrompt = forcePrompt || prompt;
+    if (!activePrompt.trim()) return;
     setAppState("building");
     setTerminalLogsState("Initializing build process...\n");
     setSqlCodeState("-- Waiting for schema...\n");
@@ -196,7 +208,8 @@ export default function Home() {
   };
 
   const handleNavClick = (navItem: string) => {
-    alert(`Navigating to ${navItem}... Wiring ready!`);
+    if (navItem === "Showcase") setAppState("showcase");
+    else if (navItem === "Docs") setAppState("docs");
   };
 
   return (
@@ -205,9 +218,10 @@ export default function Home() {
       {/* Top Navigation */}
       {appState === "initial" && (
         <nav className="w-full flex items-center justify-between p-6 z-20">
-          <div className="flex items-center gap-2 text-black font-bold text-2xl tracking-tight">
-             <Sparkles className="w-7 h-7" />
-             <span>uNiMONDAY</span>
+          <div className="flex items-center gap-1 text-black font-extrabold text-2xl tracking-tight">
+             <Code className="w-7 h-7 mr-1 text-black" />
+             <span>CODE</span>
+             <span className="text-black/60">BOOK</span>
           </div>
           <div className="flex items-center gap-6 text-sm font-bold">
             <button onClick={() => handleNavClick("Showcase")} className="text-black hover:text-neutral-800 transition-colors">Showcase</button>
@@ -271,7 +285,7 @@ export default function Home() {
                 <div className="flex justify-between items-center px-4 pb-2 mt-2">
                   <span className="text-xs font-bold text-black/70 uppercase tracking-widest">Press Enter to Build</span>
                   <button
-                    onClick={handleBuild}
+                    onClick={() => handleBuild()}
                     disabled={!prompt.trim()}
                     className="p-4 bg-black hover:bg-neutral-800 disabled:bg-black/20 disabled:text-black/40 text-white rounded-full transition-colors flex items-center justify-center shadow-lg disabled:shadow-none"
                   >
@@ -288,23 +302,10 @@ export default function Home() {
                   <h3 className="text-sm font-bold text-black uppercase tracking-widest">Start with a Template</h3>
                </div>
                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {[
-                    { title: "Portfolio", desc: "Showcase your work", icon: Briefcase, prompt: "A professional portfolio for a freelance designer" },
-                    { title: "E-Commerce", desc: "Sell products online", icon: Store, prompt: "A minimalist e-commerce store for physical products" },
-                    { title: "Landing Page", desc: "Convert visitors", icon: Code2, prompt: "A modern landing page for a SaaS product" },
-                    { title: "Personal Blog", desc: "Share your thoughts", icon: PenTool, prompt: "A personal blog about modern technology" },
-                    { title: "SaaS Dashboard", desc: "Manage metrics", icon: LayoutDashboard, prompt: "A comprehensive SaaS dashboard with charts" },
-                    { title: "Social Network", desc: "Connect with people", icon: Users, prompt: "A community-driven social networking platform" },
-                    { title: "Newsletter", desc: "Send weekly updates", icon: Mail, prompt: "A newsletter subscription landing page" },
-                    { title: "Agency Site", desc: "Corporate website", icon: Building2, prompt: "A corporate website for a digital agency" },
-                    { title: "Real Estate", desc: "List properties", icon: HomeIcon, prompt: "A real estate property listing website" },
-                    { title: "Resume / CV", desc: "Online resume", icon: FileText, prompt: "An interactive online resume and CV" },
-                    { title: "Recipe App", desc: "Discover recipes", icon: Utensils, prompt: "A recipe sharing platform with categories" },
-                    { title: "Job Board", desc: "Post job openings", icon: Search, prompt: "A specialized job board for remote workers" }
-                  ].map((tpl, i) => (
+                  {templates.map((tpl, i) => (
                     <div
                       key={i}
-                      onClick={() => setPrompt(tpl.prompt)}
+                      onClick={() => setSelectedTemplate(tpl)}
                       className="bg-[#DDA359] border-2 border-black/10 hover:border-black p-5 rounded-2xl cursor-pointer transition-all hover:-translate-y-1 shadow-sm hover:shadow-lg flex flex-col items-center text-center group"
                     >
                        <div className="w-12 h-12 bg-black/5 rounded-full flex items-center justify-center mb-4 group-hover:bg-black group-hover:text-[#DDA359] text-black transition-colors">
@@ -316,6 +317,69 @@ export default function Home() {
                   ))}
                </div>
             </div>
+
+            {/* Modal for Template Preview */}
+            <AnimatePresence>
+              {selectedTemplate && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+                  onClick={() => setSelectedTemplate(null)}
+                >
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                    transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                    className="w-full max-w-5xl bg-[#FAFAFA] rounded-[32px] overflow-hidden shadow-2xl flex flex-col md:flex-row relative"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {/* Close Button */}
+                    <button
+                      onClick={() => setSelectedTemplate(null)}
+                      className="absolute top-6 right-6 z-10 w-10 h-10 bg-black/5 hover:bg-black/10 rounded-full flex items-center justify-center transition-colors"
+                    >
+                      <X className="w-5 h-5 text-black" />
+                    </button>
+
+                    {/* Left: Image Preview */}
+                    <div className="w-full md:w-3/5 h-[300px] md:h-[600px] relative bg-neutral-200">
+                      <img
+                        src={selectedTemplate.image}
+                        alt={selectedTemplate.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent" />
+                    </div>
+
+                    {/* Right: Content */}
+                    <div className="w-full md:w-2/5 p-10 md:p-12 flex flex-col justify-center bg-white">
+                      <div className="w-16 h-16 bg-[#DDA359]/20 rounded-2xl flex items-center justify-center mb-8">
+                        <selectedTemplate.icon className="w-8 h-8 text-[#DDA359]" />
+                      </div>
+                      <h2 className="text-4xl font-extrabold text-black mb-4 tracking-tight">{selectedTemplate.title}</h2>
+                      <p className="text-lg text-neutral-500 font-medium mb-10 leading-relaxed">
+                        {selectedTemplate.desc}. Start with this high-end foundation and customize it to match your exact vision using our AI architect.
+                      </p>
+
+                      <button
+                        onClick={() => {
+                          setPrompt(selectedTemplate.prompt);
+                          setSelectedTemplate(null);
+                        }}
+                        className="w-full py-4 bg-black text-white rounded-2xl font-bold text-lg flex items-center justify-center gap-3 hover:bg-neutral-800 transition-all hover:-translate-y-1 shadow-xl hover:shadow-2xl"
+                      >
+                        Build This App <ArrowRight className="w-5 h-5" />
+                      </button>
+                    </div>
+                  </motion.div>
+                </motion.div>
+              )}
+
+      </AnimatePresence>
+
           </motion.div>
         )}
 
@@ -409,7 +473,7 @@ export default function Home() {
           </motion.div>
         )}
 
-        {/* State: Generated Preview */}
+        {/* State: Generated Preview with Chat-to-Edit */}
         {appState === "generated" && (
           <motion.div
             key="generated"
@@ -418,7 +482,7 @@ export default function Home() {
             className="w-full h-screen flex flex-col z-10 bg-neutral-100"
           >
              {/* Header */}
-             <div className="h-16 border-b-2 border-black/10 bg-[#DDA359] px-6 flex items-center justify-between shadow-md">
+             <div className="h-16 border-b-2 border-black/10 bg-[#DDA359] px-6 flex items-center justify-between shadow-md z-20">
                 <div className="flex items-center gap-4">
                   <button onClick={reset} className="text-black hover:text-neutral-800 transition-colors flex items-center gap-2 text-sm font-bold">
                     <RefreshCcw className="w-5 h-5" /> Start Over
@@ -431,36 +495,119 @@ export default function Home() {
 
              </div>
 
-             {/* Canvas Wrapper */}
-             <div className="flex-1 p-6 sm:p-12 overflow-hidden flex items-center justify-center">
-                <div className="w-full max-w-5xl h-full bg-[#DDA359] rounded-2xl shadow-2xl border-2 border-black/10 overflow-hidden flex flex-col">
-                   {/* Browser Chrome */}
-                   <div className="h-12 border-b border-black/10 bg-white flex items-center px-4 gap-2">
-                      <div className="flex gap-2">
-                         <div className="w-3.5 h-3.5 rounded-full bg-red-500" />
-                         <div className="w-3.5 h-3.5 rounded-full bg-yellow-500" />
-                         <div className="w-3.5 h-3.5 rounded-full bg-green-500" />
-                      </div>
-                      <div className="ml-4 flex-1 max-w-md mx-auto bg-neutral-100 rounded-md border border-neutral-200 h-8 flex items-center justify-center text-xs text-black font-mono font-bold shadow-inner">
-                         localhost:3000
-                      </div>
-                   </div>
-                   {/* Fake Website Content */}
-                   <div className="flex-1 p-12 overflow-y-auto bg-white">
-                      <div className="max-w-3xl mx-auto space-y-12">
-                         <div className="space-y-4 text-center">
-                            <div className="w-24 h-24 bg-neutral-200 rounded-3xl mx-auto mb-8 animate-pulse shadow-inner" />
-                            <div className="h-12 bg-neutral-200 rounded-xl w-3/4 mx-auto animate-pulse" />
-                            <div className="h-4 bg-neutral-200 rounded w-1/2 mx-auto animate-pulse" />
+             {/* Workspace Split */}
+             <div className="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
+
+                {/* Canvas Area (Left/Top) */}
+                <div className="flex-1 p-4 sm:p-8 flex items-center justify-center overflow-hidden bg-neutral-100/50 relative z-0">
+                   <div className="w-full h-full max-w-5xl bg-white rounded-2xl shadow-2xl border-2 border-black/10 overflow-hidden flex flex-col">
+                      {/* Browser Chrome */}
+                      <div className="h-12 border-b border-black/10 bg-neutral-50 flex items-center px-4 gap-2 shrink-0">
+                         <div className="flex gap-2">
+                            <div className="w-3.5 h-3.5 rounded-full bg-red-400" />
+                            <div className="w-3.5 h-3.5 rounded-full bg-yellow-400" />
+                            <div className="w-3.5 h-3.5 rounded-full bg-green-400" />
                          </div>
-                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-12">
-                            <div className="h-56 bg-neutral-100 border border-neutral-200 rounded-2xl animate-pulse shadow-sm" />
-                            <div className="h-56 bg-neutral-100 border border-neutral-200 rounded-2xl animate-pulse shadow-sm" />
-                            <div className="h-56 bg-neutral-100 border border-neutral-200 rounded-2xl animate-pulse shadow-sm" />
+                         <div className="ml-4 flex-1 max-w-md mx-auto bg-white rounded-md border border-neutral-200 h-8 flex items-center justify-center text-xs text-black/50 font-mono font-bold shadow-sm">
+                            localhost:3000
+                         </div>
+                      </div>
+                      {/* Fake Website Content (Scrollable) */}
+                      <div className="flex-1 p-8 overflow-y-auto no-scrollbar relative">
+                         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white/50 pointer-events-none z-10" />
+                         <div className="max-w-3xl mx-auto space-y-12 pb-20">
+                            {/* Hero Section Mock */}
+                            <div className="space-y-6 text-center pt-8">
+                               <div className="w-20 h-20 bg-blue-100 text-blue-500 rounded-3xl mx-auto flex items-center justify-center shadow-inner">
+                                  <Code className="w-10 h-10" />
+                               </div>
+                               <h1 className="text-4xl font-extrabold text-black tracking-tight">{prompt || "Your App Name"}</h1>
+                               <p className="text-xl text-black/60 max-w-xl mx-auto">This is a live preview of your generated application. Use the chat panel to ask the AI to modify text, colors, layout, or add new sections.</p>
+                               <div className="flex gap-4 justify-center pt-4">
+                                  <div className="px-6 py-3 bg-black text-white rounded-xl font-bold shadow-lg">Get Started</div>
+                                  <div className="px-6 py-3 bg-neutral-200 text-black rounded-xl font-bold">Learn More</div>
+                               </div>
+                            </div>
+                            {/* Feature Grid Mock */}
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-12">
+                               <div className="p-6 bg-neutral-50 border border-neutral-100 rounded-2xl shadow-sm space-y-4 hover:shadow-md transition-shadow">
+                                  <div className="w-10 h-10 bg-green-100 rounded-full mb-2" />
+                                  <div className="h-4 bg-neutral-200 rounded w-3/4" />
+                                  <div className="h-3 bg-neutral-100 rounded w-full" />
+                                  <div className="h-3 bg-neutral-100 rounded w-5/6" />
+                               </div>
+                               <div className="p-6 bg-neutral-50 border border-neutral-100 rounded-2xl shadow-sm space-y-4 hover:shadow-md transition-shadow">
+                                  <div className="w-10 h-10 bg-purple-100 rounded-full mb-2" />
+                                  <div className="h-4 bg-neutral-200 rounded w-2/3" />
+                                  <div className="h-3 bg-neutral-100 rounded w-full" />
+                                  <div className="h-3 bg-neutral-100 rounded w-4/5" />
+                               </div>
+                               <div className="p-6 bg-neutral-50 border border-neutral-100 rounded-2xl shadow-sm space-y-4 hover:shadow-md transition-shadow">
+                                  <div className="w-10 h-10 bg-orange-100 rounded-full mb-2" />
+                                  <div className="h-4 bg-neutral-200 rounded w-3/4" />
+                                  <div className="h-3 bg-neutral-100 rounded w-full" />
+                                  <div className="h-3 bg-neutral-100 rounded w-full" />
+                               </div>
+                            </div>
                          </div>
                       </div>
                    </div>
                 </div>
+
+                {/* Chat to Edit Panel (Right/Bottom) */}
+                <div className="w-full lg:w-[400px] h-[50vh] lg:h-full bg-white border-t lg:border-t-0 lg:border-l border-neutral-200 flex flex-col z-10 shadow-2xl lg:shadow-none">
+                   <div className="p-4 border-b border-neutral-100 flex items-center justify-between shrink-0 bg-neutral-50/50">
+                      <div className="flex items-center gap-2">
+                         <Sparkles className="w-5 h-5 text-yellow-500" />
+                         <span className="font-bold text-black text-sm">AI Architect</span>
+                      </div>
+                      <span className="text-xs font-bold px-2 py-1 bg-green-100 text-green-700 rounded-full">Online</span>
+                   </div>
+
+                   <div className="flex-1 overflow-y-auto no-scrollbar p-4 space-y-4 bg-neutral-50/30">
+                      <div className="flex gap-3 max-w-[85%]">
+                         <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center shrink-0">
+                            <Sparkles className="w-4 h-4 text-white" />
+                         </div>
+                         <div className="bg-white border border-neutral-200 p-3 rounded-2xl rounded-tl-sm shadow-sm">
+                            <p className="text-sm text-black">I&apos;ve built the initial version of your app! How does it look?</p>
+                         </div>
+                      </div>
+                      <div className="flex gap-3 max-w-[85%]">
+                         <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center shrink-0">
+                            <Sparkles className="w-4 h-4 text-white" />
+                         </div>
+                         <div className="bg-white border border-neutral-200 p-3 rounded-2xl rounded-tl-sm shadow-sm space-y-2">
+                            <p className="text-sm text-black">You can ask me to change things like:</p>
+                            <ul className="text-xs text-black/70 list-disc pl-4 space-y-1">
+                               <li>&quot;Make the hero button rounded&quot;</li>
+                               <li>&quot;Change the primary color to dark blue&quot;</li>
+                               <li>&quot;Add a pricing section below features&quot;</li>
+                            </ul>
+                         </div>
+                      </div>
+                   </div>
+
+                   <div className="p-4 bg-white border-t border-neutral-100 shrink-0">
+                      <div className="relative">
+                         <input
+                            type="text"
+                            placeholder="Ask AI to edit the app..."
+                            className="w-full bg-neutral-100 text-black text-sm rounded-2xl py-3 pl-4 pr-12 outline-none focus:ring-2 focus:ring-black/5 transition-all placeholder:text-black/40 font-medium"
+                            onKeyDown={(e) => {
+                               if (e.key === 'Enter') {
+                                  e.currentTarget.value = '';
+                                  // In a real app, this would append a user message and trigger AI modification
+                               }
+                            }}
+                         />
+                         <button className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 bg-black text-white rounded-xl hover:bg-neutral-800 transition-colors">
+                            <ArrowUp className="w-4 h-4" />
+                         </button>
+                      </div>
+                   </div>
+                </div>
+
              </div>
           </motion.div>
         )}
@@ -526,6 +673,33 @@ export default function Home() {
           </motion.div>
         )}
 
+
+        {appState === "showcase" && (
+          <div className="w-full h-screen flex flex-col items-center justify-center bg-neutral-100 z-10 p-8">
+             <h2 className="text-4xl font-extrabold text-black mb-4">Showcase</h2>
+             <p className="text-black/60 mb-8">Discover amazing applications built by the community.</p>
+             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl">
+                {[1,2,3].map(i => (
+                   <div key={i} className="h-64 bg-white rounded-2xl shadow-sm border border-neutral-200"></div>
+                ))}
+             </div>
+             <button onClick={reset} className="mt-12 text-black font-bold hover:underline">Back to Builder</button>
+          </div>
+        )}
+
+        {appState === "docs" && (
+          <div className="w-full h-screen flex flex-col items-center justify-center bg-neutral-100 z-10 p-8">
+             <h2 className="text-4xl font-extrabold text-black mb-4">Documentation</h2>
+             <p className="text-black/60 mb-8">Learn how to leverage our AI architect.</p>
+             <div className="w-full max-w-3xl bg-white rounded-2xl shadow-sm border border-neutral-200 p-8 min-h-[400px]">
+                <div className="h-4 bg-neutral-100 rounded w-1/4 mb-6"></div>
+                <div className="h-3 bg-neutral-50 rounded w-full mb-3"></div>
+                <div className="h-3 bg-neutral-50 rounded w-5/6 mb-3"></div>
+                <div className="h-3 bg-neutral-50 rounded w-full mb-3"></div>
+             </div>
+             <button onClick={reset} className="mt-12 text-black font-bold hover:underline">Back to Builder</button>
+          </div>
+        )}
       </AnimatePresence>
     </div>
   );
