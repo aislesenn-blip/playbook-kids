@@ -16,9 +16,12 @@ export default function PreviewPage() {
   const [mockKey, setMockKey] = useState("");
   const [blobUrl, setBlobUrl] = useState<string>("");
 
-  // Chat-to-edit state
+// Chat-to-edit state
   const [chatPrompt, setChatPrompt] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
+  const [chatHistory, setChatHistory] = useState<{role: 'ai' | 'user', content: string}[]>([
+    { role: 'ai', content: "Your product is live. What would you like to change?" }
+  ]);
 
   const handleCopyLink = () => {
     const livePath = '/live/' + (Array.isArray(id) ? id[0] : id);
@@ -27,17 +30,21 @@ export default function PreviewPage() {
     alert("Live Link Copied to Clipboard!");
   };
 
-  const handleChatEdit = async () => {
+const handleChatEdit = async () => {
     if (!chatPrompt.trim() || !appData) return;
 
+    const currentPrompt = chatPrompt;
+    setChatHistory(prev => [...prev, { role: 'user', content: currentPrompt }]);
+    setChatPrompt("");
     setIsUpdating(true);
+
     try {
       const res = await fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           action: 'edit',
-          prompt: chatPrompt,
+          prompt: currentPrompt,
           html: appData.html,
           css: appData.css,
           prd: appData.js // passing js in prd variable to match api structure for brevity
@@ -56,13 +63,13 @@ export default function PreviewPage() {
 
       if (!dbError) {
         setAppData({ ...appData, html: data.html, css: data.css, js: data.js });
-        setChatPrompt("");
+        setChatHistory(prev => [...prev, { role: 'ai', content: "I've successfully applied your requested changes. Let me know if you need anything else!" }]);
       } else {
         throw new Error("Failed to save edits to DB");
       }
     } catch (e) {
       console.error(e);
-      alert("Failed to apply edits. Please try again.");
+      setChatHistory(prev => [...prev, { role: 'ai', content: "Sorry, I encountered an error while trying to apply those changes. Please try again." }]);
     } finally {
       setIsUpdating(false);
     }
@@ -117,6 +124,17 @@ export default function PreviewPage() {
             </style>
             <script>
                window.ENV = { SUPABASE_URL: ${JSON.stringify(mockKey || '').replace(/</g, '\\u003c')} };
+               // Prevent default link navigation
+               document.addEventListener('click', function(e) {
+                 const link = e.target.closest('a');
+                 if (link) {
+                   const href = link.getAttribute('href');
+                   if (!href || href.startsWith('#') || href.startsWith('/') || href === '') {
+                     e.preventDefault();
+                     console.log('Navigation prevented in preview mode');
+                   }
+                 }
+               });
             </script>
           </head>
           <body>
@@ -268,12 +286,18 @@ export default function PreviewPage() {
             </h3>
             <p className="text-xs text-gray-500 mt-1">Request modifications to the UI or Logic.</p>
           </div>
-          <div className="flex-1 p-4 overflow-y-auto no-scrollbar flex flex-col gap-3">
-            {/* Dummy chat history for UX */}
-            <div className="bg-white p-3 rounded-xl border border-gray-100 text-sm shadow-sm">
-               <span className="font-bold text-xs text-[#DDA359] block mb-1">Architect</span>
-               Your product is live. What would you like to change?
-            </div>
+<div className="flex-1 p-4 overflow-y-auto no-scrollbar flex flex-col gap-3">
+            {chatHistory.map((msg, i) => (
+              <div key={i} className={`p-3 rounded-xl border text-sm shadow-sm max-w-[90%] ${msg.role === 'ai' ? 'bg-white border-gray-100 self-start rounded-tl-sm' : 'bg-black text-white border-black self-end rounded-tr-sm'}`}>
+                 {msg.role === 'ai' && <span className="font-bold text-xs text-[#DDA359] block mb-1">Architect</span>}
+                 {msg.content}
+              </div>
+            ))}
+            {isUpdating && (
+              <div className="bg-white p-3 rounded-xl border border-gray-100 text-sm shadow-sm max-w-[90%] self-start rounded-tl-sm flex items-center gap-2 text-gray-500">
+                 <span className="animate-spin text-xs">...</span> Applying changes...
+              </div>
+            )}
           </div>
           <div className="p-4 bg-white border-t border-gray-200">
             <div className="relative flex items-center bg-gray-100 rounded-2xl p-1">
