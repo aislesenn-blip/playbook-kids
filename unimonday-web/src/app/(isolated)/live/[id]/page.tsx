@@ -87,7 +87,7 @@ export default function LivePage() {
         <iframe
           title="Live App"
           className="flex-1 w-full h-full border-none"
-          sandbox="allow-scripts allow-forms allow-popups allow-modals allow-same-origin"
+          sandbox="allow-scripts allow-forms allow-popups allow-modals"
           src={blobUrl}
         />
       )}

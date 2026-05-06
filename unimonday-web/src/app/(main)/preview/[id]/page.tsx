@@ -98,7 +98,7 @@ export default function PreviewPage() {
     loadApp();
   }, [id]);
 
-  // We use blob URL to safely allow-same-origin for CDN scripts without inheriting parent origin
+  // We use blob URL to securely render the app. allow-same-origin is intentionally omitted to prevent Stored XSS.
   useEffect(() => {
     let url: string | null = null;
     if (appData && !loading) {
@@ -255,7 +255,7 @@ export default function PreviewPage() {
           <iframe
             title="App Preview"
             className="flex-1 w-full h-full border-none"
-            sandbox="allow-scripts allow-forms allow-popups allow-modals allow-same-origin"
+            sandbox="allow-scripts allow-forms allow-popups allow-modals"
             src={blobUrl}
           />
         )}

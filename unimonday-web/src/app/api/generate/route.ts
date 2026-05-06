@@ -2,7 +2,7 @@ export const maxDuration = 300;
 import { NextResponse } from 'next/server';
 
 const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
-const UNSPLASH_ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY || 'GFRGVmxF64zpxZL22-o3BaVyGxphiGAwXLMfQxLCC2U';
+const UNSPLASH_ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY || 'MOCK_UNSPLASH_KEY_FOR_TESTING';
 
 const ARCHITECT_PROMPT = `You are a World-Class AI Product Architect, Prompt Engineer, and Full-Stack Builder Agent.
 
