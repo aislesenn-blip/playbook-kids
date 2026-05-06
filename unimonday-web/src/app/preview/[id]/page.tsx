@@ -13,6 +13,7 @@ export default function PreviewPage() {
   const [showSetup, setShowSetup] = useState(false);
   const [showManual, setShowManual] = useState(false);
   const [mockKey, setMockKey] = useState("");
+  const [blobUrl, setBlobUrl] = useState<string>("");
 
   // Chat-to-edit state
   const [chatPrompt, setChatPrompt] = useState("");
@@ -90,6 +91,73 @@ export default function PreviewPage() {
     loadApp();
   }, [id]);
 
+  // We use blob URL to safely allow-same-origin for CDN scripts without inheriting parent origin
+  useEffect(() => {
+    let url: string | null = null;
+    if (appData && !loading) {
+      const injectedHtml = `
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <script src="https://cdn.tailwindcss.com"></script>
+            <style>
+               body { font-family: system-ui, -apple-system, sans-serif; }
+               ${appData.css || ''}
+            </style>
+            <script>
+               window.ENV = { SUPABASE_URL: ${JSON.stringify(mockKey || '').replace(/</g, '\\u003c')} };
+            </script>
+          </head>
+          <body>
+            ${appData.html || ''}
+            <script>${(appData.js || '').replace(/<\/script>/gi, '<\\/script>')}</script>
+          </body>
+        </html>
+      `;
+      const blob = new Blob([injectedHtml], { type: 'text/html' });
+      url = URL.createObjectURL(blob);
+      setTimeout(() => setBlobUrl(url!), 0);
+    }
+    return () => {
+      if (url) URL.revokeObjectURL(url);
+    };
+  }, [appData, mockKey, loading]);
+
+  if (loading) {
+    return <div className="min-h-screen bg-neutral-900 flex items-center justify-center text-white"><Terminal className="w-8 h-8 animate-bounce" /></div>;
+  }
+
+  if (showSetup) {
+    return (
+      <div className="min-h-screen bg-black/50 backdrop-blur-md text-black p-8 flex items-center justify-center fixed inset-0 z-50">
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="max-w-md w-full bg-white border border-gray-200 rounded-3xl p-8 shadow-2xl relative">
+          <div className="w-12 h-12 bg-[#DDA359]/20 rounded-2xl flex items-center justify-center mb-6 border border-[#DDA359]/30">
+            <Lock className="text-[#DDA359] w-6 h-6" />
+          </div>
+          <h1 className="text-2xl font-bold mb-2 text-black">Environment Secrets</h1>
+          <p className="text-gray-500 mb-6 text-sm leading-relaxed">
+            Please provide your Database or API URLs below to connect the frontend to your live backend. Note: Keys are stored securely in your local environment.
+          </p>
+          <input
+            type="text"
+            placeholder="e.g. https://xyz.supabase.co"
+            className="w-full p-4 rounded-xl bg-gray-50 border border-gray-200 mb-6 font-mono text-sm focus:ring-2 focus:ring-[#DDA359] focus:outline-none"
+            value={mockKey}
+            onChange={(e) => setMockKey(e.target.value)}
+          />
+          <button
+            onClick={() => setShowSetup(false)}
+            className="w-full bg-black text-white font-bold py-4 rounded-xl hover:bg-neutral-800 transition-all active:scale-95"
+          >
+            Save & Launch Live Product
+          </button>
+        </motion.div>
+      </div>
+    );
+  }
+
   if (loading) {
     return <div className="min-h-screen bg-neutral-900 flex items-center justify-center text-white"><Terminal className="w-8 h-8 animate-bounce" /></div>;
   }
@@ -150,32 +218,6 @@ export default function PreviewPage() {
     );
   }
 
-  // Inject ENV
-  const injectedHtml = `
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="https://cdn.tailwindcss.com"></script>
-        <style>
-           body { font-family: system-ui, -apple-system, sans-serif; }
-           ${appData?.css || ''}
-        </style>
-        <script>
-           // Safely inject JSON to prevent XSS by escaping HTML tags inside the string
-           window.ENV = {
-             SUPABASE_URL: ${JSON.stringify(mockKey || '').replace(/</g, '\\u003c')}
-           };
-        </script>
-      </head>
-      <body>
-        ${appData?.html || ''}
-        <script>${(appData?.js || '').replace(/<\/script>/gi, '<\\/script>')}</script>
-      </body>
-    </html>
-  `;
-
   return (
     <div className="w-full h-screen flex flex-col bg-white">
       <div className="h-14 border-b border-gray-200 flex items-center justify-between px-4 bg-gray-50 shrink-0">
@@ -197,12 +239,14 @@ export default function PreviewPage() {
       </div>
       <div className="flex flex-1 overflow-hidden">
         {/* Main Preview */}
-        <iframe
-          title="App Preview"
-          className="flex-1 w-full h-full border-none"
-          sandbox="allow-scripts allow-forms allow-popups allow-modals"
-          srcDoc={injectedHtml}
-        />
+        {blobUrl && (
+          <iframe
+            title="App Preview"
+            className="flex-1 w-full h-full border-none"
+            sandbox="allow-scripts allow-forms allow-popups allow-modals allow-same-origin"
+            src={blobUrl}
+          />
+        )}
         {/* Chat-to-Edit Side Drawer */}
         <div className="w-80 border-l border-gray-200 bg-gray-50 flex flex-col shrink-0">
           <div className="p-4 border-b border-gray-200 bg-white">

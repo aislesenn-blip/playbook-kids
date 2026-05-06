@@ -165,21 +165,39 @@ export default function Home() {
     setDynamicCssCode("/* Waiting for CSS... */\n");
 
     try {
-      setTerminalLogsState(prev => prev + "[Step 1/1] Building Product Architecture & UI Components (This may take up to 5 minutes)...\n");
+      // Phase 1: Architecting
+      setTerminalLogsState(prev => prev + "\n[Phase 1/2] 🧠 Brainstorming & Architecting Product End-to-End...\n");
 
-      const res = await fetch('/api/generate', {
+      const architectRes = await fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt })
+        body: JSON.stringify({ action: 'architect', prompt: activePrompt })
       });
 
-      if (!res.ok) throw new Error("Generation failed");
+      if (!architectRes.ok) throw new Error("Architecture Phase Failed");
 
-      const data = await res.json();
+      const prdData = await architectRes.json();
+      setTerminalLogsState(prev => prev + "=> Architecture Complete. PRD Generated.\n");
 
-      setTerminalLogsState(prev => prev + "=> Code generated successfully.\n");
+      // Briefly show PRD data in logs for dopamine hit
+      setDynamicReactCode("// PRD Generated:\n" + JSON.stringify(prdData, null, 2).substring(0, 300) + "...\n");
 
-      // Attempt to provide a real-time feel by dropping in a few chunks
+      // Phase 2: Building
+      setTerminalLogsState(prev => prev + "\n[Phase 2/2] 🏗️ Building Full System (HTML, CSS, JS) based on strict PRD...\n");
+
+      const buildRes = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'build', prd: prdData })
+      });
+
+      if (!buildRes.ok) throw new Error("Build Phase Failed");
+
+      const data = await buildRes.json();
+
+      setTerminalLogsState(prev => prev + "=> Code compiled successfully without placeholders.\n");
+
+      // Drop in chunks to UI
       setDynamicReactCode(
         data.js ? data.js.substring(0, 500) + "\n\n// JS Logic compiled and synced." : "// JS generated successfully"
       );
@@ -196,7 +214,7 @@ export default function Home() {
 
       const { error: dbError } = await supabase
         .from('generated_apps')
-        .insert({ app_id: appId, html: data.html, css: data.css, js: data.js, prompt: prompt });
+        .insert({ app_id: appId, html: data.html, css: data.css, js: data.js, prompt: activePrompt });
 
       if (dbError) {
          console.error("Supabase Save Error:", dbError);
