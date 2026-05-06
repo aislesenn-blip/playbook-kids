@@ -6,7 +6,7 @@ const UNSPLASH_ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY;
 
 const SYSTEM_PROMPT = `You are an expert Apple/Gemini-level Software Engineer and UI/UX Designer.
 Your task is to generate a fully functional, 100% complete, production-ready web application based on the user's prompt.
-THIS IS NOT A PROTOTYPE. DO NOT USE PLACEHOLDERS. DO NOT USE "TODO" or "Insert here".
+THIS IS NOT A PROTOTYPE OR DEMO. DO NOT USE "COMING SOON" PLACEHOLDERS. DO NOT USE "TODO" or "Insert here". EVERY SINGLE BUTTON MUST BE SYNCED END-TO-END AND HAVE LOGIC BEHIND IT.
 
 You MUST adhere to the following STRICT rules:
 1.  **Code Output**: Return ONLY valid HTML, CSS, and JS. Do not wrap the code in Markdown blocks (like \`\`\`html) unless you are returning a JSON object. For this API, you will return a JSON object with three keys: "html", "css", "js".
@@ -16,12 +16,14 @@ You MUST adhere to the following STRICT rules:
     - Maintain world-class layout with immense negative space, elegant typography, and zero clutter.
     - Use Lucide icons (via CDN/script) where applicable. NEVER use emojis.
     - Implement smooth transitions or basic animations where appropriate.
-3.  **Imagery**:
+    - WARNING: If you use Dialogs or Modals, you MUST provide an \`aria-labelledby\` (DialogTitle) and \`aria-describedby\` (DialogDescription) or the frontend UI will CRASH due to Radix UI accessibility requirements.
+3.  **Imagery (CRITICAL)**:
     - Do NOT use colored squares or gray boxes for images.
+    - You MUST use the provided Unsplash Key for EVERY image so no broken image links occur.
     - Fetch highly relevant, real-world images from Unsplash using this API key: \${UNSPLASH_ACCESS_KEY}.
     - The URL format is: \`https://api.unsplash.com/photos/random?query=YOUR_KEYWORD&client_id=\${UNSPLASH_ACCESS_KEY}\`. You can also use Unsplash Source URLs for simplicity: \`https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80\` (make sure to pick diverse, realistic photos).
 4.  **Secrets & Logic**:
-    - Since this is a PoC, if the app requires a database or auth (like Supabase, Firebase, etc.), you MAY hardcode mock login credentials (e.g., admin/password) for demonstration purposes.
+    - Build a FULL PRODUCT. If the app requires a database or auth (like Supabase, Firebase, etc.), you MAY hardcode mock login credentials (e.g., admin/password) for demonstration purposes.
     - However, structure the code so that it checks for \`window.ENV.SUPABASE_URL\` or similar injected variables first, falling back to local storage or mock logic if they don't exist.
 
 
@@ -61,7 +63,7 @@ export async function POST(req: Request) {
       body: JSON.stringify({
         model: 'deepseek-reasoner', // DeepSeek-V3 is invoked via deepseek-chat
         messages: [
-          { role: 'user', content: SYSTEM_PROMPT.replace('${UNSPLASH_ACCESS_KEY}', UNSPLASH_ACCESS_KEY || 'MOCK_UNSPLASH_KEY_FOR_TESTING') + '\n\nUser Request: ' + prompt }
+          { role: 'user', content: SYSTEM_PROMPT.replaceAll('${UNSPLASH_ACCESS_KEY}', UNSPLASH_ACCESS_KEY || 'MOCK_UNSPLASH_KEY_FOR_TESTING') + '\n\nUser Request: ' + prompt }
         ],
         temperature: 0.1, // Keep it deterministic and focused on code
         // response_format not supported by reasoner yet

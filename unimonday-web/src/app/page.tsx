@@ -122,8 +122,8 @@ export default function Home() {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const [terminalLogsState, setTerminalLogsState] = useState("");
-  const [sqlCodeState, setSqlCodeState] = useState("");
-  const [dynamicReactCode, setDynamicReactCode] = useState("");
+  const [sqlCodeState, setSqlCodeState] = useState("-- Waiting for schema...");
+  const [dynamicReactCode, setDynamicReactCode] = useState("// Waiting for components...");
   const [isGenerating, setIsGenerating] = useState(false);
 
   useEffect(() => {
@@ -163,7 +163,7 @@ export default function Home() {
     setDynamicReactCode("// Waiting for components...\n");
 
     try {
-      setTerminalLogsState(prev => prev + "[Step 1/1] Generating Application Code via DeepSeek-R1 (This may take up to 5 minutes)...\n");
+      setTerminalLogsState(prev => prev + "[Step 1/1] Building Product Architecture & UI Components (This may take up to 5 minutes)...\n");
 
       const res = await fetch('/api/generate', {
         method: 'POST',
@@ -176,7 +176,14 @@ export default function Home() {
       const data = await res.json();
 
       setTerminalLogsState(prev => prev + "=> Code generated successfully.\n");
-      setDynamicReactCode(data.html ? data.html.substring(0, 300) + "\n//... compiled" : "// Components generated successfully");
+
+      // Attempt to provide a real-time feel by dropping in a few chunks
+      setDynamicReactCode(
+        data.html ? "import React from 'react';\n" + data.html.substring(0, 300) + "\n\n// Components compiled and synced." : "// Components generated successfully"
+      );
+      setSqlCodeState(
+         data.html?.includes('INSERT') ? "-- Syncing data structure...\n" + data.html.substring(0, 100) : "-- No explicit DB operations detected, using frontend mock store"
+      );
 
       setTerminalLogsState(prev => prev + "Finalizing and Saving to Database...\n");
 
