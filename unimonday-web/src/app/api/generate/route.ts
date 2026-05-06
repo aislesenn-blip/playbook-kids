@@ -1,8 +1,8 @@
-export const maxDuration = 60;
+export const maxDuration = 300;
 import { NextResponse } from 'next/server';
 
 const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY;
-const UNSPLASH_ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY || "GFRGVmxF64zpxZL22-o3BaVyGxphiGAwXLMfQxLCC2U";
+const UNSPLASH_ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY;
 
 const SYSTEM_PROMPT = `You are an expert Apple/Gemini-level Software Engineer and UI/UX Designer.
 Your task is to generate a fully functional, 100% complete, production-ready web application based on the user's prompt.
@@ -61,8 +61,7 @@ export async function POST(req: Request) {
       body: JSON.stringify({
         model: 'deepseek-reasoner', // DeepSeek-V3 is invoked via deepseek-chat
         messages: [
-          { role: 'system', content: SYSTEM_PROMPT.replace('${UNSPLASH_ACCESS_KEY}', UNSPLASH_ACCESS_KEY) },
-          { role: 'user', content: prompt }
+          { role: 'user', content: SYSTEM_PROMPT.replace('${UNSPLASH_ACCESS_KEY}', UNSPLASH_ACCESS_KEY) + '\n\nUser Request: ' + prompt }
         ],
         temperature: 0.1, // Keep it deterministic and focused on code
         // response_format not supported by reasoner yet

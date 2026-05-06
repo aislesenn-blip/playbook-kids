@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Code, ArrowUp, CheckCircle, X, ArrowRight, Terminal, Globe, RefreshCcw, LayoutTemplate, Briefcase, Store, Code2, Sparkles, Database, Layers, PenTool, LayoutDashboard, Users, Mail, Building2, HomeIcon, FileText, Utensils, Search } from "lucide-react";
 import Link from "next/link";
+import { supabase } from "@/lib/supabase/client";
 
 const templates = [
   { title: "Portfolio", desc: "Showcase your work", icon: Briefcase, prompt: "A professional portfolio for a freelance designer", image: "https://images.unsplash.com/photo-1634084462412-b54873c0a56d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4NjMzNTJ8MHwxfHNlYXJjaHwxfHxjcmVhdGl2ZSUyMHdlYiUyMGRlc2lnbiUyMHBvcnRmb2xpbyUyMHNsZWVrfGVufDB8MHx8fDE3NzgwMjAwNjl8MA&ixlib=rb-4.1.0&q=80&w=1080" },
@@ -152,36 +153,55 @@ export default function Home() {
     const activePrompt = forcePrompt || prompt;
     if (!activePrompt.trim()) return;
     setAppState("building");
+    setTerminalLogsState("Initializing build process...\n");
+    setSqlCodeState("-- Waiting for schema...\n");
+    setDynamicReactCode("// Waiting for components...\n");
 
-    const stages = [
-      "Setting up architecture...",
-      "Writing React components...",
-      "Wiring database schemas...",
-      "Injecting Tailwind CSS...",
-      "Finalizing layout...",
-    ];
+    try {
+      setTerminalLogsState(prev => prev + "[Step 1/1] Generating Application Code via DeepSeek-R1 (This may take up to 5 minutes)...\n");
 
-    let currentStage = 0;
-    const interval = setInterval(() => {
-      currentStage++;
-      if (currentStage < stages.length) {
-        setLoadingText(stages[currentStage]);
+      const res = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt })
+      });
+
+      if (!res.ok) throw new Error("Generation failed");
+
+      const data = await res.json();
+
+      setTerminalLogsState(prev => prev + "=> Code generated successfully.\n");
+      setDynamicReactCode(data.html ? data.html.substring(0, 300) + "\n//... compiled" : "// Components generated successfully");
+
+      setTerminalLogsState(prev => prev + "Finalizing and Saving to Database...\n");
+
+      const appId = "app-" + Math.random().toString(36).substring(2, 11);
+
+      const { error: dbError } = await supabase
+        .from('generated_apps')
+        .insert({ app_id: appId, html: data.html, css: data.css, js: data.js, prompt: prompt });
+
+      if (dbError) {
+         console.error("Supabase Save Error:", dbError);
+         setTerminalLogsState(prev => prev + "=> Warning: Supabase save failed. Proceeding with mock preview.\n");
       } else {
-        clearInterval(interval);
-        setAppState("generated");
+         setTerminalLogsState(prev => prev + "=> Saved to Database successfully.\n");
       }
-    }, 2500); // Slightly longer to let the dopamine hit UI play out
-  };
 
-  const handleDeploy = () => {
-    setAppState("deploying");
-    setTimeout(() => {
-      setMockUrl(`https://${prompt.split(" ")[0].toLowerCase().replace(/[^a-z0-9]/g, "") || "my-awesome-app"}.github.io`);
+      setTerminalLogsState(prev => prev + "Deployment successful. Retrieving link...\n");
+      setMockUrl(`/preview/${appId}`);
       setAppState("success");
-    }, 3000);
-  };
+      setIsGenerating(false);
 
-  const reset = () => {
+    } catch (error) {
+      console.error(error);
+      setTerminalLogsState(prev => prev + "Error: Build failed or Server Timeout. Please try again.\n");
+      setIsGenerating(false);
+      setTimeout(() => {
+        setAppState("initial");
+      }, 4000);
+    }
+  };  const reset = () => {
     setPrompt("");
     setAppState("initial");
     setMockUrl("");
@@ -424,7 +444,7 @@ export default function Home() {
                 >
                     <h3 className="text-white text-sm font-mono border-b border-neutral-800 pb-3 mb-4 flex items-center gap-3"><Terminal className="w-5 h-5 text-yellow-400"/> Generating Components</h3>
                     <div className="flex-1 font-mono text-xs md:text-sm text-green-400 whitespace-pre-wrap overflow-y-auto no-scrollbar pb-10">
-                        <TypewriterText content={reactCode} speed={15} />
+                        <TypewriterText content={dynamicReactCode} speed={15} />
                     </div>
                 </motion.div>
 
@@ -435,7 +455,7 @@ export default function Home() {
                 >
                     <h3 className="text-white text-sm font-mono border-b border-neutral-800 pb-3 mb-4 flex items-center gap-3"><Database className="w-5 h-5 text-purple-400"/> Database Schema</h3>
                     <div className="flex-1 font-mono text-xs md:text-sm text-pink-400 whitespace-pre-wrap overflow-y-auto no-scrollbar pb-10">
-                         <TypewriterText content={sqlCode} speed={30} />
+                         <TypewriterText content={sqlCodeState} speed={30} />
                     </div>
                 </motion.div>
 
@@ -446,7 +466,7 @@ export default function Home() {
                 >
                     <h3 className="text-white text-sm font-mono border-b border-neutral-800 pb-3 mb-4 flex items-center gap-3"><Terminal className="w-5 h-5 text-gray-400"/> Compilation Logs</h3>
                     <div className="flex-1 font-mono text-xs md:text-sm text-gray-300 space-y-1 overflow-y-auto no-scrollbar pb-10">
-                        <TypewriterText content={terminalLogs} speed={40} />
+                        <TypewriterText content={terminalLogsState} speed={40} />
                     </div>
                 </motion.div>
             </div>
@@ -472,12 +492,7 @@ export default function Home() {
                     &quot;{prompt}&quot;
                   </span>
                 </div>
-                <button
-                  onClick={handleDeploy}
-                  className="bg-black hover:bg-neutral-800 text-white px-6 py-2.5 rounded-full text-sm font-bold flex items-center gap-2 transition-colors shadow-lg"
-                >
-                  <Terminal className="w-4 h-4" /> Deploy to GitHub
-                </button>
+
              </div>
 
              {/* Workspace Split */}
@@ -643,11 +658,9 @@ export default function Home() {
                 </div>
                 <Link
                   href={mockUrl}
-                  target="_blank"
                   className="ml-6 shrink-0 bg-black text-white hover:bg-neutral-800 px-6 py-3 rounded-full text-base font-bold transition-colors shadow-lg"
-                  onClick={(e) => { e.preventDefault(); alert("This is a mock prototype. In production, this would open the live site."); }}
                 >
-                  Visit Site
+                  Visit Live Site
                 </Link>
              </div>
 
