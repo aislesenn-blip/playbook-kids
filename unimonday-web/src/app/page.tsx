@@ -122,8 +122,9 @@ export default function Home() {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const [terminalLogsState, setTerminalLogsState] = useState("");
-  const [sqlCodeState, setSqlCodeState] = useState("-- Waiting for schema...");
-  const [dynamicReactCode, setDynamicReactCode] = useState("// Waiting for components...");
+  const [sqlCodeState, setSqlCodeState] = useState("<!-- Waiting for HTML -->");
+  const [dynamicReactCode, setDynamicReactCode] = useState("// Waiting for JS...");
+  const [dynamicCssCode, setDynamicCssCode] = useState("/* Waiting for CSS... */");
   const [isGenerating, setIsGenerating] = useState(false);
 
   useEffect(() => {
@@ -159,8 +160,9 @@ export default function Home() {
     if (!activePrompt.trim()) return;
     setAppState("building");
     setTerminalLogsState("Initializing build process...\n");
-    setSqlCodeState("-- Waiting for schema...\n");
-    setDynamicReactCode("// Waiting for components...\n");
+    setSqlCodeState("<!-- Waiting for HTML -->\n");
+    setDynamicReactCode("// Waiting for JS...\n");
+    setDynamicCssCode("/* Waiting for CSS... */\n");
 
     try {
       setTerminalLogsState(prev => prev + "[Step 1/1] Building Product Architecture & UI Components (This may take up to 5 minutes)...\n");
@@ -179,10 +181,13 @@ export default function Home() {
 
       // Attempt to provide a real-time feel by dropping in a few chunks
       setDynamicReactCode(
-        data.html ? "import React from 'react';\n" + data.html.substring(0, 300) + "\n\n// Components compiled and synced." : "// Components generated successfully"
+        data.js ? data.js.substring(0, 500) + "\n\n// JS Logic compiled and synced." : "// JS generated successfully"
       );
       setSqlCodeState(
-         data.html?.includes('INSERT') ? "-- Syncing data structure...\n" + data.html.substring(0, 100) : "-- No explicit DB operations detected, using frontend mock store"
+         data.html ? data.html.substring(0, 500) + "\n\n<!-- HTML built -->" : "<!-- HTML built -->"
+      );
+      setDynamicCssCode(
+         data.css ? data.css.substring(0, 500) + "\n\n/* Styles applied */" : "/* Styles applied */"
       );
 
       setTerminalLogsState(prev => prev + "Finalizing and Saving to Database...\n");
@@ -418,56 +423,36 @@ export default function Home() {
 
             {/* Content Area - Dark theme for dopamine hit */}
             <div className="flex-1 bg-[#111] p-6 grid grid-cols-1 lg:grid-cols-3 gap-6 overflow-hidden">
-                {/* Panel 1: File Structure */}
+                {/* Panel 1: HTML Architecture */}
                 <motion.div
                   initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.1 }}
                   className="bg-black border border-neutral-800 rounded-xl p-5 flex flex-col shadow-2xl overflow-hidden"
                 >
-                    <h3 className="text-white text-sm font-mono border-b border-neutral-800 pb-3 mb-4 flex items-center gap-3"><Layers className="w-5 h-5 text-blue-400"/> File Structure</h3>
-                    <div className="flex-1 font-mono text-sm text-neutral-400 overflow-hidden relative">
-                         <div className="space-y-2 pb-4">
-                           <p className="text-green-400 font-bold">├── src/</p>
-                           <p>│   ├── components/</p>
-                           <p>│   │   ├── Header.tsx</p>
-                           <p>│   │   ├── Hero.tsx</p>
-                           <p>│   │   ├── Sidebar.tsx</p>
-                           <p>│   │   └── Footer.tsx</p>
-                           <p>│   ├── lib/</p>
-                           <p>│   │   ├── db.ts</p>
-                           <p>│   │   └── utils.ts</p>
-                           <p>│   ├── app/</p>
-                           <p>│   │   ├── api/</p>
-                           <p>│   │   │   └── auth/</p>
-                           <p>│   │   ├── page.tsx</p>
-                           <p>│   │   ├── layout.tsx</p>
-                           <p>│   │   └── globals.css</p>
-                           <p>├── package.json</p>
-                           <p>├── next.config.js</p>
-                           <p>├── tailwind.config.ts</p>
-                           <p>└── tsconfig.json</p>
-                        </div>
+                    <h3 className="text-white text-sm font-mono border-b border-neutral-800 pb-3 mb-4 flex items-center gap-3"><Layers className="w-5 h-5 text-blue-400"/> HTML Architecture</h3>
+                    <div className="flex-1 font-mono text-xs md:text-sm text-blue-400 whitespace-pre-wrap overflow-y-auto no-scrollbar pb-10">
+                         <TypewriterText content={sqlCodeState} speed={30} />
                     </div>
                 </motion.div>
 
-                {/* Panel 2: Code Writing */}
+                {/* Panel 2: React/JS Logic */}
                 <motion.div
                   initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2 }}
                   className="bg-black border border-neutral-800 rounded-xl p-5 flex flex-col shadow-2xl lg:col-span-2 overflow-hidden"
                 >
-                    <h3 className="text-white text-sm font-mono border-b border-neutral-800 pb-3 mb-4 flex items-center gap-3"><Terminal className="w-5 h-5 text-yellow-400"/> Generating Components</h3>
+                    <h3 className="text-white text-sm font-mono border-b border-neutral-800 pb-3 mb-4 flex items-center gap-3"><Terminal className="w-5 h-5 text-yellow-400"/> React/JS Logic</h3>
                     <div className="flex-1 font-mono text-xs md:text-sm text-green-400 whitespace-pre-wrap overflow-y-auto no-scrollbar pb-10">
                         <TypewriterText content={dynamicReactCode} speed={15} />
                     </div>
                 </motion.div>
 
-                {/* Panel 3: Database Schema */}
+                {/* Panel 3: CSS/Styling */}
                 <motion.div
                    initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.3 }}
                    className="bg-black border border-neutral-800 rounded-xl p-5 flex flex-col shadow-2xl lg:col-span-1 overflow-hidden"
                 >
-                    <h3 className="text-white text-sm font-mono border-b border-neutral-800 pb-3 mb-4 flex items-center gap-3"><Database className="w-5 h-5 text-purple-400"/> Database Schema</h3>
+                    <h3 className="text-white text-sm font-mono border-b border-neutral-800 pb-3 mb-4 flex items-center gap-3"><Database className="w-5 h-5 text-purple-400"/> CSS/Styling</h3>
                     <div className="flex-1 font-mono text-xs md:text-sm text-pink-400 whitespace-pre-wrap overflow-y-auto no-scrollbar pb-10">
-                         <TypewriterText content={sqlCodeState} speed={30} />
+                         <TypewriterText content={dynamicCssCode} speed={30} />
                     </div>
                 </motion.div>
 
