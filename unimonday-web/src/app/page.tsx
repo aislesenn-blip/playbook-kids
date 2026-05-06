@@ -126,6 +126,15 @@ export default function Home() {
   const [dynamicReactCode, setDynamicReactCode] = useState("// Waiting for JS...");
   const [dynamicCssCode, setDynamicCssCode] = useState("/* Waiting for CSS... */");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [showcaseApps, setShowcaseApps] = useState<Array<{app_id: string, prompt: string}>>([]);
+
+  useEffect(() => {
+    if (appState === "showcase") {
+      supabase.from("generated_apps").select("app_id, prompt").limit(9).then(({ data }) => {
+        if (data) setShowcaseApps(data);
+      });
+    }
+  }, [appState]);
 
   useEffect(() => {
     if (appState !== "initial") return;
@@ -710,15 +719,26 @@ export default function Home() {
 
 
         {appState === "showcase" && (
-          <div className="w-full h-screen flex flex-col items-center justify-center bg-neutral-100 z-10 p-8">
-             <h2 className="text-4xl font-extrabold text-black mb-4">Showcase</h2>
-             <p className="text-black/60 mb-8">Discover amazing applications built by the community.</p>
-             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl">
-                {[1,2,3].map(i => (
-                   <div key={i} className="h-64 bg-white rounded-2xl shadow-sm border border-neutral-200"></div>
-                ))}
+          <div className="w-full min-h-screen flex flex-col items-center pt-24 bg-neutral-100 z-10 p-8">
+             <h2 className="text-4xl font-extrabold text-black mb-4">Community Showcase</h2>
+             <p className="text-black/60 mb-12">Discover amazing applications built end-to-end by the AI.</p>
+             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl">
+                {showcaseApps.length > 0 ? showcaseApps.map((app, i) => (
+                   <Link href={`/preview/${app.app_id}`} key={i} className="h-64 bg-white rounded-2xl shadow-sm border border-neutral-200 p-6 flex flex-col hover:shadow-lg transition-all group relative overflow-hidden">
+                      <div className="w-12 h-12 bg-[#DDA359]/20 text-[#DDA359] rounded-xl flex items-center justify-center mb-4">
+                        <Code className="w-6 h-6" />
+                      </div>
+                      <h3 className="font-bold text-lg text-black mb-2 line-clamp-2">{app.prompt || "Untitled App"}</h3>
+                      <p className="text-xs text-neutral-500 mt-auto font-mono">{app.app_id}</p>
+                      <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
+                         <span className="bg-black text-white px-4 py-2 rounded-full font-bold text-sm shadow-xl">View Live Product</span>
+                      </div>
+                   </Link>
+                )) : (
+                   <div className="col-span-3 text-center text-neutral-500 py-20 font-bold">Loading live apps...</div>
+                )}
              </div>
-             <button onClick={reset} className="mt-12 text-black font-bold hover:underline">Back to Builder</button>
+             <button onClick={reset} className="mt-16 text-black font-bold hover:underline underline-offset-4 text-lg">Return to Builder</button>
           </div>
         )}
 

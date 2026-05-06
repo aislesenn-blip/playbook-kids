@@ -53,6 +53,8 @@ export default function LivePage() {
             <script src="https://cdn.tailwindcss.com"></script>
             <style>
                body { font-family: system-ui, -apple-system, sans-serif; }
+               ::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
+               * { -ms-overflow-style: none !important; scrollbar-width: none !important; }
                ${appData.css || ''}
             </style>
             <script>

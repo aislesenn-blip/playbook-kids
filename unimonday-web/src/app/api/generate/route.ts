@@ -59,7 +59,9 @@ You MUST adhere to the following STRICT rules:
 - Maintain world-class layout with immense negative space, elegant typography, and zero clutter.
 - Use Lucide SVG icons exclusively. ABSOLUTELY NO EMOJIS.
 - WARNING: Provide \`aria-labelledby\` and \`aria-describedby\` for Modals/Dialogs.
-- Do NOT use colored squares or gray boxes for images. You MUST use the Unsplash API (\`https://api.unsplash.com/photos/random?query=KEYWORD&client_id=\${UNSPLASH_ACCESS_KEY}\`).
+- NO PLACEHOLDER NAVIGATION: If you build a 'Login' button, 'Profile' tab, or any interactive navigation, you MUST build the corresponding functional modal/screen for it. Everything must sync end-to-end.
+- UNSPLASH IMAGES ONLY: Do NOT use colored squares or gray boxes for images. You MUST use the Unsplash API (\`https://api.unsplash.com/photos/random?query=KEYWORD&client_id=\${UNSPLASH_ACCESS_KEY}\`).
+- ALWAYS ADD IMAGE FALLBACKS: To prevent broken images, all \`<img>\` tags MUST include an onerror attribute handling fallbacks (e.g., \`onerror="this.src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80'"\`).
 `;
 
 export async function POST(req: Request) {
@@ -94,6 +96,8 @@ export async function POST(req: Request) {
        messages = [{ role: 'user', content: `You are an expert Apple/Gemini-level UI Designer.\n\n${BASE_BUILDER_RULES.replaceAll('${UNSPLASH_ACCESS_KEY}', UNSPLASH_ACCESS_KEY)}\n\nTASK: Generate ONLY the custom CSS based on the PRD and the provided HTML. Tailwind is already loaded, so only generate custom keyframes, complex gradients, or layout fixes that Tailwind cannot easily handle natively. If no custom CSS is needed, return empty string.\n\nPRD:\n${JSON.stringify(prd)}\n\nHTML CONTEXT:\n${html}\n\nOUTPUT FORMAT MUST BE VALID JSON enclosed in markdown code blocks:\n{ "code": ".custom-class { ... }" }` }];
     } else if (action === 'build_js') {
        messages = [{ role: 'user', content: `You are an expert Apple/Gemini-level Full-Stack Developer.\n\n${BASE_BUILDER_RULES.replaceAll('${UNSPLASH_ACCESS_KEY}', UNSPLASH_ACCESS_KEY)}\n\nTASK: Generate ONLY the complete JavaScript logic based on the PRD, HTML, and CSS. Implement real functionality, DOM manipulation, open-source APIs (like Leaflet for maps), and local state management. NO PLACEHOLDERS.\n\nPRD:\n${JSON.stringify(prd)}\n\nHTML CONTEXT:\n${html}\n\nCSS CONTEXT:\n${css}\n\nOUTPUT FORMAT MUST BE VALID JSON enclosed in markdown code blocks:\n{ "code": "document.addEventListener('DOMContentLoaded', () => { ... });" }` }];
+    } else if (action === 'edit') {
+       messages = [{ role: 'user', content: `You are an expert Apple/Gemini-level Software Architect.\n\n${BASE_BUILDER_RULES.replaceAll('${UNSPLASH_ACCESS_KEY}', UNSPLASH_ACCESS_KEY)}\n\nTASK: Modify the following application codebase based strictly on the user's edit request.\n\nUSER EDIT REQUEST:\n${prompt}\n\nCURRENT HTML:\n${html}\n\nCURRENT CSS:\n${css}\n\nCURRENT JS:\n${prd || ''}\n\nOUTPUT FORMAT MUST BE VALID JSON enclosed in markdown code blocks containing the FULL updated codebase:\n{ "html": "...", "css": "...", "js": "..." }` }];
     } else {
        return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
     }
