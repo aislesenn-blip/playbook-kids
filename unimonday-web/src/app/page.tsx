@@ -111,6 +111,10 @@ function TypewriterText({ content, speed = 10 }: { content: string, speed?: numb
 
 export default function Home() {
   const [prompt, setPrompt] = useState("");
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [terminalLogsState, setTerminalLogsState] = useState(terminalLogs);
+  const [sqlCodeState, setSqlCodeState] = useState(sqlCode);
+  const [dynamicReactCode, setDynamicReactCode] = useState(reactCode);
   const [appState, setAppState] = useState<"initial" | "building" | "generated" | "deploying" | "success" | "showcase" | "docs">("initial");
   const [loadingText, setLoadingText] = useState("Initializing workspace...");
   const [mockUrl, setMockUrl] = useState("");
@@ -149,7 +153,7 @@ export default function Home() {
     return () => clearTimeout(timeout);
   }, [charIndex, isDeleting, phIndex, appState]);
 
-  const handleBuild = (forcePrompt?: string) => {
+  const handleBuild = async (forcePrompt?: string) => {
     const activePrompt = forcePrompt || prompt;
     if (!activePrompt.trim()) return;
     setAppState("building");

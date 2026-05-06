@@ -61,7 +61,7 @@ export async function POST(req: Request) {
       body: JSON.stringify({
         model: 'deepseek-reasoner', // DeepSeek-V3 is invoked via deepseek-chat
         messages: [
-          { role: 'user', content: SYSTEM_PROMPT.replace('${UNSPLASH_ACCESS_KEY}', UNSPLASH_ACCESS_KEY) + '\n\nUser Request: ' + prompt }
+          { role: 'user', content: SYSTEM_PROMPT.replace('${UNSPLASH_ACCESS_KEY}', UNSPLASH_ACCESS_KEY || '') + '\n\nUser Request: ' + prompt }
         ],
         temperature: 0.1, // Keep it deterministic and focused on code
         // response_format not supported by reasoner yet
