@@ -267,7 +267,7 @@ const handleChatEdit = async () => {
            </button>
          </div>
       </div>
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 flex-col md:flex-row overflow-hidden">
         {/* Main Preview */}
         {blobUrl && (
           <iframe
@@ -278,7 +278,7 @@ const handleChatEdit = async () => {
           />
         )}
         {/* Chat-to-Edit Side Drawer */}
-        <div className="w-80 border-l border-gray-200 bg-gray-50 flex flex-col shrink-0">
+        <div className="w-full md:w-80 h-1/2 md:h-auto border-t md:border-t-0 md:border-l border-gray-200 bg-gray-50 flex flex-col shrink-0">
           <div className="p-4 border-b border-gray-200 bg-white">
             <h3 className="font-bold text-sm text-black flex items-center gap-2">
               <Terminal className="w-4 h-4 text-[#DDA359]" />
