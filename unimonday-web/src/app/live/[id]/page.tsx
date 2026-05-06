@@ -59,6 +59,17 @@ export default function LivePage() {
             </style>
             <script>
                window.ENV = { SUPABASE_URL: "" };
+               // Prevent default link navigation
+               document.addEventListener('click', function(e) {
+                 const link = e.target.closest('a');
+                 if (link) {
+                   const href = link.getAttribute('href');
+                   if (!href || href.startsWith('#') || href.startsWith('/') || href === '') {
+                     e.preventDefault();
+                     console.log('Navigation prevented in preview mode');
+                   }
+                 }
+               });
             </script>
           </head>
           <body>
