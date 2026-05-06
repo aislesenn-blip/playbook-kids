@@ -155,66 +155,86 @@ export default function Home() {
     return () => clearTimeout(timeout);
   }, [charIndex, isDeleting, phIndex, appState]);
 
+  const animateCodeTyping = async (code: string, setter: React.Dispatch<React.SetStateAction<string>>) => {
+    // Simulated Typewriter effect for "Dopamine Hits" while the code is fully generated
+    // Since we receive it all at once per phase, we simulate the drop-in quickly
+    setter("");
+    const chunks = code.match(/.{1,15}/g) || [code];
+    let current = "";
+    for (const chunk of chunks) {
+      current += chunk;
+      setter(current);
+      await new Promise(r => setTimeout(r, 10)); // Ultra-fast typewriter
+    }
+  };
+
   const handleBuild = async (forcePrompt?: string) => {
     const activePrompt = forcePrompt || prompt;
     if (!activePrompt.trim()) return;
     setAppState("building");
     setTerminalLogsState("Initializing build process...\n");
-    setSqlCodeState("<!-- Waiting for HTML -->\n");
-    setDynamicReactCode("// Waiting for JS...\n");
+    setSqlCodeState("<!-- Waiting for HTML... -->\n");
+    setDynamicReactCode("// Waiting for Logic/PRD...\n");
     setDynamicCssCode("/* Waiting for CSS... */\n");
 
     try {
       // Phase 1: Architecting
-      setTerminalLogsState(prev => prev + "\n[Phase 1/2] 🧠 Brainstorming & Architecting Product End-to-End...\n");
-
+      setTerminalLogsState(prev => prev + "\n[Phase 1/4] 🧠 Brainstorming & Architecting Product End-to-End...\n");
       const architectRes = await fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'architect', prompt: activePrompt })
       });
-
       if (!architectRes.ok) throw new Error("Architecture Phase Failed");
-
       const prdData = await architectRes.json();
       setTerminalLogsState(prev => prev + "=> Architecture Complete. PRD Generated.\n");
+      await animateCodeTyping("// PRD Generated:\n" + JSON.stringify(prdData, null, 2), setDynamicReactCode);
 
-      // Briefly show PRD data in logs for dopamine hit
-      setDynamicReactCode("// PRD Generated:\n" + JSON.stringify(prdData, null, 2).substring(0, 300) + "...\n");
-
-      // Phase 2: Building
-      setTerminalLogsState(prev => prev + "\n[Phase 2/2] 🏗️ Building Full System (HTML, CSS, JS) based on strict PRD...\n");
-
-      const buildRes = await fetch('/api/generate', {
+      // Phase 2: HTML
+      setTerminalLogsState(prev => prev + "\n[Phase 2/4] 🏗️ Building Full HTML Layout based on PRD...\n");
+      const htmlRes = await fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'build', prd: prdData })
+        body: JSON.stringify({ action: 'build_html', prd: prdData })
       });
+      if (!htmlRes.ok) throw new Error("HTML Phase Failed");
+      const htmlData = await htmlRes.json();
+      const finalHtml = htmlData.code || "";
+      setTerminalLogsState(prev => prev + "=> HTML compiled successfully.\n");
+      await animateCodeTyping(finalHtml, setSqlCodeState);
 
-      if (!buildRes.ok) throw new Error("Build Phase Failed");
+      // Phase 3: CSS
+      setTerminalLogsState(prev => prev + "\n[Phase 3/4] 🎨 Applying Aesthetics & Custom CSS...\n");
+      const cssRes = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'build_css', prd: prdData, html: finalHtml })
+      });
+      if (!cssRes.ok) throw new Error("CSS Phase Failed");
+      const cssData = await cssRes.json();
+      const finalCss = cssData.code || "";
+      setTerminalLogsState(prev => prev + "=> CSS applied successfully.\n");
+      await animateCodeTyping(finalCss, setDynamicCssCode);
 
-      const data = await buildRes.json();
+      // Phase 4: JS
+      setTerminalLogsState(prev => prev + "\n[Phase 4/4] ⚙️ Wiring Logic & External APIs (Leaflet, etc)...\n");
+      const jsRes = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'build_js', prd: prdData, html: finalHtml, css: finalCss })
+      });
+      if (!jsRes.ok) throw new Error("JS Phase Failed");
+      const jsData = await jsRes.json();
+      const finalJs = jsData.code || "";
+      setTerminalLogsState(prev => prev + "=> Logic compiled successfully.\n");
+      await animateCodeTyping(finalJs, setDynamicReactCode);
 
-      setTerminalLogsState(prev => prev + "=> Code compiled successfully without placeholders.\n");
 
-      // Drop in chunks to UI
-      setDynamicReactCode(
-        data.js ? data.js.substring(0, 500) + "\n\n// JS Logic compiled and synced." : "// JS generated successfully"
-      );
-      setSqlCodeState(
-         data.html ? data.html.substring(0, 500) + "\n\n<!-- HTML built -->" : "<!-- HTML built -->"
-      );
-      setDynamicCssCode(
-         data.css ? data.css.substring(0, 500) + "\n\n/* Styles applied */" : "/* Styles applied */"
-      );
-
-      setTerminalLogsState(prev => prev + "Finalizing and Saving to Database...\n");
-
+      setTerminalLogsState(prev => prev + "\nFinalizing and Saving to Database...\n");
       const appId = "app-" + Math.random().toString(36).substring(2, 11);
-
       const { error: dbError } = await supabase
         .from('generated_apps')
-        .insert({ app_id: appId, html: data.html, css: data.css, js: data.js, prompt: activePrompt });
+        .insert({ app_id: appId, html: finalHtml, css: finalCss, js: finalJs, prompt: activePrompt });
 
       if (dbError) {
          console.error("Supabase Save Error:", dbError);

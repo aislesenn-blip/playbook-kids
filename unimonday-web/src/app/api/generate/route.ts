@@ -51,80 +51,51 @@ OUTPUT FORMAT MUST BE VALID JSON enclosed in markdown code blocks:
 }
 `;
 
-const BUILDER_PROMPT = `You are an expert Apple/Gemini-level Software Engineer and UI/UX Designer.
-Your task is to generate a fully functional, 100% complete, production-ready web application based on the detailed Product Requirement Document (PRD) provided.
-
+const BASE_BUILDER_RULES = `
 THIS IS NOT A PROTOTYPE OR DEMO. DO NOT USE "COMING SOON" PLACEHOLDERS. DO NOT USE "TODO" or "Insert here". EVERY SINGLE BUTTON MUST BE SYNCED END-TO-END AND HAVE LOGIC BEHIND IT.
 EVERY APP MUST HAVE A STUNNING AD-RELEVANT LANDING PAGE.
 
 You MUST adhere to the following STRICT rules:
-1.  **Code Output**: Return ONLY valid HTML, CSS, and JS. Output format MUST be a JSON object with keys "html", "css", "js" enclosed in markdown code blocks.
-2.  **Design & UI**:
-    - Use Tailwind CSS via CDN.
-    - Choose a highly appropriate, professional color palette based on the PRD aesthetics.
-    - Maintain world-class layout with immense negative space, elegant typography, and zero clutter.
-    - Use Lucide SVG icons exclusively. ABSOLUTELY NO EMOJIS.
-    - WARNING: Provide \`aria-labelledby\` and \`aria-describedby\` for Modals/Dialogs.
-3.  **Imagery & External APIs (CRITICAL)**:
-    - Do NOT use colored squares or gray boxes for images.
-    - You MUST use the provided Unsplash Key for EVERY image using: \`https://api.unsplash.com/photos/random?query=KEYWORD&client_id=\${UNSPLASH_ACCESS_KEY}\` or Source URLs.
-    - Implement the Open-source APIs defined in the PRD (like Leaflet for maps). Do not draw fake visual dots for maps. Implement the real library via CDN.
-4.  **Secrets & Logic**:
-    - Build a FULL PRODUCT. Use LocalStorage for state if necessary to make it functional.
-
-OUTPUT FORMAT MUST BE VALID JSON:
-{
-  "html": "<div>...</div>",
-  "css": ".custom-class { ... }",
-  "js": "console.log('running');"
-}
+- Maintain world-class layout with immense negative space, elegant typography, and zero clutter.
+- Use Lucide SVG icons exclusively. ABSOLUTELY NO EMOJIS.
+- WARNING: Provide \`aria-labelledby\` and \`aria-describedby\` for Modals/Dialogs.
+- Do NOT use colored squares or gray boxes for images. You MUST use the Unsplash API (\`https://api.unsplash.com/photos/random?query=KEYWORD&client_id=\${UNSPLASH_ACCESS_KEY}\`).
 `;
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { action, prompt, prd } = body;
+    const { action, prompt, prd, html, css } = body;
 
     if (!action) {
-      return NextResponse.json({ error: 'Action is required (architect or build)' }, { status: 400 });
-    }
-
-    if (action === 'architect' && !prompt) {
-       return NextResponse.json({ error: 'Prompt is required for architecture phase' }, { status: 400 });
-    }
-
-    if (action === 'build' && !prd) {
-       return NextResponse.json({ error: 'PRD is required for build phase' }, { status: 400 });
+      return NextResponse.json({ error: 'Action is required' }, { status: 400 });
     }
 
     if (!DEEPSEEK_API_KEY) {
+      // Mock logic for when key is missing to prevent crash
       if (action === 'architect') {
-         return NextResponse.json({
-            product_understanding: "Simulated understanding...",
-            expanded_product_plan: "Simulated plan...",
-            features_breakdown: "Simulated breakdown...",
-            ux_ui_plan: "Simulated UX...",
-            data_api_plan: "Simulated data plan...",
-            system_architecture: "Simulated architecture..."
-         });
-      } else {
-         return NextResponse.json({
-          html: `<div class="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-8"><h1 class="text-4xl font-bold mb-4">Simulated App</h1><p class="text-gray-600 mb-8">Please provide a DEEPSEEK_API_KEY in your environment.</p><img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" class="rounded-xl shadow-lg max-w-2xl w-full" alt="Coding"></div>`,
-          css: `body { font-family: system-ui, sans-serif; }`,
-          js: `console.log("Simulated app loaded.");`
-        });
+         return NextResponse.json({ product_understanding: "Simulated..." });
+      } else if (action === 'build_html') {
+         return NextResponse.json({ code: "<div class='mock-html'>Mock HTML Generated</div>" });
+      } else if (action === 'build_css') {
+         return NextResponse.json({ code: "body { background: #f0f0f0; }" });
+      } else if (action === 'build_js') {
+         return NextResponse.json({ code: "console.log('Mock JS loaded');" });
       }
     }
 
     let messages: { role: string, content: string }[] = [];
+
     if (action === 'architect') {
-       messages = [
-         { role: 'user', content: ARCHITECT_PROMPT.replaceAll('${UNSPLASH_ACCESS_KEY}', UNSPLASH_ACCESS_KEY) + '\n\nUser Request: ' + prompt }
-       ];
-    } else if (action === 'build') {
-       messages = [
-         { role: 'user', content: BUILDER_PROMPT.replaceAll('${UNSPLASH_ACCESS_KEY}', UNSPLASH_ACCESS_KEY) + '\n\nArchitect PRD to implement:\n' + JSON.stringify(prd) }
-       ];
+       messages = [{ role: 'user', content: ARCHITECT_PROMPT.replaceAll('${UNSPLASH_ACCESS_KEY}', UNSPLASH_ACCESS_KEY) + '\n\nUser Request: ' + prompt }];
+    } else if (action === 'build_html') {
+       messages = [{ role: 'user', content: `You are an expert Apple/Gemini-level Software Engineer.\n\n${BASE_BUILDER_RULES.replaceAll('${UNSPLASH_ACCESS_KEY}', UNSPLASH_ACCESS_KEY)}\n\nTASK: Generate ONLY the fully functional, semantic HTML structure based on the PRD.\nDo NOT include <style> or <script> tags. Use Tailwind CSS classes thoroughly.\n\nPRD:\n${JSON.stringify(prd)}\n\nOUTPUT FORMAT MUST BE VALID JSON enclosed in markdown code blocks:\n{ "code": "<div>...</div>" }` }];
+    } else if (action === 'build_css') {
+       messages = [{ role: 'user', content: `You are an expert Apple/Gemini-level UI Designer.\n\n${BASE_BUILDER_RULES.replaceAll('${UNSPLASH_ACCESS_KEY}', UNSPLASH_ACCESS_KEY)}\n\nTASK: Generate ONLY the custom CSS based on the PRD and the provided HTML. Tailwind is already loaded, so only generate custom keyframes, complex gradients, or layout fixes that Tailwind cannot easily handle natively. If no custom CSS is needed, return empty string.\n\nPRD:\n${JSON.stringify(prd)}\n\nHTML CONTEXT:\n${html}\n\nOUTPUT FORMAT MUST BE VALID JSON enclosed in markdown code blocks:\n{ "code": ".custom-class { ... }" }` }];
+    } else if (action === 'build_js') {
+       messages = [{ role: 'user', content: `You are an expert Apple/Gemini-level Full-Stack Developer.\n\n${BASE_BUILDER_RULES.replaceAll('${UNSPLASH_ACCESS_KEY}', UNSPLASH_ACCESS_KEY)}\n\nTASK: Generate ONLY the complete JavaScript logic based on the PRD, HTML, and CSS. Implement real functionality, DOM manipulation, open-source APIs (like Leaflet for maps), and local state management. NO PLACEHOLDERS.\n\nPRD:\n${JSON.stringify(prd)}\n\nHTML CONTEXT:\n${html}\n\nCSS CONTEXT:\n${css}\n\nOUTPUT FORMAT MUST BE VALID JSON enclosed in markdown code blocks:\n{ "code": "document.addEventListener('DOMContentLoaded', () => { ... });" }` }];
+    } else {
+       return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
     }
 
     const response = await fetch('https://api.deepseek.com/chat/completions', {
