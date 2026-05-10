@@ -1,7 +1,8 @@
 import { create } from 'zustand'
 import { supabase } from "@/lib/supabase/client"
 import { persist } from 'zustand/middleware'
-import { CartItem, Product, User, Order } from '@/types'
+import { CartItem, Product, User, Order, Creator, Video, Transaction } from '@/types'
+import { mockCreator, mockVideos } from '@/lib/mockData'
 
 interface AppState {
   currentUser: User | null;
@@ -37,6 +38,19 @@ interface AppState {
   addOrder: (order: Order) => void;
   updateOrderStatus: (orderId: string, status: "Pending" | "Paid" | "Processing" | "In Transit" | "Delivered" | "Cancelled") => void;
 
+  // ContentBuddy State (Mock)
+  creators: Creator[];
+  videos: Video[];
+  unlockedVideoIds: string[]; // For frictionless fan flow
+  transactions: Transaction[];
+  activeTimePasses: Record<string, string>; // creatorId -> expiry timestamp string
+
+  // ContentBuddy Actions
+  unlockVideo: (videoId: string, fanPhoneNumber: string) => void;
+  purchaseTimePass: (creatorId: string, fanPhoneNumber: string) => void;
+  addVideo: (video: Video) => void;
+  requestWithdrawal: (creatorId: string, amount: number) => void;
+
   resetApp: () => void;
   initAuth: () => void;
 }
@@ -51,6 +65,13 @@ export const useAppStore = create<AppState>()(
       cart: [],
       orders: [],
       vendorProducts: [],
+
+      // ContentBuddy initial state
+      creators: [mockCreator],
+      videos: mockVideos,
+      unlockedVideoIds: [],
+      transactions: [],
+      activeTimePasses: {},
 
       setUser: (user) => set({ currentUser: user }),
       setLocation: (region, campusName) => set({ currentRegion: region, currentCampusName: campusName }),
@@ -111,7 +132,99 @@ export const useAppStore = create<AppState>()(
         orders: state.orders.map(o => o.id === orderId ? { ...o, status } : o)
       })),
 
-      resetApp: () => set({ currentUser: null, currentRegion: null, currentCampusName: null, isCartOpen: false, cart: [], pendingMessages: [], orders: [], vendorProducts: [] }),
+      // ContentBuddy Actions
+      unlockVideo: (videoId, fanPhoneNumber) => set((state) => {
+        const video = state.videos.find(v => v.id === videoId);
+        if (!video) return state;
+
+        const creator = state.creators.find(c => c.id === video.creatorId);
+        if (!creator) return state;
+
+        // 80/20 split
+        const creatorShare = video.price * 0.8;
+        const platformShare = video.price * 0.2;
+
+        const transaction: Transaction = {
+          id: crypto.randomUUID(),
+          fanPhoneNumber,
+          creatorId: creator.id,
+          videoId: video.id,
+          isTimePass: false,
+          amount: video.price,
+          creatorShare,
+          platformShare,
+          status: 'Success',
+          createdAt: new Date().toISOString()
+        };
+
+        const updatedCreators = state.creators.map(c =>
+          c.id === creator.id ? { ...c, walletBalance: c.walletBalance + creatorShare } : c
+        );
+
+        return {
+          unlockedVideoIds: [...new Set([...state.unlockedVideoIds, videoId])],
+          transactions: [transaction, ...state.transactions],
+          creators: updatedCreators
+        };
+      }),
+
+      purchaseTimePass: (creatorId, fanPhoneNumber) => set((state) => {
+        const creator = state.creators.find(c => c.id === creatorId);
+        if (!creator) return state;
+
+        const amount = creator.timePassPrice;
+        const creatorShare = amount * 0.8;
+        const platformShare = amount * 0.2;
+
+        const transaction: Transaction = {
+          id: crypto.randomUUID(),
+          fanPhoneNumber,
+          creatorId: creator.id,
+          isTimePass: true,
+          amount,
+          creatorShare,
+          platformShare,
+          status: 'Success',
+          createdAt: new Date().toISOString()
+        };
+
+        const expiryDate = new Date();
+        expiryDate.setDate(expiryDate.getDate() + creator.timePassDurationDays);
+
+        const updatedCreators = state.creators.map(c =>
+          c.id === creator.id ? { ...c, walletBalance: c.walletBalance + creatorShare } : c
+        );
+
+        return {
+          activeTimePasses: {
+            ...state.activeTimePasses,
+            [creator.id]: expiryDate.toISOString()
+          },
+          transactions: [transaction, ...state.transactions],
+          creators: updatedCreators
+        };
+      }),
+
+      addVideo: (video) => set((state) => ({
+        videos: [video, ...state.videos]
+      })),
+
+      requestWithdrawal: (creatorId, amount) => set((state) => {
+        const creator = state.creators.find(c => c.id === creatorId);
+        if (!creator || creator.walletBalance < amount) return state; // Incomplete/failed
+
+        const updatedCreators = state.creators.map(c =>
+          c.id === creator.id ? { ...c, walletBalance: c.walletBalance - amount } : c
+        );
+
+        return { creators: updatedCreators };
+      }),
+
+      resetApp: () => set({
+        currentUser: null, currentRegion: null, currentCampusName: null,
+        isCartOpen: false, cart: [], pendingMessages: [], orders: [], vendorProducts: [],
+        unlockedVideoIds: [], activeTimePasses: {}, transactions: []
+      }),
 
       initAuth: () => {
         supabase.auth.onAuthStateChange((event, session) => {

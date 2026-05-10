@@ -1,4 +1,4 @@
-import { Product, Vendor } from '@/types';
+import { Product, Vendor, Creator, Video } from '@/types';
 
 export const mockVendors: Vendor[] = [
   {
@@ -66,4 +66,45 @@ export const mockProducts: Product[] = [
     inStock: true,
     rating: 4.7,
   },
+];
+
+export const mockCreator: Creator = {
+  id: 'c1',
+  userId: 'u4',
+  username: 'mkojani',
+  displayName: 'Mkojani TV',
+  bio: 'The home of exclusive, premium Swahili comedy and behind-the-scenes content you won\'t find anywhere else.',
+  profileImageUrl: 'https://images.unsplash.com/photo-1531384441138-2736e62e0919?q=80&w=2000&auto=format&fit=crop', // African man smiling
+  coverImageUrl: 'https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?q=80&w=2000&auto=format&fit=crop', // Cinema/movie set
+  isVerified: true,
+  walletBalance: 250000,
+  timePassPrice: 3000,
+  timePassDurationDays: 7
+};
+
+export const mockVideos: Video[] = [
+  {
+    id: 'vid1',
+    creatorId: 'c1',
+    title: 'Mkojani: The Untold Story (Part 1)',
+    description: 'Exclusive first look at the behind the scenes of my upcoming movie. Real drama, no cuts.',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=2000&auto=format&fit=crop',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4', // Safe mock video
+    trailerUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+    price: 2000,
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2).toISOString(), // 2 days ago
+    views: 1250
+  },
+  {
+    id: 'vid2',
+    creatorId: 'c1',
+    title: 'Vunja Mbavu: Live at Mlimani City',
+    description: 'Full unedited standup comedy show live from Dar es Salaam.',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1516280440502-124b8d76e78b?q=80&w=2000&auto=format&fit=crop',
+    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+    trailerUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+    price: 5000,
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 10).toISOString(), // 10 days ago
+    views: 4500
+  }
 ];
