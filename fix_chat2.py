@@ -1,7 +1,12 @@
-with open("unimonday-web/src/app/chat/page.tsx", "r") as f:
+import re
+
+with open('unimonday-web/src/app/chat/page.tsx', 'r') as f:
     content = f.read()
 
-content = content.replace("<button onClick={() => toast.success(\"Payment confirmed! Student notified.\")} className=\"text-xs font-bold bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded-lg hover:bg-emerald-200 whitespace-nowrap\">\n                    Confirm Payment\n                 </button>\n                 <button onClick={() => toast.success(\"Order status changed to In Transit\")} className=\"text-xs font-bold bg-blue-100 text-blue-700 px-3 py-1.5 rounded-lg hover:bg-blue-200 whitespace-nowrap\">\n                    Mark In Transit\n                 </button>\n                 <button onClick={() => toast.error(\"Cancellation notice sent.\")} className=\"text-xs font-bold bg-red-100 text-red-700 px-3 py-1.5 rounded-lg hover:bg-red-200 whitespace-nowrap\">\n                    Cancel Order\n                 </button>", "<button onClick={() => toast.success(\"Job accepted! Starting print.\")} className=\"text-xs font-bold bg-blue-100 text-blue-700 px-3 py-1.5 rounded-lg hover:bg-blue-200 whitespace-nowrap\">\n                    Start Print Job\n                 </button>\n                 <button onClick={() => toast.success(\"Marked as Ready for pickup.\")} className=\"text-xs font-bold bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded-lg hover:bg-emerald-200 whitespace-nowrap\">\n                    Mark Ready\n                 </button>\n                 <button onClick={() => toast.error(\"Issue with file. Student notified.\")} className=\"text-xs font-bold bg-red-100 text-red-700 px-3 py-1.5 rounded-lg hover:bg-red-200 whitespace-nowrap\">\n                    Report Issue\n                 </button>")
+content = content.replace('v: any', 'v: AgriVendor')
+content = content.replace('c: any', 'c: { id: string, name: string, avatar: string, lastMsg: string, unread: number }')
+content = content.replace('chat: any', 'chat: { id: string, name: string, avatar: string, lastMsg: string, unread: number }')
+content = content.replace("role === 'stationary'", "role === 'vendor'")
 
-with open("unimonday-web/src/app/chat/page.tsx", "w") as f:
+with open('unimonday-web/src/app/chat/page.tsx', 'w') as f:
     f.write(content)

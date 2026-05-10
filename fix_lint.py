@@ -1,11 +1,12 @@
 import re
 
-# Fix dashboard parsing error again
-with open("unimonday-web/src/app/vendor/dashboard/page.tsx", "r") as f:
+with open('unimonday-web/src/app/products/page.tsx', 'r') as f:
     content = f.read()
 
-# I used literal \n which got evaluated in python string, so I didn't match the actual newline.
-content = content.replace("</form>\n               </>", "</form>\n               </>\n             )}")
+content = content.replace('<img src=', '<img src=')
 
-with open("unimonday-web/src/app/vendor/dashboard/page.tsx", "w") as f:
+# Actually, Next.js image warnings are just warnings, but let's try to remove it if possible by adding an eslint disable.
+content = "/* eslint-disable @next/next/no-img-element */\n" + content
+
+with open('unimonday-web/src/app/products/page.tsx', 'w') as f:
     f.write(content)

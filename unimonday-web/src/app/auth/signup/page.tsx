@@ -54,9 +54,9 @@ export default function SignupPage() {
         options: {
           data: {
             name: formData.name,
-            role: 'student',
+            role: 'farmer',
             region: formData.region,
-            campusName: formData.campusName,
+            farmLocation: formData.campusName,
 
           }
         }
@@ -73,9 +73,9 @@ export default function SignupPage() {
         id: "u" + Date.now(),
         name: formData.name,
         email: formData.email,
-        role: 'student',
+        role: 'farmer',
         region: formData.region,
-        campusName: formData.campusName
+        farmLocation: formData.campusName
       });
       setSelectedRegion(formData.region);
 
@@ -153,7 +153,7 @@ export default function SignupPage() {
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  placeholder="student@example.com"
+                  placeholder="farmer@example.com"
                   className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all"
                 />
               </div>

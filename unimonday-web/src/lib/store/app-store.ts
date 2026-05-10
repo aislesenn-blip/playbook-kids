@@ -1,16 +1,19 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { User, PrintJob } from '@/types';
+import { User, Order } from '@/types';
 
 interface AppState {
   currentUser: User | null;
   setCurrentUser: (user: User | null) => void;
   selectedRegion: string;
   setSelectedRegion: (region: string) => void;
-  printJobs: PrintJob[];
-  addPrintJob: (job: PrintJob) => void;
-  updatePrintJobStatus: (jobId: string, status: PrintJob['status']) => void;
-  clearPrintJobs: () => void;
+  cart: { productId: string; quantity: number }[];
+  addToCart: (productId: string, quantity: number) => void;
+  removeFromCart: (productId: string) => void;
+  clearCart: () => void;
+  orders: Order[];
+  addOrder: (order: Order) => void;
+  updateOrderStatus: (orderId: string, status: Order['status']) => void;
   pendingMessages: { vendorId: string; text: string }[];
   removePendingMessage: (vendorId: string) => void;
   initAuth: () => void;
@@ -21,20 +24,29 @@ export const useAppStore = create<AppState>()(
     (set) => ({
       currentUser: null,
       setCurrentUser: (user) => set({ currentUser: user }),
-      selectedRegion: 'Dar es Salaam',
+      selectedRegion: 'Dodoma', // Updated to Dodoma as it's a major farming region
       setSelectedRegion: (region) => set({ selectedRegion: region }),
-      printJobs: [],
-      addPrintJob: (job) => set((state) => ({ printJobs: [...state.printJobs, job] })),
-      updatePrintJobStatus: (jobId, status) => set((state) => ({
-        printJobs: state.printJobs.map((j) => j.id === jobId ? { ...j, status } : j)
+      cart: [],
+      addToCart: (productId, quantity) => set((state) => {
+        const existing = state.cart.find(item => item.productId === productId);
+        if (existing) {
+          return { cart: state.cart.map(item => item.productId === productId ? { ...item, quantity: item.quantity + quantity } : item) };
+        }
+        return { cart: [...state.cart, { productId, quantity }] };
+      }),
+      removeFromCart: (productId) => set((state) => ({ cart: state.cart.filter(item => item.productId !== productId) })),
+      clearCart: () => set({ cart: [] }),
+      orders: [],
+      addOrder: (order) => set((state) => ({ orders: [...state.orders, order] })),
+      updateOrderStatus: (orderId, status) => set((state) => ({
+        orders: state.orders.map((o) => o.id === orderId ? { ...o, status } : o)
       })),
-      clearPrintJobs: () => set({ printJobs: [] }),
       pendingMessages: [],
       removePendingMessage: (vendorId) => set((state) => ({ pendingMessages: state.pendingMessages.filter(m => m.vendorId !== vendorId) })),
       initAuth: () => {},
     }),
     {
-      name: 'unimonday-cloud-stationary-store',
+      name: 'unimonday-agri-marketplace-store',
     }
   )
 );

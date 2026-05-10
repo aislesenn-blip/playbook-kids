@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Send, Store, ArrowLeft, Image as ImageIcon, Search } from "lucide-react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { stationaryPartners } from "@/lib/mockData";
+import { vendors } from "@/lib/mockData";
 import { useAppStore } from "@/lib/store/app-store";
 import { toast } from "sonner";
 
@@ -15,7 +15,7 @@ function ChatInterfaceContent() {
 
   const [searchQuery, setSearchQuery] = useState("");
 
-  const chats = stationaryPartners.map(v => ({
+  const chats = vendors.map(v => ({
     id: v.id,
     name: v.storeName,
     avatar: v.logoUrl || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80",
@@ -188,15 +188,15 @@ function ChatInterfaceContent() {
             </div>
 
             {/* Vendor Quick Actions if the logged in user is a vendor */}
-            {currentUser?.role === 'stationary' && (
+            {currentUser?.role === 'vendor' && (
               <div className="px-4 py-2 bg-gray-50 border-t border-border flex gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden">
                  <button onClick={() => toast.success("Job accepted! Starting print.")} className="text-xs font-bold bg-blue-100 text-blue-700 px-3 py-1.5 rounded-lg hover:bg-blue-200 whitespace-nowrap">
-                    Start Print Job
+                    Confirm Order
                  </button>
                  <button onClick={() => toast.success("Marked as Ready for pickup.")} className="text-xs font-bold bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded-lg hover:bg-emerald-200 whitespace-nowrap">
                     Mark Ready
                  </button>
-                 <button onClick={() => toast.error("Issue with file. Student notified.")} className="text-xs font-bold bg-red-100 text-red-700 px-3 py-1.5 rounded-lg hover:bg-red-200 whitespace-nowrap">
+                 <button onClick={() => toast.error("Issue with order. Buyer notified.")} className="text-xs font-bold bg-red-100 text-red-700 px-3 py-1.5 rounded-lg hover:bg-red-200 whitespace-nowrap">
                     Report Issue
                  </button>
               </div>

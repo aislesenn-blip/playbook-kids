@@ -10,10 +10,10 @@ export function BottomNav() {
 
     const { currentUser } = useAppStore();
 
-  const isVendor = currentUser?.role === 'stationary';
+  const isVendor = currentUser?.role === 'vendor';
 
   const navItems = isVendor ? [
-    { href: "/stationary/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+    { href: "/vendor/dashboard", icon: LayoutDashboard, label: "Dashboard" },
     { href: "/chat", icon: MessageCircle, label: "Inbox" },
     { href: "/profile", icon: User, label: "Profile" },
   ] : [

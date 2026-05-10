@@ -51,11 +51,11 @@ export default function LoginPage() {
 
       setCurrentUser({
         id: "u1",
-        name: "Student User",
+        name: "Farmer User",
         email: email,
-        role: "student",
-        region: "Dar es Salaam",
-        campusName: "UDSM - Main Campus"
+        role: "farmer",
+        region: "Dodoma",
+        farmLocation: "Dodoma - Kibaigwa"
       });
       setSelectedRegion("Dar es Salaam");
 
@@ -90,7 +90,7 @@ export default function LoginPage() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="student@example.com"
+                  placeholder="farmer@example.com"
                   className="w-full px-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all"
                 />
               </div>
