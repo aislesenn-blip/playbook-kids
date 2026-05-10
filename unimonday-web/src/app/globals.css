@@ -4,10 +4,6 @@
 @plugin "tailwindcss-animate";
 
 @theme {
-  --color-unidays-green: #10B981;
-  --color-unidays-green-dark: #059669;
-  --color-unidays-green-light: #34D399;
-
   --color-background-offwhite: #FAFAFA;
   --color-text-dark: #171717;
   --color-text-muted: #525252;
@@ -64,25 +60,25 @@
 }
 
 :root {
-  --background: 34 65% 61%; /* Pure white */
-  --foreground: 0 0% 9%; /* Near black */
-  --card: 48 33% 97%;
-  --card-foreground: 0 0% 9%;
-  --popover: 48 33% 97%;
-  --popover-foreground: 0 0% 9%;
-  --primary: 0 0% 9%; /* Emerald */
-  --primary-foreground: 48 33% 97%;
-  --secondary: 0 0% 96.1%;
-  --secondary-foreground: 0 0% 9%;
-  --muted: 0 0% 96.1%;
-  --muted-foreground: 0 0% 45.1%;
-  --accent: 0 0% 96.1%;
-  --accent-foreground: 0 0% 9%;
+  --background: 34 65% 61%; /* #DDA359 Tan/Beige */
+  --foreground: 0 0% 0%; /* Pure black */
+  --card: 34 65% 61%;
+  --card-foreground: 0 0% 0%;
+  --popover: 34 65% 61%;
+  --popover-foreground: 0 0% 0%;
+  --primary: 0 0% 0%; /* Black */
+  --primary-foreground: 34 65% 61%;
+  --secondary: 34 65% 55%;
+  --secondary-foreground: 0 0% 0%;
+  --muted: 34 65% 55%;
+  --muted-foreground: 0 0% 30%;
+  --accent: 34 65% 50%;
+  --accent-foreground: 0 0% 0%;
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 0 0% 98%;
-  --border: 0 0% 89.8%;
-  --input: 0 0% 89.8%;
-  --ring: 0 0% 9%;
+  --border: 0 0% 10%;
+  --input: 0 0% 10%;
+  --ring: 0 0% 0%;
   --radius: 1.5rem; /* Very rounded, Apple-style */
   --chart-1: 12 76% 61%;
   --chart-2: 173 58% 39%;
@@ -127,13 +123,22 @@
 }
 
 
-/* Hide scrollbar for Chrome, Safari and Opera */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
+/* Hide scrollbar for Chrome, Safari and Opera globally */
+::-webkit-scrollbar {
+  display: none !important;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
+/* Hide scrollbar for IE, Edge and Firefox globally */
+* {
+  -ms-overflow-style: none !important;  /* IE and Edge */
+  scrollbar-width: none !important;  /* Firefox */
+}
+
+/* Maintain class for specific usage */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+}
 .no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
 }
