@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingBag, ShoppingCart, User, Menu, X, Shirt, Smartphone, ShieldCheck, Box, Handshake, ShieldAlert, Search, Sparkles, LampDesk, Store, MessageCircle } from "lucide-react";
+import { ShoppingBag, ShoppingCart, User, Menu, X, Shirt, Smartphone, ShieldCheck, Box, Handshake, ShieldAlert, Search, Sparkles, LampDesk, Store, MessageCircle, Tractor, Sprout, Wheat, Egg, Wrench } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,7 +13,7 @@ export function TopNav() {
   const router = useRouter();
   const { currentUser } = useAppStore();
   const getCartCount = () => 0;
-  const isStationary = currentUser?.role === "stationary";
+  const isVendor = currentUser?.role === "vendor";
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -68,13 +68,13 @@ export function TopNav() {
           </div>
           <div className="flex flex-col">
             <span className="font-black text-xl tracking-tight text-gray-900 leading-none mt-1">uNi<span className="text-primary">MONDAY</span></span>
-            <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mt-0.5">students Deals & Discounts ....</span>
+            <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mt-0.5">The Ultimate Agriculture Marketplace</span>
           </div>
         </Link>
 
-                {isStationary ? (
+                {isVendor ? (
           <div className="hidden sm:flex items-center gap-6 font-medium">
-            <Link href="/stationary/dashboard" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/stationary/dashboard' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+            <Link href="/vendor/dashboard" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/vendor/dashboard' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
               <Store className="w-4 h-4" /> Dashboard
             </Link>
             <Link href="/chat" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/chat' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
@@ -83,26 +83,26 @@ export function TopNav() {
           </div>
         ) : (
           <div className="hidden sm:flex items-center gap-6 font-medium">
-            <Link href="/fashion" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/fashion' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-              <Shirt className="w-4 h-4" /> Fashion
+            <Link href="/tractors" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/tractors' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+              <Tractor className="w-4 h-4" /> Tractors
             </Link>
-            <Link href="/tech" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/tech' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-              <Smartphone className="w-4 h-4" /> Tech
+            <Link href="/fertilizers" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/fertilizers' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+              <Sprout className="w-4 h-4" /> Fertilizers
             </Link>
-            <Link href="/beauty" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/beauty' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-              <Sparkles className="w-4 h-4" /> Beauty
+            <Link href="/produce" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/produce' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+              <Wheat className="w-4 h-4" /> Produce
             </Link>
-            <Link href="/home-decor" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/home-decor' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-              <LampDesk className="w-4 h-4" /> Decor
+            <Link href="/livestock" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/livestock' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+              <Egg className="w-4 h-4" /> Livestock
             </Link>
             <Link href="/services" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/services' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-              <ShieldCheck className="w-4 h-4" /> Services
+              <Wrench className="w-4 h-4" /> Services
             </Link>
           </div>
         )}
 
                 <div className="flex items-center gap-3">
-          {!isStationary && (
+          {!isVendor && (
             <>
               <button onClick={() => setIsSearchOpen(true)} className="flex items-center justify-center p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
                 <Search className="w-5 h-5" />
@@ -142,39 +142,39 @@ export function TopNav() {
           >
             <div className="flex flex-col p-4 gap-4 pb-8">
               <Link
-                href="/fashion"
+                href="/tractors"
                 onClick={toggleMenu}
-                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/fashion' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
+                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/tractors' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
               >
-                <Shirt className="w-5 h-5" /> Fashion & Apparels
+                <Shirt className="w-5 h-5" /> Tractors & Machinery
               </Link>
               <Link
-                href="/tech"
+                href="/fertilizers"
                 onClick={toggleMenu}
-                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/tech' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
+                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/fertilizers' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
               >
-                <Smartphone className="w-5 h-5" /> Tech & Accessories
+                <Smartphone className="w-5 h-5" /> Fertilizers & Seeds
               </Link>
               <Link
-                href="/beauty"
+                href="/produce"
                 onClick={toggleMenu}
-                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/beauty' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
+                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/produce' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
               >
-                <Sparkles className="w-5 h-5" /> Beauty & Cosmetics
+                <Sparkles className="w-5 h-5" /> Farm Produce
               </Link>
               <Link
-                href="/home-decor"
+                href="/livestock"
                 onClick={toggleMenu}
-                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/home-decor' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
+                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/livestock' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
               >
-                <LampDesk className="w-5 h-5" /> Home & Decor
+                <LampDesk className="w-5 h-5" /> Livestock
               </Link>
               <Link
                 href="/services"
                 onClick={toggleMenu}
                 className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/services' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
               >
-                <ShieldCheck className="w-5 h-5" /> Verified Services
+                <ShieldCheck className="w-5 h-5" /> Expert Services
               </Link>
               <hr className="border-border my-2" />
               <Link

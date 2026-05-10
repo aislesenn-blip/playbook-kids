@@ -1,4 +1,4 @@
-#!/bin/bash
-sed -i 's/isVendor/isStationary/g' unimonday-web/src/components/layout/TopNav.tsx
-sed -i "s/currentUser?.role === \"vendor\"/currentUser?.role === \"stationary\"/g" unimonday-web/src/components/layout/TopNav.tsx
-sed -i 's/\/vendor\/dashboard/\/stationary\/dashboard/g' unimonday-web/src/components/layout/TopNav.tsx
+sed -i 's/fashion/tractors/g' unimonday-web/src/components/layout/TopNav.tsx
+sed -i 's/tech/fertilizers/g' unimonday-web/src/components/layout/TopNav.tsx
+sed -i 's/beauty/produce/g' unimonday-web/src/components/layout/TopNav.tsx
+sed -i 's/home-decor/livestock/g' unimonday-web/src/components/layout/TopNav.tsx

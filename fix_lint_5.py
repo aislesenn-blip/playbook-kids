@@ -1,7 +1,11 @@
-with open("unimonday-web/src/app/auth/signup/page.tsx", "r") as f:
-    c = f.read()
+import re
 
-c = c.replace('className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-border rounded-xl font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all"\n                  />\n                </div>\n              </div>', '')
+with open('unimonday-web/src/app/products/page.tsx', 'r') as f:
+    content = f.read()
 
-with open("unimonday-web/src/app/auth/signup/page.tsx", "w") as f:
-    f.write(c)
+content = content.replace("Shopping Cart, Tractor, Wheat, ArrowRight", "ShoppingCart, Tractor")
+content = content.replace("ShoppingCart, Tractor, Wheat, ArrowRight", "ShoppingCart, Tractor")
+content = content.replace('import Link from "next/link";\n', '')
+
+with open('unimonday-web/src/app/products/page.tsx', 'w') as f:
+    f.write(content)

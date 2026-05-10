@@ -2,13 +2,13 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  role: 'student' | 'stationary' | 'admin';
+  role: 'farmer' | 'vendor' | 'buyer' | 'admin';
   avatarUrl?: string;
   region?: string;
-  campusName?: string;
+  farmLocation?: string;
 }
 
-export interface StationaryPartner {
+export interface AgriVendor {
   id: string;
   userId?: string;
   storeName: string;
@@ -18,33 +18,30 @@ export interface StationaryPartner {
   bannerUrl?: string;
   rating: number;
   region: string;
-  campusName: string;
   isVerified: boolean;
-  printCostPerPage?: number;
   locationDetails?: string;
 }
 
-export interface DocumentTemplate {
+export interface AgriProduct {
   id: string;
+  vendorId: string;
   title: string;
   description: string;
-  category: 'Letters' | 'Assignments' | 'CVs & Resumes' | 'Reports' | 'Forms';
-  icon?: string;
-  color?: string;
+  category: 'Tractors' | 'Fertilizers' | 'Seeds' | 'Produce' | 'Equipment';
+  price: number;
+  unit: string;
+  imageUrl?: string;
+  inStock: boolean;
   popularity?: number;
 }
 
-export interface PrintJob {
+export interface Order {
   id: string;
   userId: string;
-  stationaryId: string;
-  documentTitle: string;
-  pageCount: number;
-  copies: number;
-  color: boolean;
+  vendorId: string;
+  items: { productId: string; quantity: number }[];
   totalCost: number;
-  status: 'Pending' | 'Printing' | 'Ready' | 'Completed' | 'Cancelled';
-  fileUrl?: string;
+  status: 'Pending' | 'Processing' | 'Ready' | 'Completed' | 'Cancelled';
   createdAt: string;
   updatedAt?: string;
 }
