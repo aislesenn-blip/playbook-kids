@@ -1,183 +1,97 @@
+
 "use client";
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { Sparkles, ArrowRight, PlayCircle, Star, Target, Users } from 'lucide-react';
+import { useEffect } from 'react';
+import { useAppStore } from '@/lib/store/app-store';
+import { useRouter } from 'next/navigation';
 
-import { motion, useAnimationControls } from "framer-motion";
-import { PenTool, FileText, LayoutTemplate, Printer, ArrowRight, ShieldCheck, Zap, UploadCloud, Edit3, Settings } from "lucide-react";
-import Link from "next/link";
-import { useAppStore } from "@/lib/store/app-store";
-import { useEffect } from "react";
+export default function LandingPage() {
+  const profile = useAppStore(state => state.profile);
+  const router = useRouter();
 
-export default function Home() {
-  const { currentUser } = useAppStore();
+  useEffect(() => {
+    if (profile) {
+      router.push('/dashboard');
+    }
+  }, [profile, router]);
+
+  if (profile) return null;
 
   return (
-    <div className="flex flex-col items-center justify-center w-full overflow-x-hidden selection:bg-primary/20 selection:text-primary">
+    <div className="w-full flex flex-col items-center">
+      <section className="w-full max-w-7xl mx-auto px-4 pt-20 pb-32 flex flex-col items-center text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#DDA359]/10 text-[#DDA359] font-bold text-sm mb-8"
+        >
+          <Sparkles className="w-4 h-4" />
+          <span>The Future of Language Learning</span>
+        </motion.div>
 
-      {/* Global Trust Prompt */}
-      <div className="w-full bg-primary text-white py-3 px-4 text-center font-bold text-sm sm:text-base tracking-wide flex items-center justify-center gap-2">
-        <ShieldCheck className="w-5 h-5 shrink-0" />
-        The Ultimate Student Cloud Stationary. Upload. Format. Print.
-      </div>
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="text-5xl md:text-7xl font-black tracking-tight mb-6 max-w-4xl"
+        >
+          Not just another lesson. <br className="hidden md:block"/>
+          <span className="text-[#DDA359]">A living universe.</span>
+        </motion.h1>
 
-      {/* Hero Section - High End Visual First Design */}
-      <section className="w-full bg-gradient-to-b from-emerald-50/30 to-white pt-16 md:pt-24 pb-12 px-4 overflow-hidden border-b border-border">
-        <div className="max-w-7xl mx-auto flex flex-col items-center text-center mb-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-800 px-4 py-2 rounded-full font-bold text-xs sm:text-sm mb-6 border border-emerald-200"
-          >
-            <Settings className="w-4 h-4" /> AI-Powered Formatting Engine
-          </motion.div>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="text-xl md:text-2xl text-gray-500 font-medium max-w-2xl mb-12"
+        >
+          Master English, Spanish, French, Chinese, German, and Swahili through emotionally engaging AI conversations and adventures.
+        </motion.p>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-4xl sm:text-5xl md:text-7xl font-black text-gray-900 tracking-tight leading-[1.1] mb-6"
-          >
-            Your work. <br className="hidden md:block"/>
-            <span className="text-primary">Perfectly formatted.</span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-base sm:text-lg md:text-xl text-gray-500 font-medium max-w-2xl mb-8 leading-relaxed px-2"
-          >
-            Upload your rough draft, provide a reference style, or type raw notes.
-            Our engine fixes grammar, aligns margins, draws complex tables, and outputs a print-ready A4 PDF.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto px-4"
-          >
-            <Link href="/workspace" className="w-full sm:w-auto bg-primary hover:bg-emerald-600 text-white font-bold px-8 py-4 rounded-xl transition-all shadow-xl shadow-emerald-500/20 flex items-center justify-center gap-2 text-base md:text-lg">
-              <UploadCloud className="w-5 h-5" /> Enter Workspace
-            </Link>
-            <Link href="/print-station" className="w-full sm:w-auto bg-white hover:bg-gray-50 text-gray-900 border-2 border-gray-200 font-bold px-8 py-4 rounded-xl transition-all flex items-center justify-center gap-2 text-base md:text-lg">
-              <Printer className="w-5 h-5" /> Find Print Shops
-            </Link>
-          </motion.div>
-        </div>
-
-        {/* Visual Flat Cards Auto Scroll */}
-        <div className="relative w-full overflow-hidden mt-12 pb-12">
-          <div className="absolute left-0 top-0 bottom-0 w-8 md:w-32 bg-gradient-to-r from-gray-50 to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-8 md:w-32 bg-gradient-to-l from-gray-50 to-transparent z-10 pointer-events-none" />
-
-          <motion.div
-            initial={{ x: "0%" }}
-            animate={{ x: "-50%" }}
-            transition={{
-              repeat: Infinity,
-              ease: "linear",
-              duration: 40
-            }}
-            className="flex gap-4 md:gap-6 px-4 w-max hover:animation-play-state-paused"
-          >
-            {[
-              { img: "https://images.unsplash.com/photo-1513258496099-48168024aec0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Assignment Drafting", icon: <FileText className="w-5 h-5"/> },
-              { img: "https://images.unsplash.com/photo-1568205612837-017257d2310a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Direct to Printer", icon: <Printer className="w-5 h-5"/> },
-              { img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Smart Formatting", icon: <LayoutTemplate className="w-5 h-5"/> },
-              { img: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Leave Letters", icon: <PenTool className="w-5 h-5"/> },
-              { img: "https://images.unsplash.com/photo-1456324504439-367cee3b3c32?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Margin Alignment", icon: <Edit3 className="w-5 h-5"/> },
-              // Duplicate for infinite scroll
-              { img: "https://images.unsplash.com/photo-1513258496099-48168024aec0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Assignment Drafting", icon: <FileText className="w-5 h-5"/> },
-              { img: "https://images.unsplash.com/photo-1568205612837-017257d2310a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Direct to Printer", icon: <Printer className="w-5 h-5"/> },
-              { img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Smart Formatting", icon: <LayoutTemplate className="w-5 h-5"/> },
-              { img: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Leave Letters", icon: <PenTool className="w-5 h-5"/> },
-              { img: "https://images.unsplash.com/photo-1456324504439-367cee3b3c32?ixlib=rb-4.0.3&auto=format&fit=crop&w=1080&q=80", title: "Margin Alignment", icon: <Edit3 className="w-5 h-5"/> },
-            ].map((item, i) => (
-              <div key={i} className="relative w-72 md:w-96 h-48 md:h-64 rounded-2xl overflow-hidden shadow-lg border border-gray-200 shrink-0 group cursor-pointer bg-white">
-                <img src={item.img} alt={item.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4 text-white flex items-center gap-3">
-                  <div className="p-2 bg-white/20 backdrop-blur-md rounded-xl">
-                    {item.icon}
-                  </div>
-                  <span className="font-bold text-sm md:text-base">{item.title}</span>
-                </div>
-              </div>
-            ))}
-          </motion.div>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
+        >
+          <Link href="/onboarding" className="w-full sm:w-auto px-8 py-4 bg-gray-900 text-white rounded-2xl font-bold text-lg flex items-center justify-center gap-2 hover:bg-black transition-all hover:scale-105 shadow-xl shadow-gray-900/20">
+            Start the Journey <ArrowRight className="w-5 h-5" />
+          </Link>
+          <button className="w-full sm:w-auto px-8 py-4 bg-white text-gray-900 border-2 border-gray-200 rounded-2xl font-bold text-lg flex items-center justify-center gap-2 hover:border-gray-300 transition-all">
+            <PlayCircle className="w-5 h-5" /> Watch Trailer
+          </button>
+        </motion.div>
       </section>
 
-      {/* The Workspace Breakdown */}
-      <section className="py-16 md:py-24 max-w-7xl mx-auto px-4 w-full bg-white">
-        <div className="text-center mb-12 md:mb-16">
-          <h2 className="text-3xl md:text-5xl font-black tracking-tight mb-4">A true Stationary Engine.</h2>
-          <p className="text-lg md:text-xl text-gray-500 font-medium max-w-2xl mx-auto px-4">
-            Built to handle the specific formatting demands of university coursework.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-          <div className="flex flex-col">
-            <div className="bg-gray-50 rounded-3xl p-6 md:p-8 h-full border border-gray-200 hover:border-primary/50 transition-colors">
-              <div className="w-12 h-12 bg-white shadow-sm border border-gray-100 text-primary rounded-xl flex items-center justify-center mb-6">
-                <UploadCloud className="w-6 h-6" />
+      <section className="w-full bg-white py-24 border-y border-gray-100">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid md:grid-cols-3 gap-12">
+            <div className="flex flex-col items-center text-center">
+              <div className="w-16 h-16 rounded-2xl bg-[#DDA359]/10 text-[#DDA359] flex items-center justify-center mb-6">
+                <Users className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-bold mb-3">1. Bring your content</h3>
-              <p className="text-gray-600 font-medium text-sm md:text-base leading-relaxed">
-                Upload a messy Word document, a text file, or simply type out your raw thoughts. You provide the substance, we handle the presentation.
-              </p>
+              <h3 className="text-2xl font-bold mb-4">Conversational Core</h3>
+              <p className="text-gray-500 font-medium">Learn naturally by speaking. Our AI companions adapt to your age, level, and personality.</p>
             </div>
-          </div>
-
-          <div className="flex flex-col">
-            <div className="bg-gray-50 rounded-3xl p-6 md:p-8 h-full border border-gray-200 hover:border-primary/50 transition-colors">
-              <div className="w-12 h-12 bg-white shadow-sm border border-gray-100 text-primary rounded-xl flex items-center justify-center mb-6">
-                <Settings className="w-6 h-6" />
+            <div className="flex flex-col items-center text-center">
+              <div className="w-16 h-16 rounded-2xl bg-[#DDA359]/10 text-[#DDA359] flex items-center justify-center mb-6">
+                <Star className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-bold mb-3">2. Instruct the Engine</h3>
-              <p className="text-gray-600 font-medium text-sm md:text-base leading-relaxed">
-                Want it in APA format? Need to extract data into a 4-column table? Have a specific campus cover-page style? Just upload the reference or type the instruction.
-              </p>
+              <h3 className="text-2xl font-bold mb-4">Episodic Stories</h3>
+              <p className="text-gray-500 font-medium">Progress through structured seasons, chapters, and missions instead of boring lists.</p>
             </div>
-          </div>
-
-          <div className="flex flex-col">
-            <div className="bg-gray-50 rounded-3xl p-6 md:p-8 h-full border border-gray-200 hover:border-primary/50 transition-colors">
-              <div className="w-12 h-12 bg-white shadow-sm border border-gray-100 text-primary rounded-xl flex items-center justify-center mb-6">
-                <Printer className="w-6 h-6" />
+            <div className="flex flex-col items-center text-center">
+              <div className="w-16 h-16 rounded-2xl bg-[#DDA359]/10 text-[#DDA359] flex items-center justify-center mb-6">
+                <Target className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-bold mb-3">3. Direct to Print Shop</h3>
-              <p className="text-gray-600 font-medium text-sm md:text-base leading-relaxed">
-                Review the AI&apos;s output. Make manual adjustments to margins before sending it directly to a local stationary&apos;s print queue.
-              </p>
+              <h3 className="text-2xl font-bold mb-4">Adaptive Memory</h3>
+              <p className="text-gray-500 font-medium">The universe remembers your struggles and strengths, continuously shaping your path.</p>
             </div>
           </div>
         </div>
       </section>
-
-      {/* Vendor/Stationary CTA Section */}
-      <section className="w-full bg-primary text-white py-16 md:py-24 border-t border-emerald-400">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 bg-white/20 text-white rounded-2xl mb-6 md:mb-8">
-            <Printer className="w-8 h-8 md:w-10 md:h-10" />
-          </div>
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-black mb-4 md:mb-6 tracking-tight text-white">Are you a Print Shop?</h2>
-          <p className="text-base md:text-xl font-medium mb-8 md:mb-10 text-emerald-50 max-w-2xl mx-auto leading-relaxed px-4">
-            Stop dealing with messy formatting and virus-filled flash drives.
-            Join our network to receive perfectly formatted, ready-to-print PDFs directly into your dashboard.
-          </p>
-          {currentUser?.role === 'vendor' ? (
-            <Link href="/vendor/dashboard" className="inline-flex items-center gap-2 bg-gray-900 text-white font-bold px-6 py-3 md:px-8 md:py-4 rounded-xl hover:bg-black transition-colors shadow-xl text-sm md:text-base">
-              Open Print Dashboard <ArrowRight className="w-5 h-5" />
-            </Link>
-          ) : (
-            <Link href="/vendor/apply" className="inline-flex items-center gap-2 bg-gray-900 text-white font-bold px-6 py-3 md:px-8 md:py-4 rounded-xl hover:bg-black transition-colors shadow-xl text-sm md:text-base">
-              Register Your Stationary <ArrowRight className="w-5 h-5" />
-            </Link>
-          )}
-        </div>
-      </section>
-
     </div>
   );
 }
