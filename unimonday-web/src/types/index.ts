@@ -1,63 +1,32 @@
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: 'student' | 'vendor' | 'admin';
-  avatarUrl?: string;
-  region?: string;
-  campusName?: string;
+
+export type UserRole = 'child' | 'teen' | 'adult';
+export type Language = 'English' | 'Spanish' | 'French' | 'Chinese' | 'German' | 'Swahili';
+export type Level = 'Starter' | 'Beginner' | 'Elementary' | 'Intermediate' | 'Advanced';
+
+export interface UserProfile {
+    id: string;
+    name: string;
+    role: UserRole;
+    targetLanguage: Language;
+    level: Level;
+    avatar?: string;
+    streak: number;
+    points: number;
 }
 
-export interface Vendor {
-  id: string;
-  userId?: string;
-  storeName: string;
-  storeSlug: string;
-  description: string;
-  logoUrl?: string;
-  bannerUrl?: string;
-  rating: number;
-  region: string;
-  campusName: string;
-  isVerified: boolean;
-  paymentAndDeliveryInfo?: string;
+export interface Episode {
+    id: string;
+    title: string;
+    description: string;
+    isLocked: boolean;
+    isCompleted: boolean;
+    stars: number;
+    type: 'story' | 'roleplay' | 'vocabulary' | 'challenge';
 }
 
-export interface Product {
-  id: string;
-  vendorId?: string;
-  vendorName: string;
-  name: string;
-  description: string;
-  price: number;
-  originalPrice?: number;
-  category: 'Fashion & Apparels' | 'Tech & Accessories' | 'Beauty & Cosmetics' | 'Home & Decor' | 'Services';
-  images: string[];
-  inStock: boolean;
-  rating?: number;
-}
-
-export interface CartItem {
-  id: string;
-  product: Product;
-  quantity: number;
-  selectedOptions?: Record<string, string>;
-}
-
-export interface Order {
-  type?: string;
-  title?: string;
-  vendor?: string;
-  price?: string;
-  image?: string;
-  date?: string;
-  id: string;
-  userId?: string;
-  vendorId?: string;
-  items?: CartItem[];
-  totalAmount?: number;
-  deliveryFee?: number;
-  status: 'Pending' | 'Paid' | 'Processing' | 'In Transit' | 'Delivered' | 'Cancelled';
-  createdAt?: string;
-  updatedAt?: string;
+export interface Message {
+    id: string;
+    role: 'user' | 'assistant' | 'system';
+    content: string;
+    timestamp: number;
 }
