@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingBag, User, Menu, X, Shirt, Smartphone, ShieldCheck, Box, Handshake, ShieldAlert } from "lucide-react";
+import { User, Menu, X, Sparkles, BrainCircuit, Gamepad2 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -14,35 +14,32 @@ export function TopNav() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 h-14 bg-white/80 backdrop-blur-xl border-b border-border z-50 flex items-center justify-between px-4 sm:px-6 lg:px-8">
+      <nav className="fixed top-0 left-0 right-0 h-16 bg-background/80 backdrop-blur-xl border-b border-border z-50 flex items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 bg-gray-900 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
-            <ShoppingBag className="w-5 h-5 text-white" />
+          <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
+            <Sparkles className="w-6 h-6 text-primary-foreground" />
           </div>
-          <span className="font-black text-xl tracking-tight text-gray-900">uNi<span className="text-primary">MONDAY</span></span>
+          <span className="font-black text-2xl tracking-tight text-foreground">uNi<span className="text-foreground/70">MONDAY</span></span>
         </Link>
 
-        <div className="hidden sm:flex items-center gap-8 font-medium">
-          <Link href="/fashion" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/fashion' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-            <Shirt className="w-4 h-4" /> Fashion
+        <div className="hidden sm:flex items-center gap-8 font-bold">
+          <Link href="/missions" className={`flex items-center gap-2 text-base hover:text-primary transition-colors ${pathname === '/missions' ? 'text-primary' : 'text-foreground/70'}`}>
+            <Gamepad2 className="w-5 h-5" /> Missions
           </Link>
-          <Link href="/tech" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/tech' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-            <Smartphone className="w-4 h-4" /> Tech & Accessories
+          <Link href="/chat" className={`flex items-center gap-2 text-base hover:text-primary transition-colors ${pathname === '/chat' ? 'text-primary' : 'text-foreground/70'}`}>
+            <BrainCircuit className="w-5 h-5" /> AI Companion
           </Link>
-          <Link href="/services" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/services' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-            <ShieldCheck className="w-4 h-4" /> Verified Services
-          </Link>
-          <Link href="/orders" className={`flex items-center gap-2 text-sm hover:text-primary transition-colors ${pathname === '/orders' ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
-            <Box className="w-4 h-4" /> My Orders
+          <Link href="/parents" className={`flex items-center gap-2 text-base hover:text-primary transition-colors ${pathname === '/parents' ? 'text-primary' : 'text-foreground/70'}`}>
+            <User className="w-5 h-5" /> Parent Dashboard
           </Link>
         </div>
 
         <div className="flex items-center gap-3">
-          <button className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-full font-bold text-sm transition-colors">
-            <User className="w-4 h-4" /> Sign In
+          <button className="hidden sm:flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-2xl font-bold text-sm transition-transform hover:scale-105">
+            Get Started
           </button>
-          <button onClick={toggleMenu} className="sm:hidden p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors">
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          <button onClick={toggleMenu} className="sm:hidden p-2 text-foreground hover:bg-card rounded-full transition-colors">
+            {isMobileMenuOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
           </button>
         </div>
       </nav>
@@ -53,55 +50,33 @@ export function TopNav() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed top-14 left-0 right-0 bg-white border-b border-border z-40 sm:hidden shadow-lg"
+            className="fixed top-16 left-0 right-0 bottom-20 overflow-y-auto bg-background z-40 sm:hidden shadow-lg border-b border-border"
           >
-            <div className="flex flex-col p-4 gap-4">
+            <div className="flex flex-col p-6 gap-4">
               <Link
-                href="/fashion"
+                href="/missions"
                 onClick={toggleMenu}
-                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/fashion' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
+                className={`flex items-center gap-4 p-4 rounded-2xl font-bold text-lg ${pathname === '/missions' ? 'bg-primary text-primary-foreground' : 'text-foreground hover:bg-card'}`}
               >
-                <Shirt className="w-5 h-5" /> Fashion
+                <Gamepad2 className="w-6 h-6" /> Missions
               </Link>
               <Link
-                href="/tech"
+                href="/chat"
                 onClick={toggleMenu}
-                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/tech' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
+                className={`flex items-center gap-4 p-4 rounded-2xl font-bold text-lg ${pathname === '/chat' ? 'bg-primary text-primary-foreground' : 'text-foreground hover:bg-card'}`}
               >
-                <Smartphone className="w-5 h-5" /> Tech & Accessories
+                <BrainCircuit className="w-6 h-6" /> AI Companion
               </Link>
               <Link
-                href="/services"
+                href="/parents"
                 onClick={toggleMenu}
-                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/services' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
+                className={`flex items-center gap-4 p-4 rounded-2xl font-bold text-lg ${pathname === '/parents' ? 'bg-primary text-primary-foreground' : 'text-foreground hover:bg-card'}`}
               >
-                <ShieldCheck className="w-5 h-5" /> Verified Services
+                <User className="w-6 h-6" /> Parent Dashboard
               </Link>
-              <Link
-                href="/orders"
-                onClick={toggleMenu}
-                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname === '/orders' ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
-              >
-                <Box className="w-5 h-5" /> My Orders
-              </Link>
-                            <hr className="border-border my-2" />
-              <Link
-                href="/vendor/apply"
-                onClick={toggleMenu}
-                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname.includes('/vendor') ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
-              >
-                <Handshake className="w-5 h-5" /> Partner With Us
-              </Link>
-              <Link
-                href="/admin/dashboard"
-                onClick={toggleMenu}
-                className={`flex items-center gap-3 p-3 rounded-xl font-bold ${pathname.includes('/admin') ? 'bg-primary/10 text-primary' : 'text-gray-700 hover:bg-gray-50'}`}
-              >
-                <ShieldAlert className="w-5 h-5" /> Staff
-              </Link>
-              <hr className="border-border my-2" />
-              <button className="flex items-center justify-center gap-2 w-full p-3 bg-gray-900 text-white rounded-xl font-bold">
-                <User className="w-5 h-5" /> Sign In
+              <hr className="border-border my-4" />
+              <button className="flex items-center justify-center gap-2 w-full p-4 bg-primary text-primary-foreground rounded-2xl font-bold text-lg">
+                Get Started
               </button>
             </div>
           </motion.div>

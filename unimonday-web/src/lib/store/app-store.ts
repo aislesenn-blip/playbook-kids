@@ -1,83 +1,31 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { Campus, CartItem, Product, User } from '@/types'
+import { Learner, Parent } from '@/types'
 
 interface AppState {
-  currentUser: User | null;
-  currentCampus: Campus | null;
-  isCartOpen: boolean;
-  cart: CartItem[];
+  currentLearner: Learner | null;
+  currentParent: Parent | null;
+  isAudioMuted: boolean;
 
-  // Auth Actions
-  setUser: (user: User | null) => void;
-  setCampus: (campus: Campus) => void;
-
-  // Cart Actions
-  toggleCart: () => void;
-  addToCart: (product: Product, quantity?: number) => void;
-  removeFromCart: (itemId: string) => void;
-  updateQuantity: (itemId: string, quantity: number) => void;
-  clearCart: () => void;
-
-  // Computed
-  getCartTotal: () => number;
-  getCartCount: () => number;
-
+  // Actions
+  setLearner: (learner: Learner | null) => void;
+  setParent: (parent: Parent | null) => void;
+  toggleAudio: () => void;
   resetApp: () => void;
 }
 
 export const useAppStore = create<AppState>()(
   persist(
     (set, get) => ({
-      currentUser: null,
-      currentCampus: null,
-      isCartOpen: false,
-      cart: [],
+      currentLearner: null,
+      currentParent: null,
+      isAudioMuted: false,
 
-      setUser: (user) => set({ currentUser: user }),
-      setCampus: (campus) => set({ currentCampus: campus }),
+      setLearner: (learner) => set({ currentLearner: learner }),
+      setParent: (parent) => set({ currentParent: parent }),
+      toggleAudio: () => set((state) => ({ isAudioMuted: !state.isAudioMuted })),
 
-      toggleCart: () => set((state) => ({ isCartOpen: !state.isCartOpen })),
-
-      addToCart: (product, quantity = 1) => set((state) => {
-        const existingItem = state.cart.find((item) => item.product.id === product.id);
-        if (existingItem) {
-          return {
-            cart: state.cart.map((item) =>
-              item.product.id === product.id
-                ? { ...item, quantity: item.quantity + quantity }
-                : item
-            ),
-            isCartOpen: true,
-          };
-        }
-        return {
-          cart: [...state.cart, { id: crypto.randomUUID(), product, quantity }],
-          isCartOpen: true,
-        };
-      }),
-
-      removeFromCart: (itemId) => set((state) => ({
-        cart: state.cart.filter((item) => item.id !== itemId),
-      })),
-
-      updateQuantity: (itemId, quantity) => set((state) => ({
-        cart: state.cart.map((item) =>
-          item.id === itemId ? { ...item, quantity: Math.max(1, quantity) } : item
-        ),
-      })),
-
-      clearCart: () => set({ cart: [] }),
-
-      getCartTotal: () => {
-        return get().cart.reduce((total, item) => total + (item.product.price * item.quantity), 0);
-      },
-
-      getCartCount: () => {
-         return get().cart.reduce((count, item) => count + item.quantity, 0);
-      },
-
-      resetApp: () => set({ currentUser: null, currentCampus: null, isCartOpen: false, cart: [] }),
+      resetApp: () => set({ currentLearner: null, currentParent: null, isAudioMuted: false }),
     }),
     {
       name: 'unimonday-app-storage',

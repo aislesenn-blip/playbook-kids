@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: 'uNiMONDAY | The Billion Dollar Standard',
-  description: 'Instant campus ordering and payments.',
+  title: 'uNiMONDAY | The Future of Language Learning',
+  description: 'An AI-powered living language universe where learning happens through emotionally engaging conversations.',
 };
 
 export default async function RootLayout({
@@ -31,10 +31,10 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="antialiased min-h-screen pb-20 sm:pb-0 pt-14 bg-background">
+      <body className="antialiased min-h-screen pb-20 sm:pb-0 pt-16 bg-background">
         <NextIntlClientProvider messages={messages} locale={locale}>
           <TopNav />
-          <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <main className="w-full h-full min-h-[calc(100vh-4rem)]">
             {children}
           </main>
           <div className="sm:hidden">
