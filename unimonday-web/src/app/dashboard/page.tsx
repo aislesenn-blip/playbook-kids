@@ -12,7 +12,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!profile) {
-      router.push('/');
+      router.push('/auth/signup');
     }
   }, [profile, router]);
 

@@ -10,7 +10,7 @@ export default function LeaderboardPage() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!profile) router.push('/');
+    if (!profile) router.push('/auth/signup');
   }, [profile, router]);
 
   if (!profile) return null;
