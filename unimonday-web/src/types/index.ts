@@ -1,59 +1,59 @@
-export interface Campus {
+export interface Learner {
   id: string;
   name: string;
-  city: string;
-}
-
-export interface User {
-  id: string;
-  name: string;
-  phone: string;
-  role: 'student' | 'vendor' | 'admin';
+  age: number;
+  level: 'Starter' | 'Beginner' | 'Elementary' | 'Intermediate' | 'Advanced';
+  targetLanguage: 'English' | 'Spanish' | 'French' | 'Chinese' | 'German' | 'Swahili';
   avatarUrl?: string;
-  campusId?: string;
+  currentStreak: number;
+  totalPoints: number;
+  parentId?: string;
 }
 
-export interface Vendor {
+export interface Parent {
   id: string;
-  userId: string;
-  storeName: string;
-  description: string;
-  logoUrl?: string;
-  bannerUrl?: string;
-  rating: number;
-  campusId: string;
-  isVerified: boolean;
-}
-
-export interface Product {
-  id: string;
-  vendorId: string;
-  vendorName: string;
   name: string;
+  email: string;
+  phone: string;
+  learners: string[]; // Learner IDs
+  subscriptionTier: 'Lite' | 'X' | 'Pro';
+}
+
+export interface Season {
+  id: string;
+  title: string;
   description: string;
-  price: number;
-  originalPrice?: number;
-  category: 'Fashion' | 'Tech' | 'Services' | 'Groceries' | 'Other';
-  images: string[];
-  inStock: boolean;
-  rating?: number;
+  order: number;
+  isUnlocked: boolean;
+  coverImage?: string;
 }
 
-export interface CartItem {
+export interface Episode {
   id: string;
-  product: Product;
-  quantity: number;
-  selectedOptions?: Record<string, string>;
+  seasonId: string;
+  title: string;
+  description: string;
+  targetVocabulary: string[];
+  isCompleted: boolean;
+  score?: number;
+  order: number;
 }
 
-export interface Order {
+export interface ChatMessage {
   id: string;
-  userId: string;
-  vendorId: string;
-  items: CartItem[];
-  totalAmount: number;
-  deliveryFee: number;
-  status: 'Pending' | 'Paid' | 'Processing' | 'In Transit' | 'Delivered' | 'Cancelled';
-  createdAt: string;
-  updatedAt: string;
+  role: 'user' | 'ai' | 'system';
+  content: string;
+  timestamp: string;
+  audioUrl?: string;
+}
+
+export interface ActivityReport {
+  id: string;
+  learnerId: string;
+  date: string;
+  minutesSpent: number;
+  wordsLearned: number;
+  pronunciationScore: number;
+  completedEpisodes: string[];
+  homeworkStatus: 'Pending' | 'Completed' | 'Not Assigned';
 }

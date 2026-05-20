@@ -1,70 +1,76 @@
-import { Product, Vendor, Campus } from '@/types';
+import { Learner, Season, Episode, ActivityReport } from '@/types';
 
-export const mockCampuses: Campus[] = [
-  { id: 'c1', name: 'UDSM - Main Campus', city: 'Dar es Salaam' },
-  { id: 'c2', name: 'UDOM - Main Campus', city: 'Dodoma' },
-  { id: 'c3', name: 'SUA - Main Campus', city: 'Morogoro' },
-  { id: 'c4', name: 'CBE - Dar es Salaam', city: 'Dar es Salaam' },
+export const mockLearner: Learner = {
+  id: 'l1',
+  name: 'Bertha',
+  age: 7,
+  level: 'Starter',
+  targetLanguage: 'English',
+  avatarUrl: 'https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=1000&auto=format&fit=crop',
+  currentStreak: 5,
+  totalPoints: 1250,
+  parentId: 'p1'
+};
+
+export const mockSeasons: Season[] = [
+  {
+    id: 's1',
+    title: 'Season 1: The Magic House',
+    description: 'Learn how to introduce yourself, name your family, and explore the rooms in a house!',
+    order: 1,
+    isUnlocked: true,
+    coverImage: 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?q=80&w=1000&auto=format&fit=crop'
+  },
+  {
+    id: 's2',
+    title: 'Season 2: Forest Friends',
+    description: 'Meet the animals of the magical forest, learn colors, and talk about food.',
+    order: 2,
+    isUnlocked: false,
+    coverImage: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=1000&auto=format&fit=crop'
+  }
 ];
 
-export const mockVendors: Vendor[] = [
+export const mockEpisodes: Episode[] = [
   {
-    id: 'v1',
-    userId: 'u2',
-    storeName: 'TechZone UDSM',
-    description: 'Best gadgets and phone repairs on campus.',
-    logoUrl: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=2064&auto=format&fit=crop',
-    rating: 4.8,
-    campusId: 'c1',
-    isVerified: true,
+    id: 'e1',
+    seasonId: 's1',
+    title: 'Episode 1: Hello uNiMONDAY!',
+    description: 'Meet your new AI companion and learn how to say your name.',
+    targetVocabulary: ['Hello', 'My name is', 'Friend'],
+    isCompleted: true,
+    score: 95,
+    order: 1
   },
   {
-    id: 'v2',
-    userId: 'u3',
-    storeName: 'Campus Thrift',
-    description: 'Fresh vintage clothes and sneakers.',
-    logoUrl: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop',
-    rating: 4.5,
-    campusId: 'c1',
-    isVerified: true,
+    id: 'e2',
+    seasonId: 's1',
+    title: 'Episode 2: The Ringing Telephone',
+    description: 'A magical telephone rings! Who is on the other side? Let\'s talk!',
+    targetVocabulary: ['Telephone', 'Hello', 'How are you', 'Good'],
+    isCompleted: false,
+    order: 2
   },
+  {
+    id: 'e3',
+    seasonId: 's1',
+    title: 'Episode 3: Family Portrait',
+    description: 'Draw a picture of your family and show it to uNiMONDAY.',
+    targetVocabulary: ['Mother', 'Father', 'Brother', 'Sister', 'Family'],
+    isCompleted: false,
+    order: 3
+  }
 ];
 
-export const mockProducts: Product[] = [
+export const mockReports: ActivityReport[] = [
   {
-    id: 'p1',
-    vendorId: 'v2',
-    vendorName: 'Campus Thrift',
-    name: 'Vintage Denim Jacket',
-    description: 'Classic vintage denim jacket in excellent condition.',
-    price: 35000,
-    category: 'Fashion',
-    images: ['https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop'],
-    inStock: true,
-    rating: 4.9,
-  },
-  {
-    id: 'p2',
-    vendorId: 'v1',
-    vendorName: 'TechZone UDSM',
-    name: 'Pro Wireless Earbuds',
-    description: 'High quality wireless earbuds with noise cancellation.',
-    price: 45000,
-    category: 'Tech',
-    images: ['https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=2064&auto=format&fit=crop'],
-    inStock: true,
-    rating: 4.8,
-  },
-  {
-    id: 'p3',
-    vendorId: 'v2',
-    vendorName: 'Kicks TZ',
-    name: 'Classic Urban Sneakers',
-    description: 'Comfortable everyday sneakers.',
-    price: 55000,
-    category: 'Fashion',
-    images: ['https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=2080&auto=format&fit=crop'],
-    inStock: true,
-    rating: 4.7,
-  },
+    id: 'r1',
+    learnerId: 'l1',
+    date: new Date().toISOString(),
+    minutesSpent: 15,
+    wordsLearned: 3,
+    pronunciationScore: 92,
+    completedEpisodes: ['e1'],
+    homeworkStatus: 'Pending'
+  }
 ];

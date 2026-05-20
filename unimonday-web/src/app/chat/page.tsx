@@ -1,142 +1,129 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Send, Store, ArrowLeft, Image as ImageIcon, Search } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useState, useRef, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Mic, MicOff, Send, Sparkles } from "lucide-react";
 import Image from "next/image";
 
-export default function ChatInterface() {
-  const router = useRouter();
-  const [messages, setMessages] = useState([
-    { id: 1, text: "Hi there! Is the Vintage Denim Jacket still available?", sender: "user", time: "10:00 AM" },
-    { id: 2, text: "Hello! Yes, it is still available. What size are you looking for?", sender: "vendor", time: "10:05 AM" },
+type Message = {
+  id: string;
+  role: "user" | "ai";
+  content: string;
+};
+
+export default function ChatPage() {
+  const [messages, setMessages] = useState<Message[]>([
+    { id: "1", role: "ai", content: "Hi Bertha! Ready for our next adventure? Say hello!" }
   ]);
   const [input, setInput] = useState("");
-  const [activeChat, setActiveChat] = useState("vendor1");
+  const [isRecording, setIsRecording] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const chats = [
-    { id: "vendor1", name: "Campus Thrift", avatar: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop", lastMsg: "Great! Let me check...", unread: 0 },
-    { id: "vendor2", name: "TechZone UDSM", avatar: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?q=80&w=2064&auto=format&fit=crop", lastMsg: "Your repair is complete.", unread: 2 },
-  ];
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const handleSend = () => {
     if (!input.trim()) return;
 
-    setMessages(prev => [
-      ...prev,
-      { id: Date.now(), text: input, sender: "user", time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
-    ]);
+    const newMsg: Message = { id: Date.now().toString(), role: "user", content: input };
+    setMessages(prev => [...prev, newMsg]);
     setInput("");
 
+    // Mock AI response
     setTimeout(() => {
-      setMessages(prev => [
-        ...prev,
-        { id: Date.now() + 1, text: "Alright, noted!", sender: "vendor", time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
-      ]);
-    }, 1000);
+      setMessages(prev => [...prev, {
+        id: (Date.now() + 1).toString(),
+        role: "ai",
+        content: "That sounds amazing! Let's practice saying that together."
+      }]);
+    }, 1500);
   };
 
   return (
-    <div className="max-w-6xl mx-auto h-[calc(100vh-8rem)] bg-white rounded-[2rem] border border-border shadow-sm overflow-hidden flex">
-      {/* Sidebar - Chat List */}
-      <div className="w-full md:w-1/3 border-r border-border flex flex-col hidden md:flex">
-        <div className="p-4 border-b border-border">
-          <h2 className="text-xl font-black mb-4">Messages</h2>
-          <div className="relative">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-            <input type="text" placeholder="Search chats..." className="w-full bg-gray-50 rounded-xl pl-9 pr-4 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary" />
+    <div className="flex flex-col h-[calc(100vh-8rem)] w-full max-w-4xl mx-auto relative overflow-hidden bg-card rounded-t-[3rem] sm:rounded-[3rem] mt-4 sm:mt-8 shadow-2xl border-2 sm:border-4 border-primary">
+
+      {/* Header */}
+      <div className="absolute top-0 left-0 right-0 p-6 z-20 flex justify-between items-center bg-gradient-to-b from-card to-transparent">
+        <div className="flex items-center gap-4">
+          <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-primary">
+            <Image
+              src="https://images.unsplash.com/photo-1616423640778-28d1b53229bd?q=80&w=2000&auto=format&fit=crop"
+              alt="AI Companion"
+              fill
+              className="object-cover"
+            />
           </div>
-        </div>
-        <div className="flex-1 overflow-y-auto">
-          {chats.map(chat => (
-            <div
-              key={chat.id}
-              onClick={() => setActiveChat(chat.id)}
-              className={`p-4 flex items-center gap-3 cursor-pointer transition-colors ${activeChat === chat.id ? 'bg-primary/5 border-l-4 border-primary' : 'hover:bg-gray-50'}`}
-            >
-              <div className="relative w-12 h-12 rounded-full overflow-hidden shrink-0">
-                <Image src={chat.avatar} alt={chat.name} fill className="object-cover" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex justify-between items-baseline mb-1">
-                  <h3 className="font-bold text-sm truncate">{chat.name}</h3>
-                  <span className="text-xs text-muted-foreground">10:05 AM</span>
-                </div>
-                <p className="text-sm text-muted-foreground truncate">{chat.lastMsg}</p>
-              </div>
-              {chat.unread > 0 && (
-                <div className="w-5 h-5 bg-primary text-white rounded-full flex items-center justify-center text-xs font-bold shrink-0">
-                  {chat.unread}
-                </div>
-              )}
-            </div>
-          ))}
+          <div>
+            <h2 className="font-black text-xl leading-tight">uNiMONDAY</h2>
+            <p className="text-primary font-bold text-sm flex items-center gap-1">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+              </span>
+              Listening
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Main Chat Area */}
-      <div className="w-full md:w-2/3 flex flex-col h-full bg-gray-50/50">
-        <div className="p-4 bg-white border-b border-border flex items-center gap-3">
-          <button onClick={() => router.back()} className="md:hidden p-2 -ml-2 text-gray-500 hover:bg-gray-100 rounded-full">
-            <ArrowLeft className="w-5 h-5" />
+      {/* Voice Visualizer (Background) */}
+      <div className="absolute inset-0 flex items-center justify-center opacity-10 pointer-events-none">
+        <div className={`w-64 h-64 rounded-full bg-primary ${isRecording ? 'animate-ping' : ''} blur-3xl transition-all duration-1000`} />
+      </div>
+
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto p-6 pt-24 pb-32 space-y-6 relative z-10 scrollbar-hide">
+        {messages.map((msg) => (
+          <motion.div
+            key={msg.id}
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+          >
+            <div className={`max-w-[80%] rounded-[2rem] p-5 text-lg font-medium shadow-md ${
+              msg.role === 'user'
+                ? 'bg-primary text-primary-foreground rounded-tr-sm'
+                : 'bg-background text-foreground rounded-tl-sm border-2 border-primary/10'
+            }`}>
+              {msg.role === 'ai' && <Sparkles className="w-4 h-4 text-primary mb-2" />}
+              {msg.content}
+            </div>
+          </motion.div>
+        ))}
+        <div ref={messagesEndRef} />
+      </div>
+
+      {/* Input Area */}
+      <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-card via-card to-transparent z-20">
+        <div className="flex items-center gap-3 max-w-2xl mx-auto bg-background p-2 rounded-[2rem] shadow-xl border-2 border-primary/20">
+          <button
+            onClick={() => setIsRecording(!isRecording)}
+            className={`p-4 rounded-full transition-colors ${
+              isRecording
+                ? 'bg-red-500 text-white animate-pulse'
+                : 'bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground'
+            }`}
+          >
+            {isRecording ? <MicOff className="w-6 h-6" /> : <Mic className="w-6 h-6" />}
           </button>
-          <div className="w-10 h-10 bg-primary/10 text-primary rounded-full flex items-center justify-center shrink-0 overflow-hidden relative">
-            {activeChat === 'vendor1' ? (
-                <Image src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop" alt="avatar" fill className="object-cover"/>
-            ) : <Store className="w-5 h-5" />}
-          </div>
-          <div>
-            <h2 className="font-bold">{activeChat === 'vendor1' ? 'Campus Thrift' : 'TechZone UDSM'}</h2>
-            <p className="text-xs text-primary font-medium">● Online</p>
-          </div>
-        </div>
 
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
-          <AnimatePresence>
-            {messages.map((msg) => (
-              <motion.div
-                key={msg.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className={`flex flex-col max-w-[80%] ${msg.sender === "user" ? "ml-auto items-end" : "mr-auto items-start"}`}
-              >
-                <div
-                  className={`p-3 rounded-2xl ${
-                    msg.sender === "user"
-                      ? "bg-primary text-white rounded-br-none"
-                      : "bg-white border border-border text-gray-900 rounded-bl-none shadow-sm"
-                  }`}
-                >
-                  {msg.text}
-                </div>
-                <span className="text-xs text-muted-foreground mt-1 font-medium">{msg.time}</span>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </div>
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+            placeholder="Type or speak to reply..."
+            className="flex-1 bg-transparent border-none focus:outline-none text-lg font-medium px-2"
+          />
 
-        <div className="p-4 bg-white border-t border-border">
-          <div className="flex items-center gap-2">
-            <button className="p-3 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition-colors shrink-0">
-              <ImageIcon className="w-5 h-5" />
-            </button>
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSend()}
-              placeholder="Type your message..."
-              className="flex-1 bg-gray-100 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary text-sm font-medium"
-            />
-            <button
-              onClick={handleSend}
-              disabled={!input.trim()}
-              className="p-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
-            >
-              <Send className="w-5 h-5" />
-            </button>
-          </div>
+          <button
+            onClick={handleSend}
+            disabled={!input.trim()}
+            className="p-4 bg-primary text-primary-foreground rounded-full hover:scale-105 transition-transform disabled:opacity-50 disabled:hover:scale-100"
+          >
+            <Send className="w-6 h-6" />
+          </button>
         </div>
       </div>
     </div>
