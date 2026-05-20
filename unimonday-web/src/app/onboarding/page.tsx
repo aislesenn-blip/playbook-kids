@@ -47,7 +47,7 @@ export default function Onboarding() {
         points: 0
       };
       setProfile(newProfile);
-      router.push('/dashboard');
+      router.push('/upgrade');
     }
   };
 
