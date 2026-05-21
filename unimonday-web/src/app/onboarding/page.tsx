@@ -5,10 +5,12 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppStore } from '@/lib/store/app-store';
 import { UserRole, Language, Level, UserProfile } from '@/types';
-import { Baby, User, GraduationCap, ArrowRight, ChevronLeft } from 'lucide-react';
+import { Baby, User, GraduationCap, ArrowRight, ChevronLeft, Sparkles } from 'lucide-react';
 
 export default function Onboarding() {
   const [step, setStep] = useState(1);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [loadingText, setLoadingText] = useState("Analyzing profile...");
   const router = useRouter();
   const setProfile = useAppStore(state => state.setProfile);
 
@@ -32,26 +34,67 @@ export default function Onboarding() {
   const TOTAL_STEPS = isChild ? 6 : 5;
 
   const handleNext = () => {
-    if (step < TOTAL_STEPS) setStep(step + 1);
-    else {
-      const newProfile: UserProfile = {
-        id: crypto.randomUUID(),
-        name: form.name,
-        role: form.role,
-        nativeLanguage: form.nativeLanguage as Language,
-        targetLanguage: form.targetLanguage as Language,
-        level: form.level as Level,
-        subscriptionTier: 'Lite',
-        parentEmail: isChild ? form.parentEmail : undefined,
-        streak: 0,
-        points: 0
-      };
-      setProfile(newProfile);
-      router.push('/dashboard');
+    if (step < TOTAL_STEPS) {
+      setStep(step + 1);
+    } else {
+      setIsAnalyzing(true);
+
+      // Simulate "Aha!" Moment / Hype Screen
+      setTimeout(() => setLoadingText(`Building a custom curriculum for learning ${form.targetLanguage}...`), 1500);
+      setTimeout(() => setLoadingText("Generating AI voice companions..."), 3000);
+      if (isChild) setTimeout(() => setLoadingText("Setting up the Parent Dashboard..."), 4500);
+
+      setTimeout(() => {
+        const newProfile: UserProfile = {
+          id: crypto.randomUUID(),
+          name: form.name,
+          role: form.role,
+          nativeLanguage: form.nativeLanguage as Language,
+          targetLanguage: form.targetLanguage as Language,
+          level: form.level as Level,
+          subscriptionTier: 'Lite',
+          parentEmail: isChild ? form.parentEmail : undefined,
+          streak: 0,
+          points: 0
+        };
+        setProfile(newProfile);
+        router.push('/upgrade');
+      }, isChild ? 6000 : 4500);
     }
   };
 
   const getStepIndicator = () => (step / TOTAL_STEPS) * 100;
+
+  if (isAnalyzing) {
+    return (
+      <div className="min-h-screen bg-zinc-950 text-white flex flex-col items-center justify-center p-6 text-center z-50 fixed inset-0">
+         <motion.div
+           initial={{ scale: 0.8, opacity: 0 }}
+           animate={{ scale: 1, opacity: 1 }}
+           className="relative flex items-center justify-center w-32 h-32 mb-8"
+         >
+           <div className="absolute inset-0 rounded-full border-4 border-[#DDA359] border-t-transparent animate-spin" />
+           <Sparkles className="w-12 h-12 text-[#DDA359] animate-pulse" />
+         </motion.div>
+
+         <h1 className="text-3xl md:text-4xl font-black mb-4 tracking-tight text-[#DDA359]">
+           Creating your Universe
+         </h1>
+
+         <AnimatePresence mode="wait">
+            <motion.p
+              key={loadingText}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="text-zinc-400 font-medium text-lg md:text-xl h-10"
+            >
+              {loadingText}
+            </motion.p>
+         </AnimatePresence>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-white flex flex-col">

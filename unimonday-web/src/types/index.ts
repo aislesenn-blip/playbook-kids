@@ -16,6 +16,16 @@ export interface UserProfile {
     avatar?: string;
     streak: number;
     points: number;
+    hearts?: number; // Duolingo style lives
+}
+
+export interface DailyQuest {
+    id: string;
+    title: string;
+    target: number;
+    progress: number;
+    rewardXP: number;
+    isCompleted: boolean;
 }
 
 export interface Episode {

@@ -87,8 +87,11 @@ export default function ProfilePage() {
               <p className="text-[#DDA359] font-medium text-sm">Basic AI Hours & Curriculum</p>
             </div>
           </div>
-          <button className="w-full py-4 bg-gray-900 text-white rounded-2xl font-bold hover:bg-black transition-colors mt-2">
-            Upgrade to Pro
+          <button
+            onClick={() => router.push('/upgrade')}
+            className="w-full py-4 bg-gray-900 text-white rounded-2xl font-bold hover:bg-black transition-colors mt-2"
+          >
+            Upgrade Plan
           </button>
         </div>
       </div>

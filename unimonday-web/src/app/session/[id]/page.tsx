@@ -2,8 +2,9 @@
 import { useAppStore } from '@/lib/store/app-store';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, use } from 'react';
-import { Mic, MicOff, PhoneOff } from 'lucide-react';
+import { Mic, MicOff, PhoneOff, Star, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import confetti from 'canvas-confetti';
 
 type Phase = 'CONNECTION' | 'PATTERN_DROP' | 'REAL_CONVERSATION' | 'COMPLETE';
 
@@ -25,7 +26,6 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
       return;
     }
 
-    // Phase 1: Connection (Native Language)
     setTimeout(() => {
       let greeting = `Hello ${profile.name}! I am so happy to see you. Are you ready to practice your ${profile.targetLanguage}?`;
       if (profile.nativeLanguage === 'Swahili') greeting = `Karibu sana uNiMONDAY ${profile.name}! Nafurahi kukuona. Uko tayari kujifunza ${profile.targetLanguage}?`;
@@ -35,7 +35,31 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
     }, 1500);
   }, [episode, profile, router]);
 
-  if (!episode || !profile) return null;
+  const triggerConfetti = () => {
+    const end = Date.now() + 2 * 1000;
+    const colors = ['#DDA359', '#ffffff'];
+
+    (function frame() {
+      confetti({
+        particleCount: 3,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 },
+        colors: colors
+      });
+      confetti({
+        particleCount: 3,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 },
+        colors: colors
+      });
+
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    }());
+  };
 
   const handleUserResponse = () => {
     if (!profile) return;
@@ -62,14 +86,8 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
         }
         else if (currentPhase === 'REAL_CONVERSATION') {
            setCurrentPhase('COMPLETE');
-           setSubtitle(`You did amazing today! You've completed the episode.`);
-
-           setTimeout(() => {
-              completeEpisode(episode.id, 3);
-              router.push('/dashboard');
-           }, 3000);
+           triggerConfetti();
         }
-
     }, 2000);
   };
 
@@ -81,6 +99,72 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
       setSubtitle(""); // clear subtitle when user is talking
     }
   };
+
+  if (!episode || !profile) return null;
+
+  // DOPAMINE HIT / SUCCESS SCREEN
+  if (currentPhase === 'COMPLETE') {
+    return (
+      <div className="fixed inset-0 z-[100] bg-zinc-950 flex flex-col items-center justify-center p-6 text-center">
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ type: "spring", bounce: 0.5 }}
+          className="bg-zinc-900 border-2 border-[#DDA359] rounded-3xl p-12 max-w-sm w-full flex flex-col items-center shadow-2xl shadow-[#DDA359]/20"
+        >
+          <div className="w-24 h-24 bg-[#DDA359]/20 rounded-full flex items-center justify-center mb-6">
+            <span className="text-5xl">🔥</span>
+          </div>
+
+          <h1 className="text-4xl font-black text-white mb-2">Episode Cleared!</h1>
+          <p className="text-zinc-400 font-medium mb-8">You spoke beautifully.</p>
+
+          <div className="flex gap-2 mb-8">
+            {[1, 2, 3].map((star, i) => (
+              <motion.div
+                key={star}
+                initial={{ scale: 0, rotate: -180 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ delay: i * 0.2 + 0.5, type: "spring" }}
+              >
+                <Star className="w-12 h-12 text-[#DDA359] fill-current" />
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="w-full bg-zinc-800 rounded-full h-3 mb-4 overflow-hidden">
+             <motion.div
+               initial={{ width: 0 }}
+               animate={{ width: "100%" }}
+               transition={{ delay: 1.5, duration: 1 }}
+               className="h-full bg-[#DDA359]"
+             />
+          </div>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2.5 }}
+            className="text-[#DDA359] font-bold text-lg mb-8"
+          >
+            +30 XP Earned
+          </motion.p>
+
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 3 }}
+            onClick={() => {
+              completeEpisode(episode.id, 3);
+              router.push('/dashboard');
+            }}
+            className="w-full py-4 bg-white text-zinc-900 rounded-2xl font-bold text-lg flex items-center justify-center gap-2 hover:bg-zinc-200 transition-colors"
+          >
+            Continue Journey <ArrowRight className="w-5 h-5" />
+          </motion.button>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="fixed inset-0 z-[100] bg-zinc-950 flex flex-col items-center justify-between overflow-hidden">
@@ -107,7 +191,7 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
          <div className="relative w-48 h-48 sm:w-64 sm:h-64 flex items-center justify-center">
            {/* Glow Effect when AI speaking or listening */}
            <AnimatePresence>
-             {(!isVoiceActive && !isProcessing && currentPhase !== 'COMPLETE') && (
+             {(!isVoiceActive && !isProcessing) && (
                <motion.div
                  initial={{ opacity: 0, scale: 0.8 }}
                  animate={{ opacity: 1, scale: [1, 1.2, 1], rotate: 360 }}
@@ -165,7 +249,7 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
         {/* Mic Toggle Button */}
         <button
           onClick={toggleVoice}
-          disabled={currentPhase === 'COMPLETE' || isProcessing}
+          disabled={isProcessing}
           className={`w-20 h-20 rounded-full flex items-center justify-center shadow-2xl transition-all disabled:opacity-50 ${
             isVoiceActive
               ? 'bg-white text-zinc-900 scale-110 shadow-white/20'
