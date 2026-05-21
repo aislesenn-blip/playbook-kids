@@ -33,7 +33,9 @@ export default function UpgradePage() {
           transition={{ delay: 0.1 }}
           className="relative text-xl text-zinc-400 font-medium max-w-2xl mx-auto"
         >
-          Choose the plan that fits your ambition. No passive lessons. Just real conversations that make you fluent.
+          {profile
+            ? `Your custom ${profile.targetLanguage} curriculum is ready. Choose the plan that fits your ambition.`
+            : `Choose the plan that fits your ambition. No passive lessons. Just real conversations that make you fluent.`}
         </motion.p>
       </div>
 

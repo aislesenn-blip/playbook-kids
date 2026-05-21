@@ -1,13 +1,13 @@
 "use client";
 import Link from 'next/link';
 import { useAppStore } from '@/lib/store/app-store';
-import { Play, Lock, ChevronRight, Trophy, Flame } from 'lucide-react';
+import { Play, Lock, ChevronRight, Trophy, Flame, Target, Gift } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 export default function Dashboard() {
-  const { profile, episodes } = useAppStore();
+  const { profile, episodes, dailyQuests } = useAppStore();
   const router = useRouter();
   const containerRef = useRef(null);
 
@@ -77,8 +77,13 @@ export default function Dashboard() {
       {/* Main Content Area */}
       <div className="max-w-7xl mx-auto px-4 -mt-16 relative z-20 space-y-12">
 
-        {/* Continue Playing / Up Next */}
-        <section>
+        <div className="grid lg:grid-cols-3 gap-8">
+
+          {/* Main Content Column */}
+          <div className="lg:col-span-2 space-y-12">
+
+            {/* Continue Playing / Up Next */}
+            <section>
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-black text-zinc-900">Up Next</h2>
             <Link href="/journey" className="text-[#DDA359] font-bold flex items-center gap-1 hover:underline">
@@ -103,16 +108,16 @@ export default function Dashboard() {
               <div className="w-24 h-24 rounded-full bg-[#DDA359] text-white flex items-center justify-center group-hover:scale-110 group-hover:rotate-12 transition-all shadow-2xl shadow-[#DDA359]/40 shrink-0 cursor-pointer">
                 <Play className="w-10 h-10 ml-1" fill="currentColor" />
               </div>
-            </div>
-          </Link>
-        </section>
+                </div>
+              </Link>
+            </section>
 
-        {/* Netflix-style Carousels */}
+            {/* Netflix-style Carousels */}
         {categories.map((cat, idx) => (
           <section key={idx} className="w-full">
-            <h2 className="text-2xl font-black text-zinc-900 mb-6">{cat.title}</h2>
+                <h2 className="text-2xl font-black text-zinc-900 mb-6">{cat.title}</h2>
 
-            {/* Scrollable Container */}
+                {/* Scrollable Container */}
             <div className="flex gap-6 overflow-x-auto pb-8 -mx-4 px-4 scrollbar-hide snap-x" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
               {cat.items.map((ep, i) => {
                 const isLocked = ep.isLocked;
@@ -142,10 +147,54 @@ export default function Dashboard() {
                   </Link>
                 );
               })}
-            </div>
-          </section>
-        ))}
+                </div>
+              </section>
+            ))}
 
+          </div>
+
+          {/* Right Sidebar - Gamification */}
+          <div className="space-y-8">
+
+            {/* Daily Quests */}
+            <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-xl shadow-gray-200/50">
+              <div className="flex items-center justify-between mb-8">
+                <h3 className="text-2xl font-black text-zinc-900">Daily Quests</h3>
+                <Target className="w-6 h-6 text-[#DDA359]" />
+              </div>
+
+              <div className="space-y-6">
+                {dailyQuests?.map(quest => (
+                  <div key={quest.id} className="relative">
+                    <div className="flex justify-between items-start mb-2">
+                      <div className="flex-1 pr-4">
+                        <p className={`font-bold ${quest.isCompleted ? 'text-gray-400 line-through' : 'text-zinc-900'}`}>
+                          {quest.title}
+                        </p>
+                        <div className="flex items-center gap-1 mt-1 text-sm font-bold text-[#DDA359]">
+                          <Gift className="w-4 h-4" /> +{quest.rewardXP} XP
+                        </div>
+                      </div>
+                      <div className="font-black text-lg text-zinc-300">
+                        {quest.progress}/{quest.target}
+                      </div>
+                    </div>
+
+                    {/* Progress bar */}
+                    <div className="w-full h-3 bg-gray-100 rounded-full overflow-hidden">
+                      <div
+                        className={`h-full rounded-full transition-all duration-1000 ${quest.isCompleted ? 'bg-green-500' : 'bg-[#DDA359]'}`}
+                        style={{ width: `${Math.min((quest.progress / quest.target) * 100, 100)}%` }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>
+
+        </div>
       </div>
     </div>
   );

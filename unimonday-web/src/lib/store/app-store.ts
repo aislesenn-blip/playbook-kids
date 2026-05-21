@@ -1,7 +1,7 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { UserProfile, Episode, Message } from '@/types';
+import { UserProfile, Episode, Message, DailyQuest } from '@/types';
 
 interface AppState {
     profile: UserProfile | null;
@@ -10,6 +10,8 @@ interface AppState {
 
     episodes: Episode[];
     completeEpisode: (id: string, stars: number) => void;
+
+    dailyQuests: DailyQuest[];
 
     messages: Message[];
     addMessage: (msg: Omit<Message, 'id' | 'timestamp'>) => void;
@@ -23,7 +25,7 @@ export const useAppStore = create<AppState>()(
     persist(
         (set) => ({
             profile: null,
-            setProfile: (profile) => set({ profile }),
+            setProfile: (profile) => set({ profile: { ...profile, hearts: 5 } }),
             updateProfile: (updates) => set((state) => ({
               profile: state.profile ? { ...state.profile, ...updates } : null
             })),
@@ -40,6 +42,13 @@ export const useAppStore = create<AppState>()(
                 { id: '9', title: 'The Job Interview', description: 'Professional vocabulary for a mock interview.', isLocked: true, isCompleted: false, stars: 0, type: 'challenge' },
                 { id: '10', title: 'Airport Security', description: 'Navigating travel questions safely and clearly.', isLocked: true, isCompleted: false, stars: 0, type: 'roleplay' },
             ],
+
+            dailyQuests: [
+                { id: 'q1', title: 'Complete 2 Episodes', target: 2, progress: 1, rewardXP: 50, isCompleted: false },
+                { id: 'q2', title: 'Earn 3 Stars in a Lesson', target: 1, progress: 0, rewardXP: 20, isCompleted: false },
+                { id: 'q3', title: 'Maintain your Streak', target: 1, progress: 1, rewardXP: 10, isCompleted: true },
+            ],
+
             completeEpisode: (id, stars) => set((state) => {
                 const newEpisodes = [...state.episodes];
                 const epIndex = newEpisodes.findIndex(e => e.id === id);
