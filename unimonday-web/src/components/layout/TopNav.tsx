@@ -11,8 +11,10 @@ export function TopNav() {
   return (
     <nav className="fixed top-0 left-0 right-0 h-16 bg-white/95 backdrop-blur-md border-b border-gray-100 z-[100] flex items-center px-4 md:px-8 justify-between">
       <Link href="/" className="flex items-center gap-2 group">
-        <Image src="/unimonday-logo.png" alt="uNiMONDAY Logo" width={32} height={32} className="object-contain group-hover:scale-105 transition-transform" />
-        <span className="font-bold text-xl tracking-tight">uNiMONDAY</span>
+        <div className="relative w-8 h-8 md:w-10 md:h-10">
+          <Image src="/logo.png" alt="uNiMONDAY Logo" fill className="object-contain group-hover:scale-105 transition-transform" />
+        </div>
+        <span className="font-bold text-xl md:text-2xl tracking-tight text-zinc-900 hidden sm:block">uNiMONDAY</span>
       </Link>
 
       {profile && (

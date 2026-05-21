@@ -1,14 +1,10 @@
 "use client";
 import Link from 'next/link';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 export default function LoginPage() {
   return (
     <div className="min-h-screen w-full bg-white flex flex-col items-center justify-center p-4">
-      <Link href="/" className="absolute top-8 left-8">
-        <Image src="/unimonday-logo.png" alt="uNiMONDAY Logo" width={40} height={40} className="object-contain" />
-      </Link>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

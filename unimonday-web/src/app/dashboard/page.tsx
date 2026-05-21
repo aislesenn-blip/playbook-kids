@@ -3,21 +3,13 @@ import Link from 'next/link';
 import { useAppStore } from '@/lib/store/app-store';
 import { Play, Lock, ChevronRight, Trophy, Flame, Target, Gift } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useEffect } from 'react';
+import { motion } from 'framer-motion';
 
 export default function Dashboard() {
   const { profile, episodes, dailyQuests } = useAppStore();
   const router = useRouter();
-  const containerRef = useRef(null);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"]
-  });
-
-  const headerY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const headerOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   useEffect(() => {
     if (!profile) {
@@ -36,11 +28,11 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="w-full bg-zinc-50 min-h-screen pb-32" ref={containerRef}>
+    <div className="w-full bg-zinc-50 min-h-screen pb-32" >
 
       {/* Hero Header */}
       <motion.div
-        style={{ y: headerY, opacity: headerOpacity }}
+
         className="w-full bg-white text-zinc-900 border-b border-gray-200 pt-20 pb-32 px-4 rounded-b-[3rem] shadow-sm relative overflow-hidden"
       >
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#DDA359]/20 rounded-full blur-[100px] pointer-events-none" />
@@ -75,12 +67,12 @@ export default function Dashboard() {
       </motion.div>
 
       {/* Main Content Area */}
-      <div className="w-full px-4 md:px-8 -mt-16 relative z-20 space-y-12">
+      <div className="max-w-7xl mx-auto w-full px-4 md:px-8 -mt-16 relative z-20 space-y-12">
 
         <div className="grid lg:grid-cols-3 gap-8">
 
           {/* Main Content Column */}
-          <div className="lg:col-span-2 space-y-12">
+          <div className="lg:col-span-2 space-y-12 overflow-hidden">
 
             {/* Continue Playing / Up Next */}
             <section>
@@ -90,26 +82,21 @@ export default function Dashboard() {
               Curriculum Map <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
-          <Link
-            href={`/session/${currentEpisode.id}`}
-            className="block group relative bg-white rounded-3xl p-8 md:p-12 border border-gray-200 hover:border-[#DDA359] transition-all shadow-xl shadow-gray-200/50 hover:shadow-[#DDA359]/20 overflow-hidden"
-          >
-             {/* Mock visual background */}
-            <div className="absolute top-0 right-0 bottom-0 w-1/3 bg-gradient-to-l from-[#DDA359]/10 to-transparent pointer-events-none" />
-
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between relative z-10 gap-6">
-              <div className="flex-1 pr-8">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#DDA359]/10 text-[#DDA359] font-bold text-xs uppercase tracking-widest mb-4">
-                  <Play className="w-3 h-3" fill="currentColor" /> Episode {currentEpisode.id}
+          <div className="flex flex-nowrap gap-4 overflow-x-auto pb-8 -mx-4 px-4 sm:-mx-0 sm:px-0 scrollbar-hide snap-x">
+            <Link
+              href={`/session/${currentEpisode.id}`}
+              className="snap-start shrink-0 w-[75vw] sm:w-[280px] relative rounded-3xl p-6 flex flex-col justify-end transition-all h-[340px] overflow-hidden hover:scale-[1.02] cursor-pointer bg-white border border-[#DDA359] shadow-2xl shadow-[#DDA359]/20"
+            >
+              <div className="absolute inset-0 bg-[#DDA359]/5" />
+              <div className="relative z-10">
+                <div className="w-12 h-12 rounded-full bg-[#DDA359] text-white flex items-center justify-center mb-4 shadow-lg shadow-[#DDA359]/40 group-hover:scale-110 transition-transform">
+                  <Play className="w-5 h-5 ml-0.5" fill="currentColor" />
                 </div>
-                <h3 className="text-3xl md:text-5xl font-black mb-4 text-zinc-900 tracking-tight">{currentEpisode.title}</h3>
-                <p className="text-gray-500 font-medium text-lg md:text-xl max-w-2xl">{currentEpisode.description}</p>
+                <span className="text-xs font-bold uppercase tracking-widest text-[#DDA359] mb-2 block">Episode {currentEpisode.id}</span>
+                <h3 className="text-2xl font-black text-zinc-900 leading-tight mb-2">{currentEpisode.title}</h3>
               </div>
-              <div className="w-24 h-24 rounded-full bg-[#DDA359] text-white flex items-center justify-center group-hover:scale-110 group-hover:rotate-12 transition-all shadow-2xl shadow-[#DDA359]/40 shrink-0 cursor-pointer">
-                <Play className="w-10 h-10 ml-1" fill="currentColor" />
-              </div>
-                </div>
-              </Link>
+            </Link>
+          </div>
             </section>
 
             {/* Netflix-style Carousels */}
@@ -118,7 +105,7 @@ export default function Dashboard() {
                 <h2 className="text-2xl font-black text-zinc-900 mb-6">{cat.title}</h2>
 
                 {/* Scrollable Container */}
-            <div className="flex flex-nowrap gap-6 overflow-x-auto pb-8 -mx-4 px-4 scrollbar-hide snap-x" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            <div className="flex flex-nowrap gap-4 overflow-x-auto pb-8 -mx-4 px-4 sm:-mx-0 sm:px-0 scrollbar-hide snap-x" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
               {cat.items.map((ep, i) => {
                 const isLocked = ep.isLocked;
 
@@ -126,7 +113,7 @@ export default function Dashboard() {
                   <Link
                     key={ep.id}
                     href={isLocked ? '#' : `/session/${ep.id}`}
-                    className={`snap-start shrink-0 w-[85vw] sm:w-[280px] md:min-w-[320px] md:w-[320px] relative rounded-3xl p-6 flex flex-col justify-end transition-all h-[340px] overflow-hidden ${
+                    className={`snap-start shrink-0 w-[75vw] sm:w-[280px] shrink-0 relative rounded-3xl p-6 flex flex-col justify-end transition-all h-[340px] overflow-hidden ${
                       isLocked ? 'cursor-not-allowed' : 'hover:scale-[1.02] cursor-pointer'
                     }`}
                   >
