@@ -21,7 +21,7 @@ export default function ProfilePage() {
     <div className="max-w-2xl mx-auto px-4 py-8">
       {/* Header Profile */}
       <div className="flex flex-col items-center mb-12">
-        <div className="w-32 h-32 rounded-full bg-gray-100 overflow-hidden mb-6 border-4 border-white shadow-xl">
+        <div className="w-24 h-24 rounded-full bg-gray-100 overflow-hidden mb-6 border-4 border-white shadow-xl">
               {/* eslint-disable-next-line @next/next/no-img-element */}
            <img src={profile.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.name}`} alt={profile.name} className="w-full h-full object-cover" />
         </div>
@@ -31,12 +31,12 @@ export default function ProfilePage() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-4 mb-12">
-        <div className="bg-white p-6 rounded-3xl border border-gray-100 flex flex-col items-center shadow-sm">
+        <div className="bg-white p-4 rounded-3xl border border-gray-100 flex flex-col items-center shadow-sm">
           <Flame className="w-8 h-8 text-orange-400 mb-2" />
           <span className="text-2xl font-black">{profile.streak}</span>
           <span className="text-gray-500 text-sm font-bold uppercase tracking-wider">Day Streak</span>
         </div>
-        <div className="bg-white p-6 rounded-3xl border border-gray-100 flex flex-col items-center shadow-sm">
+        <div className="bg-white p-4 rounded-3xl border border-gray-100 flex flex-col items-center shadow-sm">
           <Star className="w-8 h-8 text-[#DDA359] fill-current mb-2" />
           <span className="text-2xl font-black">{profile.points}</span>
           <span className="text-gray-500 text-sm font-bold uppercase tracking-wider">Total XP</span>
@@ -52,20 +52,22 @@ export default function ProfilePage() {
           </div>
           <p className="text-gray-400 mb-8 font-medium">Reports sent to: {profile.parentEmail}</p>
 
-          <div className="space-y-6">
-            <div className="bg-white/10 p-4 rounded-2xl flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Activity className="w-6 h-6 text-green-400" />
-                <span className="font-bold">Speaking Confidence</span>
+          <div className="w-full overflow-x-auto min-w-max pb-4">
+            <div className="space-y-6">
+              <div className="bg-white/10 p-4 rounded-2xl flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Activity className="w-6 h-6 text-green-400" />
+                  <span className="font-bold">Speaking Confidence</span>
+                </div>
+                <span className="font-black text-green-400">High</span>
               </div>
-              <span className="font-black text-green-400">High</span>
-            </div>
-            <div className="bg-white/10 p-4 rounded-2xl flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <BookOpen className="w-6 h-6 text-blue-400" />
-                <span className="font-bold">Vocabulary Learned</span>
+              <div className="bg-white/10 p-4 rounded-2xl flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <BookOpen className="w-6 h-6 text-blue-400" />
+                  <span className="font-bold">Vocabulary Learned</span>
+                </div>
+                <span className="font-black">12 Words</span>
               </div>
-              <span className="font-black">12 Words</span>
             </div>
           </div>
         </div>

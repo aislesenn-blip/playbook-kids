@@ -1,6 +1,7 @@
 
 "use client";
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 import { useAppStore } from '@/lib/store/app-store';
@@ -21,16 +22,25 @@ export default function LandingPage() {
 
   return (
     <div className="w-full flex flex-col items-center">
-      <section className="w-full max-w-7xl mx-auto px-4 pt-12 md:pt-24 pb-32 flex flex-col items-center text-center">
+      <section className="w-full px-4 pt-12 md:pt-24 pb-32 flex flex-col items-center text-center">
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="mb-8"
+        >
+          <Image src="/unimonday-logo.png" alt="uNiMONDAY Logo" width={100} height={100} className="object-contain" priority />
+        </motion.div>
 
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="text-6xl md:text-8xl font-black tracking-tighter mb-8 max-w-5xl leading-tight"
+          className="text-6xl md:text-8xl font-black tracking-tighter mb-8 w-full leading-tight"
         >
           Master any language. <br className="hidden md:block"/>
-          <span className="text-[#DDA359]">Through living conversations.</span>
+          <span className="text-[#DDA359]">Live it.</span>
         </motion.h1>
 
         <motion.p
@@ -39,7 +49,7 @@ export default function LandingPage() {
           transition={{ delay: 0.2 }}
           className="text-xl md:text-2xl text-gray-500 font-medium max-w-xl mb-16"
         >
-          Speak to learn. Not the other way around.
+          Speak. Connect. Fluency.
         </motion.p>
 
         <motion.div
@@ -59,7 +69,7 @@ export default function LandingPage() {
 
       {/* Bento Box Features Section */}
       <section className="w-full bg-zinc-50 py-24 md:py-32 rounded-t-[3rem] mt-12 px-4">
-        <div className="max-w-7xl mx-auto">
+        <div className="w-full px-4 md:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -70,13 +80,13 @@ export default function LandingPage() {
             <p className="text-xl text-gray-500 font-medium max-w-2xl mx-auto">Built on cognitive science. Powered by real-time voice AI.</p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[300px]">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-auto md:auto-rows-[300px]">
             {/* Bento Card 1 - Large Voice Interaction */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="md:col-span-2 bg-zinc-900 text-white rounded-[2rem] p-8 md:p-12 relative overflow-hidden group shadow-xl"
+              className="md:col-span-2 bg-zinc-900/90 backdrop-blur-lg text-white rounded-[2rem] p-8 md:p-12 relative overflow-hidden group shadow-xl"
             >
               <div className="absolute top-0 right-0 w-96 h-96 bg-[#DDA359]/20 rounded-full blur-[100px] pointer-events-none group-hover:bg-[#DDA359]/30 transition-all duration-700" />
               <div className="relative z-10 h-full flex flex-col justify-between">
