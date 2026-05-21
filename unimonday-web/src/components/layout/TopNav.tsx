@@ -48,7 +48,7 @@ export function TopNav() {
            <Link href="/auth/login" className="font-bold text-zinc-900 hover:text-[#DDA359] transition-colors hidden sm:block">
              Log In
            </Link>
-           <Link href="/auth/signup" className="px-5 py-2.5 bg-zinc-900 text-white rounded-full font-bold text-sm hover:bg-black transition-colors">
+           <Link href="/auth/signup" className="px-5 py-2.5 bg-[#DDA359] text-white rounded-full font-bold text-sm hover:bg-[#DDA359]/90 transition-colors shadow-lg shadow-[#DDA359]/20">
              Get Started
            </Link>
         </div>
