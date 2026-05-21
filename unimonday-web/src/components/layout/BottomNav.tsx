@@ -4,8 +4,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, Map, Trophy, User } from 'lucide-react';
 
+import { useAppStore } from '@/lib/store/app-store';
+
 export function BottomNav() {
   const pathname = usePathname();
+  const profile = useAppStore(state => state.profile);
+
+  // Do not render BottomNav if the user is not authenticated
+  if (!profile) return null;
 
   const navItems = [
     { href: '/dashboard', icon: <Home className="w-6 h-6" />, label: 'Home' },
