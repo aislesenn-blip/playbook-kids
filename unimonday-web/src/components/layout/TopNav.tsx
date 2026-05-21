@@ -17,7 +17,7 @@ export function TopNav() {
         <span className="font-bold text-xl md:text-2xl tracking-tight text-zinc-900 hidden sm:block">uNiMONDAY</span>
       </Link>
 
-      {profile && (
+      {profile ? (
         <div className="flex items-center gap-2 md:gap-4">
           {/* Streak */}
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full font-bold text-sm text-zinc-700 hover:bg-zinc-100 transition-colors">
@@ -33,10 +33,24 @@ export function TopNav() {
 
           <div className="w-px h-6 bg-gray-200 hidden md:block mx-2" />
 
+          {/* Parent Dashboard Link */}
+          <Link href="/parent-dashboard" className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full font-bold text-sm text-[#DDA359] bg-[#DDA359]/10 hover:bg-[#DDA359]/20 transition-colors">
+            Parent Portal
+          </Link>
+
           {/* Profile */}
           <Link href="/profile" className="w-9 h-9 rounded-full bg-gray-100 border-2 border-white shadow-sm overflow-hidden relative ml-2 md:ml-0">
             <Image src={profile.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.name}`} alt={profile.name} fill className="object-cover" unoptimized />
           </Link>
+        </div>
+      ) : (
+        <div className="flex items-center gap-4">
+           <Link href="/auth/login" className="font-bold text-zinc-900 hover:text-[#DDA359] transition-colors hidden sm:block">
+             Log In
+           </Link>
+           <Link href="/auth/signup" className="px-5 py-2.5 bg-zinc-900 text-white rounded-full font-bold text-sm hover:bg-black transition-colors">
+             Get Started
+           </Link>
         </div>
       )}
     </nav>
