@@ -1,6 +1,7 @@
 "use client";
 import { useAppStore } from '@/lib/store/app-store';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Check, X, Sparkles, Crown } from 'lucide-react';
 
@@ -20,6 +21,16 @@ export default function UpgradePage() {
       {/* Cinematic Header */}
       <div className="relative pt-24 pb-16 px-6 text-center overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#DDA359]/20 rounded-full blur-[100px] pointer-events-none" />
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="mb-8 flex justify-center relative"
+        >
+          <Image src="/unimonday-logo.png" alt="uNiMONDAY Logo" width={80} height={80} className="object-contain" />
+        </motion.div>
+
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

@@ -9,11 +9,9 @@ export function TopNav() {
   const profile = useAppStore(state => state.profile);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 h-16 bg-white/80 backdrop-blur-md border-b border-gray-100 z-50 flex items-center px-4 md:px-8 justify-between">
+    <nav className="fixed top-0 left-0 right-0 h-16 bg-white/95 backdrop-blur-md border-b border-gray-100 z-[100] flex items-center px-4 md:px-8 justify-between">
       <Link href="/" className="flex items-center gap-2 group">
-        <div className="w-8 h-8 rounded-xl bg-[#DDA359] text-white flex items-center justify-center font-bold text-lg group-hover:scale-105 transition-transform">
-          u
-        </div>
+        <Image src="/unimonday-logo.png" alt="uNiMONDAY Logo" width={32} height={32} className="object-contain group-hover:scale-105 transition-transform" />
         <span className="font-bold text-xl tracking-tight">uNiMONDAY</span>
       </Link>
 

@@ -2,10 +2,11 @@
 "use client";
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppStore } from '@/lib/store/app-store';
 import { UserRole, Language, Level, UserProfile } from '@/types';
-import { Baby, User, GraduationCap, ArrowRight, ChevronLeft, Sparkles } from 'lucide-react';
+import { Baby, User, GraduationCap, ArrowRight, ChevronLeft } from 'lucide-react';
 
 export default function Onboarding() {
   const [step, setStep] = useState(1);
@@ -40,9 +41,10 @@ export default function Onboarding() {
       setIsAnalyzing(true);
 
       // Simulate "Aha!" Moment / Hype Screen
-      setTimeout(() => setLoadingText(`Building a custom curriculum for learning ${form.targetLanguage}...`), 1500);
-      setTimeout(() => setLoadingText("Generating AI voice companions..."), 3000);
-      if (isChild) setTimeout(() => setLoadingText("Setting up the Parent Dashboard..."), 4500);
+      setTimeout(() => setLoadingText('Analyzing profile...'), 1500);
+      setTimeout(() => setLoadingText('Designing curriculum...'), 3000);
+      setTimeout(() => setLoadingText('Preparing AI companions...'), 4500);
+      if (isChild) setTimeout(() => setLoadingText('Setting up Parent Dashboard...'), 6000);
 
       setTimeout(() => {
         const newProfile: UserProfile = {
@@ -73,8 +75,8 @@ export default function Onboarding() {
            animate={{ scale: 1, opacity: 1 }}
            className="relative flex items-center justify-center w-32 h-32 mb-8"
          >
-           <div className="absolute inset-0 rounded-full border-4 border-[#DDA359] border-t-transparent animate-spin" />
-           <Sparkles className="w-12 h-12 text-[#DDA359] animate-pulse" />
+           <div className="absolute inset-0 rounded-full border-4 border-[#DDA359] border-t-transparent animate-[spin_2s_linear_infinite]" />
+           <Image src="/unimonday-logo.png" alt="uNiMONDAY Logo" width={64} height={64} className="object-contain animate-pulse" />
          </motion.div>
 
          <h1 className="text-3xl md:text-4xl font-black mb-4 tracking-tight text-[#DDA359]">

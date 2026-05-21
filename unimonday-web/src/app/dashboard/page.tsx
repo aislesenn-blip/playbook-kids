@@ -75,7 +75,7 @@ export default function Dashboard() {
       </motion.div>
 
       {/* Main Content Area */}
-      <div className="max-w-7xl mx-auto px-4 -mt-16 relative z-20 space-y-12">
+      <div className="w-full px-4 md:px-8 -mt-16 relative z-20 space-y-12">
 
         <div className="grid lg:grid-cols-3 gap-8">
 
@@ -126,7 +126,7 @@ export default function Dashboard() {
                   <Link
                     key={ep.id}
                     href={isLocked ? '#' : `/session/${ep.id}`}
-                    className={`snap-start shrink-0 w-72 md:w-80 relative rounded-3xl p-6 flex flex-col justify-end transition-all h-[340px] overflow-hidden ${
+                    className={`snap-start shrink-0 w-[85vw] sm:w-[280px] md:min-w-[320px] md:w-[320px] relative rounded-3xl p-6 flex flex-col justify-end transition-all h-[340px] overflow-hidden ${
                       isLocked ? 'cursor-not-allowed' : 'hover:scale-[1.02] cursor-pointer'
                     }`}
                   >
@@ -165,7 +165,7 @@ export default function Dashboard() {
 
               <div className="space-y-6">
                 {dailyQuests?.map(quest => (
-                  <div key={quest.id} className="relative">
+                  <div key={quest.id} className="relative hover:scale-[1.02] transition-transform">
                     <div className="flex justify-between items-start mb-2">
                       <div className="flex-1 pr-4">
                         <p className={`font-bold ${quest.isCompleted ? 'text-gray-400 line-through' : 'text-zinc-900'}`}>

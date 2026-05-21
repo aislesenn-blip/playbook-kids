@@ -214,8 +214,9 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
               transition={isProcessing ? { repeat: Infinity, duration: 1 } : { repeat: Infinity, duration: 3, ease: "easeInOut" }}
               className="w-full h-full rounded-full overflow-hidden shadow-2xl z-10 bg-zinc-900 border-4 border-zinc-800"
            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="https://images.unsplash.com/photo-1596496350346-4e5a95610ec8?q=80&w=600&auto=format&fit=crop" alt="AI Companion" className="w-full h-full object-cover opacity-80" />
+              <div className="w-full h-full rounded-full bg-gradient-to-br from-zinc-800 to-zinc-950 flex items-center justify-center">
+                <div className="w-3/4 h-3/4 rounded-full bg-gradient-to-tr from-[#DDA359] to-transparent animate-pulse" />
+              </div>
            </motion.div>
          </div>
 
