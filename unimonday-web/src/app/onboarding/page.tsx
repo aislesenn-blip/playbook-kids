@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppStore } from '@/lib/store/app-store';
 import { UserRole, Language, Level, UserProfile } from '@/types';
-import { Baby, User, GraduationCap, ArrowRight, ChevronLeft } from 'lucide-react';
+import { Baby, User, ArrowRight, ChevronLeft } from 'lucide-react';
 
 export default function Onboarding() {
   const [step, setStep] = useState(1);
@@ -76,11 +76,11 @@ export default function Onboarding() {
            className="relative flex items-center justify-center w-32 h-32 mb-8"
          >
            <div className="absolute inset-0 rounded-full border-4 border-[#DDA359] border-t-transparent animate-[spin_2s_linear_infinite]" />
-           <Image src="/unimonday-logo.png" alt="uNiMONDAY Logo" width={64} height={64} className="object-contain animate-pulse" />
+           <Image src="/logo.png" alt="uNiMONDAY Logo" width={64} height={64} className="object-contain animate-pulse" />
          </motion.div>
 
          <h1 className="text-3xl md:text-4xl font-black mb-4 tracking-tight text-[#DDA359]">
-           Creating your Universe
+           Creating your Kids University
          </h1>
 
          <AnimatePresence mode="wait">
@@ -89,7 +89,7 @@ export default function Onboarding() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="text-zinc-400 font-medium text-lg md:text-xl h-10"
+              className="text-black/60 font-medium text-lg md:text-xl h-10"
             >
               {loadingText}
             </motion.p>
@@ -99,15 +99,15 @@ export default function Onboarding() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-white flex flex-col">
+    <div className="min-h-[calc(100vh-4rem)] bg-[#DDA359] flex flex-col">
       <div className="flex-1 max-w-2xl mx-auto w-full px-4 py-8 flex flex-col justify-center relative">
         {step > 1 && (
-          <button onClick={() => setStep(step - 1)} className="absolute top-8 left-4 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors">
+          <button onClick={() => setStep(step - 1)} className="absolute top-8 left-4 w-10 h-10 rounded-full bg-black/10 flex items-center justify-center hover:bg-black/20 transition-colors">
             <ChevronLeft className="w-6 h-6" />
           </button>
         )}
 
-        <div className="w-full h-2 bg-gray-100 rounded-full mb-12 overflow-hidden">
+        <div className="w-full h-2 bg-black/10 rounded-full mb-12 overflow-hidden">
           <div className="h-full bg-[#DDA359] transition-all duration-500" style={{ width: `${getStepIndicator()}%` }} />
         </div>
 
@@ -116,7 +116,7 @@ export default function Onboarding() {
             <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-8">
               <div className="text-center">
                 <h2 className="text-3xl font-black mb-4">Who is signing up?</h2>
-                <p className="text-gray-500 text-lg">We adapt the experience based on who is learning.</p>
+                <p className="text-black/60 text-lg">We adapt the experience based on who is learning.</p>
               </div>
               <div className="grid grid-cols-1 gap-4">
                 {[
@@ -126,14 +126,14 @@ export default function Onboarding() {
                   <button
                     key={r.id}
                     onClick={() => setForm({...form, role: r.id as UserRole})}
-                    className={`p-6 rounded-2xl border-2 text-left flex items-center gap-6 transition-all ${form.role === r.id ? 'border-[#DDA359] bg-[#DDA359]/5' : 'border-gray-200 hover:border-gray-300'}`}
+                    className={`p-6 rounded-2xl border-2 text-left flex items-center gap-6 transition-all ${form.role === r.id ? 'border-[#DDA359] bg-[#DDA359]/5' : 'border-black/20 hover:border-black/40'}`}
                   >
-                    <div className={`p-4 rounded-xl ${form.role === r.id ? 'bg-[#DDA359] text-white' : 'bg-gray-100 text-gray-500'}`}>
+                    <div className={`p-4 rounded-xl ${form.role === r.id ? 'bg-[#DDA359] text-white' : 'bg-black/10 text-black/60'}`}>
                       {r.icon}
                     </div>
                     <div>
                       <h3 className="text-xl font-bold mb-1">{r.label}</h3>
-                      <p className="text-gray-500 font-medium">{r.desc}</p>
+                      <p className="text-black/60 font-medium">{r.desc}</p>
                     </div>
                   </button>
                 ))}
@@ -145,14 +145,14 @@ export default function Onboarding() {
             <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-8">
                <div className="text-center">
                 <h2 className="text-3xl font-black mb-4">{isChild ? 'What is your child\'s Native Language?' : 'What is your Native Language?'}</h2>
-                <p className="text-gray-500 text-lg">We use this to build connection and explain concepts clearly.</p>
+                <p className="text-black/60 text-lg">We use this to build connection and explain concepts clearly.</p>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                 {['English', 'Spanish', 'French', 'Chinese', 'German', 'Swahili'].map(lang => (
                    <button
                     key={lang}
                     onClick={() => setForm({...form, nativeLanguage: lang as Language})}
-                    className={`p-6 rounded-2xl border-2 text-center transition-all ${form.nativeLanguage === lang ? 'border-[#DDA359] bg-[#DDA359]/5 scale-105' : 'border-gray-200 hover:border-gray-300'}`}
+                    className={`p-6 rounded-2xl border-2 text-center transition-all ${form.nativeLanguage === lang ? 'border-[#DDA359] bg-[#DDA359]/5 scale-105' : 'border-black/20 hover:border-black/40'}`}
                   >
                     <span className="text-xl font-bold">{lang}</span>
                   </button>
@@ -174,7 +174,7 @@ export default function Onboarding() {
                     disabled={lang === form.nativeLanguage}
                     className={`p-6 rounded-2xl border-2 text-center transition-all ${
                       lang === form.nativeLanguage ? 'opacity-30 cursor-not-allowed bg-gray-50 border-gray-100' :
-                      form.targetLanguage === lang ? 'border-[#DDA359] bg-[#DDA359]/5 scale-105' : 'border-gray-200 hover:border-gray-300'}`}
+                      form.targetLanguage === lang ? 'border-[#DDA359] bg-[#DDA359]/5 scale-105' : 'border-black/20 hover:border-black/40'}`}
                   >
                     <span className="text-xl font-bold">{lang}</span>
                   </button>
@@ -193,7 +193,7 @@ export default function Onboarding() {
                    <button
                     key={lvl}
                     onClick={() => setForm({...form, level: lvl as Level})}
-                    className={`p-5 rounded-2xl border-2 text-center transition-all ${form.level === lvl ? 'border-[#DDA359] bg-[#DDA359]/5' : 'border-gray-200 hover:border-gray-300'}`}
+                    className={`p-5 rounded-2xl border-2 text-center transition-all ${form.level === lvl ? 'border-[#DDA359] bg-[#DDA359]/5' : 'border-black/20 hover:border-black/40'}`}
                   >
                     <span className="text-lg font-bold">{lvl}</span>
                   </button>
@@ -206,14 +206,14 @@ export default function Onboarding() {
             <motion.div key="step5" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-8">
                <div className="text-center">
                 <h2 className="text-3xl font-black mb-4">{isChild ? 'What is your child\'s name?' : 'What is your name?'}</h2>
-                <p className="text-gray-500 text-lg">{isChild ? 'So our AI knows what to call them!' : 'So our AI knows what to call you!'}</p>
+                <p className="text-black/60 text-lg">{isChild ? 'So our AI knows what to call them!' : 'So our AI knows what to call you!'}</p>
               </div>
               <input
                 type="text"
                 value={form.name}
                 onChange={(e) => setForm({...form, name: e.target.value})}
                 placeholder="Enter name..."
-                className="w-full text-center text-4xl font-bold py-6 outline-none border-b-4 focus:border-[#DDA359] border-gray-200 transition-colors bg-transparent"
+                className="w-full text-center text-4xl font-bold py-6 outline-none border-b-4 focus:border-[#DDA359] border-black/20 transition-colors bg-transparent"
                 autoFocus
               />
             </motion.div>
@@ -223,14 +223,14 @@ export default function Onboarding() {
             <motion.div key="step6" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-8">
                <div className="text-center">
                 <h2 className="text-3xl font-black mb-4">Parent&apos;s Email</h2>
-                <p className="text-gray-500 text-lg">To receive Detailed Reports and monitor progress.</p>
+                <p className="text-black/60 text-lg">To receive Detailed Reports and monitor progress.</p>
               </div>
               <input
                 type="email"
                 value={form.parentEmail}
                 onChange={(e) => setForm({...form, parentEmail: e.target.value})}
                 placeholder="parent@example.com"
-                className="w-full text-center text-3xl font-bold py-6 outline-none border-b-4 focus:border-[#DDA359] border-gray-200 transition-colors bg-transparent"
+                className="w-full text-center text-3xl font-bold py-6 outline-none border-b-4 focus:border-[#DDA359] border-black/20 transition-colors bg-transparent"
                 autoFocus
               />
             </motion.div>
@@ -250,7 +250,7 @@ export default function Onboarding() {
             }
             className="px-8 py-4 bg-[#DDA359] text-white rounded-2xl font-bold text-lg flex items-center gap-2 hover:bg-[#DDA359]/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-xl shadow-[#DDA359]/20"
           >
-            {step === TOTAL_STEPS ? 'Enter Universe' : 'Continue'} <ArrowRight className="w-5 h-5" />
+            {step === TOTAL_STEPS ? 'Enter Kids University' : 'Continue'} <ArrowRight className="w-5 h-5" />
           </button>
         </div>
       </div>

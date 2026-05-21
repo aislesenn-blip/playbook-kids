@@ -42,13 +42,13 @@ export default function ParentDashboard() {
     }));
 
   return (
-    <div className="w-full bg-zinc-50 min-h-screen pb-32">
+    <div className="w-full bg-[#DDA359] min-h-screen pb-32">
 
       {/* Parent Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full bg-white border-b border-gray-200 pt-28 pb-16 px-4 rounded-b-[3rem] shadow-sm relative overflow-hidden"
+        className="w-full bg-white border-b border-black/10 pt-28 pb-16 px-4 rounded-b-[3rem] shadow-sm relative overflow-hidden"
       >
         <div className="max-w-7xl mx-auto relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
           <div>
@@ -56,16 +56,16 @@ export default function ParentDashboard() {
               <ShieldCheck className="w-6 h-6 text-[#DDA359]" />
               <span className="text-sm font-bold uppercase tracking-widest text-[#DDA359]">Parent Portal</span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-black mb-3 text-zinc-900">
+            <h1 className="text-4xl md:text-5xl font-black mb-3 text-black">
               {profile.name}&apos;s Progress
             </h1>
-            <p className="text-gray-500 text-lg max-w-xl">
+            <p className="text-black/60 text-lg max-w-xl">
               Track learning milestones, manage settings, and view actionable insights for {profile.targetLanguage}.
             </p>
           </div>
 
           <div className="flex items-center gap-4">
-             <button className="bg-gray-100 hover:bg-gray-200 text-zinc-900 p-4 rounded-2xl flex items-center justify-center transition-colors">
+             <button className="bg-gray-100 hover:bg-gray-200 text-black p-4 rounded-2xl flex items-center justify-center transition-colors">
                <Settings className="w-6 h-6" />
              </button>
              <Link href="/dashboard" className="bg-[#DDA359] hover:bg-[#DDA359]/90 text-white px-6 py-4 rounded-2xl font-bold flex items-center gap-2 transition-colors">
@@ -86,17 +86,17 @@ export default function ParentDashboard() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-white p-6 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50 flex flex-col"
+            className="bg-white p-6 rounded-3xl border border-black/10 shadow-xl shadow-black/5 flex flex-col"
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-xl bg-orange-500/10 flex items-center justify-center">
                 <Target className="w-5 h-5 text-orange-500" />
               </div>
-              <h3 className="font-bold text-gray-500 uppercase text-sm tracking-wider">Current Streak</h3>
+              <h3 className="font-bold text-black/60 uppercase text-sm tracking-wider">Current Streak</h3>
             </div>
             <div className="flex items-baseline gap-2">
-              <span className="text-4xl font-black text-zinc-900">{profile.streak}</span>
-              <span className="text-gray-500 font-medium">Days</span>
+              <span className="text-4xl font-black text-black">{profile.streak}</span>
+              <span className="text-black/60 font-medium">Days</span>
             </div>
             <div className="mt-4 h-2 w-full bg-gray-100 rounded-full overflow-hidden">
                <div className="h-full bg-orange-500 rounded-full" style={{ width: '80%' }} />
@@ -108,17 +108,17 @@ export default function ParentDashboard() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-white p-6 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50 flex flex-col"
+            className="bg-white p-6 rounded-3xl border border-black/10 shadow-xl shadow-black/5 flex flex-col"
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-xl bg-[#DDA359]/10 flex items-center justify-center">
                 <Trophy className="w-5 h-5 text-[#DDA359]" />
               </div>
-              <h3 className="font-bold text-gray-500 uppercase text-sm tracking-wider">Total XP</h3>
+              <h3 className="font-bold text-black/60 uppercase text-sm tracking-wider">Total XP</h3>
             </div>
             <div className="flex items-baseline gap-2">
-              <span className="text-4xl font-black text-zinc-900">{totalXP}</span>
-              <span className="text-gray-500 font-medium">Points</span>
+              <span className="text-4xl font-black text-black">{totalXP}</span>
+              <span className="text-black/60 font-medium">Points</span>
             </div>
             <p className="mt-4 text-sm font-medium text-emerald-600 flex items-center gap-1">
               Top 15% of learners
@@ -130,17 +130,17 @@ export default function ParentDashboard() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-white p-6 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50 flex flex-col"
+            className="bg-white p-6 rounded-3xl border border-black/10 shadow-xl shadow-black/5 flex flex-col"
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
                 <Clock className="w-5 h-5 text-blue-500" />
               </div>
-              <h3 className="font-bold text-gray-500 uppercase text-sm tracking-wider">Speaking Time</h3>
+              <h3 className="font-bold text-black/60 uppercase text-sm tracking-wider">Speaking Time</h3>
             </div>
             <div className="flex items-baseline gap-2">
-              <span className="text-4xl font-black text-zinc-900">{totalTimeSpent}</span>
-              <span className="text-gray-500 font-medium">Mins</span>
+              <span className="text-4xl font-black text-black">{totalTimeSpent}</span>
+              <span className="text-black/60 font-medium">Mins</span>
             </div>
             <p className="mt-4 text-sm font-medium text-blue-600 flex items-center gap-1">
               Active voice immersion
@@ -152,19 +152,19 @@ export default function ParentDashboard() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="bg-white p-6 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50 flex flex-col"
+            className="bg-white p-6 rounded-3xl border border-black/10 shadow-xl shadow-black/5 flex flex-col"
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
                 <BarChart3 className="w-5 h-5 text-emerald-500" />
               </div>
-              <h3 className="font-bold text-gray-500 uppercase text-sm tracking-wider">Pronunciation</h3>
+              <h3 className="font-bold text-black/60 uppercase text-sm tracking-wider">Pronunciation</h3>
             </div>
             <div className="flex items-baseline gap-2">
-              <span className="text-4xl font-black text-zinc-900">{averageAccuracy}%</span>
-              <span className="text-gray-500 font-medium">Accuracy</span>
+              <span className="text-4xl font-black text-black">{averageAccuracy}%</span>
+              <span className="text-black/60 font-medium">Accuracy</span>
             </div>
-            <p className="mt-4 text-sm font-medium text-gray-500">
+            <p className="mt-4 text-sm font-medium text-black/60">
                Excellent clarity
             </p>
           </motion.div>
@@ -178,11 +178,11 @@ export default function ParentDashboard() {
           <div className="lg:col-span-2 space-y-8">
 
             {/* Cognitive Milestone Tracker */}
-            <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50">
+            <div className="bg-white p-8 rounded-3xl border border-black/10 shadow-xl shadow-black/5">
                <div className="flex items-center justify-between mb-6">
                  <div>
-                   <h2 className="text-2xl font-black text-zinc-900 mb-1">Current Cognitive Milestone</h2>
-                   <p className="text-gray-500 font-medium">What {profile.name} is currently mastering.</p>
+                   <h2 className="text-2xl font-black text-black mb-1">Current Cognitive Milestone</h2>
+                   <p className="text-black/60 font-medium">What {profile.name} is currently mastering.</p>
                  </div>
                  <div className="w-12 h-12 bg-purple-50 rounded-2xl flex items-center justify-center">
                    <BrainCircuit className="w-6 h-6 text-purple-500" />
@@ -190,8 +190,8 @@ export default function ParentDashboard() {
                </div>
 
                <div className="p-6 bg-purple-50/50 rounded-2xl border border-purple-100">
-                  <h3 className="text-xl font-bold text-zinc-900 mb-2">&quot;{currentFocus}&quot;</h3>
-                  <p className="text-gray-600 mb-4">
+                  <h3 className="text-xl font-bold text-black mb-2">&quot;{currentFocus}&quot;</h3>
+                  <p className="text-black/60 mb-4">
                     At the {profile.level} level, children focus on building confidence through repetitive, high-frequency vocabulary. We are currently reinforcing active recall over passive listening.
                   </p>
 
@@ -200,13 +200,13 @@ export default function ParentDashboard() {
                       <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
                          <ShieldCheck className="w-4 h-4 text-emerald-600" />
                       </div>
-                      <span className="text-sm font-medium text-zinc-700">Can recognize basic greetings.</span>
+                      <span className="text-sm font-medium text-black">Can recognize basic greetings.</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
                          <Activity className="w-4 h-4 text-blue-600" />
                       </div>
-                      <span className="text-sm font-medium text-zinc-700">Working on spontaneous sentence formulation.</span>
+                      <span className="text-sm font-medium text-black">Working on spontaneous sentence formulation.</span>
                     </div>
                   </div>
                </div>
@@ -215,26 +215,26 @@ export default function ParentDashboard() {
             {/* Recent Activity List */}
             <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-black text-zinc-900">Recent Sessions</h2>
+              <h2 className="text-2xl font-black text-black">Recent Sessions</h2>
             </div>
 
-            <div className="bg-white rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50 overflow-hidden">
+            <div className="bg-white rounded-3xl border border-black/10 shadow-xl shadow-black/5 overflow-hidden">
                <div className="overflow-x-auto min-w-max">
                  <table className="w-full text-left">
                    <thead>
-                     <tr className="bg-gray-50/50 border-b border-gray-100">
-                       <th className="p-6 text-xs font-bold uppercase tracking-wider text-gray-500">Episode</th>
-                       <th className="p-6 text-xs font-bold uppercase tracking-wider text-gray-500">Status</th>
-                       <th className="p-6 text-xs font-bold uppercase tracking-wider text-gray-500">Score</th>
-                       <th className="p-6 text-xs font-bold uppercase tracking-wider text-gray-500">Earned</th>
+                     <tr className="bg-black/5 border-b border-black/10">
+                       <th className="p-6 text-xs font-bold uppercase tracking-wider text-black/60">Episode</th>
+                       <th className="p-6 text-xs font-bold uppercase tracking-wider text-black/60">Status</th>
+                       <th className="p-6 text-xs font-bold uppercase tracking-wider text-black/60">Score</th>
+                       <th className="p-6 text-xs font-bold uppercase tracking-wider text-black/60">Earned</th>
                      </tr>
                    </thead>
                    <tbody>
                      {recentActivities.map((activity, i) => (
-                       <tr key={activity.id} className={i !== recentActivities.length - 1 ? 'border-b border-gray-50' : ''}>
+                       <tr key={activity.id} className={i !== recentActivities.length - 1 ? 'border-b border-black/5' : ''}>
                          <td className="p-6">
-                           <p className="font-bold text-zinc-900">{activity.title}</p>
-                           <p className="text-sm text-gray-500 capitalize">{activity.type}</p>
+                           <p className="font-bold text-black">{activity.title}</p>
+                           <p className="text-sm text-black/60 capitalize">{activity.type}</p>
                          </td>
                          <td className="p-6">
                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ${
@@ -245,16 +245,16 @@ export default function ParentDashboard() {
                          </td>
                          <td className="p-6">
                            {activity.accuracy ? (
-                             <span className="font-bold text-zinc-900">{activity.accuracy}%</span>
+                             <span className="font-bold text-black">{activity.accuracy}%</span>
                            ) : (
-                             <span className="text-gray-400">-</span>
+                             <span className="text-black/40">-</span>
                            )}
                          </td>
                          <td className="p-6">
                            {activity.xp > 0 ? (
                              <span className="font-bold text-[#DDA359]">+{activity.xp} XP</span>
                            ) : (
-                             <span className="text-gray-400">-</span>
+                             <span className="text-black/40">-</span>
                            )}
                          </td>
                        </tr>
@@ -269,8 +269,8 @@ export default function ParentDashboard() {
           {/* Right Column: Actionable Homework / Suggestions */}
           <div className="space-y-6">
             <div>
-              <h2 className="text-2xl font-black text-zinc-900 mb-1">Take Action</h2>
-              <p className="text-gray-500 font-medium mb-6">Bridge the gap to the real world.</p>
+              <h2 className="text-2xl font-black text-black mb-1">Take Action</h2>
+              <p className="text-black/60 font-medium mb-6">Bridge the gap to the real world.</p>
             </div>
 
             <div className="bg-[#DDA359] text-white p-8 rounded-3xl shadow-xl shadow-[#DDA359]/20 relative overflow-hidden">
@@ -289,9 +289,9 @@ export default function ParentDashboard() {
                </div>
             </div>
 
-            <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50">
-               <h3 className="font-bold text-zinc-900 mb-2">Why this matters</h3>
-               <p className="text-sm text-gray-500 leading-relaxed">
+            <div className="bg-white p-6 rounded-3xl border border-black/10 shadow-xl shadow-black/5">
+               <h3 className="font-bold text-black mb-2">Why this matters</h3>
+               <p className="text-sm text-black/60 leading-relaxed">
                  Children retain 40% more vocabulary when they use it in a low-pressure, familiar environment with their parents. Your involvement directly increases their fluency ROI.
                </p>
             </div>

@@ -36,7 +36,7 @@ export default function LandingPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="text-3xl md:text-5xl font-black tracking-tight mb-4 w-full text-zinc-900"
+          className="text-3xl md:text-5xl font-black tracking-tight mb-4 w-full text-black"
         >
           The Language University for Kids.
         </motion.h1>
@@ -45,7 +45,7 @@ export default function LandingPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="text-lg md:text-xl text-gray-500 font-medium max-w-xl mb-4"
+          className="text-lg md:text-xl text-black/60 font-medium max-w-xl mb-4"
         >
           A structured, voice-powered learning environment designed exclusively for children under 13.
         </motion.p>
@@ -53,7 +53,7 @@ export default function LandingPage() {
       </section>
 
       {/* Bento Box Features Section */}
-      <section className="w-full bg-zinc-50 py-24 md:py-32 rounded-t-[3rem] mt-12 px-4">
+      <section className="w-full bg-black/5 py-24 md:py-32 rounded-t-[3rem] mt-12 px-4">
         <div className="w-full px-4 md:px-8 max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -61,8 +61,8 @@ export default function LandingPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4 text-zinc-900">A curriculum built for kids.</h2>
-            <p className="text-xl text-gray-500 font-medium max-w-2xl mx-auto">Safe, engaging, and entirely voice-driven. No typing required.</p>
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4 text-black">A curriculum built for kids.</h2>
+            <p className="text-xl text-black/60 font-medium max-w-2xl mx-auto">Safe, engaging, and entirely voice-driven. No typing required.</p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-auto md:auto-rows-[300px]">
@@ -71,14 +71,14 @@ export default function LandingPage() {
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="md:col-span-2 bg-zinc-900/90 backdrop-blur-lg text-white rounded-[2rem] p-8 md:p-12 relative overflow-hidden group shadow-xl"
+              className="md:col-span-2 bg-black/90 backdrop-blur-lg text-white rounded-[2rem] p-8 md:p-12 relative overflow-hidden group shadow-xl"
             >
               <div className="absolute top-0 right-0 w-96 h-96 bg-[#DDA359]/20 rounded-full blur-[100px] pointer-events-none group-hover:bg-[#DDA359]/30 transition-all duration-700" />
               <div className="relative z-10 h-full flex flex-col justify-between">
                 <Mic className="w-12 h-12 text-[#DDA359] mb-4" />
                 <div>
                   <h3 className="text-3xl md:text-4xl font-black mb-3 leading-tight">Live Voice Roleplay.</h3>
-                  <p className="text-zinc-400 font-medium text-lg max-w-md">Stop tapping multiple-choice buttons. Kids step into magical scenarios—like asking a wizard for directions or ordering at a monster cafe—using their actual voice.</p>
+                  <p className="text-white/70 font-medium text-lg max-w-md">Stop tapping multiple-choice buttons. Kids step into magical scenarios—like asking a wizard for directions or ordering at a monster cafe—using their actual voice.</p>
                 </div>
               </div>
             </motion.div>
@@ -89,15 +89,15 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="bg-white border-2 border-gray-100 rounded-[2rem] p-8 md:p-10 relative overflow-hidden shadow-xl shadow-gray-200/50"
+              className="bg-white border-2 border-black/10 rounded-[2rem] p-8 md:p-10 relative overflow-hidden shadow-xl shadow-black/5"
             >
               <div className="h-full flex flex-col justify-between">
                 <div className="w-16 h-16 rounded-2xl bg-orange-100 flex items-center justify-center mb-4">
                   <Zap className="w-8 h-8 text-orange-500 fill-current" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-black mb-2 tracking-tight text-zinc-900">Interactive Drills.</h3>
-                  <p className="text-gray-500 font-medium">No boring grammar tables. We teach natural sentence structures through quick, fun speaking challenges.</p>
+                  <h3 className="text-2xl font-black mb-2 tracking-tight text-black">Interactive Drills.</h3>
+                  <p className="text-black/60 font-medium">No boring grammar tables. We teach natural sentence structures through quick, fun speaking challenges.</p>
                 </div>
               </div>
             </motion.div>
@@ -130,12 +130,12 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="md:col-span-2 bg-zinc-100 rounded-[2rem] p-8 md:p-12 relative overflow-hidden"
+              className="md:col-span-2 bg-white/50 rounded-[2rem] p-8 md:p-12 relative overflow-hidden"
             >
               <div className="h-full flex flex-col justify-center">
                 <span className="text-[#DDA359] font-bold tracking-widest uppercase mb-2 block">Episodic Learning</span>
-                <h3 className="text-3xl md:text-4xl font-black mb-3 leading-tight text-zinc-900">An animated journey to fluency.</h3>
-                <p className="text-gray-500 font-medium text-lg max-w-xl">Binge-worthy seasons and episodes. Kids earn XP, unlock new animal characters, and progress through a structured curriculum that feels like an adventure game.</p>
+                <h3 className="text-3xl md:text-4xl font-black mb-3 leading-tight text-black">An animated journey to fluency.</h3>
+                <p className="text-black/60 font-medium text-lg max-w-xl">Binge-worthy seasons and episodes. Kids earn XP, unlock new animal characters, and progress through a structured curriculum that feels like an adventure game.</p>
               </div>
             </motion.div>
           </div>

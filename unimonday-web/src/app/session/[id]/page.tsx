@@ -107,19 +107,19 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
   // DOPAMINE HIT / SUCCESS SCREEN
   if (currentPhase === 'COMPLETE') {
     return (
-      <div className="fixed inset-0 z-[100] bg-zinc-950 flex flex-col items-center justify-center p-6 text-center">
+      <div className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center p-6 text-center">
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: "spring", bounce: 0.5 }}
-          className="bg-zinc-900 border-2 border-[#DDA359] rounded-3xl p-12 max-w-sm w-full flex flex-col items-center shadow-2xl shadow-[#DDA359]/20"
+          className="bg-black/90 border-2 border-[#DDA359] rounded-3xl p-12 max-w-sm w-full flex flex-col items-center shadow-2xl shadow-[#DDA359]/20"
         >
           <div className="w-24 h-24 bg-[#DDA359]/20 rounded-full flex items-center justify-center mb-6">
             <span className="text-5xl">🔥</span>
           </div>
 
           <h1 className="text-4xl font-black text-white mb-2">Episode Cleared!</h1>
-          <p className="text-zinc-400 font-medium mb-8">You spoke beautifully.</p>
+          <p className="text-white/70 font-medium mb-8">You spoke beautifully.</p>
 
           <div className="flex gap-2 mb-8">
             {[1, 2, 3].map((star, i) => (
@@ -134,7 +134,7 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
             ))}
           </div>
 
-          <div className="w-full bg-zinc-800 rounded-full h-3 mb-4 overflow-hidden">
+          <div className="w-full bg-white/10 rounded-full h-3 mb-4 overflow-hidden">
              <motion.div
                initial={{ width: 0 }}
                animate={{ width: "100%" }}
@@ -159,7 +159,7 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
               completeEpisode(episode.id, 3);
               router.push('/dashboard');
             }}
-            className="w-full py-4 bg-white text-zinc-900 rounded-2xl font-bold text-lg flex items-center justify-center gap-2 hover:bg-zinc-200 transition-colors"
+            className="w-full py-4 bg-white text-black rounded-2xl font-bold text-lg flex items-center justify-center gap-2 hover:bg-zinc-200 transition-colors"
           >
             Continue Journey <ArrowRight className="w-5 h-5" />
           </motion.button>
@@ -169,7 +169,7 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
   }
 
   return (
-    <div className="fixed inset-0 z-[100] bg-zinc-950 flex flex-col items-center justify-between overflow-hidden">
+    <div className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-between overflow-hidden">
 
       {/* Top Header */}
       <div className="w-full flex items-center justify-between p-6 z-10">
@@ -178,7 +178,7 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex items-center gap-2 text-zinc-400 font-medium text-sm tracking-widest uppercase mb-1"
+            className="flex items-center gap-2 text-white/70 font-medium text-sm tracking-widest uppercase mb-1"
           >
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             Live Call
@@ -214,9 +214,9 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
            <motion.div
               animate={isVoiceActive ? { scale: 0.95 } : isProcessing ? { scale: [1, 1.05, 1] } : { scale: [1, 1.02, 1] }}
               transition={isProcessing ? { repeat: Infinity, duration: 1 } : { repeat: Infinity, duration: 3, ease: "easeInOut" }}
-              className="w-full h-full rounded-full overflow-hidden shadow-2xl z-10 bg-zinc-900 border-4 border-zinc-800 relative flex items-center justify-center"
+              className="w-full h-full rounded-full overflow-hidden shadow-2xl z-10 bg-black/90 border-4 border-white/10 relative flex items-center justify-center"
            >
-              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-zinc-800 to-zinc-950 flex items-center justify-center">
+              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/10 to-transparent flex items-center justify-center">
                 <div className="w-3/4 h-3/4 rounded-full bg-gradient-to-tr from-[#DDA359] to-transparent animate-pulse" />
               </div>
 
@@ -227,7 +227,7 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="absolute inset-0 z-20 bg-zinc-900/80 backdrop-blur-sm flex flex-col items-center justify-center rounded-full"
+                    className="absolute inset-0 z-20 bg-black/90/80 backdrop-blur-sm flex flex-col items-center justify-center rounded-full"
                   >
                     <Loader2 className="w-12 h-12 text-[#DDA359] animate-spin" />
                   </motion.div>
@@ -247,9 +247,9 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
                 className="flex flex-col items-center gap-3"
               >
                 {(isConnecting || isProcessing) && (
-                   <Loader2 className="w-6 h-6 text-zinc-500 animate-spin" />
+                   <Loader2 className="w-6 h-6 text-white/50 animate-spin" />
                 )}
-                <p className={`text-2xl font-medium max-w-sm leading-snug ${isConnecting || isProcessing ? 'text-zinc-400' : 'text-white'}`}>
+                <p className={`text-2xl font-medium max-w-sm leading-snug ${isConnecting || isProcessing ? 'text-white/70' : 'text-white'}`}>
                   {subtitle}
                 </p>
               </motion.div>
@@ -274,8 +274,8 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
           disabled={isProcessing}
           className={`w-20 h-20 rounded-full flex items-center justify-center shadow-2xl transition-all disabled:opacity-50 ${
             isVoiceActive
-              ? 'bg-white text-zinc-900 scale-110 shadow-white/20'
-              : 'bg-zinc-800 text-white hover:bg-zinc-700'
+              ? 'bg-white text-black scale-110 shadow-white/20'
+              : 'bg-white/10 text-white hover:bg-white/20'
           }`}
         >
           {isVoiceActive ? <MicOff className="w-8 h-8" /> : <Mic className="w-8 h-8" />}
