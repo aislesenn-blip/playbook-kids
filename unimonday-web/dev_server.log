@@ -18,3 +18,32 @@
  GET /dashboard 200 in 124ms
  GET / 200 in 172ms
  ✓ Compiled in 1342ms (696 modules)
+ ✓ Compiled in 6.1s (1531 modules)
+ ✓ Compiled in 1082ms (696 modules)
+ ✓ Compiled in 314ms (696 modules)
+ ○ Compiling / ...
+ ✓ Compiled / in 715ms (845 modules)
+ ⨯ Error: Cannot find module './331.js'
+Require stack:
+- /app/unimonday-web/.next/server/webpack-runtime.js
+- /app/unimonday-web/.next/server/app/page.js
+- /app/unimonday-web/node_modules/next/dist/server/require.js
+- /app/unimonday-web/node_modules/next/dist/server/load-components.js
+- /app/unimonday-web/node_modules/next/dist/build/utils.js
+- /app/unimonday-web/node_modules/next/dist/build/swc/options.js
+- /app/unimonday-web/node_modules/next/dist/build/swc/index.js
+- /app/unimonday-web/node_modules/next/dist/build/analysis/parse-module.js
+- /app/unimonday-web/node_modules/next/dist/build/analysis/get-page-static-info.js
+- /app/unimonday-web/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /app/unimonday-web/node_modules/next/dist/server/lib/router-server.js
+- /app/unimonday-web/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/page.js:2:24232)
+    at Object.<anonymous> (.next/server/app/page.js:2:24284) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 1789ms (1873 modules)
+ GET / 500 in 3607ms
+ GET /dashboard 200 in 808ms
