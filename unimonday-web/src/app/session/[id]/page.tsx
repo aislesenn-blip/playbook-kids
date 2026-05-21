@@ -2,7 +2,7 @@
 import { useAppStore } from '@/lib/store/app-store';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, use } from 'react';
-import { Mic, MicOff, PhoneOff, Star, ArrowRight } from 'lucide-react';
+import { Mic, MicOff, PhoneOff, Star, ArrowRight, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 
@@ -13,6 +13,7 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
   const { episodes, completeEpisode, profile } = useAppStore();
   const router = useRouter();
 
+  const [isConnecting, setIsConnecting] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isVoiceActive, setIsVoiceActive] = useState(false);
   const [currentPhase, setCurrentPhase] = useState<Phase>('CONNECTION');
@@ -27,12 +28,13 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
     }
 
     setTimeout(() => {
+      setIsConnecting(false);
       let greeting = `Hello ${profile.name}! I am so happy to see you. Are you ready to practice your ${profile.targetLanguage}?`;
       if (profile.nativeLanguage === 'Swahili') greeting = `Karibu sana uNiMONDAY ${profile.name}! Nafurahi kukuona. Uko tayari kujifunza ${profile.targetLanguage}?`;
       if (profile.nativeLanguage === 'Spanish') greeting = `¡Hola ${profile.name}! Estoy muy feliz de verte. ¿Estás listo para practicar tu ${profile.targetLanguage}?`;
 
       setSubtitle(greeting);
-    }, 1500);
+    }, 2000);
   }, [episode, profile, router]);
 
   const triggerConfetti = () => {
@@ -212,26 +214,45 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
            <motion.div
               animate={isVoiceActive ? { scale: 0.95 } : isProcessing ? { scale: [1, 1.05, 1] } : { scale: [1, 1.02, 1] }}
               transition={isProcessing ? { repeat: Infinity, duration: 1 } : { repeat: Infinity, duration: 3, ease: "easeInOut" }}
-              className="w-full h-full rounded-full overflow-hidden shadow-2xl z-10 bg-zinc-900 border-4 border-zinc-800"
+              className="w-full h-full rounded-full overflow-hidden shadow-2xl z-10 bg-zinc-900 border-4 border-zinc-800 relative flex items-center justify-center"
            >
-              <div className="w-full h-full rounded-full bg-gradient-to-br from-zinc-800 to-zinc-950 flex items-center justify-center">
+              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-zinc-800 to-zinc-950 flex items-center justify-center">
                 <div className="w-3/4 h-3/4 rounded-full bg-gradient-to-tr from-[#DDA359] to-transparent animate-pulse" />
               </div>
+
+              {/* Spinner Overlay during connection or processing */}
+              <AnimatePresence>
+                {(isConnecting || isProcessing) && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 z-20 bg-zinc-900/80 backdrop-blur-sm flex flex-col items-center justify-center rounded-full"
+                  >
+                    <Loader2 className="w-12 h-12 text-[#DDA359] animate-spin" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
            </motion.div>
          </div>
 
          {/* Subtitle / Transcription Area */}
          <div className="h-32 w-full mt-12 flex items-center justify-center text-center">
             <AnimatePresence mode="wait">
-              <motion.p
+              <motion.div
                 key={subtitle}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="text-2xl font-medium text-white max-w-sm leading-snug"
+                className="flex flex-col items-center gap-3"
               >
-                {subtitle}
-              </motion.p>
+                {(isConnecting || isProcessing) && (
+                   <Loader2 className="w-6 h-6 text-zinc-500 animate-spin" />
+                )}
+                <p className={`text-2xl font-medium max-w-sm leading-snug ${isConnecting || isProcessing ? 'text-zinc-400' : 'text-white'}`}>
+                  {subtitle}
+                </p>
+              </motion.div>
             </AnimatePresence>
          </div>
       </div>

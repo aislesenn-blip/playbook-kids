@@ -115,14 +115,13 @@ export default function Onboarding() {
           {step === 1 && (
             <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-8">
               <div className="text-center">
-                <h2 className="text-3xl font-black mb-4">Who is learning today?</h2>
-                <p className="text-gray-500 text-lg">We adapt the experience based on age.</p>
+                <h2 className="text-3xl font-black mb-4">Who is signing up?</h2>
+                <p className="text-gray-500 text-lg">We adapt the experience based on who is learning.</p>
               </div>
               <div className="grid grid-cols-1 gap-4">
                 {[
-                  { id: 'child', label: 'Child (4-12)', icon: <Baby className="w-8 h-8" />, desc: 'Playful, safe, story-driven.' },
-                  { id: 'teen', label: 'Teenager (13-17)', icon: <GraduationCap className="w-8 h-8" />, desc: 'Engaging, challenging, fun.' },
-                  { id: 'adult', label: 'Adult (18+)', icon: <User className="w-8 h-8" />, desc: 'Practical, sophisticated, fast.' },
+                  { id: 'adult', label: 'I am signing up for myself', icon: <User className="w-8 h-8" />, desc: 'For adult learners and teenagers.' },
+                  { id: 'child', label: 'I am signing up for my child', icon: <Baby className="w-8 h-8" />, desc: 'For kids (4-12). Parent dashboard included.' },
                 ].map(r => (
                   <button
                     key={r.id}
@@ -145,7 +144,7 @@ export default function Onboarding() {
           {step === 2 && (
             <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-8">
                <div className="text-center">
-                <h2 className="text-3xl font-black mb-4">What is your Native Language?</h2>
+                <h2 className="text-3xl font-black mb-4">{isChild ? 'What is your child\'s Native Language?' : 'What is your Native Language?'}</h2>
                 <p className="text-gray-500 text-lg">We use this to build connection and explain concepts clearly.</p>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -165,7 +164,7 @@ export default function Onboarding() {
           {step === 3 && (
             <motion.div key="step3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-8">
                <div className="text-center">
-                <h2 className="text-3xl font-black mb-4">What language do you want to learn?</h2>
+                <h2 className="text-3xl font-black mb-4">{isChild ? 'What language should they learn?' : 'What language do you want to learn?'}</h2>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                 {['English', 'Spanish', 'French', 'Chinese', 'German', 'Swahili'].map(lang => (
@@ -187,7 +186,7 @@ export default function Onboarding() {
           {step === 4 && (
             <motion.div key="step4" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-8">
                <div className="text-center">
-                <h2 className="text-3xl font-black mb-4">What&apos;s your current level?</h2>
+                <h2 className="text-3xl font-black mb-4">{isChild ? 'What is their current level?' : 'What is your current level?'}</h2>
               </div>
               <div className="flex flex-col gap-4">
                 {['Starter', 'Beginner', 'Elementary', 'Intermediate', 'Advanced'].map(lvl => (
@@ -206,8 +205,8 @@ export default function Onboarding() {
            {step === 5 && (
             <motion.div key="step5" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-8">
                <div className="text-center">
-                <h2 className="text-3xl font-black mb-4">What is {isChild ? 'the child\'s name?' : 'your name?'}</h2>
-                <p className="text-gray-500 text-lg">So we know what to call you!</p>
+                <h2 className="text-3xl font-black mb-4">{isChild ? 'What is your child\'s name?' : 'What is your name?'}</h2>
+                <p className="text-gray-500 text-lg">{isChild ? 'So our AI knows what to call them!' : 'So our AI knows what to call you!'}</p>
               </div>
               <input
                 type="text"
