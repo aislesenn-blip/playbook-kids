@@ -1,6 +1,5 @@
 
 "use client";
-import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
@@ -22,62 +21,48 @@ export default function LandingPage() {
 
   return (
     <div className="w-full flex flex-col items-center">
-      <section className="w-full px-4 pt-12 md:pt-24 pb-32 flex flex-col items-center text-center">
+      <section className="w-full px-4 pt-20 md:pt-32 pb-24 flex flex-col items-center text-center">
 
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
-          className="mb-8"
+          transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
+          className="mb-8 w-48 h-48 md:w-64 md:h-64 relative"
         >
-          <Image src="/unimonday-logo.png" alt="uNiMONDAY Logo" width={100} height={100} className="object-contain" priority />
+          <Image src="/logo.png" alt="uNiMONDAY Logo" fill className="object-contain" priority />
         </motion.div>
 
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="text-6xl md:text-8xl font-black tracking-tighter mb-8 w-full leading-tight"
+          className="text-3xl md:text-5xl font-black tracking-tight mb-4 w-full text-zinc-900"
         >
-          Master any language. <br className="hidden md:block"/>
-          <span className="text-[#DDA359]">Live it.</span>
+          The Language University for Kids.
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="text-xl md:text-2xl text-gray-500 font-medium max-w-xl mb-16"
+          className="text-lg md:text-xl text-gray-500 font-medium max-w-xl mb-4"
         >
-          Speak. Connect. Fluency.
+          A structured, voice-powered learning environment designed exclusively for children under 13.
         </motion.p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
-        >
-          <Link href="/auth/signup" className="w-full sm:w-auto px-12 py-5 bg-gray-900 text-white rounded-[2rem] font-bold text-xl flex items-center justify-center gap-2 hover:bg-black transition-all hover:scale-105 shadow-xl shadow-gray-900/20">
-            Get Started
-          </Link>
-          <Link href="/auth/login" className="w-full sm:w-auto px-12 py-5 bg-white text-gray-900 border border-gray-200 rounded-[2rem] font-bold text-xl flex items-center justify-center gap-2 hover:border-gray-300 transition-all">
-            Log In
-          </Link>
-        </motion.div>
       </section>
 
       {/* Bento Box Features Section */}
       <section className="w-full bg-zinc-50 py-24 md:py-32 rounded-t-[3rem] mt-12 px-4">
-        <div className="w-full px-4 md:px-8">
+        <div className="w-full px-4 md:px-8 max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4">A complete language ecosystem.</h2>
-            <p className="text-xl text-gray-500 font-medium max-w-2xl mx-auto">Built on cognitive science. Powered by real-time voice AI.</p>
+            <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4 text-zinc-900">A curriculum built for kids.</h2>
+            <p className="text-xl text-gray-500 font-medium max-w-2xl mx-auto">Safe, engaging, and entirely voice-driven. No typing required.</p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-auto md:auto-rows-[300px]">
@@ -93,7 +78,7 @@ export default function LandingPage() {
                 <Mic className="w-12 h-12 text-[#DDA359] mb-4" />
                 <div>
                   <h3 className="text-3xl md:text-4xl font-black mb-3 leading-tight">Live Voice Roleplay.</h3>
-                  <p className="text-zinc-400 font-medium text-lg max-w-md">Stop tapping multiple-choice buttons. Step into real-life scenarios—order coffee, negotiate a deal, or embark on a fantasy quest using your actual voice.</p>
+                  <p className="text-zinc-400 font-medium text-lg max-w-md">Stop tapping multiple-choice buttons. Kids step into magical scenarios—like asking a wizard for directions or ordering at a monster cafe—using their actual voice.</p>
                 </div>
               </div>
             </motion.div>
@@ -111,13 +96,13 @@ export default function LandingPage() {
                   <Zap className="w-8 h-8 text-orange-500 fill-current" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-black mb-2 tracking-tight">The Swap Drill.</h3>
-                  <p className="text-gray-500 font-medium">No rote memorization. We drop a linguistic pattern and challenge you to swap variables instantly.</p>
+                  <h3 className="text-2xl font-black mb-2 tracking-tight text-zinc-900">Interactive Drills.</h3>
+                  <p className="text-gray-500 font-medium">No boring grammar tables. We teach natural sentence structures through quick, fun speaking challenges.</p>
                 </div>
               </div>
             </motion.div>
 
-            {/* Bento Card 3 - Mother Tongue First */}
+            {/* Bento Card 3 - Parent Integration */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -133,8 +118,8 @@ export default function LandingPage() {
                   <Sparkles className="w-8 h-8 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-black mb-2 tracking-tight">Mother-Tongue First.</h3>
-                  <p className="text-white/80 font-medium">We build connection using the language you already know, before immersing you fully.</p>
+                  <h3 className="text-2xl font-black mb-2 tracking-tight">Parent Dashboard.</h3>
+                  <p className="text-white/90 font-medium">Track your child&apos;s progress, view their pronunciation accuracy, and get offline homework suggestions.</p>
                 </div>
               </div>
             </motion.div>
@@ -149,8 +134,8 @@ export default function LandingPage() {
             >
               <div className="h-full flex flex-col justify-center">
                 <span className="text-[#DDA359] font-bold tracking-widest uppercase mb-2 block">Episodic Learning</span>
-                <h3 className="text-3xl md:text-4xl font-black mb-3 leading-tight text-zinc-900">A cinematic journey to fluency.</h3>
-                <p className="text-gray-500 font-medium text-lg max-w-xl">Binge-worthy seasons and episodes. Earn XP, unlock new characters, and progress through a structured curriculum that feels like an adventure game.</p>
+                <h3 className="text-3xl md:text-4xl font-black mb-3 leading-tight text-zinc-900">An animated journey to fluency.</h3>
+                <p className="text-gray-500 font-medium text-lg max-w-xl">Binge-worthy seasons and episodes. Kids earn XP, unlock new animal characters, and progress through a structured curriculum that feels like an adventure game.</p>
               </div>
             </motion.div>
           </div>

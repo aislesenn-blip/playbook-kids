@@ -3,7 +3,7 @@ import { useAppStore } from '@/lib/store/app-store';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ShieldCheck, BarChart3, Clock, Trophy, Target, ArrowRight, Settings, BookOpen } from 'lucide-react';
+import { ShieldCheck, BarChart3, Clock, Trophy, Target, ArrowRight, Settings, BookOpen, BrainCircuit, Activity } from 'lucide-react';
 import Link from 'next/link';
 
 export default function ParentDashboard() {
@@ -20,10 +20,13 @@ export default function ParentDashboard() {
 
   const completedEpisodes = episodes.filter(e => e.isCompleted).length;
   const totalXP = profile.points || completedEpisodes * 30; // Mock calculation
+  const totalTimeSpent = completedEpisodes * 15; // Mock: 15 mins per episode
 
   // Calculate average accuracy (mock logic based on level)
   const levelNumber = profile.level === 'Starter' ? 1 : profile.level === 'Beginner' ? 2 : profile.level === 'Elementary' ? 3 : profile.level === 'Intermediate' ? 4 : 5;
   const averageAccuracy = Math.min(75 + levelNumber * 2, 98);
+
+  const currentFocus = profile.level === 'Starter' ? "Basic Greetings & Animal Names" : "Sentence Construction & Questions";
 
   // Mock recent activity based on episodes
   const recentActivities = episodes
@@ -122,7 +125,7 @@ export default function ParentDashboard() {
             </p>
           </motion.div>
 
-          {/* Lessons Card */}
+          {/* Time Spent Card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -131,16 +134,16 @@ export default function ParentDashboard() {
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
-                <BookOpen className="w-5 h-5 text-blue-500" />
+                <Clock className="w-5 h-5 text-blue-500" />
               </div>
-              <h3 className="font-bold text-gray-500 uppercase text-sm tracking-wider">Lessons Done</h3>
+              <h3 className="font-bold text-gray-500 uppercase text-sm tracking-wider">Speaking Time</h3>
             </div>
             <div className="flex items-baseline gap-2">
-              <span className="text-4xl font-black text-zinc-900">{completedEpisodes}</span>
-              <span className="text-gray-500 font-medium">Episodes</span>
+              <span className="text-4xl font-black text-zinc-900">{totalTimeSpent}</span>
+              <span className="text-gray-500 font-medium">Mins</span>
             </div>
-            <p className="mt-4 text-sm font-medium text-gray-500">
-               ~{(completedEpisodes * 15) / 60} hours spoken
+            <p className="mt-4 text-sm font-medium text-blue-600 flex items-center gap-1">
+              Active voice immersion
             </p>
           </motion.div>
 
@@ -171,8 +174,46 @@ export default function ParentDashboard() {
         {/* Detailed Sections */}
         <div className="grid lg:grid-cols-3 gap-8">
 
-          {/* Recent Activity List */}
-          <div className="lg:col-span-2 space-y-6">
+          {/* Left Column: Milestones & Activity */}
+          <div className="lg:col-span-2 space-y-8">
+
+            {/* Cognitive Milestone Tracker */}
+            <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50">
+               <div className="flex items-center justify-between mb-6">
+                 <div>
+                   <h2 className="text-2xl font-black text-zinc-900 mb-1">Current Cognitive Milestone</h2>
+                   <p className="text-gray-500 font-medium">What {profile.name} is currently mastering.</p>
+                 </div>
+                 <div className="w-12 h-12 bg-purple-50 rounded-2xl flex items-center justify-center">
+                   <BrainCircuit className="w-6 h-6 text-purple-500" />
+                 </div>
+               </div>
+
+               <div className="p-6 bg-purple-50/50 rounded-2xl border border-purple-100">
+                  <h3 className="text-xl font-bold text-zinc-900 mb-2">&quot;{currentFocus}&quot;</h3>
+                  <p className="text-gray-600 mb-4">
+                    At the {profile.level} level, children focus on building confidence through repetitive, high-frequency vocabulary. We are currently reinforcing active recall over passive listening.
+                  </p>
+
+                  <div className="flex flex-col gap-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
+                         <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                      </div>
+                      <span className="text-sm font-medium text-zinc-700">Can recognize basic greetings.</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
+                         <Activity className="w-4 h-4 text-blue-600" />
+                      </div>
+                      <span className="text-sm font-medium text-zinc-700">Working on spontaneous sentence formulation.</span>
+                    </div>
+                  </div>
+               </div>
+            </div>
+
+            {/* Recent Activity List */}
+            <div className="space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-black text-zinc-900">Recent Sessions</h2>
             </div>
@@ -223,25 +264,36 @@ export default function ParentDashboard() {
                </div>
             </div>
           </div>
+          </div>
 
-          {/* Actionable Homework / Suggestions */}
+          {/* Right Column: Actionable Homework / Suggestions */}
           <div className="space-y-6">
-            <h2 className="text-2xl font-black text-zinc-900">Parent Actions</h2>
+            <div>
+              <h2 className="text-2xl font-black text-zinc-900 mb-1">Take Action</h2>
+              <p className="text-gray-500 font-medium mb-6">Bridge the gap to the real world.</p>
+            </div>
 
             <div className="bg-[#DDA359] text-white p-8 rounded-3xl shadow-xl shadow-[#DDA359]/20 relative overflow-hidden">
                <div className="absolute -right-6 -top-6 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none" />
                <div className="relative z-10">
                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-6">
-                   <Clock className="w-6 h-6 text-white" />
+                   <BookOpen className="w-6 h-6 text-white" />
                  </div>
-                 <h3 className="text-xl font-black mb-2">Offline Practice</h3>
+                 <h3 className="text-xl font-black mb-2">Dinner Table Challenge</h3>
                  <p className="text-white/90 mb-6 font-medium">
-                   {profile.name} learned how to introduce themselves today. Ask them to introduce you in {profile.targetLanguage} before dinner!
+                   {profile.name} learned how to introduce themselves today. Tonight, ask them to introduce their favorite toy in {profile.targetLanguage}.
                  </p>
                  <button className="w-full py-3 bg-white text-[#DDA359] rounded-xl font-bold hover:bg-gray-50 transition-colors">
-                   Mark as Done (+10 XP)
+                   Mark as Complete (+20 XP)
                  </button>
                </div>
+            </div>
+
+            <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50">
+               <h3 className="font-bold text-zinc-900 mb-2">Why this matters</h3>
+               <p className="text-sm text-gray-500 leading-relaxed">
+                 Children retain 40% more vocabulary when they use it in a low-pressure, familiar environment with their parents. Your involvement directly increases their fluency ROI.
+               </p>
             </div>
 
           </div>
