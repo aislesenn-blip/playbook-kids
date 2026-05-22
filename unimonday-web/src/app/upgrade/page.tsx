@@ -3,17 +3,20 @@ import { useAppStore } from '@/lib/store/app-store';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Check, X, Sparkles } from 'lucide-react';
+import { Check, X, Sparkles, Loader2 } from 'lucide-react';
+import { useState } from 'react';
 
 export default function UpgradePage() {
   const router = useRouter();
   const { profile, updateProfile } = useAppStore();
+  const [loadingTier, setLoadingTier] = useState<'Lite' | 'X' | 'Pro' | null>(null);
 
   const handleUpgrade = (tier: 'Lite' | 'X' | 'Pro') => {
-    if (profile) {
-      updateProfile({ subscriptionTier: tier });
+    setLoadingTier(tier);
+    setTimeout(() => {
+      if (profile) updateProfile({ subscriptionTier: tier });
       router.push('/dashboard');
-    }
+    }, 400);
   };
 
   return (
@@ -78,12 +81,14 @@ export default function UpgradePage() {
             <li className="flex items-center gap-3 text-zinc-400 font-medium"><X className="w-5 h-5 text-zinc-300" /> No advanced feedback</li>
           </ul>
 
-          <button
+          <motion.button
+            whileTap={{ scale: 0.98 }}
             onClick={() => handleUpgrade('X')}
-            className="w-full py-4 rounded-2xl font-medium text-lg bg-zinc-50 text-zinc-900 border border-zinc-200 hover:bg-zinc-100 transition-colors"
+            disabled={!!loadingTier}
+            className="w-full py-4 rounded-2xl font-medium text-lg bg-zinc-50 text-zinc-900 border border-zinc-200 hover:bg-zinc-100 transition-colors flex justify-center items-center h-16 disabled:opacity-80"
           >
-            Select UniMonday X
-          </button>
+            {loadingTier === 'X' ? <Loader2 className="w-5 h-5 animate-spin text-zinc-500" /> : "Select UniMonday X"}
+          </motion.button>
         </motion.div>
 
         {/* UniMonday Pro TIER */}
@@ -117,12 +122,14 @@ export default function UpgradePage() {
               <li className="flex items-center gap-3 text-zinc-800 font-medium"><Check className="w-5 h-5 text-[#DDA359]" /> Priority platform access</li>
             </ul>
 
-            <button
+            <motion.button
+              whileTap={{ scale: 0.98 }}
               onClick={() => handleUpgrade('Pro')}
-              className="w-full py-4 rounded-2xl font-medium text-lg bg-zinc-900 text-white hover:bg-zinc-800 transition-colors"
+              disabled={!!loadingTier}
+              className="w-full py-4 rounded-2xl font-medium text-lg bg-zinc-900 text-white hover:bg-zinc-800 transition-colors flex justify-center items-center h-16 disabled:opacity-80"
             >
-              Select UniMonday Pro
-            </button>
+              {loadingTier === 'Pro' ? <Loader2 className="w-5 h-5 animate-spin text-white" /> : "Select UniMonday Pro"}
+            </motion.button>
             <p className="text-center text-xs text-zinc-400 mt-4">Cancel anytime.</p>
         </motion.div>
 

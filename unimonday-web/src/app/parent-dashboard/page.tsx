@@ -2,11 +2,22 @@
 import { useAppStore } from '@/lib/store/app-store';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { Settings, BarChart3, Clock, Trophy, BookOpen, BrainCircuit, Activity, ShieldCheck, ChevronLeft } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Settings, BarChart3, Clock, Trophy, BookOpen, BrainCircuit, Activity, ShieldCheck, ChevronLeft, Loader2, Check } from 'lucide-react';
 import Link from 'next/link';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
 
 export default function ParentDashboard() {
+  const [isMarking, setIsMarking] = useState(false);
+  const [isMarked, setIsMarked] = useState(false);
+
+  const handleMarkComplete = () => {
+    setIsMarking(true);
+    setTimeout(() => {
+      setIsMarking(false);
+      setIsMarked(true);
+    }, 800);
+  };
   const { profile } = useAppStore();
   const router = useRouter();
 
@@ -48,9 +59,11 @@ export default function ParentDashboard() {
             <h1 className="text-3xl md:text-4xl font-semibold mb-2 tracking-tight text-zinc-900">{profile.name}&apos;s Progress</h1>
             <p className="text-zinc-500 font-medium">Monitoring cognitive development and language acquisition.</p>
           </div>
-          <button className="relative z-10 w-12 h-12 rounded-2xl bg-zinc-50 border border-zinc-100 flex items-center justify-center hover:bg-zinc-100 transition-colors">
-            <Settings className="w-5 h-5 text-zinc-600" />
-          </button>
+          <Link href="/profile" className="relative z-10 block">
+            <motion.div whileTap={{ scale: 0.95 }} className="w-12 h-12 rounded-2xl bg-zinc-50 border border-zinc-100 flex items-center justify-center hover:bg-zinc-100 transition-colors cursor-pointer">
+              <Settings className="w-5 h-5 text-zinc-600" />
+            </motion.div>
+          </Link>
         </div>
       </div>
 
@@ -99,7 +112,7 @@ export default function ParentDashboard() {
         </div>
 
         {/* Detailed Sections */}
-        <div className="grid lg:grid-cols-3 gap-8 pt-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 pt-4">
 
           {/* Left Column: Milestones & Activity */}
           <div className="lg:col-span-2 space-y-8">
@@ -141,8 +154,8 @@ export default function ParentDashboard() {
             <div className="space-y-4">
               <h2 className="text-xl font-semibold text-zinc-900 px-2">Recent Sessions</h2>
               <div className="bg-white rounded-3xl border border-zinc-100 shadow-[0_4px_40px_rgba(0,0,0,0.02)] overflow-hidden">
-                 <div className="overflow-x-auto min-w-max">
-                   <table className="w-full text-left">
+                 <div className="overflow-x-auto w-full">
+                   <table className="w-full text-left min-w-[500px]">
                      <thead>
                        <tr className="bg-zinc-50/50 border-b border-zinc-100">
                          <th className="p-5 text-xs font-semibold uppercase tracking-wider text-zinc-500">Episode</th>
@@ -197,9 +210,14 @@ export default function ParentDashboard() {
                  <p className="text-white/80 text-sm leading-relaxed mb-8">
                    {profile.name} learned how to introduce themselves today. Tonight, ask them to introduce their favorite toy in {profile.targetLanguage}.
                  </p>
-                 <button className="w-full py-3.5 bg-white text-zinc-900 rounded-xl font-semibold hover:bg-zinc-100 transition-colors text-sm">
-                   Mark as Complete (+20 XP)
-                 </button>
+                 <motion.button
+                   whileTap={{ scale: 0.98 }}
+                   onClick={handleMarkComplete}
+                   disabled={isMarked || isMarking}
+                   className={`w-full py-3.5 rounded-xl font-semibold transition-colors text-sm flex items-center justify-center gap-2 ${isMarked ? 'bg-[#DDA359] text-white' : 'bg-white text-zinc-900 hover:bg-zinc-100'} disabled:opacity-90 disabled:cursor-not-allowed`}
+                 >
+                   {isMarking ? <Loader2 className="w-4 h-4 animate-spin" /> : isMarked ? <><Check className="w-4 h-4" /> Completed (+20 XP)</> : "Mark as Complete (+20 XP)"}
+                 </motion.button>
                </div>
             </div>
 
