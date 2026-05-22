@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { TopNav } from '@/components/layout/TopNav';
 import { BottomNav } from '@/components/layout/BottomNav';
+import { ParentTour } from '@/components/onboarding/ParentTour';
 import { Toaster } from 'sonner';
 
 const geistSans = Geist({
@@ -35,6 +36,7 @@ export default function RootLayout({
           <BottomNav />
         </div>
         <Toaster position="top-center" />
+        <ParentTour />
       </body>
     </html>
   );

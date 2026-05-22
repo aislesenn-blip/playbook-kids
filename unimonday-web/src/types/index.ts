@@ -13,6 +13,7 @@ export interface UserProfile {
     avatar?: string;
     streak: number;
     points: number;
+    hasCompletedTour: boolean;
 }
 
 export interface DailyQuest {

@@ -48,6 +48,7 @@ export default function OnboardingPage() {
           parentEmail: 'parent@example.com', // Would normally come from signup
           streak: 0,
           points: 0,
+          hasCompletedTour: false,
         };
         setProfile(newProfile);
         setIsAnalyzing(false);
