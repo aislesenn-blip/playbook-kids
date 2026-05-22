@@ -3,13 +3,13 @@ import { useAppStore } from '@/lib/store/app-store';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { Check, X, Sparkles, Crown } from 'lucide-react';
+import { Check, X, Sparkles } from 'lucide-react';
 
 export default function UpgradePage() {
   const router = useRouter();
   const { profile, updateProfile } = useAppStore();
 
-  const handleUpgrade = (tier: 'Lite' | 'X' | 'Pro') => {
+  const handleUpgrade = (tier: 'Standard' | 'Family') => {
     if (profile) {
       updateProfile({ subscriptionTier: tier });
       router.push('/dashboard');
@@ -20,7 +20,7 @@ export default function UpgradePage() {
     <div className="min-h-screen bg-[#FAFAFA] text-zinc-900 pb-32">
       {/* Cinematic Header */}
       <div className="relative pt-24 pb-16 px-6 text-center overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#DDA359]/20 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#DDA359]/10 rounded-full blur-[100px] pointer-events-none" />
 
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
@@ -28,136 +28,102 @@ export default function UpgradePage() {
           transition={{ duration: 0.5 }}
           className="mb-8 flex justify-center relative"
         >
-          <Image src="/unimonday-logo.png" alt="uNiMONDAY Logo" width={80} height={80} className="object-contain" />
+          <Image src="/logo.png" alt="uNiMONDAY Logo" width={80} height={80} className="object-contain" />
         </motion.div>
 
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative text-5xl md:text-7xl font-black tracking-tighter mb-6"
+          className="relative text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight mb-6"
         >
-          Unlock the <span className="text-[#DDA359]">Living Universe.</span>
+          Unlock their potential. <br className="hidden md:block"/> Invest in their fluency.
         </motion.h1>
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="relative text-xl text-gray-500 font-medium max-w-2xl mx-auto"
+          className="relative text-lg text-zinc-500 font-medium max-w-2xl mx-auto"
         >
           {profile
-            ? `Your custom ${profile.targetLanguage} curriculum is ready. Choose the plan that fits your ambition.`
-            : `Choose the plan that fits your ambition. No passive lessons. Just real conversations that make you fluent.`}
+            ? `Your child's ${profile.targetLanguage} learning environment is ready. Select a plan to continue.`
+            : `Select a plan to give your child access to a modern, safe, and engaging language-learning ecosystem.`}
         </motion.p>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 grid md:grid-cols-3 gap-8 items-end">
+      <div className="w-full max-w-5xl mx-auto px-4 grid md:grid-cols-2 gap-8 items-start pt-8">
 
-        {/* LITE TIER */}
+        {/* Standard TIER */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-white border border-gray-200 rounded-[2rem] p-8 flex flex-col"
+          className="bg-white border border-zinc-200 rounded-3xl p-8 flex flex-col shadow-[0_4px_40px_rgba(0,0,0,0.02)]"
         >
           <div className="mb-8">
-            <h3 className="text-2xl font-bold mb-2">uNiMONDAY Lite</h3>
-            <p className="text-gray-500 font-medium h-12">For casual learners starting their journey.</p>
+            <h3 className="text-2xl font-semibold mb-2">Standard</h3>
+            <p className="text-zinc-500 font-medium h-12">Essential tools for regular practice and confidence building.</p>
             <div className="mt-6 flex items-baseline gap-1">
-              <span className="text-5xl font-black">$12</span>
-              <span className="text-zinc-500 font-bold">/mo</span>
+              <span className="text-4xl font-semibold">$12</span>
+              <span className="text-zinc-500 font-medium">/month</span>
             </div>
           </div>
 
+          <div className="w-full h-px bg-zinc-100 mb-8" />
+
           <ul className="space-y-4 mb-8 flex-1">
-            <li className="flex items-center gap-3 text-gray-600 font-medium"><Check className="w-5 h-5 text-[#DDA359]" /> 10 hours AI Voice / month</li>
-            <li className="flex items-center gap-3 text-gray-600 font-medium"><Check className="w-5 h-5 text-[#DDA359]" /> Basic curriculum</li>
-            <li className="flex items-center gap-3 text-gray-600 font-medium"><Check className="w-5 h-5 text-[#DDA359]" /> Beginner tracks</li>
-            <li className="flex items-center gap-3 text-zinc-600 font-medium"><X className="w-5 h-5" /> No story adventures</li>
-            <li className="flex items-center gap-3 text-zinc-600 font-medium"><X className="w-5 h-5" /> No parent dashboards</li>
+            <li className="flex items-center gap-3 text-zinc-600 font-medium"><Check className="w-5 h-5 text-zinc-400" /> 10 hours of AI voice practice</li>
+            <li className="flex items-center gap-3 text-zinc-600 font-medium"><Check className="w-5 h-5 text-zinc-400" /> Daily conversation modules</li>
+            <li className="flex items-center gap-3 text-zinc-600 font-medium"><Check className="w-5 h-5 text-zinc-400" /> Basic progress tracking</li>
+            <li className="flex items-center gap-3 text-zinc-400 font-medium"><X className="w-5 h-5 text-zinc-300" /> No advanced stories</li>
+            <li className="flex items-center gap-3 text-zinc-400 font-medium"><X className="w-5 h-5 text-zinc-300" /> No advanced feedback</li>
           </ul>
 
           <button
-            onClick={() => handleUpgrade('Lite')}
-            className="w-full py-4 rounded-2xl font-bold text-lg bg-gray-100 text-gray-900 hover:bg-gray-200 transition-colors"
+            onClick={() => handleUpgrade('Standard')}
+            className="w-full py-4 rounded-2xl font-medium text-lg bg-zinc-50 text-zinc-900 border border-zinc-200 hover:bg-zinc-100 transition-colors"
           >
-            Get Lite
+            Select Standard
           </button>
         </motion.div>
 
-        {/* X TIER (Mainstream) */}
+        {/* Family TIER */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="bg-white border-2 border-[#DDA359] rounded-[2rem] p-8 flex flex-col transform md:-translate-y-4 shadow-2xl shadow-[#DDA359]/10 relative"
+          className="bg-white border-2 border-zinc-900 rounded-3xl p-8 flex flex-col shadow-[0_4px_40px_rgba(0,0,0,0.06)] relative"
         >
-            <div className="absolute -top-4 right-8 bg-[#fdf2e8] text-[#e87030] px-4 py-1 rounded-full font-bold text-sm tracking-wide">
-              Popular
+            <div className="absolute -top-3 right-8 bg-zinc-900 text-white px-4 py-1 rounded-full font-medium text-sm">
+              Recommended
             </div>
             <div className="mb-8">
               <div className="flex items-center gap-2 mb-2">
-                <h3 className="text-2xl font-bold text-zinc-900">uNiMONDAY X</h3>
+                <h3 className="text-2xl font-semibold text-zinc-900">Family</h3>
               </div>
-              <p className="text-gray-500 font-medium h-12">The complete immersion experience for serious fluency.</p>
+              <p className="text-zinc-500 font-medium h-12">Comprehensive access for mastering vocabulary and conversational fluency.</p>
               <div className="mt-6 flex items-baseline gap-1">
-                <span className="text-5xl font-black text-zinc-900">$24</span>
-                <span className="text-zinc-500 font-bold">/month</span>
+                <span className="text-4xl font-semibold text-zinc-900">$24</span>
+                <span className="text-zinc-500 font-medium">/month</span>
               </div>
-              <p className="text-sm font-medium text-zinc-500 mt-2">Billed monthly</p>
             </div>
 
-            <div className="w-full h-px bg-gray-100 mb-6" />
+            <div className="w-full h-px bg-zinc-100 mb-8" />
 
             <ul className="space-y-4 mb-8 flex-1">
-              <li className="flex items-center gap-3 text-zinc-700 font-medium"><Sparkles className="w-5 h-5 text-gray-400" /> 50 hours AI Voice / month</li>
-              <li className="flex items-center gap-3 text-zinc-700 font-medium"><Check className="w-5 h-5 text-gray-400" /> Advanced curriculum</li>
-              <li className="flex items-center gap-3 text-zinc-700 font-medium"><Check className="w-5 h-5 text-gray-400" /> Story & Fantasy adventures</li>
-              <li className="flex items-center gap-3 text-zinc-700 font-medium"><Check className="w-5 h-5 text-gray-400" /> Adaptive roleplay scenarios</li>
-              <li className="flex items-center gap-3 text-zinc-700 font-medium"><Check className="w-5 h-5 text-gray-400" /> Full progress analytics</li>
+              <li className="flex items-center gap-3 text-zinc-800 font-medium"><Sparkles className="w-5 h-5 text-[#DDA359]" /> Unlimited AI voice practice</li>
+              <li className="flex items-center gap-3 text-zinc-800 font-medium"><Check className="w-5 h-5 text-[#DDA359]" /> Story & roleplay adventures</li>
+              <li className="flex items-center gap-3 text-zinc-800 font-medium"><Check className="w-5 h-5 text-[#DDA359]" /> Detailed pronunciation feedback</li>
+              <li className="flex items-center gap-3 text-zinc-800 font-medium"><Check className="w-5 h-5 text-[#DDA359]" /> Full access to Parent Portal</li>
+              <li className="flex items-center gap-3 text-zinc-800 font-medium"><Check className="w-5 h-5 text-[#DDA359]" /> Priority platform access</li>
             </ul>
 
             <button
-              onClick={() => handleUpgrade('X')}
-              className="w-full py-4 rounded-2xl font-bold text-lg bg-zinc-900 text-white hover:bg-black transition-all shadow-xl hover:scale-105"
+              onClick={() => handleUpgrade('Family')}
+              className="w-full py-4 rounded-2xl font-medium text-lg bg-zinc-900 text-white hover:bg-zinc-800 transition-colors"
             >
-              Get started
+              Select Family
             </button>
-            <p className="text-center text-xs text-zinc-400 mt-4">By continuing, you agree to our Subscription Terms</p>
-        </motion.div>
-
-        {/* PRO TIER */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="bg-white border border-gray-200 rounded-[2rem] p-8 flex flex-col"
-        >
-          <div className="mb-8">
-            <div className="flex items-center gap-2 mb-2">
-              <h3 className="text-2xl font-bold text-zinc-900">uNiMONDAY Pro</h3>
-              <Crown className="w-5 h-5 text-yellow-500" />
-            </div>
-            <p className="text-gray-500 font-medium h-12">Flagship experience. Unlimited access and multi-language support.</p>
-            <div className="mt-6 flex items-baseline gap-1">
-              <span className="text-5xl font-black">$49</span>
-              <span className="text-zinc-500 font-bold">/mo</span>
-            </div>
-          </div>
-
-          <ul className="space-y-4 mb-8 flex-1">
-            <li className="flex items-center gap-3 text-gray-600 font-medium"><Check className="w-5 h-5 text-[#DDA359]" /> Unlimited AI Voice access</li>
-            <li className="flex items-center gap-3 text-gray-600 font-medium"><Check className="w-5 h-5 text-[#DDA359]" /> Multi-language learning</li>
-            <li className="flex items-center gap-3 text-gray-600 font-medium"><Check className="w-5 h-5 text-[#DDA359]" /> Premium celebrity voices</li>
-            <li className="flex items-center gap-3 text-gray-600 font-medium"><Check className="w-5 h-5 text-[#DDA359]" /> Priority AI responsiveness</li>
-            <li className="flex items-center gap-3 text-gray-600 font-medium"><Check className="w-5 h-5 text-[#DDA359]" /> Custom learning paths</li>
-          </ul>
-
-          <button
-            onClick={() => handleUpgrade('Pro')}
-            className="w-full py-4 rounded-2xl font-bold text-lg bg-gray-900 text-white hover:bg-black transition-colors"
-          >
-            Get Pro
-          </button>
+            <p className="text-center text-xs text-zinc-400 mt-4">Cancel anytime.</p>
         </motion.div>
 
       </div>

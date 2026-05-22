@@ -2,12 +2,12 @@
 import { useAppStore } from '@/lib/store/app-store';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { Settings, BarChart3, Clock, Trophy, BookOpen, BrainCircuit, Activity, ShieldCheck, ChevronLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { ShieldCheck, BarChart3, Clock, Trophy, Target, ArrowRight, Settings, BookOpen, BrainCircuit, Activity } from 'lucide-react';
 import Link from 'next/link';
 
 export default function ParentDashboard() {
-  const { profile, episodes } = useAppStore();
+  const { profile } = useAppStore();
   const router = useRouter();
 
   useEffect(() => {
@@ -18,193 +18,119 @@ export default function ParentDashboard() {
 
   if (!profile) return null;
 
-  const completedEpisodes = episodes.filter(e => e.isCompleted).length;
-  const totalXP = profile.points || completedEpisodes * 30; // Mock calculation
-  const totalTimeSpent = completedEpisodes * 15; // Mock: 15 mins per episode
+  const totalXP = profile.points;
+  const totalTimeSpent = 45; // minutes mock
+  const averageAccuracy = 92; // percent mock
+  const currentFocus = "Active spontaneous recall of greetings";
 
-  // Calculate average accuracy (mock logic based on level)
-  const levelNumber = profile.level === 'Starter' ? 1 : profile.level === 'Beginner' ? 2 : profile.level === 'Elementary' ? 3 : profile.level === 'Intermediate' ? 4 : 5;
-  const averageAccuracy = Math.min(75 + levelNumber * 2, 98);
-
-  const currentFocus = profile.level === 'Starter' ? "Basic Greetings & Animal Names" : "Sentence Construction & Questions";
-
-  // Mock recent activity based on episodes
-  const recentActivities = episodes
-    .filter(e => e.isCompleted || !e.isLocked)
-    .slice(0, 3)
-    .map((e, index) => ({
-      id: e.id,
-      title: e.title,
-      type: e.type,
-      date: e.isCompleted ? 'Today' : 'In Progress',
-      xp: e.isCompleted ? 30 : 0,
-      accuracy: e.isCompleted ? 85 + (index * 5) : null
-    }));
+  const recentActivities = [
+    { id: 1, title: 'The Greetings Forest', type: 'story', date: 'Today', accuracy: 95, xp: 30 },
+    { id: 2, title: 'Color Carnival', type: 'roleplay', date: 'Yesterday', accuracy: 88, xp: 45 },
+    { id: 3, title: 'Number Quest', type: 'challenge', date: '2 days ago', accuracy: 100, xp: 50 },
+  ];
 
   return (
-    <div className="w-full bg-zinc-50 min-h-screen pb-32">
+    <div className="w-full bg-[#FAFAFA] min-h-screen pb-32 overflow-x-hidden pt-20">
 
-      {/* Parent Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="w-full bg-white border-b border-gray-200 pt-28 pb-16 px-4 rounded-b-[3rem] shadow-sm relative overflow-hidden"
-      >
-        <div className="max-w-7xl mx-auto relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <ShieldCheck className="w-6 h-6 text-[#DDA359]" />
-              <span className="text-sm font-bold uppercase tracking-widest text-[#DDA359]">Parent Portal</span>
+      {/* Header */}
+      <div className="w-full max-w-5xl mx-auto px-4 md:px-8 mb-12">
+        <Link href="/profile" className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-900 transition-colors font-medium mb-8">
+          <ChevronLeft className="w-4 h-4" /> Back to Profile
+        </Link>
+
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 bg-white p-8 rounded-3xl border border-zinc-100 shadow-[0_4px_40px_rgba(0,0,0,0.02)] relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#DDA359]/5 rounded-full blur-[80px] pointer-events-none" />
+          <div className="relative z-10">
+            <div className="flex items-center gap-2 mb-3">
+               <ShieldCheck className="w-5 h-5 text-[#DDA359]" />
+               <span className="text-xs font-semibold tracking-widest uppercase text-[#DDA359]">Parent Portal</span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-black mb-3 text-zinc-900">
-              {profile.name}&apos;s Progress
-            </h1>
-            <p className="text-gray-500 text-lg max-w-xl">
-              Track learning milestones, manage settings, and view actionable insights for {profile.targetLanguage}.
-            </p>
+            <h1 className="text-3xl md:text-4xl font-semibold mb-2 tracking-tight text-zinc-900">{profile.name}&apos;s Progress</h1>
+            <p className="text-zinc-500 font-medium">Monitoring cognitive development and language acquisition.</p>
           </div>
-
-          <div className="flex items-center gap-4">
-             <button className="bg-gray-100 hover:bg-gray-200 text-zinc-900 p-4 rounded-2xl flex items-center justify-center transition-colors">
-               <Settings className="w-6 h-6" />
-             </button>
-             <Link href="/dashboard" className="bg-[#DDA359] hover:bg-[#DDA359]/90 text-white px-6 py-4 rounded-2xl font-bold flex items-center gap-2 transition-colors">
-               Switch to Learner <ArrowRight className="w-5 h-5" />
-             </Link>
-          </div>
+          <button className="relative z-10 w-12 h-12 rounded-2xl bg-zinc-50 border border-zinc-100 flex items-center justify-center hover:bg-zinc-100 transition-colors">
+            <Settings className="w-5 h-5 text-zinc-600" />
+          </button>
         </div>
-      </motion.div>
+      </div>
 
-      {/* Main Content Area */}
-      <div className="max-w-7xl mx-auto w-full px-4 md:px-8 mt-12 space-y-12">
+      <div className="w-full max-w-5xl mx-auto px-4 md:px-8 space-y-8">
 
-        {/* KPI Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-
-          {/* Streak Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="bg-white p-6 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50 flex flex-col"
-          >
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-orange-500/10 flex items-center justify-center">
-                <Target className="w-5 h-5 text-orange-500" />
-              </div>
-              <h3 className="font-bold text-gray-500 uppercase text-sm tracking-wider">Current Streak</h3>
-            </div>
-            <div className="flex items-baseline gap-2">
-              <span className="text-4xl font-black text-zinc-900">{profile.streak}</span>
-              <span className="text-gray-500 font-medium">Days</span>
-            </div>
-            <div className="mt-4 h-2 w-full bg-gray-100 rounded-full overflow-hidden">
-               <div className="h-full bg-orange-500 rounded-full" style={{ width: '80%' }} />
-            </div>
-          </motion.div>
-
-          {/* XP Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="bg-white p-6 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50 flex flex-col"
-          >
+        {/* Top Stats Row */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-white p-6 rounded-3xl border border-zinc-100 shadow-[0_4px_40px_rgba(0,0,0,0.02)] flex flex-col">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-xl bg-[#DDA359]/10 flex items-center justify-center">
                 <Trophy className="w-5 h-5 text-[#DDA359]" />
               </div>
-              <h3 className="font-bold text-gray-500 uppercase text-sm tracking-wider">Total XP</h3>
+              <h3 className="font-semibold text-zinc-500 uppercase text-xs tracking-wider">Total XP</h3>
             </div>
             <div className="flex items-baseline gap-2">
-              <span className="text-4xl font-black text-zinc-900">{totalXP}</span>
-              <span className="text-gray-500 font-medium">Points</span>
+              <span className="text-3xl font-semibold text-zinc-900">{totalXP}</span>
+              <span className="text-zinc-500 font-medium text-sm">Points</span>
             </div>
-            <p className="mt-4 text-sm font-medium text-emerald-600 flex items-center gap-1">
-              Top 15% of learners
-            </p>
           </motion.div>
 
-          {/* Time Spent Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="bg-white p-6 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50 flex flex-col"
-          >
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="bg-white p-6 rounded-3xl border border-zinc-100 shadow-[0_4px_40px_rgba(0,0,0,0.02)] flex flex-col">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
-                <Clock className="w-5 h-5 text-blue-500" />
+              <div className="w-10 h-10 rounded-xl bg-zinc-50 flex items-center justify-center border border-zinc-100">
+                <Clock className="w-5 h-5 text-zinc-600" />
               </div>
-              <h3 className="font-bold text-gray-500 uppercase text-sm tracking-wider">Speaking Time</h3>
+              <h3 className="font-semibold text-zinc-500 uppercase text-xs tracking-wider">Speaking Time</h3>
             </div>
             <div className="flex items-baseline gap-2">
-              <span className="text-4xl font-black text-zinc-900">{totalTimeSpent}</span>
-              <span className="text-gray-500 font-medium">Mins</span>
+              <span className="text-3xl font-semibold text-zinc-900">{totalTimeSpent}</span>
+              <span className="text-zinc-500 font-medium text-sm">Mins</span>
             </div>
-            <p className="mt-4 text-sm font-medium text-blue-600 flex items-center gap-1">
-              Active voice immersion
-            </p>
           </motion.div>
 
-          {/* Accuracy Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="bg-white p-6 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50 flex flex-col"
-          >
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="bg-white p-6 rounded-3xl border border-zinc-100 shadow-[0_4px_40px_rgba(0,0,0,0.02)] flex flex-col">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
-                <BarChart3 className="w-5 h-5 text-emerald-500" />
+              <div className="w-10 h-10 rounded-xl bg-zinc-50 flex items-center justify-center border border-zinc-100">
+                <BarChart3 className="w-5 h-5 text-zinc-600" />
               </div>
-              <h3 className="font-bold text-gray-500 uppercase text-sm tracking-wider">Pronunciation</h3>
+              <h3 className="font-semibold text-zinc-500 uppercase text-xs tracking-wider">Pronunciation</h3>
             </div>
             <div className="flex items-baseline gap-2">
-              <span className="text-4xl font-black text-zinc-900">{averageAccuracy}%</span>
-              <span className="text-gray-500 font-medium">Accuracy</span>
+              <span className="text-3xl font-semibold text-zinc-900">{averageAccuracy}%</span>
+              <span className="text-zinc-500 font-medium text-sm">Accuracy</span>
             </div>
-            <p className="mt-4 text-sm font-medium text-gray-500">
-               Excellent clarity
-            </p>
           </motion.div>
-
         </div>
 
         {/* Detailed Sections */}
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-3 gap-8 pt-4">
 
           {/* Left Column: Milestones & Activity */}
           <div className="lg:col-span-2 space-y-8">
 
-            {/* Cognitive Milestone Tracker */}
-            <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50">
-               <div className="flex items-center justify-between mb-6">
+            <div className="bg-white p-8 rounded-3xl border border-zinc-100 shadow-[0_4px_40px_rgba(0,0,0,0.02)]">
+               <div className="flex items-center justify-between mb-8">
                  <div>
-                   <h2 className="text-2xl font-black text-zinc-900 mb-1">Current Cognitive Milestone</h2>
-                   <p className="text-gray-500 font-medium">What {profile.name} is currently mastering.</p>
+                   <h2 className="text-xl font-semibold text-zinc-900 mb-1">Cognitive Milestone</h2>
+                   <p className="text-zinc-500 font-medium text-sm">What {profile.name} is currently mastering.</p>
                  </div>
-                 <div className="w-12 h-12 bg-purple-50 rounded-2xl flex items-center justify-center">
-                   <BrainCircuit className="w-6 h-6 text-purple-500" />
+                 <div className="w-12 h-12 bg-zinc-50 border border-zinc-100 rounded-2xl flex items-center justify-center">
+                   <BrainCircuit className="w-5 h-5 text-zinc-600" />
                  </div>
                </div>
 
-               <div className="p-6 bg-purple-50/50 rounded-2xl border border-purple-100">
-                  <h3 className="text-xl font-bold text-zinc-900 mb-2">&quot;{currentFocus}&quot;</h3>
-                  <p className="text-gray-600 mb-4">
+               <div className="p-6 bg-zinc-50/50 rounded-2xl border border-zinc-100">
+                  <h3 className="text-lg font-semibold text-zinc-900 mb-3">&quot;{currentFocus}&quot;</h3>
+                  <p className="text-zinc-600 text-sm mb-6 leading-relaxed">
                     At the {profile.level} level, children focus on building confidence through repetitive, high-frequency vocabulary. We are currently reinforcing active recall over passive listening.
                   </p>
 
-                  <div className="flex flex-col gap-3">
+                  <div className="flex flex-col gap-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
-                         <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                      <div className="w-8 h-8 rounded-full bg-white border border-zinc-200 flex items-center justify-center shrink-0 shadow-sm">
+                         <ShieldCheck className="w-4 h-4 text-zinc-700" />
                       </div>
                       <span className="text-sm font-medium text-zinc-700">Can recognize basic greetings.</span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
-                         <Activity className="w-4 h-4 text-blue-600" />
+                      <div className="w-8 h-8 rounded-full bg-white border border-zinc-200 flex items-center justify-center shrink-0 shadow-sm">
+                         <Activity className="w-4 h-4 text-zinc-700" />
                       </div>
                       <span className="text-sm font-medium text-zinc-700">Working on spontaneous sentence formulation.</span>
                     </div>
@@ -212,94 +138,80 @@ export default function ParentDashboard() {
                </div>
             </div>
 
-            {/* Recent Activity List */}
-            <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-black text-zinc-900">Recent Sessions</h2>
-            </div>
-
-            <div className="bg-white rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50 overflow-hidden">
-               <div className="overflow-x-auto min-w-max">
-                 <table className="w-full text-left">
-                   <thead>
-                     <tr className="bg-gray-50/50 border-b border-gray-100">
-                       <th className="p-6 text-xs font-bold uppercase tracking-wider text-gray-500">Episode</th>
-                       <th className="p-6 text-xs font-bold uppercase tracking-wider text-gray-500">Status</th>
-                       <th className="p-6 text-xs font-bold uppercase tracking-wider text-gray-500">Score</th>
-                       <th className="p-6 text-xs font-bold uppercase tracking-wider text-gray-500">Earned</th>
-                     </tr>
-                   </thead>
-                   <tbody>
-                     {recentActivities.map((activity, i) => (
-                       <tr key={activity.id} className={i !== recentActivities.length - 1 ? 'border-b border-gray-50' : ''}>
-                         <td className="p-6">
-                           <p className="font-bold text-zinc-900">{activity.title}</p>
-                           <p className="text-sm text-gray-500 capitalize">{activity.type}</p>
-                         </td>
-                         <td className="p-6">
-                           <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ${
-                             activity.date === 'Today' ? 'bg-emerald-100 text-emerald-700' : 'bg-orange-100 text-orange-700'
-                           }`}>
-                             {activity.date}
-                           </span>
-                         </td>
-                         <td className="p-6">
-                           {activity.accuracy ? (
-                             <span className="font-bold text-zinc-900">{activity.accuracy}%</span>
-                           ) : (
-                             <span className="text-gray-400">-</span>
-                           )}
-                         </td>
-                         <td className="p-6">
-                           {activity.xp > 0 ? (
-                             <span className="font-bold text-[#DDA359]">+{activity.xp} XP</span>
-                           ) : (
-                             <span className="text-gray-400">-</span>
-                           )}
-                         </td>
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold text-zinc-900 px-2">Recent Sessions</h2>
+              <div className="bg-white rounded-3xl border border-zinc-100 shadow-[0_4px_40px_rgba(0,0,0,0.02)] overflow-hidden">
+                 <div className="overflow-x-auto min-w-max">
+                   <table className="w-full text-left">
+                     <thead>
+                       <tr className="bg-zinc-50/50 border-b border-zinc-100">
+                         <th className="p-5 text-xs font-semibold uppercase tracking-wider text-zinc-500">Episode</th>
+                         <th className="p-5 text-xs font-semibold uppercase tracking-wider text-zinc-500">Status</th>
+                         <th className="p-5 text-xs font-semibold uppercase tracking-wider text-zinc-500">Accuracy</th>
+                         <th className="p-5 text-xs font-semibold uppercase tracking-wider text-zinc-500">Earned</th>
                        </tr>
-                     ))}
-                   </tbody>
-                 </table>
-               </div>
-            </div>
-          </div>
-          </div>
-
-          {/* Right Column: Actionable Homework / Suggestions */}
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-2xl font-black text-zinc-900 mb-1">Take Action</h2>
-              <p className="text-gray-500 font-medium mb-6">Bridge the gap to the real world.</p>
-            </div>
-
-            <div className="bg-[#DDA359] text-white p-8 rounded-3xl shadow-xl shadow-[#DDA359]/20 relative overflow-hidden">
-               <div className="absolute -right-6 -top-6 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none" />
-               <div className="relative z-10">
-                 <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-6">
-                   <BookOpen className="w-6 h-6 text-white" />
+                     </thead>
+                     <tbody>
+                       {recentActivities.map((activity, i) => (
+                         <tr key={activity.id} className={i !== recentActivities.length - 1 ? 'border-b border-zinc-50' : ''}>
+                           <td className="p-5">
+                             <p className="font-semibold text-zinc-900 text-sm mb-1">{activity.title}</p>
+                             <p className="text-xs text-zinc-500 capitalize">{activity.type}</p>
+                           </td>
+                           <td className="p-5">
+                             <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider ${
+                               activity.date === 'Today' ? 'bg-[#DDA359]/10 text-[#DDA359]' : 'bg-zinc-100 text-zinc-500'
+                             }`}>
+                               {activity.date}
+                             </span>
+                           </td>
+                           <td className="p-5">
+                             <span className="font-semibold text-zinc-900 text-sm">{activity.accuracy}%</span>
+                           </td>
+                           <td className="p-5">
+                             <span className="font-semibold text-zinc-600 text-sm">+{activity.xp} XP</span>
+                           </td>
+                         </tr>
+                       ))}
+                     </tbody>
+                   </table>
                  </div>
-                 <h3 className="text-xl font-black mb-2">Dinner Table Challenge</h3>
-                 <p className="text-white/90 mb-6 font-medium">
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Actionable Homework */}
+          <div className="space-y-6">
+            <div className="bg-zinc-900 text-white p-8 rounded-3xl shadow-xl relative overflow-hidden">
+               <div className="absolute -right-6 -top-6 w-32 h-32 bg-white/5 rounded-full blur-2xl pointer-events-none" />
+               <div className="relative z-10">
+                 <div className="flex items-center justify-between mb-6">
+                   <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center">
+                     <BookOpen className="w-5 h-5 text-white" />
+                   </div>
+                   <span className="px-3 py-1 bg-[#DDA359] text-white text-[10px] font-semibold uppercase tracking-widest rounded-full">
+                     Action
+                   </span>
+                 </div>
+                 <h3 className="text-xl font-semibold mb-3">Dinner Table Challenge</h3>
+                 <p className="text-white/80 text-sm leading-relaxed mb-8">
                    {profile.name} learned how to introduce themselves today. Tonight, ask them to introduce their favorite toy in {profile.targetLanguage}.
                  </p>
-                 <button className="w-full py-3 bg-white text-[#DDA359] rounded-xl font-bold hover:bg-gray-50 transition-colors">
+                 <button className="w-full py-3.5 bg-white text-zinc-900 rounded-xl font-semibold hover:bg-zinc-100 transition-colors text-sm">
                    Mark as Complete (+20 XP)
                  </button>
                </div>
             </div>
 
-            <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/50">
-               <h3 className="font-bold text-zinc-900 mb-2">Why this matters</h3>
-               <p className="text-sm text-gray-500 leading-relaxed">
-                 Children retain 40% more vocabulary when they use it in a low-pressure, familiar environment with their parents. Your involvement directly increases their fluency ROI.
+            <div className="bg-white p-6 rounded-3xl border border-zinc-100 shadow-[0_4px_40px_rgba(0,0,0,0.02)]">
+               <h3 className="font-semibold text-zinc-900 mb-2">Why this matters</h3>
+               <p className="text-sm text-zinc-500 leading-relaxed">
+                 Children retain 40% more vocabulary when they use it in a low-pressure, familiar environment with their parents. Your involvement directly increases their fluency.
                </p>
             </div>
-
           </div>
 
         </div>
-
       </div>
     </div>
   );

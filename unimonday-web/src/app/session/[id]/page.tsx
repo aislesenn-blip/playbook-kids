@@ -2,9 +2,8 @@
 import { useAppStore } from '@/lib/store/app-store';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, use } from 'react';
-import { Mic, MicOff, PhoneOff, Star, ArrowRight, Loader2 } from 'lucide-react';
+import { Mic, MicOff, PhoneOff, ArrowRight, Loader2, CheckCircle2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import confetti from 'canvas-confetti';
 
 type Phase = 'CONNECTION' | 'PATTERN_DROP' | 'REAL_CONVERSATION' | 'COMPLETE';
 
@@ -17,78 +16,41 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
   const [isProcessing, setIsProcessing] = useState(false);
   const [isVoiceActive, setIsVoiceActive] = useState(false);
   const [currentPhase, setCurrentPhase] = useState<Phase>('CONNECTION');
-  const [subtitle, setSubtitle] = useState<string>("Connecting to companion...");
+  const [subtitle, setSubtitle] = useState<string>("Establishing connection...");
 
-  const episode = episodes.find(e => e.id === resolvedParams.id);
+  const session = episodes.find(s => s.id === resolvedParams.id);
 
   useEffect(() => {
-    if (!episode || !profile) {
+    if (!session || !profile) {
       router.push('/dashboard');
       return;
     }
 
     setTimeout(() => {
       setIsConnecting(false);
-      let greeting = `Hello ${profile.name}! I am so happy to see you. Are you ready to practice your ${profile.targetLanguage}?`;
-      if (profile.nativeLanguage === 'Swahili') greeting = `Karibu sana uNiMONDAY ${profile.name}! Nafurahi kukuona. Uko tayari kujifunza ${profile.targetLanguage}?`;
-      if (profile.nativeLanguage === 'Spanish') greeting = `¡Hola ${profile.name}! Estoy muy feliz de verte. ¿Estás listo para practicar tu ${profile.targetLanguage}?`;
-
-      setSubtitle(greeting);
-    }, 2000);
-  }, [episode, profile, router]);
-
-  const triggerConfetti = () => {
-    const end = Date.now() + 2 * 1000;
-    const colors = ['#DDA359', '#ffffff'];
-
-    (function frame() {
-      confetti({
-        particleCount: 3,
-        angle: 60,
-        spread: 55,
-        origin: { x: 0 },
-        colors: colors
-      });
-      confetti({
-        particleCount: 3,
-        angle: 120,
-        spread: 55,
-        origin: { x: 1 },
-        colors: colors
-      });
-
-      if (Date.now() < end) {
-        requestAnimationFrame(frame);
-      }
-    }());
-  };
+      setSubtitle(`Hello ${profile.name}. Let's begin practicing ${profile.targetLanguage}.`);
+    }, 3000);
+  }, [session, profile, router]);
 
   const handleUserResponse = () => {
     if (!profile) return;
     setIsVoiceActive(false);
     setIsProcessing(true);
-    setSubtitle("Listening...");
+    setSubtitle("Processing response...");
 
     setTimeout(() => {
         setIsProcessing(false);
 
         if (currentPhase === 'CONNECTION') {
           setCurrentPhase('PATTERN_DROP');
-          let patternText = `Great! To say 'I am from Tanzania' in ${profile.targetLanguage}, you say...`;
-          if (profile.targetLanguage === 'German') patternText = `Great! To say 'I am from Tanzania' in German, you say 'Ich komme aus Tansania'. Your turn, say it.`;
-          if (profile.targetLanguage === 'Spanish') patternText = `Great! To say 'I am from Tanzania' in Spanish, you say 'Soy de Tanzania'. Your turn, say it.`;
-          setSubtitle(patternText);
+          setSubtitle(`Good. Now, try asking a question related to this context.`);
         }
         else if (currentPhase === 'PATTERN_DROP') {
            setCurrentPhase('REAL_CONVERSATION');
-           let roleplayText = `Excellent! Now let's roleplay. Hello! I am Thomas. Where are you from?`;
-           if (profile.targetLanguage === 'German') roleplayText = `Perfect! Now let's talk. Hallo! Ich bin Thomas. Woher kommst du?`;
-           if (profile.targetLanguage === 'Spanish') roleplayText = `Perfect! Now let's talk. ¡Hola! Soy Thomas. ¿De dónde eres?`;
-           setSubtitle(roleplayText);
+           setSubtitle(`Excellent pronunciation. Let's continue the dialogue naturally.`);
         }
         else if (currentPhase === 'REAL_CONVERSATION') {
            setCurrentPhase('COMPLETE');
-           triggerConfetti();
         }
     }, 2000);
   };
@@ -102,66 +64,36 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
     }
   };
 
-  if (!episode || !profile) return null;
+  if (!session || !profile) return null;
 
-  // DOPAMINE HIT / SUCCESS SCREEN
+  // SUCCESS SCREEN (Calm, low noise)
   if (currentPhase === 'COMPLETE') {
     return (
-      <div className="fixed inset-0 z-[100] bg-zinc-950 flex flex-col items-center justify-center p-6 text-center">
+      <div className="fixed inset-0 z-[100] bg-[#FAFAFA] flex flex-col items-center justify-center p-6 text-center">
         <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
+          initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: "spring", bounce: 0.5 }}
-          className="bg-zinc-900 border-2 border-[#DDA359] rounded-3xl p-12 max-w-sm w-full flex flex-col items-center shadow-2xl shadow-[#DDA359]/20"
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="bg-white border border-zinc-100 rounded-3xl p-12 max-w-sm w-full flex flex-col items-center shadow-[0_4px_40px_rgba(0,0,0,0.04)]"
         >
-          <div className="w-24 h-24 bg-[#DDA359]/20 rounded-full flex items-center justify-center mb-6">
-            <span className="text-5xl">🔥</span>
+          <div className="w-20 h-20 bg-zinc-50 rounded-full flex items-center justify-center mb-6">
+            <CheckCircle2 className="w-10 h-10 text-zinc-900" />
           </div>
 
-          <h1 className="text-4xl font-black text-white mb-2">Episode Cleared!</h1>
-          <p className="text-zinc-400 font-medium mb-8">You spoke beautifully.</p>
-
-          <div className="flex gap-2 mb-8">
-            {[1, 2, 3].map((star, i) => (
-              <motion.div
-                key={star}
-                initial={{ scale: 0, rotate: -180 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{ delay: i * 0.2 + 0.5, type: "spring" }}
-              >
-                <Star className="w-12 h-12 text-[#DDA359] fill-current" />
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="w-full bg-zinc-800 rounded-full h-3 mb-4 overflow-hidden">
-             <motion.div
-               initial={{ width: 0 }}
-               animate={{ width: "100%" }}
-               transition={{ delay: 1.5, duration: 1 }}
-               className="h-full bg-[#DDA359]"
-             />
-          </div>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 2.5 }}
-            className="text-[#DDA359] font-bold text-lg mb-8"
-          >
-            +30 XP Earned
-          </motion.p>
+          <h1 className="text-2xl font-semibold text-zinc-900 mb-2">Session Complete</h1>
+          <p className="text-zinc-500 font-medium mb-10 text-sm">You communicated clearly and effectively.</p>
 
           <motion.button
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 3 }}
+            transition={{ delay: 0.2 }}
             onClick={() => {
-              completeEpisode(episode.id, 3);
-              router.push('/dashboard');
+              completeEpisode(session.id, 3);
+              if (session.id === '1') router.push('/upgrade'); else router.push('/dashboard');
             }}
-            className="w-full py-4 bg-white text-zinc-900 rounded-2xl font-bold text-lg flex items-center justify-center gap-2 hover:bg-zinc-200 transition-colors"
+            className="w-full py-4 bg-zinc-900 text-white rounded-xl font-medium text-lg flex items-center justify-center gap-2 hover:bg-zinc-800 transition-colors shadow-sm"
           >
-            Continue Journey <ArrowRight className="w-5 h-5" />
+            Continue <ArrowRight className="w-5 h-5" />
           </motion.button>
         </motion.div>
       </div>
@@ -169,55 +101,55 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
   }
 
   return (
-    <div className="fixed inset-0 z-[100] bg-zinc-950 flex flex-col items-center justify-between overflow-hidden">
+    <div className="fixed inset-0 z-[100] bg-[#FAFAFA] flex flex-col items-center justify-between overflow-hidden">
 
       {/* Top Header */}
-      <div className="w-full flex items-center justify-between p-6 z-10">
-        <div /> {/* Spacer */}
+      <div className="w-full h-24 flex items-center justify-between p-6 z-10 shrink-0 border-b border-zinc-100 bg-white/50 backdrop-blur-md">
+        <div className="w-16" /> {/* Spacer */}
         <div className="flex flex-col items-center">
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex items-center gap-2 text-zinc-400 font-medium text-sm tracking-widest uppercase mb-1"
+            className="flex items-center gap-2 text-zinc-500 font-medium text-xs tracking-widest uppercase mb-1"
           >
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            Live Call
+            <span className={`w-1.5 h-1.5 rounded-full ${isVoiceActive ? 'bg-red-500 animate-pulse' : 'bg-[#DDA359]'}`} />
+            Live Practice
           </motion.div>
-          <h2 className="text-white font-bold text-lg">{episode.title}</h2>
+          <h2 className="text-zinc-900 font-semibold text-base">{session.title}</h2>
         </div>
-        <div /> {/* Spacer */}
+        <div className="w-16" /> {/* Spacer */}
       </div>
 
       {/* Center Avatar / Orb Area */}
-      <div className="flex-1 flex flex-col items-center justify-center w-full max-w-md px-6 relative">
-         <div className="relative w-48 h-48 sm:w-64 sm:h-64 flex items-center justify-center">
-           {/* Glow Effect when AI speaking or listening */}
+      <div className="flex-1 flex flex-col items-center justify-center w-full max-w-md px-6 relative shrink-0">
+         <div className="relative w-40 h-40 sm:w-56 sm:h-56 flex items-center justify-center shrink-0">
+           {/* Soft Breathing Glow */}
            <AnimatePresence>
              {(!isVoiceActive && !isProcessing) && (
                <motion.div
-                 initial={{ opacity: 0, scale: 0.8 }}
-                 animate={{ opacity: 1, scale: [1, 1.2, 1], rotate: 360 }}
-                 transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                 className="absolute inset-0 rounded-full bg-[#DDA359] blur-3xl opacity-20"
+                 initial={{ opacity: 0, scale: 0.9 }}
+                 animate={{ opacity: 0.5, scale: [1, 1.1, 1] }}
+                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                 className="absolute inset-0 rounded-full bg-zinc-200 blur-2xl"
                />
              )}
              {isProcessing && (
                 <motion.div
                  initial={{ opacity: 0 }}
                  animate={{ opacity: 1 }}
-                 className="absolute inset-0 rounded-full border-2 border-[#DDA359] border-dashed animate-[spin_3s_linear_infinite]"
+                 className="absolute inset-0 rounded-full border border-zinc-300 border-dashed animate-[spin_4s_linear_infinite]"
                />
              )}
            </AnimatePresence>
 
-           {/* The Orb / Avatar */}
+           {/* The Orb / Minimal Avatar */}
            <motion.div
-              animate={isVoiceActive ? { scale: 0.95 } : isProcessing ? { scale: [1, 1.05, 1] } : { scale: [1, 1.02, 1] }}
-              transition={isProcessing ? { repeat: Infinity, duration: 1 } : { repeat: Infinity, duration: 3, ease: "easeInOut" }}
-              className="w-full h-full rounded-full overflow-hidden shadow-2xl z-10 bg-zinc-900 border-4 border-zinc-800 relative flex items-center justify-center"
+              animate={isVoiceActive ? { scale: 0.98 } : isProcessing ? { scale: [1, 1.02, 1] } : { scale: 1 }}
+              transition={isProcessing ? { repeat: Infinity, duration: 2, ease: "easeInOut" } : { duration: 0.3 }}
+              className="w-full h-full rounded-full overflow-hidden shadow-[0_4px_40px_rgba(0,0,0,0.04)] z-10 bg-white border border-zinc-100 relative flex items-center justify-center shrink-0"
            >
-              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-zinc-800 to-zinc-950 flex items-center justify-center">
-                <div className="w-3/4 h-3/4 rounded-full bg-gradient-to-tr from-[#DDA359] to-transparent animate-pulse" />
+              <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white to-zinc-50 flex items-center justify-center">
+                <div className="w-1/2 h-1/2 rounded-full bg-zinc-100 opacity-50" />
               </div>
 
               {/* Spinner Overlay during connection or processing */}
@@ -227,9 +159,9 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="absolute inset-0 z-20 bg-zinc-900/80 backdrop-blur-sm flex flex-col items-center justify-center rounded-full"
+                    className="absolute inset-0 z-20 bg-white/50 backdrop-blur-sm flex flex-col items-center justify-center rounded-full"
                   >
-                    <Loader2 className="w-12 h-12 text-[#DDA359] animate-spin" />
+                    <Loader2 className="w-8 h-8 text-zinc-400 animate-spin" />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -237,19 +169,19 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
          </div>
 
          {/* Subtitle / Transcription Area */}
-         <div className="h-32 w-full mt-12 flex items-center justify-center text-center">
+         <div className="h-32 w-full mt-16 flex items-center justify-center text-center shrink-0">
             <AnimatePresence mode="wait">
               <motion.div
                 key={subtitle}
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 5 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="flex flex-col items-center gap-3"
+                exit={{ opacity: 0, y: -5 }}
+                className="flex flex-col items-center justify-center gap-3 w-full h-full"
               >
                 {(isConnecting || isProcessing) && (
-                   <Loader2 className="w-6 h-6 text-zinc-500 animate-spin" />
+                   <Loader2 className="w-5 h-5 text-zinc-300 animate-spin shrink-0" />
                 )}
-                <p className={`text-2xl font-medium max-w-sm leading-snug ${isConnecting || isProcessing ? 'text-zinc-400' : 'text-white'}`}>
+                <p className={`text-xl font-medium max-w-sm leading-relaxed ${isConnecting || isProcessing ? 'text-zinc-400' : 'text-zinc-900'}`}>
                   {subtitle}
                 </p>
               </motion.div>
@@ -258,27 +190,29 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
       </div>
 
       {/* Bottom Controls */}
-      <div className="w-full max-w-sm p-8 pb-16 flex items-center justify-center gap-8 z-10">
+      <div className="w-full h-40 p-8 pb-16 flex items-center justify-center gap-6 z-10 shrink-0 bg-white/50 backdrop-blur-md border-t border-zinc-100">
 
         {/* End Call Button */}
         <button
-          onClick={() => router.push('/dashboard')}
-          className="w-16 h-16 rounded-full bg-red-500 hover:bg-red-600 flex items-center justify-center shadow-lg transition-all"
+          onClick={() => {
+              if (session.id === '1') router.push('/upgrade'); else router.push('/dashboard');
+          }}
+          className="w-14 h-14 shrink-0 rounded-full bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center transition-colors border border-zinc-200"
         >
-          <PhoneOff className="w-7 h-7 text-white" />
+          <PhoneOff className="w-5 h-5 text-zinc-600" />
         </button>
 
         {/* Mic Toggle Button */}
         <button
           onClick={toggleVoice}
           disabled={isProcessing}
-          className={`w-20 h-20 rounded-full flex items-center justify-center shadow-2xl transition-all disabled:opacity-50 ${
+          className={`w-20 h-20 shrink-0 rounded-full flex items-center justify-center shadow-sm transition-all disabled:opacity-50 border ${
             isVoiceActive
-              ? 'bg-white text-zinc-900 scale-110 shadow-white/20'
-              : 'bg-zinc-800 text-white hover:bg-zinc-700'
+              ? 'bg-zinc-900 border-zinc-900 text-white scale-105'
+              : 'bg-white border-zinc-200 text-zinc-900 hover:bg-zinc-50'
           }`}
         >
-          {isVoiceActive ? <MicOff className="w-8 h-8" /> : <Mic className="w-8 h-8" />}
+          {isVoiceActive ? <MicOff className="w-6 h-6" /> : <Mic className="w-6 h-6" />}
         </button>
 
       </div>
