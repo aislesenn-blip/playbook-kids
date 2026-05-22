@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 export default function SignupPage() {
   return (
-    <div className="min-h-screen w-full bg-[#FAFAFA] flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen w-full bg-[#F8F6F3] flex flex-col items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}

@@ -30,7 +30,7 @@ export default function ParentDashboard() {
   ];
 
   return (
-    <div className="w-full bg-[#FAFAFA] min-h-screen pb-32 overflow-x-hidden pt-20">
+    <div className="w-full bg-[#F8F6F3] min-h-screen pb-32 overflow-x-hidden pt-20">
 
       {/* Header */}
       <div className="w-full max-w-5xl mx-auto px-4 md:px-8 mb-12">

@@ -9,7 +9,7 @@ export default function UpgradePage() {
   const router = useRouter();
   const { profile, updateProfile } = useAppStore();
 
-  const handleUpgrade = (tier: 'Standard' | 'Family') => {
+  const handleUpgrade = (tier: 'Lite' | 'X' | 'Pro') => {
     if (profile) {
       updateProfile({ subscriptionTier: tier });
       router.push('/dashboard');
@@ -17,7 +17,7 @@ export default function UpgradePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] text-zinc-900 pb-32">
+    <div className="min-h-screen bg-[#F8F6F3] text-zinc-900 pb-32">
       {/* Cinematic Header */}
       <div className="relative pt-24 pb-16 px-6 text-center overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#DDA359]/10 rounded-full blur-[100px] pointer-events-none" />
@@ -52,7 +52,7 @@ export default function UpgradePage() {
 
       <div className="w-full max-w-5xl mx-auto px-4 grid md:grid-cols-2 gap-8 items-start pt-8">
 
-        {/* Standard TIER */}
+        {/* UniMonday X TIER */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -60,7 +60,7 @@ export default function UpgradePage() {
           className="bg-white border border-zinc-200 rounded-3xl p-8 flex flex-col shadow-[0_4px_40px_rgba(0,0,0,0.02)]"
         >
           <div className="mb-8">
-            <h3 className="text-2xl font-semibold mb-2">Standard</h3>
+            <h3 className="text-2xl font-semibold mb-2">UniMonday X</h3>
             <p className="text-zinc-500 font-medium h-12">Essential tools for regular practice and confidence building.</p>
             <div className="mt-6 flex items-baseline gap-1">
               <span className="text-4xl font-semibold">$12</span>
@@ -79,14 +79,14 @@ export default function UpgradePage() {
           </ul>
 
           <button
-            onClick={() => handleUpgrade('Standard')}
+            onClick={() => handleUpgrade('X')}
             className="w-full py-4 rounded-2xl font-medium text-lg bg-zinc-50 text-zinc-900 border border-zinc-200 hover:bg-zinc-100 transition-colors"
           >
-            Select Standard
+            Select UniMonday X
           </button>
         </motion.div>
 
-        {/* Family TIER */}
+        {/* UniMonday Pro TIER */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -98,7 +98,7 @@ export default function UpgradePage() {
             </div>
             <div className="mb-8">
               <div className="flex items-center gap-2 mb-2">
-                <h3 className="text-2xl font-semibold text-zinc-900">Family</h3>
+                <h3 className="text-2xl font-semibold text-zinc-900">UniMonday Pro</h3>
               </div>
               <p className="text-zinc-500 font-medium h-12">Comprehensive access for mastering vocabulary and conversational fluency.</p>
               <div className="mt-6 flex items-baseline gap-1">
@@ -118,10 +118,10 @@ export default function UpgradePage() {
             </ul>
 
             <button
-              onClick={() => handleUpgrade('Family')}
+              onClick={() => handleUpgrade('Pro')}
               className="w-full py-4 rounded-2xl font-medium text-lg bg-zinc-900 text-white hover:bg-zinc-800 transition-colors"
             >
-              Select Family
+              Select UniMonday Pro
             </button>
             <p className="text-center text-xs text-zinc-400 mt-4">Cancel anytime.</p>
         </motion.div>

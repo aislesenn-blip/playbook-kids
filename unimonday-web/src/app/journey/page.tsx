@@ -17,7 +17,7 @@ export default function JourneyPage() {
   if (!profile) return null;
 
   return (
-    <div className="w-full bg-[#FAFAFA] min-h-screen pb-32">
+    <div className="w-full bg-[#F8F6F3] min-h-screen pb-32">
       {/* Header Area */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}

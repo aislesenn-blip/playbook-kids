@@ -1,7 +1,7 @@
 "use client";
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Compass, BarChart2, User } from 'lucide-react';
+import { Home, Compass, ShieldCheck, User } from 'lucide-react';
 import { useAppStore } from '@/lib/store/app-store';
 
 export function BottomNav() {
@@ -13,7 +13,7 @@ export function BottomNav() {
   const navItems = [
     { href: '/dashboard', icon: <Home className="w-5 h-5" />, label: 'Home' },
     { href: '/journey', icon: <Compass className="w-5 h-5" />, label: 'Explore' },
-    { href: '/leaderboard', icon: <BarChart2 className="w-5 h-5" />, label: 'Progress' },
+    { href: '/parent-dashboard', icon: <ShieldCheck className="w-5 h-5" />, label: 'Parents' },
     { href: '/profile', icon: <User className="w-5 h-5" />, label: 'Profile' },
   ];
 
