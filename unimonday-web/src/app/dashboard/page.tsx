@@ -50,6 +50,7 @@ export default function Dashboard() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
+          whileTap={{ scale: 0.98 }}
           transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
           className="bg-white rounded-[2rem] p-8 shadow-[0_4px_40px_rgba(0,0,0,0.02)] border border-zinc-100 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden group hover:border-zinc-200 transition-colors cursor-pointer"
           onClick={() => router.push(`/session/${currentEpisode.id}`)}
@@ -84,13 +85,14 @@ export default function Dashboard() {
                  View all <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                </button>
              </div>
-             <div className="overflow-x-auto pb-8 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
-               <div className="flex gap-4 sm:gap-6 min-w-max">
+             <div className="overflow-x-auto pb-8 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide w-[100vw] sm:w-full max-w-full">
+               <div className="flex gap-4 sm:gap-6 w-max">
                  {category.items.map((ep) => (
-                    <div
+                    <motion.div
                       key={ep.id}
+                      whileTap={!ep.isLocked ? { scale: 0.96 } : {}}
                       onClick={() => !ep.isLocked && router.push(`/session/${ep.id}`)}
-                      className={`w-[80vw] sm:w-[280px] shrink-0 p-6 rounded-3xl border transition-all group flex flex-col ${
+                      className={`w-[85vw] sm:w-[280px] md:w-[320px] shrink-0 h-full min-h-[220px] p-6 rounded-3xl border transition-all group flex flex-col ${
                         ep.isLocked
                           ? 'bg-zinc-50 border-transparent opacity-60 cursor-not-allowed'
                           : 'bg-white border-zinc-100 hover:border-zinc-200 shadow-[0_4px_40px_rgba(0,0,0,0.02)] cursor-pointer'
@@ -112,7 +114,7 @@ export default function Dashboard() {
                        </div>
                        <h4 className="font-semibold text-lg mb-2 text-zinc-900 leading-tight">{ep.title}</h4>
                        <p className="text-zinc-500 font-medium text-sm line-clamp-2 leading-relaxed flex-1">{ep.description}</p>
-                    </div>
+                    </motion.div>
                  ))}
                </div>
              </div>

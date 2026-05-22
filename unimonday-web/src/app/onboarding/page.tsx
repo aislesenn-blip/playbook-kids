@@ -91,9 +91,9 @@ export default function OnboardingPage() {
     <div className="min-h-[calc(100vh-4rem)] bg-[#F8F6F3] flex flex-col">
       <div className="flex-1 w-full mx-auto max-w-2xl px-4 py-8 flex flex-col justify-center relative">
         {step > 1 && (
-          <button onClick={() => setStep(step - 1)} className="absolute top-8 left-4 w-10 h-10 rounded-full bg-white border border-zinc-200 flex items-center justify-center hover:bg-zinc-50 transition-colors shadow-sm">
+          <motion.button whileTap={{ scale: 0.9 }} onClick={() => setStep(step - 1)} className="absolute top-8 left-4 w-10 h-10 rounded-full bg-white border border-zinc-200 flex items-center justify-center hover:bg-zinc-50 transition-colors shadow-sm">
             <ChevronLeft className="w-5 h-5 text-zinc-600" />
-          </button>
+          </motion.button>
         )}
 
         <div className="w-full h-1 bg-zinc-200 rounded-full mb-16 overflow-hidden">
@@ -126,13 +126,14 @@ export default function OnboardingPage() {
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {['English', 'Spanish', 'French', 'Chinese', 'German', 'Swahili'].map(lang => (
-                   <button
+                   <motion.button
                     key={lang}
+                    whileTap={{ scale: 0.95 }}
                     onClick={() => setForm({...form, nativeLanguage: lang as Language})}
                     className={`p-5 rounded-2xl border transition-all ${form.nativeLanguage === lang ? 'border-zinc-900 bg-zinc-900 text-white' : 'border-zinc-200 bg-white text-zinc-700 hover:border-zinc-300'}`}
                   >
                     <span className="text-lg font-medium">{lang}</span>
-                  </button>
+                  </motion.button>
                 ))}
               </div>
             </motion.div>
@@ -145,8 +146,9 @@ export default function OnboardingPage() {
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {['English', 'Spanish', 'French', 'Chinese', 'German', 'Swahili'].map(lang => (
-                   <button
+                   <motion.button
                     key={lang}
+                    whileTap={{ scale: 0.95 }}
                     onClick={() => setForm({...form, targetLanguage: lang as Language})}
                     disabled={lang === form.nativeLanguage}
                     className={`p-5 rounded-2xl border transition-all ${
@@ -154,7 +156,7 @@ export default function OnboardingPage() {
                       form.targetLanguage === lang ? 'border-zinc-900 bg-zinc-900 text-white' : 'border-zinc-200 bg-white text-zinc-700 hover:border-zinc-300'}`}
                   >
                     <span className="text-lg font-medium">{lang}</span>
-                  </button>
+                  </motion.button>
                 ))}
               </div>
             </motion.div>
@@ -167,13 +169,14 @@ export default function OnboardingPage() {
               </div>
               <div className="flex flex-col gap-3 max-w-md mx-auto w-full">
                 {['Starter', 'Beginner', 'Elementary', 'Intermediate'].map(lvl => (
-                   <button
+                   <motion.button
                     key={lvl}
+                    whileTap={{ scale: 0.95 }}
                     onClick={() => setForm({...form, level: lvl as Level})}
                     className={`p-4 rounded-2xl border transition-all ${form.level === lvl ? 'border-zinc-900 bg-zinc-900 text-white' : 'border-zinc-200 bg-white text-zinc-700 hover:border-zinc-300'}`}
                   >
                     <span className="text-lg font-medium">{lvl}</span>
-                  </button>
+                  </motion.button>
                 ))}
               </div>
             </motion.div>
@@ -182,7 +185,8 @@ export default function OnboardingPage() {
         </AnimatePresence>
 
         <div className="mt-16 flex justify-center">
-          <button
+          <motion.button
+            whileTap={{ scale: 0.98 }}
             onClick={handleNext}
             disabled={
               (step === 1 && !form.name.trim()) ||
@@ -193,7 +197,7 @@ export default function OnboardingPage() {
             className="w-full max-w-sm py-4 bg-zinc-900 text-white rounded-xl font-medium text-lg flex items-center justify-center gap-2 hover:bg-zinc-800 transition-colors disabled:opacity-30 disabled:cursor-not-allowed shadow-sm"
           >
             {step === TOTAL_STEPS ? 'Complete Setup' : 'Continue'} <ArrowRight className="w-5 h-5" />
-          </button>
+          </motion.button>
         </div>
       </div>
     </div>

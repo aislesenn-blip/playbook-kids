@@ -41,7 +41,7 @@ export default function JourneyPage() {
 
       {/* Grid layout */}
       <div className="w-full max-w-5xl mx-auto px-4 md:px-8 mt-12">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {episodes.map((ep, idx) => {
              const status = ep.isCompleted ? 'completed' : !ep.isLocked ? 'current' : 'locked';
 
@@ -57,8 +57,9 @@ export default function JourneyPage() {
                    className={`block relative overflow-hidden rounded-3xl p-8 h-full min-h-[280px] flex flex-col justify-between transition-all border ${
                      status === 'completed' ? 'bg-zinc-50 border-zinc-200 text-zinc-900 hover:border-zinc-300' :
                      status === 'current' ? 'bg-white border-zinc-200 text-zinc-900 shadow-[0_4px_40px_rgba(0,0,0,0.04)] hover:border-zinc-300' :
-                     'bg-zinc-50/50 border-transparent text-zinc-400 cursor-not-allowed opacity-60'
+                     'bg-zinc-50/50 border-transparent text-zinc-400 cursor-not-allowed opacity-60 pointer-events-none'
                    }`}
+                   aria-disabled={status === 'locked'}
                  >
                    {/* Top Icon Badge */}
                    <div className="flex justify-between items-start w-full">

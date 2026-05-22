@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useAppStore } from '@/lib/store/app-store';
 import { Flame, Star } from 'lucide-react';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 
 export function TopNav() {
   const profile = useAppStore(state => state.profile);
@@ -36,8 +37,10 @@ export function TopNav() {
 
           {/* Hidden Parent Portal Link - Only visible when clicking profile, but keeping it simple for now */}
 
-          <Link href="/profile" className="w-10 h-10 rounded-full bg-zinc-100 border border-zinc-200 overflow-hidden relative ml-2 md:ml-0 hover:border-zinc-300 transition-colors shadow-sm">
-            <Image src={profile.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.name}`} alt={profile.name} fill className="object-cover" unoptimized />
+          <Link href="/profile" className="relative ml-2 md:ml-0 block">
+             <motion.div whileTap={{ scale: 0.95 }} className="w-10 h-10 rounded-full bg-zinc-100 border border-zinc-200 overflow-hidden relative hover:border-zinc-300 transition-colors shadow-sm cursor-pointer">
+               <Image src={profile.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.name}`} alt={profile.name} fill className="object-cover" unoptimized />
+             </motion.div>
           </Link>
         </div>
       ) : (

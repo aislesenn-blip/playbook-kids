@@ -1,8 +1,11 @@
 "use client";
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { Loader2 } from 'lucide-react';
 
 export default function LoginPage() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   return (
     <div className="min-h-screen w-full bg-[#F8F6F3] flex flex-col items-center justify-center p-4">
       <motion.div
@@ -14,7 +17,7 @@ export default function LoginPage() {
         <h1 className="text-2xl font-semibold tracking-tight text-zinc-900 mb-2">Welcome Back</h1>
         <p className="text-zinc-500 mb-8 text-sm">Log in to resume learning.</p>
 
-        <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); window.location.href = '/dashboard'; }}>
+        <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); setIsSubmitting(true); setTimeout(() => window.location.href = '/dashboard', 400); }}>
           <div>
             <input
               type="email"
@@ -30,9 +33,9 @@ export default function LoginPage() {
             />
           </div>
 
-          <button className="w-full py-3 bg-zinc-900 text-white rounded-xl font-medium hover:bg-zinc-800 transition-colors mt-6">
-            Log In
-          </button>
+          <motion.button whileTap={{ scale: 0.98 }} disabled={isSubmitting} className="w-full py-3 bg-zinc-900 text-white rounded-xl font-medium hover:bg-zinc-800 transition-colors mt-6 flex justify-center items-center h-[52px]">
+            {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : "Log In"}
+          </motion.button>
         </form>
 
         <p className="text-center text-zinc-500 mt-6 text-sm">
