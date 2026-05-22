@@ -89,7 +89,7 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
             transition={{ delay: 0.2 }}
             onClick={() => {
               completeEpisode(session.id, 3);
-              if (session.id === '1') router.push('/upgrade'); else router.push('/dashboard');
+              router.push('/dashboard');
             }}
             className="w-full py-4 bg-[#DDA359] text-[#1A1817] rounded-[20px] font-medium text-[17px] flex items-center justify-center gap-2 hover:bg-[#c99047] transition-colors shadow-sm"
           >
@@ -200,8 +200,9 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
 
         {/* End Call Button */}
         <button
+          data-tour="end-call"
           onClick={() => {
-              if (session.id === '1') router.push('/upgrade'); else router.push('/dashboard');
+              router.push('/dashboard');
           }}
           className="w-14 h-14 shrink-0 rounded-full bg-[#3A3530]/50 hover:bg-[#FF6B6B]/20 flex items-center justify-center transition-colors border border-[#4A443E]/50 group"
         >

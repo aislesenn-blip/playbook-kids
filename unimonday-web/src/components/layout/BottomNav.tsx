@@ -26,6 +26,7 @@ export function BottomNav() {
             <Link
               key={item.href}
               href={item.href}
+              data-tour={item.href === '/parent-dashboard' ? 'parent-nav' : undefined}
               className={`flex flex-col items-center gap-1 p-2 rounded-xl transition-all ${isActive ? 'text-zinc-900' : 'text-zinc-400 hover:text-zinc-600'}`}
             >
               <div className={`p-1.5 rounded-lg transition-colors ${isActive ? 'bg-zinc-100' : ''}`}>
