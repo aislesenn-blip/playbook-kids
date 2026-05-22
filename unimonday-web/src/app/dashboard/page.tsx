@@ -1,15 +1,13 @@
 "use client";
-import Link from 'next/link';
 import { useAppStore } from '@/lib/store/app-store';
-import { Play, Lock, ChevronRight, Trophy, Flame, Target, Gift } from 'lucide-react';
+import { Play, Lock, ChevronRight, Star } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 export default function Dashboard() {
-  const { profile, episodes, dailyQuests } = useAppStore();
+  const { profile, episodes } = useAppStore();
   const router = useRouter();
-
 
   useEffect(() => {
     if (!profile) {
@@ -22,166 +20,105 @@ export default function Dashboard() {
   const currentEpisode = episodes.find(e => !e.isCompleted && !e.isLocked) || episodes[0];
 
   const categories = [
-    { title: "Travel Scenarios", items: episodes.filter(e => e.type === 'roleplay').slice(0, 4) },
-    { title: "Business Talk", items: episodes.filter(e => e.type === 'challenge').slice(0, 4) },
-    { title: "Story Universe", items: episodes.filter(e => e.type === 'story').slice(0, 4) }
+    { title: "Story Universe", items: episodes.filter(e => e.type === 'story') },
+    { title: "Vocabulary Fun", items: episodes.filter(e => e.type === 'vocabulary') },
+    { title: "Everyday Roleplay", items: episodes.filter(e => e.type === 'roleplay') }
   ];
 
   return (
-    <div className="w-full bg-zinc-50 min-h-screen pb-32" >
+    <div className="w-full bg-[#FAFAFA] min-h-screen pb-32 overflow-x-hidden">
 
-      {/* Hero Header */}
+      {/* Header */}
       <motion.div
-
-        className="w-full bg-white text-zinc-900 border-b border-gray-200 pt-20 pb-32 px-4 rounded-b-[3rem] shadow-sm relative overflow-hidden"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="w-full bg-white border-b border-zinc-100 pt-12 pb-16 px-4 relative overflow-hidden"
       >
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[#DDA359]/20 rounded-full blur-[100px] pointer-events-none" />
-        <div className="max-w-7xl mx-auto relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+        <div className="w-full max-w-5xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-end gap-8 px-4 md:px-8">
           <div>
-            <h1 className="text-4xl md:text-5xl font-black mb-3">Welcome back, {profile.name}!</h1>
-            <p className="text-gray-500 text-lg md:text-xl max-w-xl">Continue mastering {profile.targetLanguage}. You are doing great!</p>
-          </div>
-
-          <div className="flex gap-4">
-            <div className="bg-gray-50 border border-gray-100 p-4 rounded-2xl flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-orange-500/20 flex items-center justify-center">
-                <Flame className="w-6 h-6 text-orange-500" />
-              </div>
-              <div>
-                <p className="text-gray-500 text-sm font-bold uppercase">Streak</p>
-                <p className="text-2xl font-black">{profile.streak} <span className="text-base font-medium text-zinc-500">Days</span></p>
-              </div>
-            </div>
-
-            <div className="bg-gray-50 border border-gray-100 p-4 rounded-2xl flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center">
-                <Trophy className="w-6 h-6 text-yellow-500" />
-              </div>
-              <div>
-                <p className="text-gray-500 text-sm font-bold uppercase">Level</p>
-                <p className="text-2xl font-black">{profile.level}</p>
-              </div>
-            </div>
+            <h1 className="text-3xl md:text-4xl font-semibold mb-2 tracking-tight text-zinc-900">Hello, {profile.name}! 👋</h1>
+            <p className="text-lg text-zinc-500 font-medium">Are you ready to practice {profile.targetLanguage}?</p>
           </div>
         </div>
       </motion.div>
 
       {/* Main Content Area */}
-      <div className="max-w-7xl mx-auto w-full px-4 md:px-8 -mt-16 relative z-20 space-y-12">
+      <div className="w-full max-w-5xl mx-auto px-4 md:px-8 mt-10 space-y-16">
 
-        <div className="grid lg:grid-cols-3 gap-8">
-
-          {/* Main Content Column */}
-          <div className="lg:col-span-2 space-y-12 overflow-hidden">
-
-            {/* Continue Playing / Up Next */}
-            <section>
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-black text-zinc-900">Up Next</h2>
-            <Link href="/journey" className="text-[#DDA359] font-bold flex items-center gap-1 hover:underline">
-              Curriculum Map <ChevronRight className="w-4 h-4" />
-            </Link>
-          </div>
-          <div className="flex flex-nowrap gap-4 overflow-x-auto pb-8 -mx-4 px-4 sm:-mx-0 sm:px-0 scrollbar-hide snap-x">
-            <Link
-              href={`/session/${currentEpisode.id}`}
-              className="snap-start shrink-0 w-[75vw] sm:w-[280px] relative rounded-3xl p-6 flex flex-col justify-end transition-all h-[340px] overflow-hidden hover:scale-[1.02] cursor-pointer bg-white border border-[#DDA359] shadow-2xl shadow-[#DDA359]/20"
-            >
-              <div className="absolute inset-0 bg-[#DDA359]/5" />
-              <div className="relative z-10">
-                <div className="w-12 h-12 rounded-full bg-[#DDA359] text-white flex items-center justify-center mb-4 shadow-lg shadow-[#DDA359]/40 group-hover:scale-110 transition-transform">
-                  <Play className="w-5 h-5 ml-0.5" fill="currentColor" />
+        {/* Up Next Banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+          className="bg-white rounded-[2rem] p-8 shadow-[0_4px_40px_rgba(0,0,0,0.02)] border border-zinc-100 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden group hover:border-zinc-200 transition-colors cursor-pointer"
+          onClick={() => router.push(`/session/${currentEpisode.id}`)}
+        >
+           <div className="relative z-10 max-w-xl">
+             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#DDA359]/10 text-[#DDA359] font-medium text-xs mb-4 uppercase tracking-wider border border-[#DDA359]/20">
+               <Star className="w-3.5 h-3.5 fill-current" /> Up Next
+             </div>
+             <h2 className="text-2xl font-semibold mb-2 text-zinc-900">{currentEpisode.title}</h2>
+             <p className="text-zinc-500 font-medium text-base mb-6 leading-relaxed">{currentEpisode.description}</p>
+             <div className="flex items-center gap-2 text-zinc-900 font-medium">
+                <div className="w-10 h-10 bg-zinc-100 rounded-full flex items-center justify-center group-hover:bg-[#DDA359] group-hover:text-white transition-colors">
+                  <Play className="w-4 h-4 fill-current" />
                 </div>
-                <span className="text-xs font-bold uppercase tracking-widest text-[#DDA359] mb-2 block">Episode {currentEpisode.id}</span>
-                <h3 className="text-2xl font-black text-zinc-900 leading-tight mb-2">{currentEpisode.title}</h3>
-              </div>
-            </Link>
-          </div>
-            </section>
+                <span>Start Practice</span>
+             </div>
+           </div>
+        </motion.div>
 
-            {/* Netflix-style Carousels */}
-        {categories.map((cat, idx) => (
-          <section key={idx} className="w-full">
-                <h2 className="text-2xl font-black text-zinc-900 mb-6">{cat.title}</h2>
-
-                {/* Scrollable Container */}
-            <div className="flex flex-nowrap gap-4 overflow-x-auto pb-8 -mx-4 px-4 sm:-mx-0 sm:px-0 scrollbar-hide snap-x" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-              {cat.items.map((ep, i) => {
-                const isLocked = ep.isLocked;
-
-                return (
-                  <Link
-                    key={ep.id}
-                    href={isLocked ? '#' : `/session/${ep.id}`}
-                    className={`snap-start shrink-0 w-[75vw] sm:w-[280px] shrink-0 relative rounded-3xl p-6 flex flex-col justify-end transition-all h-[340px] overflow-hidden ${
-                      isLocked ? 'cursor-not-allowed' : 'hover:scale-[1.02] cursor-pointer'
-                    }`}
-                  >
-                    {/* Background image mockup */}
-                    <div className="absolute inset-0 bg-gray-100">
-                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                       <img src={`https://images.unsplash.com/photo-${1590000000000 + i}?q=80&w=400&auto=format&fit=crop`} alt="" className="w-full h-full object-cover opacity-40 mix-blend-overlay" />
+        {/* Practice Categories */}
+        {categories.filter(c => c.items.length > 0).map((category, idx) => (
+          <motion.div
+            key={idx}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 + (idx * 0.1), ease: "easeOut" }}
+            className="pt-4"
+          >
+             <div className="flex items-center justify-between mb-6 px-2">
+               <h3 className="text-xl font-semibold text-zinc-900">{category.title}</h3>
+               <button className="flex items-center text-zinc-500 font-medium text-sm hover:text-zinc-900 transition-colors group">
+                 View all <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+               </button>
+             </div>
+             <div className="overflow-x-auto pb-8 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
+               <div className="flex gap-4 sm:gap-6 min-w-max">
+                 {category.items.map((ep) => (
+                    <div
+                      key={ep.id}
+                      onClick={() => !ep.isLocked && router.push(`/session/${ep.id}`)}
+                      className={`w-[80vw] sm:w-[280px] shrink-0 p-6 rounded-3xl border transition-all group flex flex-col ${
+                        ep.isLocked
+                          ? 'bg-zinc-50 border-transparent opacity-60 cursor-not-allowed'
+                          : 'bg-white border-zinc-100 hover:border-zinc-200 shadow-[0_4px_40px_rgba(0,0,0,0.02)] cursor-pointer'
+                      }`}
+                    >
+                       <div className="flex justify-between items-start mb-6">
+                         <span className="px-3 py-1 rounded-full bg-zinc-50 border border-zinc-100 text-zinc-500 text-[10px] font-semibold uppercase tracking-widest">
+                           {ep.type}
+                         </span>
+                         {ep.isLocked ? (
+                            <Lock className="w-4 h-4 text-zinc-300" />
+                         ) : ep.isCompleted ? (
+                            <div className="flex gap-0.5">
+                              {[...Array(3)].map((_, i) => (
+                                <Star key={i} className={`w-4 h-4 ${i < ep.stars ? 'text-[#DDA359] fill-current' : 'text-zinc-200'}`} />
+                              ))}
+                            </div>
+                         ) : null}
+                       </div>
+                       <h4 className="font-semibold text-lg mb-2 text-zinc-900 leading-tight">{ep.title}</h4>
+                       <p className="text-zinc-500 font-medium text-sm line-clamp-2 leading-relaxed flex-1">{ep.description}</p>
                     </div>
+                 ))}
+               </div>
+             </div>
+          </motion.div>
+        ))}
 
-                    {/* Content */}
-                    <div className="relative z-10">
-                      <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-4 backdrop-blur-md ${isLocked ? 'bg-white text-gray-400' : 'bg-[#DDA359] text-white shadow-lg'}`}>
-                        {isLocked ? <Lock className="w-5 h-5" /> : <Play className="w-5 h-5 ml-0.5" fill="currentColor"/>}
-                      </div>
-                      <span className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2 block">Episode {ep.id}</span>
-                      <h3 className="text-2xl font-black text-zinc-900 leading-tight mb-2">{ep.title}</h3>
-                    </div>
-                  </Link>
-                );
-              })}
-                </div>
-              </section>
-            ))}
-
-          </div>
-
-          {/* Right Sidebar - Gamification */}
-          <div className="space-y-8">
-
-            {/* Daily Quests */}
-            <div className="bg-white rounded-3xl p-8 border border-gray-200 shadow-xl shadow-gray-200/50">
-              <div className="flex items-center justify-between mb-8">
-                <h3 className="text-2xl font-black text-zinc-900">Daily Quests</h3>
-                <Target className="w-6 h-6 text-[#DDA359]" />
-              </div>
-
-              <div className="space-y-6">
-                {dailyQuests?.map(quest => (
-                  <div key={quest.id} className="relative hover:scale-[1.02] transition-transform">
-                    <div className="flex justify-between items-start mb-2">
-                      <div className="flex-1 pr-4">
-                        <p className={`font-bold ${quest.isCompleted ? 'text-gray-400 line-through' : 'text-zinc-900'}`}>
-                          {quest.title}
-                        </p>
-                        <div className="flex items-center gap-1 mt-1 text-sm font-bold text-[#DDA359]">
-                          <Gift className="w-4 h-4" /> +{quest.rewardXP} XP
-                        </div>
-                      </div>
-                      <div className="font-black text-lg text-zinc-300">
-                        {quest.progress}/{quest.target}
-                      </div>
-                    </div>
-
-                    {/* Progress bar */}
-                    <div className="w-full h-3 bg-gray-100 rounded-full overflow-hidden">
-                      <div
-                        className={`h-full rounded-full transition-all duration-1000 ${quest.isCompleted ? 'bg-green-500' : 'bg-[#DDA359]'}`}
-                        style={{ width: `${Math.min((quest.progress / quest.target) * 100, 100)}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-          </div>
-
-        </div>
       </div>
     </div>
   );

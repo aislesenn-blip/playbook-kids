@@ -1,38 +1,32 @@
-
 "use client";
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useAppStore } from '@/lib/store/app-store';
-import { UserRole, Language, Level, UserProfile } from '@/types';
-import { Baby, User, GraduationCap, ArrowRight, ChevronLeft } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronLeft, ArrowRight, Baby } from 'lucide-react';
+import Image from 'next/image';
+import { Language, Level, UserProfile } from '@/types';
 
-export default function Onboarding() {
-  const [step, setStep] = useState(1);
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [loadingText, setLoadingText] = useState("Analyzing profile...");
+export default function OnboardingPage() {
   const router = useRouter();
   const setProfile = useAppStore(state => state.setProfile);
+  const [step, setStep] = useState(1);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [loadingText, setLoadingText] = useState('Building their practice space...');
+  const [isHandingOver, setIsHandingOver] = useState(false);
 
-  const [form, setForm] = useState<{
-    name: string;
-    role: UserRole;
-    nativeLanguage: Language | '';
-    targetLanguage: Language | '';
-    level: Level | '';
-    parentEmail: string;
-  }>({
+  const TOTAL_STEPS = 4;
+
+  const getStepIndicator = () => {
+    return ((step) / TOTAL_STEPS) * 100;
+  };
+
+  const [form, setForm] = useState({
     name: '',
-    role: 'child',
     nativeLanguage: '',
     targetLanguage: '',
     level: '',
-    parentEmail: ''
   });
-
-  const isChild = form.role === 'child';
-  const TOTAL_STEPS = isChild ? 6 : 5;
 
   const handleNext = () => {
     if (step < TOTAL_STEPS) {
@@ -40,56 +34,82 @@ export default function Onboarding() {
     } else {
       setIsAnalyzing(true);
 
-      // Simulate "Aha!" Moment / Hype Screen
-      setTimeout(() => setLoadingText('Analyzing profile...'), 1500);
-      setTimeout(() => setLoadingText('Designing curriculum...'), 3000);
-      setTimeout(() => setLoadingText('Preparing AI companions...'), 4500);
-      if (isChild) setTimeout(() => setLoadingText('Setting up Parent Dashboard...'), 6000);
+      setTimeout(() => setLoadingText('Analyzing proficiency level...'), 1500);
+      setTimeout(() => setLoadingText('Structuring conversation paths...'), 3000);
+      setTimeout(() => setLoadingText('Finalizing learning environment...'), 4500);
 
       setTimeout(() => {
         const newProfile: UserProfile = {
           id: crypto.randomUUID(),
           name: form.name,
-          role: form.role,
           nativeLanguage: form.nativeLanguage as Language,
           targetLanguage: form.targetLanguage as Language,
           level: form.level as Level,
-          subscriptionTier: 'Lite',
-          parentEmail: isChild ? form.parentEmail : undefined,
+          subscriptionTier: 'Standard',
+          parentEmail: 'parent@example.com', // Would normally come from signup
           streak: 0,
-          points: 0
+          points: 0,
         };
         setProfile(newProfile);
-        router.push('/upgrade');
-      }, isChild ? 6000 : 4500);
+        setIsAnalyzing(false);
+        setIsHandingOver(true);
+      }, 6000);
     }
   };
 
-  const getStepIndicator = () => (step / TOTAL_STEPS) * 100;
+  if (isHandingOver) {
+     return (
+       <div className="fixed inset-0 z-[100] bg-[#FAFAFA] flex flex-col items-center justify-center p-6 text-center">
+         <motion.div
+           initial={{ scale: 0.95, opacity: 0 }}
+           animate={{ scale: 1, opacity: 1 }}
+           transition={{ duration: 0.6, ease: "easeOut" }}
+           className="bg-white border border-zinc-100 rounded-3xl p-12 max-w-sm w-full flex flex-col items-center shadow-[0_4px_40px_rgba(0,0,0,0.04)]"
+         >
+           <div className="w-20 h-20 bg-zinc-50 rounded-full flex items-center justify-center mb-6">
+             <Baby className="w-10 h-10 text-zinc-900" />
+           </div>
+
+           <h1 className="text-2xl font-semibold text-zinc-900 mb-2">Hand device to {form.name}</h1>
+           <p className="text-zinc-500 font-medium mb-10 text-sm">It&#39;s time for their first conversation practice.</p>
+
+           <motion.button
+             initial={{ opacity: 0, y: 10 }}
+             animate={{ opacity: 1, y: 0 }}
+             transition={{ delay: 0.2 }}
+             onClick={() => router.push('/session/1')}
+             className="w-full py-4 bg-zinc-900 text-white rounded-xl font-medium text-lg flex items-center justify-center gap-2 hover:bg-zinc-800 transition-colors shadow-sm"
+           >
+             I&#39;m {form.name} <ArrowRight className="w-5 h-5" />
+           </motion.button>
+         </motion.div>
+       </div>
+     );
+  }
 
   if (isAnalyzing) {
     return (
-      <div className="min-h-screen bg-zinc-50 text-zinc-900 flex flex-col items-center justify-center p-6 text-center z-50 fixed inset-0">
+      <div className="min-h-screen bg-[#FAFAFA] flex flex-col items-center justify-center p-6 text-center z-50 fixed inset-0">
          <motion.div
            initial={{ scale: 0.8, opacity: 0 }}
            animate={{ scale: 1, opacity: 1 }}
-           className="relative flex items-center justify-center w-32 h-32 mb-8"
+           className="relative flex items-center justify-center w-24 h-24 mb-8"
          >
-           <div className="absolute inset-0 rounded-full border-4 border-[#DDA359] border-t-transparent animate-[spin_2s_linear_infinite]" />
-           <Image src="/unimonday-logo.png" alt="uNiMONDAY Logo" width={64} height={64} className="object-contain animate-pulse" />
+           <div className="absolute inset-0 rounded-full border-2 border-zinc-200 border-t-zinc-900 animate-[spin_1.5s_linear_infinite]" />
+           <Image src="/logo.png" alt="uNiMONDAY Logo" width={48} height={48} className="object-contain" />
          </motion.div>
 
-         <h1 className="text-3xl md:text-4xl font-black mb-4 tracking-tight text-[#DDA359]">
-           Creating your Universe
+         <h1 className="text-2xl font-semibold mb-3 tracking-tight text-zinc-900">
+           Preparing their environment
          </h1>
 
          <AnimatePresence mode="wait">
             <motion.p
               key={loadingText}
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="text-zinc-400 font-medium text-lg md:text-xl h-10"
+              exit={{ opacity: 0, y: -5 }}
+              className="text-zinc-500 font-medium text-sm h-6"
             >
               {loadingText}
             </motion.p>
@@ -99,62 +119,50 @@ export default function Onboarding() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-white flex flex-col">
-      <div className="flex-1 max-w-2xl mx-auto w-full px-4 py-8 flex flex-col justify-center relative">
+    <div className="min-h-[calc(100vh-4rem)] bg-[#FAFAFA] flex flex-col">
+      <div className="flex-1 w-full mx-auto max-w-2xl px-4 py-8 flex flex-col justify-center relative">
         {step > 1 && (
-          <button onClick={() => setStep(step - 1)} className="absolute top-8 left-4 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors">
-            <ChevronLeft className="w-6 h-6" />
+          <button onClick={() => setStep(step - 1)} className="absolute top-8 left-4 w-10 h-10 rounded-full bg-white border border-zinc-200 flex items-center justify-center hover:bg-zinc-50 transition-colors shadow-sm">
+            <ChevronLeft className="w-5 h-5 text-zinc-600" />
           </button>
         )}
 
-        <div className="w-full h-2 bg-gray-100 rounded-full mb-12 overflow-hidden">
-          <div className="h-full bg-[#DDA359] transition-all duration-500" style={{ width: `${getStepIndicator()}%` }} />
+        <div className="w-full h-1 bg-zinc-200 rounded-full mb-16 overflow-hidden">
+          <div className="h-full bg-zinc-900 transition-all duration-500" style={{ width: `${getStepIndicator()}%` }} />
         </div>
 
         <AnimatePresence mode="wait">
           {step === 1 && (
             <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-8">
-              <div className="text-center">
-                <h2 className="text-3xl font-black mb-4">Who is signing up?</h2>
-                <p className="text-gray-500 text-lg">We adapt the experience based on who is learning.</p>
+               <div className="text-center">
+                <h2 className="text-3xl font-semibold mb-3 text-zinc-900 tracking-tight">What is your child&#39;s name?</h2>
+                <p className="text-zinc-500 font-medium">So our tutors know what to call them.</p>
               </div>
-              <div className="grid grid-cols-1 gap-4">
-                {[
-                  { id: 'adult', label: 'I am signing up for myself', icon: <User className="w-8 h-8" />, desc: 'For adult learners and teenagers.' },
-                  { id: 'child', label: 'I am signing up for my child', icon: <Baby className="w-8 h-8" />, desc: 'For kids (4-12). Parent dashboard included.' },
-                ].map(r => (
-                  <button
-                    key={r.id}
-                    onClick={() => setForm({...form, role: r.id as UserRole})}
-                    className={`p-6 rounded-2xl border-2 text-left flex items-center gap-6 transition-all ${form.role === r.id ? 'border-[#DDA359] bg-[#DDA359]/5' : 'border-gray-200 hover:border-gray-300'}`}
-                  >
-                    <div className={`p-4 rounded-xl ${form.role === r.id ? 'bg-[#DDA359] text-white' : 'bg-gray-100 text-gray-500'}`}>
-                      {r.icon}
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold mb-1">{r.label}</h3>
-                      <p className="text-gray-500 font-medium">{r.desc}</p>
-                    </div>
-                  </button>
-                ))}
-              </div>
+              <input
+                type="text"
+                value={form.name}
+                onChange={(e) => setForm({...form, name: e.target.value})}
+                placeholder="Enter their name"
+                className="w-full text-center text-3xl font-semibold py-4 outline-none border-b-2 focus:border-zinc-900 border-zinc-200 transition-colors bg-transparent placeholder:text-zinc-300"
+                autoFocus
+              />
             </motion.div>
           )}
 
           {step === 2 && (
             <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-8">
                <div className="text-center">
-                <h2 className="text-3xl font-black mb-4">{isChild ? 'What is your child\'s Native Language?' : 'What is your Native Language?'}</h2>
-                <p className="text-gray-500 text-lg">We use this to build connection and explain concepts clearly.</p>
+                <h2 className="text-3xl font-semibold mb-3 text-zinc-900 tracking-tight">What is their native language?</h2>
+                <p className="text-zinc-500 font-medium">Used to provide clearer translations and context.</p>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {['English', 'Spanish', 'French', 'Chinese', 'German', 'Swahili'].map(lang => (
                    <button
                     key={lang}
                     onClick={() => setForm({...form, nativeLanguage: lang as Language})}
-                    className={`p-6 rounded-2xl border-2 text-center transition-all ${form.nativeLanguage === lang ? 'border-[#DDA359] bg-[#DDA359]/5 scale-105' : 'border-gray-200 hover:border-gray-300'}`}
+                    className={`p-5 rounded-2xl border transition-all ${form.nativeLanguage === lang ? 'border-zinc-900 bg-zinc-900 text-white' : 'border-zinc-200 bg-white text-zinc-700 hover:border-zinc-300'}`}
                   >
-                    <span className="text-xl font-bold">{lang}</span>
+                    <span className="text-lg font-medium">{lang}</span>
                   </button>
                 ))}
               </div>
@@ -164,19 +172,19 @@ export default function Onboarding() {
           {step === 3 && (
             <motion.div key="step3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-8">
                <div className="text-center">
-                <h2 className="text-3xl font-black mb-4">{isChild ? 'What language should they learn?' : 'What language do you want to learn?'}</h2>
+                <h2 className="text-3xl font-semibold mb-3 text-zinc-900 tracking-tight">What language should they learn?</h2>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {['English', 'Spanish', 'French', 'Chinese', 'German', 'Swahili'].map(lang => (
                    <button
                     key={lang}
                     onClick={() => setForm({...form, targetLanguage: lang as Language})}
                     disabled={lang === form.nativeLanguage}
-                    className={`p-6 rounded-2xl border-2 text-center transition-all ${
-                      lang === form.nativeLanguage ? 'opacity-30 cursor-not-allowed bg-gray-50 border-gray-100' :
-                      form.targetLanguage === lang ? 'border-[#DDA359] bg-[#DDA359]/5 scale-105' : 'border-gray-200 hover:border-gray-300'}`}
+                    className={`p-5 rounded-2xl border transition-all ${
+                      lang === form.nativeLanguage ? 'opacity-40 cursor-not-allowed bg-zinc-50 border-zinc-100 text-zinc-400' :
+                      form.targetLanguage === lang ? 'border-zinc-900 bg-zinc-900 text-white' : 'border-zinc-200 bg-white text-zinc-700 hover:border-zinc-300'}`}
                   >
-                    <span className="text-xl font-bold">{lang}</span>
+                    <span className="text-lg font-medium">{lang}</span>
                   </button>
                 ))}
               </div>
@@ -186,71 +194,36 @@ export default function Onboarding() {
           {step === 4 && (
             <motion.div key="step4" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-8">
                <div className="text-center">
-                <h2 className="text-3xl font-black mb-4">{isChild ? 'What is their current level?' : 'What is your current level?'}</h2>
+                <h2 className="text-3xl font-semibold mb-3 text-zinc-900 tracking-tight">What is their current level?</h2>
               </div>
-              <div className="flex flex-col gap-4">
-                {['Starter', 'Beginner', 'Elementary', 'Intermediate', 'Advanced'].map(lvl => (
+              <div className="flex flex-col gap-3 max-w-md mx-auto w-full">
+                {['Starter', 'Beginner', 'Elementary', 'Intermediate'].map(lvl => (
                    <button
                     key={lvl}
                     onClick={() => setForm({...form, level: lvl as Level})}
-                    className={`p-5 rounded-2xl border-2 text-center transition-all ${form.level === lvl ? 'border-[#DDA359] bg-[#DDA359]/5' : 'border-gray-200 hover:border-gray-300'}`}
+                    className={`p-4 rounded-2xl border transition-all ${form.level === lvl ? 'border-zinc-900 bg-zinc-900 text-white' : 'border-zinc-200 bg-white text-zinc-700 hover:border-zinc-300'}`}
                   >
-                    <span className="text-lg font-bold">{lvl}</span>
+                    <span className="text-lg font-medium">{lvl}</span>
                   </button>
                 ))}
               </div>
             </motion.div>
           )}
 
-           {step === 5 && (
-            <motion.div key="step5" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-8">
-               <div className="text-center">
-                <h2 className="text-3xl font-black mb-4">{isChild ? 'What is your child\'s name?' : 'What is your name?'}</h2>
-                <p className="text-gray-500 text-lg">{isChild ? 'So our AI knows what to call them!' : 'So our AI knows what to call you!'}</p>
-              </div>
-              <input
-                type="text"
-                value={form.name}
-                onChange={(e) => setForm({...form, name: e.target.value})}
-                placeholder="Enter name..."
-                className="w-full text-center text-4xl font-bold py-6 outline-none border-b-4 focus:border-[#DDA359] border-gray-200 transition-colors bg-transparent"
-                autoFocus
-              />
-            </motion.div>
-          )}
-
-          {step === 6 && isChild && (
-            <motion.div key="step6" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-8">
-               <div className="text-center">
-                <h2 className="text-3xl font-black mb-4">Parent&apos;s Email</h2>
-                <p className="text-gray-500 text-lg">To receive Detailed Reports and monitor progress.</p>
-              </div>
-              <input
-                type="email"
-                value={form.parentEmail}
-                onChange={(e) => setForm({...form, parentEmail: e.target.value})}
-                placeholder="parent@example.com"
-                className="w-full text-center text-3xl font-bold py-6 outline-none border-b-4 focus:border-[#DDA359] border-gray-200 transition-colors bg-transparent"
-                autoFocus
-              />
-            </motion.div>
-          )}
-
         </AnimatePresence>
 
-        <div className="mt-12 flex justify-end">
+        <div className="mt-16 flex justify-center">
           <button
             onClick={handleNext}
             disabled={
+              (step === 1 && !form.name.trim()) ||
               (step === 2 && !form.nativeLanguage) ||
               (step === 3 && !form.targetLanguage) ||
-              (step === 4 && !form.level) ||
-              (step === 5 && !form.name.trim()) ||
-              (step === 6 && !form.parentEmail.trim())
+              (step === 4 && !form.level)
             }
-            className="px-8 py-4 bg-[#DDA359] text-white rounded-2xl font-bold text-lg flex items-center gap-2 hover:bg-[#DDA359]/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-xl shadow-[#DDA359]/20"
+            className="w-full max-w-sm py-4 bg-zinc-900 text-white rounded-xl font-medium text-lg flex items-center justify-center gap-2 hover:bg-zinc-800 transition-colors disabled:opacity-30 disabled:cursor-not-allowed shadow-sm"
           >
-            {step === TOTAL_STEPS ? 'Enter Universe' : 'Continue'} <ArrowRight className="w-5 h-5" />
+            {step === TOTAL_STEPS ? 'Complete Setup' : 'Continue'} <ArrowRight className="w-5 h-5" />
           </button>
         </div>
       </div>

@@ -1,4 +1,3 @@
-
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { TopNav } from '@/components/layout/TopNav';
@@ -16,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: 'uNiMONDAY | The Future of Language Learning',
-  description: 'An AI-powered living language universe.',
+  title: 'uNiMONDAY | Student Communication Ecosystem',
+  description: 'A platform for students to master academic and social language through focused practice.',
 };
 
 export default function RootLayout({
@@ -27,9 +26,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="antialiased min-h-screen pb-20 sm:pb-0 pt-16 bg-[#FAFAFA] text-zinc-900 selection:bg-[#DDA359]/30 overflow-x-hidden">
+      <body className="antialiased min-h-screen pb-20 sm:pb-0 pt-16 bg-[#FAFAFA] text-zinc-900 selection:bg-zinc-200 overflow-x-hidden">
         <TopNav />
-        <main className="w-full min-h-[calc(100vh-4rem)] flex flex-col">
+        <main className="w-full min-h-[calc(100vh-4rem)] flex flex-col font-sans">
           {children}
         </main>
         <div className="sm:hidden">
