@@ -6,6 +6,7 @@ interface AppState {
     profile: UserProfile | null;
     setProfile: (profile: UserProfile) => void;
     updateProfile: (updates: Partial<UserProfile>) => void;
+    completeTour: () => void;
 
     episodes: Episode[];
     completeEpisode: (id: string, stars: number) => void;
@@ -27,6 +28,9 @@ export const useAppStore = create<AppState>()(
             setProfile: (profile) => set({ profile }),
             updateProfile: (updates) => set((state) => ({
               profile: state.profile ? { ...state.profile, ...updates } : null
+            })),
+            completeTour: () => set((state) => ({
+              profile: state.profile ? { ...state.profile, hasCompletedTour: true } : null
             })),
 
             episodes: [
