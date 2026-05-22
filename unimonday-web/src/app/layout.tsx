@@ -26,7 +26,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="antialiased min-h-screen pb-20 sm:pb-0 pt-16 bg-[#FAFAFA] text-zinc-900 selection:bg-zinc-200 overflow-x-hidden">
+      <body className="antialiased min-h-screen pb-20 sm:pb-0 pt-16 bg-[#F8F6F3] text-zinc-900 selection:bg-zinc-200 overflow-x-hidden">
         <TopNav />
         <main className="w-full min-h-[calc(100vh-4rem)] flex flex-col font-sans">
           {children}

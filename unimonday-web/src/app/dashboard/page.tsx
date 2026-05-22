@@ -26,7 +26,7 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="w-full bg-[#FAFAFA] min-h-screen pb-32 overflow-x-hidden">
+    <div className="w-full bg-[#F8F6F3] min-h-screen pb-32 overflow-x-hidden">
 
       {/* Header */}
       <motion.div

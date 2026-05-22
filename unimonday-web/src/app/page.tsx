@@ -19,7 +19,7 @@ export default function LandingPage() {
   if (profile) return null;
 
   return (
-    <div className="w-full flex flex-col items-center bg-[#FAFAFA] min-h-screen">
+    <div className="w-full flex flex-col items-center bg-[#F8F6F3] min-h-screen">
       <section className="w-full px-4 pt-24 md:pt-32 pb-24 flex flex-col items-center text-center">
 
         <motion.div
@@ -56,10 +56,10 @@ export default function LandingPage() {
           className="flex flex-col sm:flex-row gap-4 w-full max-w-md mx-auto"
         >
           <button
-            onClick={() => router.push('/auth/signup')}
+            onClick={() => router.push('/demo/intro')}
             className="flex-1 py-4 px-8 bg-zinc-900 text-white rounded-xl font-medium text-lg hover:bg-zinc-800 transition-colors flex items-center justify-center gap-2 shadow-[0_4px_40px_rgba(0,0,0,0.06)]"
           >
-            Create Learning Profile <ArrowRight className="w-5 h-5" />
+            Try Interactive Demo <ArrowRight className="w-5 h-5" />
           </button>
         </motion.div>
 

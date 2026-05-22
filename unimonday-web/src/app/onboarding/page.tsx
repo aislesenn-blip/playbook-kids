@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useAppStore } from '@/lib/store/app-store';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ArrowRight, Baby } from 'lucide-react';
+import { ChevronLeft, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import { Language, Level, UserProfile } from '@/types';
 
@@ -13,7 +13,6 @@ export default function OnboardingPage() {
   const [step, setStep] = useState(1);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [loadingText, setLoadingText] = useState('Building their practice space...');
-  const [isHandingOver, setIsHandingOver] = useState(false);
 
   const TOTAL_STEPS = 4;
 
@@ -45,51 +44,21 @@ export default function OnboardingPage() {
           nativeLanguage: form.nativeLanguage as Language,
           targetLanguage: form.targetLanguage as Language,
           level: form.level as Level,
-          subscriptionTier: 'Standard',
+          subscriptionTier: 'X',
           parentEmail: 'parent@example.com', // Would normally come from signup
           streak: 0,
           points: 0,
         };
         setProfile(newProfile);
         setIsAnalyzing(false);
-        setIsHandingOver(true);
+        router.push('/upgrade');
       }, 6000);
     }
   };
 
-  if (isHandingOver) {
-     return (
-       <div className="fixed inset-0 z-[100] bg-[#FAFAFA] flex flex-col items-center justify-center p-6 text-center">
-         <motion.div
-           initial={{ scale: 0.95, opacity: 0 }}
-           animate={{ scale: 1, opacity: 1 }}
-           transition={{ duration: 0.6, ease: "easeOut" }}
-           className="bg-white border border-zinc-100 rounded-3xl p-12 max-w-sm w-full flex flex-col items-center shadow-[0_4px_40px_rgba(0,0,0,0.04)]"
-         >
-           <div className="w-20 h-20 bg-zinc-50 rounded-full flex items-center justify-center mb-6">
-             <Baby className="w-10 h-10 text-zinc-900" />
-           </div>
-
-           <h1 className="text-2xl font-semibold text-zinc-900 mb-2">Hand device to {form.name}</h1>
-           <p className="text-zinc-500 font-medium mb-10 text-sm">It&#39;s time for their first conversation practice.</p>
-
-           <motion.button
-             initial={{ opacity: 0, y: 10 }}
-             animate={{ opacity: 1, y: 0 }}
-             transition={{ delay: 0.2 }}
-             onClick={() => router.push('/session/1')}
-             className="w-full py-4 bg-zinc-900 text-white rounded-xl font-medium text-lg flex items-center justify-center gap-2 hover:bg-zinc-800 transition-colors shadow-sm"
-           >
-             I&#39;m {form.name} <ArrowRight className="w-5 h-5" />
-           </motion.button>
-         </motion.div>
-       </div>
-     );
-  }
-
-  if (isAnalyzing) {
+    if (isAnalyzing) {
     return (
-      <div className="min-h-screen bg-[#FAFAFA] flex flex-col items-center justify-center p-6 text-center z-50 fixed inset-0">
+      <div className="min-h-screen bg-[#F8F6F3] flex flex-col items-center justify-center p-6 text-center z-50 fixed inset-0">
          <motion.div
            initial={{ scale: 0.8, opacity: 0 }}
            animate={{ scale: 1, opacity: 1 }}
@@ -119,7 +88,7 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-[#FAFAFA] flex flex-col">
+    <div className="min-h-[calc(100vh-4rem)] bg-[#F8F6F3] flex flex-col">
       <div className="flex-1 w-full mx-auto max-w-2xl px-4 py-8 flex flex-col justify-center relative">
         {step > 1 && (
           <button onClick={() => setStep(step - 1)} className="absolute top-8 left-4 w-10 h-10 rounded-full bg-white border border-zinc-200 flex items-center justify-center hover:bg-zinc-50 transition-colors shadow-sm">
