@@ -69,19 +69,19 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
   // SUCCESS SCREEN (Calm, low noise)
   if (currentPhase === 'COMPLETE') {
     return (
-      <div className="fixed inset-0 z-[100] bg-[#FAFAFA] flex flex-col items-center justify-center p-6 text-center">
+      <div className="fixed inset-0 z-[100] bg-[#1A1817] flex flex-col items-center justify-center p-6 text-center">
         <motion.div
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="bg-white border border-zinc-100 rounded-3xl p-12 max-w-sm w-full flex flex-col items-center shadow-[0_4px_40px_rgba(0,0,0,0.04)]"
+          className="bg-[#24211E] border border-[#3A3530] rounded-[32px] p-12 max-w-sm w-full flex flex-col items-center shadow-[0_8px_40px_rgba(0,0,0,0.2)]"
         >
-          <div className="w-20 h-20 bg-zinc-50 rounded-full flex items-center justify-center mb-6">
-            <CheckCircle2 className="w-10 h-10 text-zinc-900" />
+          <div className="w-20 h-20 bg-[#DDA359]/10 rounded-full flex items-center justify-center mb-6 border border-[#DDA359]/20">
+            <CheckCircle2 className="w-10 h-10 text-[#DDA359]" />
           </div>
 
-          <h1 className="text-2xl font-semibold text-zinc-900 mb-2">Session Complete</h1>
-          <p className="text-zinc-500 font-medium mb-10 text-sm">You communicated clearly and effectively.</p>
+          <h1 className="text-[26px] font-medium text-[#FDFBF7] mb-2 tracking-tight">Session Complete</h1>
+          <p className="text-[#A8A39D] font-normal mb-10 text-[15px]">You communicated clearly and effectively.</p>
 
           <motion.button
             initial={{ opacity: 0, y: 10 }}
@@ -91,9 +91,9 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
               completeEpisode(session.id, 3);
               if (session.id === '1') router.push('/upgrade'); else router.push('/dashboard');
             }}
-            className="w-full py-4 bg-zinc-900 text-white rounded-xl font-medium text-lg flex items-center justify-center gap-2 hover:bg-zinc-800 transition-colors shadow-sm"
+            className="w-full py-4 bg-[#DDA359] text-[#1A1817] rounded-[20px] font-medium text-[17px] flex items-center justify-center gap-2 hover:bg-[#c99047] transition-colors shadow-sm"
           >
-            Continue <ArrowRight className="w-5 h-5" />
+            Continue <ArrowRight className="w-5 h-5 opacity-80" />
           </motion.button>
         </motion.div>
       </div>
@@ -101,55 +101,61 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
   }
 
   return (
-    <div className="fixed inset-0 z-[100] bg-[#FAFAFA] flex flex-col items-center justify-between overflow-hidden">
+    <div className="fixed inset-0 z-[100] bg-[#1A1817] flex flex-col items-center justify-between overflow-hidden">
+
+      {/* Background soft ambient glow to reduce harsh darkness */}
+      <div className="absolute inset-0 pointer-events-none opacity-20">
+         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[#DDA359] rounded-full blur-[200px] mix-blend-screen" />
+      </div>
 
       {/* Top Header */}
-      <div className="w-full h-24 flex items-center justify-between p-6 z-10 shrink-0 border-b border-zinc-100 bg-white/50 backdrop-blur-md">
+      <div className="w-full h-24 flex items-center justify-between p-6 z-10 shrink-0">
         <div className="w-16" /> {/* Spacer */}
         <div className="flex flex-col items-center">
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex items-center gap-2 text-zinc-500 font-medium text-xs tracking-widest uppercase mb-1"
+            className="flex items-center gap-2 text-[#A8A39D] font-medium text-[11px] tracking-widest uppercase mb-1.5"
           >
-            <span className={`w-1.5 h-1.5 rounded-full ${isVoiceActive ? 'bg-red-500 animate-pulse' : 'bg-[#DDA359]'}`} />
+            <span className={`w-1.5 h-1.5 rounded-full ${isVoiceActive ? 'bg-[#FF6B6B] animate-pulse' : 'bg-[#DDA359]'}`} />
             Live Practice
           </motion.div>
-          <h2 className="text-zinc-900 font-semibold text-base">{session.title}</h2>
+          <h2 className="text-[#FDFBF7] font-medium text-[17px]">{session.title}</h2>
         </div>
         <div className="w-16" /> {/* Spacer */}
       </div>
 
       {/* Center Avatar / Orb Area */}
-      <div className="flex-1 flex flex-col items-center justify-center w-full max-w-md px-6 relative shrink-0">
+      <div className="flex-1 flex flex-col items-center justify-center w-full max-w-md px-6 relative shrink-0 z-10">
          <div className="relative w-40 h-40 sm:w-56 sm:h-56 flex items-center justify-center shrink-0">
            {/* Soft Breathing Glow */}
            <AnimatePresence>
              {(!isVoiceActive && !isProcessing) && (
                <motion.div
                  initial={{ opacity: 0, scale: 0.9 }}
-                 animate={{ opacity: 0.5, scale: [1, 1.1, 1] }}
+                 animate={{ opacity: 0.15, scale: [1, 1.1, 1] }}
                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                 className="absolute inset-0 rounded-full bg-zinc-200 blur-2xl"
+                 className="absolute inset-0 rounded-full bg-[#DDA359] blur-[40px]"
                />
              )}
              {isProcessing && (
                 <motion.div
                  initial={{ opacity: 0 }}
                  animate={{ opacity: 1 }}
-                 className="absolute inset-0 rounded-full border border-zinc-300 border-dashed animate-[spin_4s_linear_infinite]"
+                 className="absolute inset-0 rounded-full border border-[#DDA359]/30 border-dashed animate-[spin_4s_linear_infinite]"
                />
              )}
            </AnimatePresence>
 
            {/* The Orb / Minimal Avatar */}
            <motion.div
-              animate={isVoiceActive ? { scale: 0.98 } : isProcessing ? { scale: [1, 1.02, 1] } : { scale: 1 }}
+              animate={isVoiceActive ? { scale: 0.96 } : isProcessing ? { scale: [1, 1.02, 1] } : { scale: 1 }}
               transition={isProcessing ? { repeat: Infinity, duration: 2, ease: "easeInOut" } : { duration: 0.3 }}
-              className="w-full h-full rounded-full overflow-hidden shadow-[0_4px_40px_rgba(0,0,0,0.04)] z-10 bg-white border border-zinc-100 relative flex items-center justify-center shrink-0"
+              className="w-full h-full rounded-full overflow-hidden shadow-[0_8px_40px_rgba(0,0,0,0.2)] z-10 bg-[#24211E] border border-[#3A3530] relative flex items-center justify-center shrink-0"
            >
-              <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white to-zinc-50 flex items-center justify-center">
-                <div className="w-1/2 h-1/2 rounded-full bg-zinc-100 opacity-50" />
+              <div className="absolute inset-0 rounded-full bg-gradient-to-b from-[#2A2724] to-[#1C1A17] flex items-center justify-center">
+                {/* Inner soft core */}
+                <div className={`w-1/2 h-1/2 rounded-full blur-[20px] transition-all duration-700 ${isVoiceActive ? 'bg-[#DDA359] opacity-40 scale-110' : 'bg-[#DDA359] opacity-20'}`} />
               </div>
 
               {/* Spinner Overlay during connection or processing */}
@@ -159,9 +165,9 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="absolute inset-0 z-20 bg-white/50 backdrop-blur-sm flex flex-col items-center justify-center rounded-full"
+                    className="absolute inset-0 z-20 bg-[#1C1A17]/60 backdrop-blur-md flex flex-col items-center justify-center rounded-full"
                   >
-                    <Loader2 className="w-8 h-8 text-zinc-400 animate-spin" />
+                    <Loader2 className="w-8 h-8 text-[#DDA359]/60 animate-spin" />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -179,9 +185,9 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
                 className="flex flex-col items-center justify-center gap-3 w-full h-full"
               >
                 {(isConnecting || isProcessing) && (
-                   <Loader2 className="w-5 h-5 text-zinc-300 animate-spin shrink-0" />
+                   <Loader2 className="w-5 h-5 text-[#8C8681] animate-spin shrink-0" />
                 )}
-                <p className={`text-xl font-medium max-w-sm leading-relaxed ${isConnecting || isProcessing ? 'text-zinc-400' : 'text-zinc-900'}`}>
+                <p className={`text-[22px] font-medium max-w-sm leading-relaxed tracking-tight ${isConnecting || isProcessing ? 'text-[#8C8681]' : 'text-[#FDFBF7]'}`}>
                   {subtitle}
                 </p>
               </motion.div>
@@ -190,26 +196,26 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
       </div>
 
       {/* Bottom Controls */}
-      <div className="w-full h-40 p-8 pb-16 flex items-center justify-center gap-6 z-10 shrink-0 bg-white/50 backdrop-blur-md border-t border-zinc-100">
+      <div className="w-full h-40 p-8 pb-16 flex items-center justify-center gap-6 z-10 shrink-0">
 
         {/* End Call Button */}
         <button
           onClick={() => {
               if (session.id === '1') router.push('/upgrade'); else router.push('/dashboard');
           }}
-          className="w-14 h-14 shrink-0 rounded-full bg-zinc-100 hover:bg-zinc-200 flex items-center justify-center transition-colors border border-zinc-200"
+          className="w-14 h-14 shrink-0 rounded-full bg-[#3A3530]/50 hover:bg-[#FF6B6B]/20 flex items-center justify-center transition-colors border border-[#4A443E]/50 group"
         >
-          <PhoneOff className="w-5 h-5 text-zinc-600" />
+          <PhoneOff className="w-5 h-5 text-[#A8A39D] group-hover:text-[#FF6B6B] transition-colors" />
         </button>
 
         {/* Mic Toggle Button */}
         <button
           onClick={toggleVoice}
           disabled={isProcessing}
-          className={`w-20 h-20 shrink-0 rounded-full flex items-center justify-center shadow-sm transition-all disabled:opacity-50 border ${
+          className={`w-20 h-20 shrink-0 rounded-full flex items-center justify-center shadow-lg transition-all disabled:opacity-50 border ${
             isVoiceActive
-              ? 'bg-zinc-900 border-zinc-900 text-white scale-105'
-              : 'bg-white border-zinc-200 text-zinc-900 hover:bg-zinc-50'
+              ? 'bg-[#FDFBF7] border-[#FDFBF7] text-[#1A1817] scale-105'
+              : 'bg-[#2A2624] border-[#3A3530] text-[#FDFBF7] hover:bg-[#322E2B]'
           }`}
         >
           {isVoiceActive ? <MicOff className="w-6 h-6" /> : <Mic className="w-6 h-6" />}
