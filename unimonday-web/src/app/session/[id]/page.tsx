@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState, use } from 'react';
 import { Mic, MicOff, PhoneOff, ArrowRight, Loader2, CheckCircle2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import confetti from 'canvas-confetti';
 
 type Phase = 'CONNECTION' | 'PATTERN_DROP' | 'REAL_CONVERSATION' | 'COMPLETE';
 
@@ -36,23 +37,30 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
     if (!profile) return;
     setIsVoiceActive(false);
     setIsProcessing(true);
-    setSubtitle("Processing response...");
+    setSubtitle("Listening carefully...");
 
     setTimeout(() => {
         setIsProcessing(false);
 
         if (currentPhase === 'CONNECTION') {
           setCurrentPhase('PATTERN_DROP');
-          setSubtitle(`Here we say 'Good morning' to start the day. Let's try together. Say: 'Good morning to you too.'`);
+          setSubtitle(`Let's practice for our topic: "${session?.title}". I will say the phrase, and then you try. Ready?`);
         }
         else if (currentPhase === 'PATTERN_DROP') {
            setCurrentPhase('REAL_CONVERSATION');
-           setSubtitle(`Beautifully done, ${profile?.name}. Good morning! Now, how are you feeling today?`);
+           setSubtitle(`Beautifully done, ${profile?.name}. You sound very confident. Let's have a short conversation about it now.`);
         }
         else if (currentPhase === 'REAL_CONVERSATION') {
            setCurrentPhase('COMPLETE');
+           // Trigger Dopamine Hit
+           confetti({
+             particleCount: 100,
+             spread: 70,
+             origin: { y: 0.6 },
+             colors: ['#DDA359', '#FFFFFF', '#FF6B6B']
+           });
         }
-    }, 2000);
+    }, 2500);
   };
 
   const toggleVoice = () => {
@@ -71,9 +79,9 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
     return (
       <div className="fixed inset-0 z-[100] bg-[#151412] flex flex-col items-center justify-center p-6 text-center">
         <motion.div
-          initial={{ scale: 0.95, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          initial={{ scale: 0.8, opacity: 0, y: 20 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          transition={{ type: "spring", bounce: 0.5, duration: 0.8 }}
           className="bg-[#1C1A18] border border-[#2C2926] rounded-[32px] p-12 max-w-sm w-full flex flex-col items-center shadow-[0_8px_40px_rgba(0,0,0,0.2)]"
         >
           <div className="w-20 h-20 bg-[#DDA359]/10 rounded-full flex items-center justify-center mb-6 border border-[#DDA359]/20">

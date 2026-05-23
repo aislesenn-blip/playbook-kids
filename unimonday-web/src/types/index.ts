@@ -14,6 +14,9 @@ export interface UserProfile {
     streak: number;
     points: number;
     hasCompletedTour: boolean;
+    pronunciationAccuracy?: number;
+    speakingConfidence?: 'Low' | 'Medium' | 'High';
+    vocabRetention?: number;
 }
 
 export interface DailyQuest {
