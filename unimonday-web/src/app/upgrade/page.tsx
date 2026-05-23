@@ -55,7 +55,7 @@ export default function UpgradePage() {
 
       <div className="w-full max-w-5xl mx-auto px-4 grid md:grid-cols-2 gap-8 items-start pt-8">
 
-        {/* UniMonday X TIER */}
+        {/* uNiMONDAY X TIER */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -63,10 +63,10 @@ export default function UpgradePage() {
           className="bg-white border border-zinc-200 rounded-3xl p-8 flex flex-col shadow-[0_4px_40px_rgba(0,0,0,0.02)]"
         >
           <div className="mb-8">
-            <h3 className="text-2xl font-semibold mb-2">UniMonday X</h3>
+            <h3 className="text-2xl font-semibold mb-2">uNiMONDAY X</h3>
             <p className="text-zinc-500 font-medium h-12">Essential tools for regular practice and confidence building.</p>
             <div className="mt-6 flex items-baseline gap-1">
-              <span className="text-4xl font-semibold">$12</span>
+              <span className="text-4xl font-semibold">€14.99</span>
               <span className="text-zinc-500 font-medium">/month</span>
             </div>
           </div>
@@ -74,11 +74,11 @@ export default function UpgradePage() {
           <div className="w-full h-px bg-zinc-100 mb-8" />
 
           <ul className="space-y-4 mb-8 flex-1">
-            <li className="flex items-center gap-3 text-zinc-600 font-medium"><Check className="w-5 h-5 text-zinc-400" /> 10 hours of AI voice practice</li>
-            <li className="flex items-center gap-3 text-zinc-600 font-medium"><Check className="w-5 h-5 text-zinc-400" /> Daily conversation modules</li>
-            <li className="flex items-center gap-3 text-zinc-600 font-medium"><Check className="w-5 h-5 text-zinc-400" /> Basic progress tracking</li>
-            <li className="flex items-center gap-3 text-zinc-400 font-medium"><X className="w-5 h-5 text-zinc-300" /> No advanced stories</li>
-            <li className="flex items-center gap-3 text-zinc-400 font-medium"><X className="w-5 h-5 text-zinc-300" /> No advanced feedback</li>
+            <li className="flex items-center gap-3 text-zinc-600 font-medium"><Check className="w-5 h-5 text-zinc-400" /> One 5-minute mission daily</li>
+            <li className="flex items-center gap-3 text-zinc-600 font-medium"><Check className="w-5 h-5 text-zinc-400" /> Access to 1 target language</li>
+            <li className="flex items-center gap-3 text-zinc-600 font-medium"><Check className="w-5 h-5 text-zinc-400" /> Standard Parent Dashboard</li>
+            <li className="flex items-center gap-3 text-zinc-400 font-medium"><X className="w-5 h-5 text-zinc-300" /> Core &quot;Monday&quot; AI Personality</li>
+
           </ul>
 
           <motion.button
@@ -91,7 +91,7 @@ export default function UpgradePage() {
           </motion.button>
         </motion.div>
 
-        {/* UniMonday Pro TIER */}
+        {/* uNiMONDAY Pro TIER */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -103,11 +103,11 @@ export default function UpgradePage() {
             </div>
             <div className="mb-8">
               <div className="flex items-center gap-2 mb-2">
-                <h3 className="text-2xl font-semibold text-zinc-900">UniMonday Pro</h3>
+                <h3 className="text-2xl font-semibold text-zinc-900">uNiMONDAY Pro</h3>
               </div>
               <p className="text-zinc-500 font-medium h-12">Comprehensive access for mastering vocabulary and conversational fluency.</p>
               <div className="mt-6 flex items-baseline gap-1">
-                <span className="text-4xl font-semibold text-zinc-900">$24</span>
+                <span className="text-4xl font-semibold text-zinc-900">€29.99</span>
                 <span className="text-zinc-500 font-medium">/month</span>
               </div>
             </div>
@@ -115,11 +115,11 @@ export default function UpgradePage() {
             <div className="w-full h-px bg-zinc-100 mb-8" />
 
             <ul className="space-y-4 mb-8 flex-1">
-              <li className="flex items-center gap-3 text-zinc-800 font-medium"><Sparkles className="w-5 h-5 text-[#DDA359]" /> Unlimited AI voice practice</li>
-              <li className="flex items-center gap-3 text-zinc-800 font-medium"><Check className="w-5 h-5 text-[#DDA359]" /> Story & roleplay adventures</li>
-              <li className="flex items-center gap-3 text-zinc-800 font-medium"><Check className="w-5 h-5 text-[#DDA359]" /> Detailed pronunciation feedback</li>
-              <li className="flex items-center gap-3 text-zinc-800 font-medium"><Check className="w-5 h-5 text-[#DDA359]" /> Full access to Parent Portal</li>
-              <li className="flex items-center gap-3 text-zinc-800 font-medium"><Check className="w-5 h-5 text-[#DDA359]" /> Priority platform access</li>
+              <li className="flex items-center gap-3 text-zinc-800 font-medium"><Sparkles className="w-5 h-5 text-[#DDA359]" /> Up to 3 missions (15 mins) daily</li>
+              <li className="flex items-center gap-3 text-zinc-800 font-medium"><Check className="w-5 h-5 text-[#DDA359]" /> Multi-Language Unlock</li>
+              <li className="flex items-center gap-3 text-zinc-800 font-medium"><Check className="w-5 h-5 text-[#DDA359]" /> Deep Analytics Dashboard</li>
+              <li className="flex items-center gap-3 text-zinc-800 font-medium"><Check className="w-5 h-5 text-[#DDA359]" /> Custom AI Personas & Outfits</li>
+              <li className="flex items-center gap-3 text-zinc-800 font-medium"><Check className="w-5 h-5 text-[#DDA359]" /> Priority zero-latency routing</li>
             </ul>
 
             <motion.button
@@ -128,7 +128,7 @@ export default function UpgradePage() {
               disabled={!!loadingTier}
               className="w-full py-4 rounded-2xl font-medium text-lg bg-zinc-900 text-white hover:bg-zinc-800 transition-colors flex justify-center items-center h-16 disabled:opacity-80"
             >
-              {loadingTier === 'Pro' ? <Loader2 className="w-5 h-5 animate-spin text-white" /> : "Select UniMonday Pro"}
+              {loadingTier === 'Pro' ? <Loader2 className="w-5 h-5 animate-spin text-white" /> : "Select uNiMONDAY Pro"}
             </motion.button>
             <p className="text-center text-xs text-zinc-400 mt-4">Cancel anytime.</p>
         </motion.div>

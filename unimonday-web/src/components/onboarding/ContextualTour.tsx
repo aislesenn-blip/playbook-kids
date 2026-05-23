@@ -3,224 +3,79 @@ import { useAppStore } from '@/lib/store/app-store';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, MousePointer2 } from 'lucide-react';
-import { usePathname } from 'next/navigation';
-
-interface TourStepDef {
-  targetSelector: string;
-  expectedRoute: string;
-  title: string;
-  description: string;
-  actionText?: string;
-  autoAdvanceOnClick?: boolean;
-}
-
-const TOUR_STEPS: TourStepDef[] = [
-  {
-    targetSelector: '[data-tour="up-next"]',
-    expectedRoute: '/dashboard',
-    title: "Start a Conversation",
-    description: "This is your child's next active learning episode. It adapts to their level and builds genuine speaking confidence. Tap it to see how a session works.",
-    actionText: "Tap the banner to continue",
-    autoAdvanceOnClick: true,
-  },
-  {
-    targetSelector: '[data-tour="end-call"]',
-    expectedRoute: '/session/1', // Will match any session if we do startsWith logic, but let's assume it routes to /session/...
-    title: "A Calm Voice Interface",
-    description: "No screen-staring. Just a gentle voice conversation, just like calling a friend. Tap the red button to safely end the session and return.",
-    actionText: "Tap to end session",
-    autoAdvanceOnClick: true,
-  },
-  {
-    targetSelector: '[data-tour="parent-nav"]',
-    expectedRoute: '/dashboard',
-    title: "The Parent's Eye",
-    description: "You're back! To track how they're doing and find offline activities, this is your dedicated portal. Let's go there now.",
-    actionText: "Tap to open Parents Dashboard",
-    autoAdvanceOnClick: true,
-  },
-  {
-    targetSelector: '[data-tour="activity-table"]',
-    expectedRoute: '/parent-dashboard',
-    title: "Track Genuine Growth",
-    description: "Here you can monitor their speaking consistency, accuracy, and recent cognitive milestones.",
-    actionText: "Finish Tour",
-    autoAdvanceOnClick: false,
-  }
-];
+import { usePathname, } from 'next/navigation';
 
 export function ContextualTour() {
-  const { profile, completeTour, tourStep, setTourStep } = useAppStore();
+  const { profile, completeTour } = useAppStore();
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
 
-  // We need to measure the target element to draw the spotlight
-  const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
-
+  // Mobile performance optimization: don't render until everything is settled
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setMounted(true);
+    // Only run on dashboard after a short delay so the main UI loads fast first
+    const timer = setTimeout(() => setMounted(true), 1000);
+    return () => clearTimeout(timer);
   }, []);
-
-  // Effect to find the target element and measure it
-  useEffect(() => {
-    if (!mounted || !profile || profile.hasCompletedTour) return;
-
-    const stepDef = TOUR_STEPS[tourStep];
-
-    // Only try to find elements if we are on the expected route
-    if (!pathname.startsWith(stepDef.expectedRoute)) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setTargetRect(null);
-      return;
-    }
-
-    const checkElement = () => {
-      const el = document.querySelector(stepDef.targetSelector);
-      if (el) {
-        const rect = el.getBoundingClientRect();
-        // Only update if it actually changed to prevent infinite loops
-        setTargetRect(prev => {
-           if (!prev) return rect;
-           if (Math.abs(prev.top - rect.top) > 5 || Math.abs(prev.height - rect.height) > 5) return rect;
-           return prev;
-        });
-      } else {
-        setTargetRect(null);
-      }
-    };
-
-    // Initial check
-    const timeout = setTimeout(checkElement, 1500); // Wait longer for full mobile render
-
-    // Listen for resizes or scrolls
-    window.addEventListener('resize', checkElement);
-    window.addEventListener('scroll', checkElement, { passive: true });
-
-    return () => {
-      clearTimeout(timeout);
-      window.removeEventListener('resize', checkElement);
-      window.removeEventListener('scroll', checkElement);
-    };
-  }, [tourStep, pathname, mounted, profile]);
-
-
-  // Effect to auto-advance if the route changes as expected
-  useEffect(() => {
-     if (!mounted || !profile || profile.hasCompletedTour) return;
-
-     const stepDef = TOUR_STEPS[tourStep];
-     // If we are currently NOT on the expected route for this step, it means we navigated away.
-     // Let's see if we landed on the NEXT step's route.
-     if (!pathname.startsWith(stepDef.expectedRoute)) {
-         const nextStepDef = TOUR_STEPS[tourStep + 1];
-         if (nextStepDef && pathname.startsWith(nextStepDef.expectedRoute)) {
-            setTourStep(tourStep + 1);
-         }
-     }
-  }, [pathname, tourStep, mounted, profile, setTourStep]);
-
 
   if (!mounted || !profile || profile.hasCompletedTour) return null;
 
-  const currentDef = TOUR_STEPS[tourStep];
-  const isCorrectRoute = pathname.startsWith(currentDef.expectedRoute);
+  // The tour logic is simplified:
+  // Step 0: Dashboard overview
+  // Step 1: Tell them to tap the first episode
+  // Once they tap an episode, the tour is permanently completed.
 
-  const handleNext = () => {
-    if (tourStep < TOUR_STEPS.length - 1) {
-      setTourStep(tourStep + 1);
-    } else {
-      completeTour();
-    }
-  };
+  const isDashboard = pathname === '/dashboard';
 
-  const handleSkip = () => {
+  if (!isDashboard) {
+      // If they navigated away while tour is active, complete it automatically to stop annoying them
+      setTimeout(() => completeTour(), 100);
+      return null;
+  }
+
+  const handleComplete = () => {
     completeTour();
   };
 
   return (
     <AnimatePresence>
-      <motion.div
-        key="contextual-tour"
-        className="fixed inset-0 z-[200] pointer-events-none"
-      >
-        {/* Soft Background Blur - We use an SVG mask to cut out the spotlight area if we have a target */}
-        <div className="absolute inset-0 bg-[#1A1817]/40 backdrop-blur-[3px] transition-all duration-700 pointer-events-none"
-             style={{}}
-        />
-
-        {/* Global Skip Button */}
-        <div className="absolute top-6 right-6 pointer-events-auto">
-          <button
-            onClick={handleSkip}
-            className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-full font-medium text-xs transition-colors backdrop-blur-md"
-          >
-             Skip Tour <X className="w-3.5 h-3.5" />
-          </button>
-        </div>
-
-        {/* Tooltip & Guidance */}
-        {targetRect && isCorrectRoute && (
+      {isDashboard && (
+        <motion.div
+          key="tour-overlay"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center p-4 bg-[#1A1817]/40 backdrop-blur-sm"
+        >
           <motion.div
-            initial={{ opacity: 0, y: 10, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="absolute pointer-events-auto"
-            style={{
-               // Position tooltip below the target element by default, but bounded to screen
-               top: Math.min(targetRect.bottom + 20, window.innerHeight - 250),
-               left: '50%',
-               transform: 'translateX(-50%)',
-               width: 'min(320px, 90vw)'
-            }}
+            initial={{ y: 50, scale: 0.95 }}
+            animate={{ y: 0, scale: 1 }}
+            className="bg-white/95 backdrop-blur-xl border border-white/20 p-6 sm:p-8 rounded-[32px] w-full max-w-sm shadow-2xl relative mb-20 sm:mb-0"
           >
-             {/* Animated Pointer pointing UP to the element */}
-             <motion.div
-               animate={{ y: [0, -8, 0] }}
-               transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-               className="absolute -top-12 left-1/2 -translate-x-1/2 flex justify-center text-white drop-shadow-xl"
+             <button
+                onClick={handleComplete}
+                className="absolute top-4 right-4 p-2 text-zinc-400 hover:text-zinc-600 bg-zinc-100 rounded-full"
              >
-                <MousePointer2 className="w-8 h-8 fill-white/20" />
-             </motion.div>
+                <X className="w-4 h-4" />
+             </button>
 
-             <div className="bg-white/95 backdrop-blur-xl border border-white/20 p-6 rounded-[28px] shadow-[0_24px_80px_rgba(0,0,0,0.15)] relative overflow-hidden">
-                <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#DDA359]/10 rounded-full blur-[30px] pointer-events-none" />
-
-                <h3 className="text-xl font-semibold text-zinc-900 mb-2 tracking-tight">{currentDef.title}</h3>
-                <p className="text-zinc-500 font-medium text-sm leading-relaxed mb-6">
-                  {currentDef.description}
-                </p>
-
-                <div className="flex items-center justify-between mt-2">
-                  <div className="flex gap-1.5">
-                    {TOUR_STEPS.map((_, idx) => (
-                      <div
-                        key={idx}
-                        className={`h-1.5 rounded-full transition-all duration-300 ${idx === tourStep ? 'w-5 bg-[#DDA359]' : 'w-1.5 bg-zinc-200'}`}
-                      />
-                    ))}
-                  </div>
-
-                  {!currentDef.autoAdvanceOnClick && (
-                    <motion.button
-                      whileTap={{ scale: 0.95 }}
-                      onClick={handleNext}
-                      className="px-5 py-2.5 bg-zinc-900 text-white rounded-xl font-medium text-sm hover:bg-zinc-800 transition-colors shadow-sm"
-                    >
-                      {currentDef.actionText}
-                    </motion.button>
-                  )}
-                  {currentDef.autoAdvanceOnClick && currentDef.actionText && (
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-[#DDA359]">
-                       {currentDef.actionText}
-                    </span>
-                  )}
-                </div>
+             <div className="w-12 h-12 bg-[#DDA359]/20 text-[#DDA359] rounded-full flex items-center justify-center mb-6">
+                <MousePointer2 className="w-6 h-6" />
              </div>
-          </motion.div>
-        )}
 
-      </motion.div>
+             <h3 className="text-2xl font-semibold text-zinc-900 mb-2 tracking-tight">Ready to start?</h3>
+             <p className="text-zinc-600 text-sm leading-relaxed mb-8">
+               Tap the first &quot;Up Next&quot; episode above to begin your child&apos;s immersive language journey. The session will guide them naturally.
+             </p>
+
+             <button
+               onClick={handleComplete}
+               className="w-full py-3.5 bg-zinc-900 text-white rounded-xl font-medium text-[15px] hover:bg-zinc-800 transition-colors shadow-sm"
+             >
+               Got it, let&apos;s go
+             </button>
+          </motion.div>
+        </motion.div>
+      )}
     </AnimatePresence>
   );
 }

@@ -32,7 +32,7 @@ export default function DemoSessionPage() {
 
         if (currentPhase === 'CONNECTION') {
           setCurrentPhase('PATTERN_DROP');
-          setSubtitle("Here at uNiMONDAY, my friends and I say 'Good morning' to each other in the morning. Let's try together. When I say 'Good morning', you answer 'Good morning to you too.' Ready? Good morning!");
+          setSubtitle("Here at uNiMONDAY, I'm Monday, and my friends and I say 'Good morning' to each other in the morning. Let's try together. When I say 'Good morning', you answer 'Good morning to you too.' Ready? Good morning!");
         }
         else if (currentPhase === 'PATTERN_DROP') {
            setCurrentPhase('REAL_CONVERSATION');

@@ -29,7 +29,7 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
 
     setTimeout(() => {
       setIsConnecting(false);
-      setSubtitle(`Welcome ${profile.name}. I see you want to learn ${profile.targetLanguage}. That is wonderful, ${profile.name}.`);
+      setSubtitle(`Welcome ${profile.name}. I'm Monday! I see you want to learn ${profile.targetLanguage}. That is wonderful, ${profile.name}.`);
     }, 3000);
   }, [session, profile, router]);
 
