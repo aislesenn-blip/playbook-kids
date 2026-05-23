@@ -10,9 +10,10 @@ A children’s language-learning university designed around 5-10 minutes per day
   - *Example*: "Good morning Ernest. Yesterday we practiced greetings. Today let's learn how to ask 'How are you?'"
 - **Redirection**: If a child goes off-topic, gently guides them back without aggression. (No hallucinations or breaking structure).
 
-## 3. The Curriculum Structure (Year 1 Roadmap)
+## 3. The Curriculum Structure (Year 1 Roadmap - 365 Days)
+We do not hardcode 365 distinct scripts. Instead, the backend relies on a **Procedural Spaced-Repetition Engine** combined with **Daily Generative Milestones**. The child simply taps "Up Next", and the backend dynamically assembles the daily prompt using their long-term memory profile.
 
-### Phase 1: Foundation (Weeks 1-4)
+### Phase 1: Foundation (Weeks 1-4 / Days 1-28)
 - **Goal**: Emotional safety, basic vocalization, and eliminating anxiety.
 - **Topics**: Greetings, Self-Introduction, Immediate Family, Simple Emotions, Yes/No concepts.
 - **Format**: High repetition, simple pattern drop & swap.
