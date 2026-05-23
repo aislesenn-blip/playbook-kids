@@ -15,10 +15,12 @@ export default function DemoSessionPage() {
   const [isVoiceActive, setIsVoiceActive] = useState(false);
   const [currentPhase, setCurrentPhase] = useState<Phase>('CONNECTION');
   const [subtitle, setSubtitle] = useState<string>("Establishing secure connection...");
+  const [emotion, setEmotion] = useState<'neutral' | 'happy' | 'thinking' | 'success'>('neutral');
 
   useEffect(() => {
     setTimeout(() => {
       setIsConnecting(false);
+      setEmotion('happy');
       setSubtitle("Welcome! I see you want to learn. That's amazing. Let's begin our first lesson.");
     }, 3000);
   }, []);
@@ -26,6 +28,7 @@ export default function DemoSessionPage() {
   const handleUserResponse = () => {
     setIsVoiceActive(false);
     setIsProcessing(true);
+    setEmotion('thinking');
     setSubtitle("Listening to your response...");
 
     setTimeout(() => {
@@ -33,14 +36,17 @@ export default function DemoSessionPage() {
 
         if (currentPhase === 'CONNECTION') {
           setCurrentPhase('PATTERN_DROP');
+          setEmotion('neutral');
           setSubtitle("Here at uNiMONDAY, I'm Monday, and my friends and I say 'Good morning' to each other in the morning. Let's try together. When I say 'Good morning', you answer 'Good morning to you too.' Ready? Good morning!");
         }
         else if (currentPhase === 'PATTERN_DROP') {
            setCurrentPhase('REAL_CONVERSATION');
+           setEmotion('happy');
            setSubtitle("Excellent job! You sounded very natural. Now, what is your favorite color?");
         }
         else if (currentPhase === 'REAL_CONVERSATION') {
            setCurrentPhase('COMPLETE');
+           setEmotion('success');
         }
     }, 2500);
   };
@@ -137,6 +143,7 @@ export default function DemoSessionPage() {
                  isListening={isVoiceActive}
                  isProcessing={isProcessing}
                  outfit="default"
+                 emotion={emotion}
               />
 
               <AnimatePresence>

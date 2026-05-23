@@ -20,6 +20,7 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
   const [currentPhase, setCurrentPhase] = useState<Phase>('CONNECTION');
   const [subtitle, setSubtitle] = useState<string>("Establishing connection...");
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes
+  const [emotion, setEmotion] = useState<'neutral' | 'happy' | 'thinking' | 'success'>('neutral');
 
   const session = episodes.find(s => s.id === resolvedParams.id);
 
@@ -66,6 +67,7 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
 
     setTimeout(() => {
       setIsConnecting(false);
+      setEmotion('happy');
       setSubtitle(`Welcome ${profile.name}. I'm Monday! I see you want to learn ${profile.targetLanguage}. That is wonderful, ${profile.name}.`);
     }, 3000);
   }, [session, profile, router]);
@@ -74,6 +76,7 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
     if (!profile) return;
     setIsVoiceActive(false);
     setIsProcessing(true);
+    setEmotion('thinking');
     setSubtitle("Listening carefully...");
 
     setTimeout(() => {
@@ -81,14 +84,17 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
 
         if (currentPhase === 'CONNECTION') {
           setCurrentPhase('PATTERN_DROP');
+          setEmotion('neutral');
           setSubtitle(`Let's practice for our topic: "${session?.title}". I will say the phrase, and then you try. Ready?`);
         }
         else if (currentPhase === 'PATTERN_DROP') {
            setCurrentPhase('REAL_CONVERSATION');
+           setEmotion('happy');
            setSubtitle(`Beautifully done, ${profile?.name}. You sound very confident. Let's have a short conversation about it now.`);
         }
         else if (currentPhase === 'REAL_CONVERSATION') {
            setCurrentPhase('COMPLETE');
+           setEmotion('success');
            // Trigger Dopamine Hit
            confetti({
              particleCount: 100,
@@ -210,6 +216,7 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
                  isListening={isVoiceActive}
                  isProcessing={isProcessing}
                  outfit={profile.currentOutfit || 'default'}
+                 emotion={emotion}
               />
 
               <AnimatePresence>

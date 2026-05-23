@@ -2,12 +2,14 @@
 import { useAppStore } from '@/lib/store/app-store';
 import { Play, Lock, ChevronRight, Star } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { ComingSoonToast } from '@/components/ui/ComingSoonToast';
 
 export default function Dashboard() {
   const { profile, episodes } = useAppStore();
   const router = useRouter();
+  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     if (!profile) {
@@ -82,7 +84,10 @@ export default function Dashboard() {
           >
              <div className="flex items-center justify-between mb-6 px-2">
                <h3 className="text-xl font-semibold text-zinc-900">{category.title}</h3>
-               <button className="flex items-center text-zinc-500 font-medium text-sm hover:text-zinc-900 transition-colors group">
+               <button
+                 onClick={() => setShowToast(true)}
+                 className="flex items-center text-zinc-500 font-medium text-sm hover:text-zinc-900 transition-colors group"
+               >
                  View all <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                </button>
              </div>
@@ -123,6 +128,8 @@ export default function Dashboard() {
         ))}
 
       </div>
+
+      <ComingSoonToast isVisible={showToast} onClose={() => setShowToast(false)} message="Library expansion coming in v2.0!" />
     </div>
   );
 }
