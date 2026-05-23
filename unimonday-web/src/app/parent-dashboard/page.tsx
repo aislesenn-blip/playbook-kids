@@ -151,7 +151,7 @@ export default function ParentDashboard() {
                </div>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-4" data-tour="activity-table">
               <h2 className="text-xl font-semibold text-zinc-900 px-2">Recent Sessions</h2>
               <div className="bg-white rounded-3xl border border-zinc-100 shadow-[0_4px_40px_rgba(0,0,0,0.02)] overflow-hidden">
                  <div className="overflow-x-auto w-full">

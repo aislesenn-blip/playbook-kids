@@ -7,6 +7,8 @@ interface AppState {
     setProfile: (profile: UserProfile) => void;
     updateProfile: (updates: Partial<UserProfile>) => void;
     completeTour: () => void;
+    tourStep: number;
+    setTourStep: (step: number) => void;
 
     episodes: Episode[];
     completeEpisode: (id: string, stars: number) => void;
@@ -29,6 +31,8 @@ export const useAppStore = create<AppState>()(
             updateProfile: (updates) => set((state) => ({
               profile: state.profile ? { ...state.profile, ...updates } : null
             })),
+            tourStep: 0,
+            setTourStep: (step) => set({ tourStep: step }),
             completeTour: () => set((state) => ({
               profile: state.profile ? { ...state.profile, hasCompletedTour: true } : null
             })),

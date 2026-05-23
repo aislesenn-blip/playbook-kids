@@ -52,6 +52,7 @@ export default function Dashboard() {
           animate={{ opacity: 1, y: 0 }}
           whileTap={{ scale: 0.98 }}
           transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+          data-tour="up-next"
           className="bg-white rounded-[2rem] p-8 shadow-[0_4px_40px_rgba(0,0,0,0.02)] border border-zinc-100 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden group hover:border-zinc-200 transition-colors cursor-pointer"
           onClick={() => router.push(`/session/${currentEpisode.id}`)}
         >
