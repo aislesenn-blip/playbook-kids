@@ -1,11 +1,13 @@
 "use client";
 import { useAppStore } from '@/lib/store/app-store';
-import { Flame, Crown, LogOut, Star } from 'lucide-react';
+import { Flame, Crown, LogOut, Star, Lock } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { MondayOutfit } from '@/types';
+import { MondayAvatar } from '@/components/ui/MondayAvatar';
 
 export default function ProfilePage() {
-  const { profile } = useAppStore();
+  const { profile, updateProfile } = useAppStore();
   const router = useRouter();
 
   useEffect(() => {
@@ -36,6 +38,51 @@ export default function ProfilePage() {
           <Star className="w-8 h-8 text-[#DDA359] mb-3" />
           <span className="text-2xl font-semibold text-zinc-900">{profile.points}</span>
           <span className="text-zinc-500 text-sm font-medium mt-1">Total XP</span>
+        </div>
+      </div>
+
+      {/* Monday's Wardrobe */}
+      <div className="mb-16">
+        <h2 className="text-xl font-semibold mb-6 text-zinc-900 flex items-center justify-between">
+          Monday&apos;s Wardrobe
+          {profile.subscriptionTier !== 'Pro' && (
+            <span className="text-xs font-medium text-orange-500 bg-orange-50 px-3 py-1 rounded-full flex items-center gap-1">
+              <Crown className="w-3 h-3" /> Pro Only
+            </span>
+          )}
+        </h2>
+
+        <div className="grid grid-cols-3 gap-4">
+          {(['default', 'astronaut', 'safari'] as MondayOutfit[]).map((outfit) => {
+            const isLocked = profile.subscriptionTier !== 'Pro' && outfit !== 'default';
+            const isActive = (profile.currentOutfit || 'default') === outfit;
+
+            return (
+              <button
+                key={outfit}
+                disabled={isLocked}
+                onClick={() => updateProfile({ currentOutfit: outfit })}
+                className={`relative flex flex-col items-center p-4 rounded-2xl border transition-all ${
+                  isActive
+                    ? 'bg-zinc-50 border-zinc-900 shadow-sm'
+                    : isLocked
+                      ? 'bg-zinc-50/50 border-zinc-100 opacity-60 cursor-not-allowed'
+                      : 'bg-white border-zinc-100 hover:border-zinc-300'
+                }`}
+              >
+                <div className="w-16 h-16 mb-3 relative pointer-events-none">
+                   <MondayAvatar isListening={false} isProcessing={false} outfit={outfit} />
+                </div>
+                <span className="text-sm font-medium text-zinc-900 capitalize">{outfit}</span>
+
+                {isLocked && (
+                  <div className="absolute top-2 right-2 text-zinc-400">
+                    <Lock className="w-4 h-4" />
+                  </div>
+                )}
+              </button>
+            );
+          })}
         </div>
       </div>
 

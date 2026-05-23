@@ -2,6 +2,8 @@ export type Language = 'English' | 'Spanish' | 'French' | 'Chinese' | 'German' |
 export type Level = 'Starter' | 'Beginner' | 'Elementary' | 'Intermediate';
 export type SubscriptionTier = 'Lite' | 'X' | 'Pro';
 
+export type MondayOutfit = 'default' | 'astronaut' | 'safari';
+
 export interface UserProfile {
     id: string;
     name: string;
@@ -17,6 +19,8 @@ export interface UserProfile {
     pronunciationAccuracy?: number;
     speakingConfidence?: 'Low' | 'Medium' | 'High';
     vocabRetention?: number;
+    currentOutfit?: MondayOutfit;
+    unlockedOutfits?: MondayOutfit[];
 }
 
 export interface DailyQuest {

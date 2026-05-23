@@ -26,9 +26,14 @@ export function ContextualTour() {
 
   const isDashboard = pathname === '/dashboard';
 
+  useEffect(() => {
+    // If they navigated away while tour is active, complete it automatically to stop annoying them
+    if (mounted && profile && !profile.hasCompletedTour && !isDashboard) {
+        completeTour();
+    }
+  }, [pathname, isDashboard, mounted, profile, completeTour]);
+
   if (!isDashboard) {
-      // If they navigated away while tour is active, complete it automatically to stop annoying them
-      setTimeout(() => completeTour(), 100);
       return null;
   }
 

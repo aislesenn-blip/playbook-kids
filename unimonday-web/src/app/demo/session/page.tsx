@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Mic, MicOff, PhoneOff, Loader2, CheckCircle2, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { MondayAvatar } from '@/components/ui/MondayAvatar';
 
 type Phase = 'CONNECTION' | 'PATTERN_DROP' | 'REAL_CONVERSATION' | 'COMPLETE';
 
@@ -126,23 +127,27 @@ export default function DemoSessionPage() {
            </AnimatePresence>
 
            <motion.div
-              animate={isVoiceActive ? { scale: 0.96 } : isProcessing ? { scale: [1, 1.02, 1] } : { scale: 1 }}
-              transition={isProcessing ? { repeat: Infinity, duration: 2, ease: "easeInOut" } : { duration: 0.3 }}
-              className="w-full h-full rounded-full overflow-hidden shadow-[0_8px_40px_rgba(0,0,0,0.2)] z-10 bg-[#24211E] border border-[#3A3530] relative flex items-center justify-center shrink-0"
+              animate={isVoiceActive ? { scale: 0.96 } : { scale: 1 }}
+              transition={{ duration: 0.3 }}
+              className="w-full h-full rounded-full shadow-[0_8px_40px_rgba(0,0,0,0.2)] z-10 bg-[#24211E] border border-[#3A3530] relative flex items-center justify-center shrink-0 overflow-hidden"
            >
-              <div className="absolute inset-0 rounded-full bg-gradient-to-b from-[#2A2724] to-[#1C1A17] flex items-center justify-center">
-                <div className={`w-1/2 h-1/2 rounded-full blur-[20px] transition-all duration-700 ${isVoiceActive ? 'bg-[#DDA359] opacity-40 scale-110' : 'bg-[#DDA359] opacity-20'}`} />
-              </div>
+              <div className="absolute inset-0 rounded-full bg-gradient-to-b from-[#2A2724] to-[#1C1A17]" />
+
+              <MondayAvatar
+                 isListening={isVoiceActive}
+                 isProcessing={isProcessing}
+                 outfit="default"
+              />
 
               <AnimatePresence>
-                {(isConnecting || isProcessing) && (
+                {isConnecting && (
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="absolute inset-0 z-20 bg-[#1C1A17]/60 backdrop-blur-md flex flex-col items-center justify-center rounded-full"
+                    className="absolute inset-0 z-40 bg-[#1C1A17]/80 backdrop-blur-sm flex flex-col items-center justify-center rounded-full"
                   >
-                    <Loader2 className="w-8 h-8 text-[#DDA359]/60 animate-spin" />
+                    <Loader2 className="w-8 h-8 text-[#DDA359] animate-spin" />
                   </motion.div>
                 )}
               </AnimatePresence>
