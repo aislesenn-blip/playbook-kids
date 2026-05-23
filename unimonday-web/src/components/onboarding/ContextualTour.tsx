@@ -91,7 +91,7 @@ export function ContextualTour() {
     };
 
     // Initial check
-    const timeout = setTimeout(checkElement, 500); // Wait for animations
+    const timeout = setTimeout(checkElement, 1500); // Wait longer for full mobile render
 
     // Listen for resizes or scrolls
     window.addEventListener('resize', checkElement);
@@ -146,10 +146,7 @@ export function ContextualTour() {
       >
         {/* Soft Background Blur - We use an SVG mask to cut out the spotlight area if we have a target */}
         <div className="absolute inset-0 bg-[#1A1817]/40 backdrop-blur-[3px] transition-all duration-700 pointer-events-none"
-             style={targetRect && isCorrectRoute ? {
-               maskImage: `radial-gradient(circle at ${targetRect.left + targetRect.width/2}px ${targetRect.top + targetRect.height/2}px, transparent ${Math.max(targetRect.width, targetRect.height)/2 + 20}px, black ${Math.max(targetRect.width, targetRect.height)/2 + 40}px)`,
-               WebkitMaskImage: `radial-gradient(circle at ${targetRect.left + targetRect.width/2}px ${targetRect.top + targetRect.height/2}px, transparent ${Math.max(targetRect.width, targetRect.height)/2 + 20}px, black ${Math.max(targetRect.width, targetRect.height)/2 + 40}px)`,
-             } : {}}
+             style={{}}
         />
 
         {/* Global Skip Button */}
@@ -170,10 +167,11 @@ export function ContextualTour() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="absolute pointer-events-auto"
             style={{
-               // Position tooltip below the target element by default
-               top: targetRect.bottom + 30,
-               left: Math.max(20, Math.min(window.innerWidth - 340, targetRect.left + (targetRect.width / 2) - 160)),
-               width: '320px'
+               // Position tooltip below the target element by default, but bounded to screen
+               top: Math.min(targetRect.bottom + 20, window.innerHeight - 250),
+               left: '50%',
+               transform: 'translateX(-50%)',
+               width: 'min(320px, 90vw)'
             }}
           >
              {/* Animated Pointer pointing UP to the element */}

@@ -18,30 +18,30 @@ export default function DemoSessionPage() {
   useEffect(() => {
     setTimeout(() => {
       setIsConnecting(false);
-      setSubtitle("Hello! I am your uNiMONDAY guide. Could you say hello?");
+      setSubtitle("Welcome! I see you want to learn. That's amazing. Let's begin our first lesson.");
     }, 3000);
   }, []);
 
   const handleUserResponse = () => {
     setIsVoiceActive(false);
     setIsProcessing(true);
-    setSubtitle("Listening...");
+    setSubtitle("Listening to your response...");
 
     setTimeout(() => {
         setIsProcessing(false);
 
         if (currentPhase === 'CONNECTION') {
           setCurrentPhase('PATTERN_DROP');
-          setSubtitle("Great job. Now, what is your favorite color?");
+          setSubtitle("Here at uNiMONDAY, my friends and I say 'Good morning' to each other in the morning. Let's try together. When I say 'Good morning', you answer 'Good morning to you too.' Ready? Good morning!");
         }
         else if (currentPhase === 'PATTERN_DROP') {
            setCurrentPhase('REAL_CONVERSATION');
-           setSubtitle("That is a wonderful color! You are doing amazing.");
+           setSubtitle("Excellent job! You sounded very natural. Now, what is your favorite color?");
         }
         else if (currentPhase === 'REAL_CONVERSATION') {
            setCurrentPhase('COMPLETE');
         }
-    }, 2000);
+    }, 2500);
   };
 
   const toggleVoice = () => {

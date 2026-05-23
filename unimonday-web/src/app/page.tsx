@@ -46,7 +46,7 @@ export default function LandingPage() {
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           className="text-lg md:text-xl text-zinc-500 font-medium max-w-2xl mb-12 leading-relaxed"
         >
-          A calm, voice-based ecosystem where your child naturally acquires fluency and confidence through daily conversational roleplay.
+          A calm, voice-based ecosystem where your child naturally acquires fluency and trust through daily conversational roleplay. No screens to stare at. Just immersive, structured learning.
         </motion.p>
 
         <motion.div
@@ -73,7 +73,7 @@ export default function LandingPage() {
               </div>
               <h3 className="text-xl font-semibold mb-3 text-zinc-900">Conversational Practice</h3>
               <p className="text-zinc-500 font-medium leading-relaxed">
-                 Children build spontaneous speaking habits rather than relying on passive listening.
+                 Children build spontaneous speaking habits and genuine confidence rather than relying on passive listening.
               </p>
            </div>
            <div className="bg-white p-8 rounded-3xl border border-zinc-100 shadow-[0_4px_40px_rgba(0,0,0,0.02)]">
@@ -82,7 +82,7 @@ export default function LandingPage() {
               </div>
               <h3 className="text-xl font-semibold mb-3 text-zinc-900">Parent Involvement</h3>
               <p className="text-zinc-500 font-medium leading-relaxed">
-                 Follow your child&#39;s cognitive milestones and engage with offline challenges.
+                 A transparent system to track real fluency growth and engage with offline connection challenges.
               </p>
            </div>
            <div className="bg-white p-8 rounded-3xl border border-zinc-100 shadow-[0_4px_40px_rgba(0,0,0,0.02)]">
@@ -91,7 +91,7 @@ export default function LandingPage() {
               </div>
               <h3 className="text-xl font-semibold mb-3 text-zinc-900">Anxiety-Free Space</h3>
               <p className="text-zinc-500 font-medium leading-relaxed">
-                 A positive environment where making mistakes is just part of the learning journey.
+                 A warm, patient AI companion that feels human, ensuring your child loves returning every day.
               </p>
            </div>
         </div>
