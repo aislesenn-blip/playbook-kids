@@ -23,34 +23,40 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
 
   const session = episodes.find(s => s.id === resolvedParams.id);
 
-  // Pure Timer Countdown Effect
+  // Timer Countdown Effect
   useEffect(() => {
     if (isConnecting || currentPhase === 'COMPLETE' || timeLeft <= 0) return;
 
     const timer = setInterval(() => {
-      setTimeLeft((prev) => Math.max(0, prev - 1));
+      setTimeLeft((prev) => {
+        const nextTime = Math.max(0, prev - 1);
+
+        // Handle side-effects inside the interval tick, NOT inside the state updater.
+        // We use setTimeout to push these state updates to the next tick of the event loop,
+        // safely avoiding Next.js "cascading render" warnings during the current render phase.
+        if (nextTime === 30) {
+           setTimeout(() => {
+             setIsVoiceActive(false);
+             setSubtitle("We have 30 seconds left! Let's wrap up our amazing session today.");
+           }, 0);
+        } else if (nextTime === 0) {
+           setTimeout(() => {
+             setCurrentPhase('COMPLETE');
+             confetti({
+               particleCount: 100,
+               spread: 70,
+               origin: { y: 0.6 },
+               colors: ['#DDA359', '#FFFFFF', '#FF6B6B']
+             });
+           }, 0);
+        }
+
+        return nextTime;
+      });
     }, 1000);
 
     return () => clearInterval(timer);
   }, [isConnecting, currentPhase, timeLeft]);
-
-  // Observer Effect for Timer Thresholds
-  useEffect(() => {
-     if (isConnecting || currentPhase === 'COMPLETE') return;
-
-     if (timeLeft === 30) {
-        setIsVoiceActive(false);
-        setSubtitle("We have 30 seconds left! Let's wrap up our amazing session today.");
-     } else if (timeLeft === 0) {
-        setCurrentPhase('COMPLETE');
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 },
-          colors: ['#DDA359', '#FFFFFF', '#FF6B6B']
-        });
-     }
-  }, [timeLeft, isConnecting, currentPhase]);
 
   useEffect(() => {
     if (!session || !profile) {
