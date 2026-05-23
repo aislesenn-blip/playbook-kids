@@ -36,8 +36,15 @@ OUTPUT FORMAT:
 `,
 
 
-  // Used dynamically based on the curriculum roadmap
-  GENERATE_EPISODE_CONTEXT: (childName: string, nativeLang: string, targetLang: string, level: string, pastLessons: string[], currentTopic: string) => `
+  // Used dynamically based on the curriculum roadmap to lock Monday into a specific lesson
+  GENERATE_EPISODE_CONTEXT: (
+    childName: string,
+    nativeLang: string,
+    targetLang: string,
+    level: string,
+    pastLessons: string[],
+    currentEpisode: { title: string; description: string; type: string }
+  ) => `
 STUDENT CONTEXT:
 Name: ${childName}
 Native Language: ${nativeLang}
@@ -45,8 +52,14 @@ Target Language: ${targetLang}
 Level: ${level}
 Recently Mastered: ${pastLessons.join(', ')}
 
-CURRENT LESSON:
-Topic: ${currentTopic}
-Goal: Teach spontaneous pattern usage, not just passive listening. Keep it under 5 minutes.
+CURRENT SPECIFIC LESSON TO TEACH:
+Topic: ${currentEpisode.title}
+Goal: ${currentEpisode.description}
+Lesson Style: ${currentEpisode.type.toUpperCase()} (e.g., STORY, ROLEPLAY, VOCABULARY, CHALLENGE)
+
+STRICT INSTRUCTION:
+You MUST ONLY teach the concept defined in the CURRENT SPECIFIC LESSON TO TEACH above.
+Do NOT randomly teach numbers if the topic is "My Feelings". Do NOT randomly teach food if the topic is "Greetings".
+Adapt the 3-Phase structure to fit this exact topic. Keep the session under 5 minutes.
 `
 };

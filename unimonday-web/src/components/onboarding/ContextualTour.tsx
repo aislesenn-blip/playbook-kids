@@ -10,6 +10,8 @@ export function ContextualTour() {
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
 
+  const isDashboard = pathname === '/dashboard';
+
   // Mobile performance optimization: don't render until everything is settled
   useEffect(() => {
     // Only run on dashboard after a short delay so the main UI loads fast first
@@ -17,18 +19,14 @@ export function ContextualTour() {
     return () => clearTimeout(timer);
   }, []);
 
-  if (!mounted || !profile || profile.hasCompletedTour) return null;
+  useEffect(() => {
+    // If they navigated away while tour is active, complete it automatically to stop annoying them
+    if (mounted && profile && !profile.hasCompletedTour && !isDashboard) {
+        completeTour();
+    }
+  }, [pathname, isDashboard, mounted, profile, completeTour]);
 
-  // The tour logic is simplified:
-  // Step 0: Dashboard overview
-  // Step 1: Tell them to tap the first episode
-  // Once they tap an episode, the tour is permanently completed.
-
-  const isDashboard = pathname === '/dashboard';
-
-  if (!isDashboard) {
-      // If they navigated away while tour is active, complete it automatically to stop annoying them
-      setTimeout(() => completeTour(), 100);
+  if (!mounted || !profile || profile.hasCompletedTour || !isDashboard) {
       return null;
   }
 

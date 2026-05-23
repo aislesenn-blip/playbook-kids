@@ -29,9 +29,6 @@ export default function ParentDashboard() {
 
   if (!profile) return null;
 
-  const totalXP = profile.points;
-  const totalTimeSpent = 45; // minutes mock
-  const averageAccuracy = 92; // percent mock
   const currentFocus = "Active spontaneous recall of greetings";
 
   const recentActivities = [

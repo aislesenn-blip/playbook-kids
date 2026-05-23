@@ -5,6 +5,7 @@ import { useEffect, useState, use } from 'react';
 import { Mic, MicOff, PhoneOff, ArrowRight, Loader2, CheckCircle2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
+import { MondayAvatar } from '@/components/ui/MondayAvatar';
 
 type Phase = 'CONNECTION' | 'PATTERN_DROP' | 'REAL_CONVERSATION' | 'COMPLETE';
 
@@ -18,8 +19,38 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
   const [isVoiceActive, setIsVoiceActive] = useState(false);
   const [currentPhase, setCurrentPhase] = useState<Phase>('CONNECTION');
   const [subtitle, setSubtitle] = useState<string>("Establishing connection...");
+  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes
 
   const session = episodes.find(s => s.id === resolvedParams.id);
+
+  // Pure Timer Countdown Effect
+  useEffect(() => {
+    if (isConnecting || currentPhase === 'COMPLETE' || timeLeft <= 0) return;
+
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => Math.max(0, prev - 1));
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [isConnecting, currentPhase, timeLeft]);
+
+  // Observer Effect for Timer Thresholds
+  useEffect(() => {
+     if (isConnecting || currentPhase === 'COMPLETE') return;
+
+     if (timeLeft === 30) {
+        setIsVoiceActive(false);
+        setSubtitle("We have 30 seconds left! Let's wrap up our amazing session today.");
+     } else if (timeLeft === 0) {
+        setCurrentPhase('COMPLETE');
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#DDA359', '#FFFFFF', '#FF6B6B']
+        });
+     }
+  }, [timeLeft, isConnecting, currentPhase]);
 
   useEffect(() => {
     if (!session || !profile) {
@@ -118,7 +149,7 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
 
       {/* Top Header */}
       <div className="w-full h-24 flex items-center justify-between p-6 z-10 shrink-0">
-        <div className="w-16" /> {/* Spacer */}
+        <div className="w-20" /> {/* Spacer */}
         <div className="flex flex-col items-center">
           <motion.div
             initial={{ opacity: 0, y: -10 }}
@@ -130,7 +161,13 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
           </motion.div>
           <h2 className="text-[#F4F0EB] font-medium text-[17px]">{session.title}</h2>
         </div>
-        <div className="w-16" /> {/* Spacer */}
+
+        {/* Timer UI */}
+        <div className="w-20 flex justify-end">
+          <div className={`px-3 py-1 rounded-full text-xs font-medium border ${timeLeft <= 30 ? 'bg-[#FF6B6B]/10 text-[#FF6B6B] border-[#FF6B6B]/20 animate-pulse' : 'bg-[#2A2724] text-[#A8A39D] border-[#3A3530]'}`}>
+            {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
+          </div>
+        </div>
       </div>
 
       {/* Center Avatar / Orb Area */}
@@ -155,27 +192,29 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
              )}
            </AnimatePresence>
 
-           {/* The Orb / Minimal Avatar */}
+           {/* Monday Avatar */}
            <motion.div
-              animate={isVoiceActive ? { scale: 0.96 } : isProcessing ? { scale: [1, 1.02, 1] } : { scale: 1 }}
-              transition={isProcessing ? { repeat: Infinity, duration: 2, ease: "easeInOut" } : { duration: 0.3 }}
-              className="w-full h-full rounded-full overflow-hidden shadow-[0_8px_40px_rgba(0,0,0,0.2)] z-10 bg-[#1C1A18] border border-[#2C2926] relative flex items-center justify-center shrink-0"
+              animate={isVoiceActive ? { scale: 0.96 } : { scale: 1 }}
+              transition={{ duration: 0.3 }}
+              className="w-full h-full rounded-full shadow-[0_8px_40px_rgba(0,0,0,0.2)] z-10 bg-[#1C1A18] border border-[#2C2926] relative flex items-center justify-center shrink-0 overflow-hidden"
            >
-              <div className="absolute inset-0 rounded-full bg-gradient-to-b from-[#2A2724] to-[#1C1A17] flex items-center justify-center">
-                {/* Inner soft core */}
-                <div className={`w-1/2 h-1/2 rounded-full blur-[20px] transition-all duration-700 ${isVoiceActive ? 'bg-[#DDA359] opacity-40 scale-110' : 'bg-[#DDA359] opacity-20'}`} />
-              </div>
+              <div className="absolute inset-0 rounded-full bg-gradient-to-b from-[#2A2724] to-[#1C1A17]" />
 
-              {/* Spinner Overlay during connection or processing */}
+              <MondayAvatar
+                 isListening={isVoiceActive}
+                 isProcessing={isProcessing}
+                 outfit={profile.currentOutfit || 'default'}
+              />
+
               <AnimatePresence>
-                {(isConnecting || isProcessing) && (
+                {isConnecting && (
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="absolute inset-0 z-20 bg-[#1C1A17]/60 backdrop-blur-md flex flex-col items-center justify-center rounded-full"
+                    className="absolute inset-0 z-40 bg-[#1C1A17]/80 backdrop-blur-sm flex flex-col items-center justify-center rounded-full"
                   >
-                    <Loader2 className="w-8 h-8 text-[#DDA359]/60 animate-spin" />
+                    <Loader2 className="w-8 h-8 text-[#DDA359] animate-spin" />
                   </motion.div>
                 )}
               </AnimatePresence>

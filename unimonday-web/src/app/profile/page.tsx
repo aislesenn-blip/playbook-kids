@@ -1,11 +1,14 @@
 "use client";
 import { useAppStore } from '@/lib/store/app-store';
-import { Flame, Crown, LogOut, Star } from 'lucide-react';
+import { Flame, Crown, LogOut, Star, Lock } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import Image from 'next/image';
+import { MondayOutfit } from '@/types';
+import { MondayAvatar } from '@/components/ui/MondayAvatar';
 
 export default function ProfilePage() {
-  const { profile } = useAppStore();
+  const { profile, updateProfile } = useAppStore();
   const router = useRouter();
 
   useEffect(() => {
@@ -18,8 +21,8 @@ export default function ProfilePage() {
     <div className="w-full max-w-2xl mx-auto px-4 py-12">
       {/* Header Profile */}
       <div className="flex flex-col items-center mb-16">
-        <div className="w-24 h-24 rounded-full bg-zinc-100 overflow-hidden mb-6 border border-zinc-200 shadow-[0_4px_40px_rgba(0,0,0,0.04)]">
-           <img src={profile.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.name}`} alt={profile.name} className="w-full h-full object-cover" />
+        <div className="w-24 h-24 rounded-full bg-zinc-100 overflow-hidden relative mb-6 border border-zinc-200 shadow-[0_4px_40px_rgba(0,0,0,0.04)]">
+           <Image src={profile.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.name}`} alt={profile.name} fill className="object-cover" unoptimized />
         </div>
         <h1 className="text-3xl font-semibold mb-2 text-zinc-900 tracking-tight">{profile.name}</h1>
         <p className="text-zinc-500 font-medium">{profile.targetLanguage} • {profile.level}</p>
@@ -36,6 +39,51 @@ export default function ProfilePage() {
           <Star className="w-8 h-8 text-[#DDA359] mb-3" />
           <span className="text-2xl font-semibold text-zinc-900">{profile.points}</span>
           <span className="text-zinc-500 text-sm font-medium mt-1">Total XP</span>
+        </div>
+      </div>
+
+      {/* Monday's Wardrobe */}
+      <div className="mb-16">
+        <h2 className="text-xl font-semibold mb-6 text-zinc-900 flex items-center justify-between">
+          Monday&apos;s Wardrobe
+          {profile.subscriptionTier !== 'Pro' && (
+            <span className="text-xs font-medium text-orange-500 bg-orange-50 px-3 py-1 rounded-full flex items-center gap-1">
+              <Crown className="w-3 h-3" /> Pro Only
+            </span>
+          )}
+        </h2>
+
+        <div className="grid grid-cols-3 gap-4">
+          {(['default', 'astronaut', 'safari'] as MondayOutfit[]).map((outfit) => {
+            const isLocked = profile.subscriptionTier !== 'Pro' && outfit !== 'default';
+            const isActive = (profile.currentOutfit || 'default') === outfit;
+
+            return (
+              <button
+                key={outfit}
+                disabled={isLocked}
+                onClick={() => updateProfile({ currentOutfit: outfit })}
+                className={`relative flex flex-col items-center p-4 rounded-2xl border transition-all ${
+                  isActive
+                    ? 'bg-zinc-50 border-zinc-900 shadow-sm'
+                    : isLocked
+                      ? 'bg-zinc-50/50 border-zinc-100 opacity-60 cursor-not-allowed'
+                      : 'bg-white border-zinc-100 hover:border-zinc-300'
+                }`}
+              >
+                <div className="w-16 h-16 mb-3 relative pointer-events-none">
+                   <MondayAvatar isListening={false} isProcessing={false} outfit={outfit} />
+                </div>
+                <span className="text-sm font-medium text-zinc-900 capitalize">{outfit}</span>
+
+                {isLocked && (
+                  <div className="absolute top-2 right-2 text-zinc-400">
+                    <Lock className="w-4 h-4" />
+                  </div>
+                )}
+              </button>
+            );
+          })}
         </div>
       </div>
 
