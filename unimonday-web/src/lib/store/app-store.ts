@@ -37,17 +37,17 @@ export const useAppStore = create<AppState>()(
               profile: state.profile ? { ...state.profile, hasCompletedTour: true } : null
             })),
 
-            episodes: [
-                { id: '1', title: 'The Greetings Forest', description: 'Practice saying hello and introducing yourself.', isLocked: false, isCompleted: false, stars: 0, type: 'story' },
-                { id: '2', title: 'Family Tree', description: 'Meet the characters and their families.', isLocked: true, isCompleted: false, stars: 0, type: 'vocabulary' },
-                { id: '3', title: 'Color Carnival', description: 'Explore the vibrant colors of the festival.', isLocked: true, isCompleted: false, stars: 0, type: 'roleplay' },
-                { id: '4', title: 'Number Quest', description: 'Count the missing stars to unlock the chest.', isLocked: true, isCompleted: false, stars: 0, type: 'challenge' },
-                { id: '5', title: 'Animal Friends', description: 'Learn animal names and their sounds.', isLocked: true, isCompleted: false, stars: 0, type: 'story' },
-                { id: '6', title: 'The Fruit Market', description: 'Learn how to ask for your favorite fruit.', isLocked: true, isCompleted: false, stars: 0, type: 'roleplay' },
-                { id: '7', title: 'Playground Games', description: 'Ask friends to play hide and seek.', isLocked: true, isCompleted: false, stars: 0, type: 'roleplay' },
-                { id: '8', title: 'My Favorite Toy', description: 'Talk about the toys you love.', isLocked: true, isCompleted: false, stars: 0, type: 'roleplay' },
-                { id: '9', title: 'The School Bus', description: 'School vocabulary adventure.', isLocked: true, isCompleted: false, stars: 0, type: 'challenge' },
-                { id: '10', title: 'Bedtime Stories', description: 'Goodnight and sweet dreams.', isLocked: true, isCompleted: false, stars: 0, type: 'roleplay' },
+                        episodes: [
+                { id: '1', title: 'The First Hello', description: 'Practice saying hello and introducing yourself naturally.', isLocked: false, isCompleted: false, stars: 0, type: 'story' },
+                { id: '2', title: 'How Are You Today?', description: 'Learn to express simple feelings and ask how others are doing.', isLocked: true, isCompleted: false, stars: 0, type: 'roleplay' },
+                { id: '3', title: 'Meet My Family', description: 'Introduce the people you love using simple connecting words.', isLocked: true, isCompleted: false, stars: 0, type: 'vocabulary' },
+                { id: '4', title: 'Yes, Please!', description: 'Learn the polite magic words for agreeing and accepting things.', isLocked: true, isCompleted: false, stars: 0, type: 'roleplay' },
+                { id: '5', title: 'My Favorite Color', description: 'Describe the world around you by sharing what colors you like.', isLocked: true, isCompleted: false, stars: 0, type: 'story' },
+                { id: '6', title: 'Counting Stars', description: 'Practice numbers 1-5 in a calm, night-time story setting.', isLocked: true, isCompleted: false, stars: 0, type: 'challenge' },
+                { id: '7', title: 'Morning Routine', description: 'Talk about waking up and getting ready for the day.', isLocked: true, isCompleted: false, stars: 0, type: 'roleplay' },
+                { id: '8', title: 'The Fruit Market', description: 'Ask for your favorite fruit using "I would like".', isLocked: true, isCompleted: false, stars: 0, type: 'roleplay' },
+                { id: '9', title: 'Animal Sounds', description: 'A fun game matching animals to the sounds they make.', isLocked: true, isCompleted: false, stars: 0, type: 'vocabulary' },
+                { id: '10', title: 'Sweet Dreams', description: 'Saying goodnight and wishing well before sleep.', isLocked: true, isCompleted: false, stars: 0, type: 'story' },
             ],
 
             dailyQuests: [

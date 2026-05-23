@@ -89,11 +89,11 @@ export default function ParentDashboard() {
               <div className="w-10 h-10 rounded-xl bg-zinc-50 flex items-center justify-center border border-zinc-100">
                 <Clock className="w-5 h-5 text-zinc-600" />
               </div>
-              <h3 className="font-semibold text-zinc-500 uppercase text-xs tracking-wider">Speaking Time</h3>
+              <h3 className="font-semibold text-zinc-500 uppercase text-xs tracking-wider">Speaking Confidence</h3>
             </div>
             <div className="flex items-baseline gap-2">
-              <span className="text-3xl font-semibold text-zinc-900">{totalTimeSpent}</span>
-              <span className="text-zinc-500 font-medium text-sm">Mins</span>
+              <span className="text-3xl font-semibold text-zinc-900">{totalTimeSpent}%</span>
+              <span className="text-zinc-500 font-medium text-sm">Growth</span>
             </div>
           </motion.div>
 
@@ -102,11 +102,11 @@ export default function ParentDashboard() {
               <div className="w-10 h-10 rounded-xl bg-zinc-50 flex items-center justify-center border border-zinc-100">
                 <BarChart3 className="w-5 h-5 text-zinc-600" />
               </div>
-              <h3 className="font-semibold text-zinc-500 uppercase text-xs tracking-wider">Pronunciation</h3>
+              <h3 className="font-semibold text-zinc-500 uppercase text-xs tracking-wider">Vocab Retention</h3>
             </div>
             <div className="flex items-baseline gap-2">
               <span className="text-3xl font-semibold text-zinc-900">{averageAccuracy}%</span>
-              <span className="text-zinc-500 font-medium text-sm">Accuracy</span>
+              <span className="text-zinc-500 font-medium text-sm">Recalled</span>
             </div>
           </motion.div>
         </div>

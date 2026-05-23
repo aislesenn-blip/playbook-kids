@@ -37,7 +37,7 @@ export default function LandingPage() {
           transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
           className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-zinc-900 max-w-4xl mb-6 leading-tight"
         >
-          A gentle space for young minds <br className="hidden md:block"/> to build language confidence.
+          A children&#39;s language-learning university <br className="hidden md:block"/> designed around just 5 minutes a day.
         </motion.h1>
 
         <motion.p
@@ -46,7 +46,7 @@ export default function LandingPage() {
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           className="text-lg md:text-xl text-zinc-500 font-medium max-w-2xl mb-12 leading-relaxed"
         >
-          uNiMONDAY provides a calm, interactive environment where children practice conversational language at their own pace.
+          A calm, voice-based ecosystem where your child naturally acquires fluency and confidence through daily conversational roleplay.
         </motion.p>
 
         <motion.div

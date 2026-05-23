@@ -28,7 +28,7 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
 
     setTimeout(() => {
       setIsConnecting(false);
-      setSubtitle(`Hello ${profile.name}. Let's begin practicing ${profile.targetLanguage}.`);
+      setSubtitle(`Welcome ${profile.name}. I see you want to learn ${profile.targetLanguage}. That is wonderful, ${profile.name}.`);
     }, 3000);
   }, [session, profile, router]);
 
@@ -43,11 +43,11 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
 
         if (currentPhase === 'CONNECTION') {
           setCurrentPhase('PATTERN_DROP');
-          setSubtitle(`Good. Now, try asking a question related to this context.`);
+          setSubtitle(`Here we say 'Good morning' to start the day. Let's try together. Say: 'Good morning to you too.'`);
         }
         else if (currentPhase === 'PATTERN_DROP') {
            setCurrentPhase('REAL_CONVERSATION');
-           setSubtitle(`Excellent pronunciation. Let's continue the dialogue naturally.`);
+           setSubtitle(`Beautifully done, ${profile?.name}. Good morning! Now, how are you feeling today?`);
         }
         else if (currentPhase === 'REAL_CONVERSATION') {
            setCurrentPhase('COMPLETE');
