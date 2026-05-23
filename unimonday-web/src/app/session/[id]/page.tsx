@@ -23,24 +23,25 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
 
   const session = episodes.find(s => s.id === resolvedParams.id);
 
-  // Timer Countdown Effect
+  // Pure Timer Countdown Effect
   useEffect(() => {
     if (isConnecting || currentPhase === 'COMPLETE' || timeLeft <= 0) return;
 
     const timer = setInterval(() => {
-      setTimeLeft((prev) => prev - 1);
+      setTimeLeft((prev) => Math.max(0, prev - 1));
     }, 1000);
 
     return () => clearInterval(timer);
   }, [isConnecting, currentPhase, timeLeft]);
 
-  // Timer Side-Effects Observer
+  // Observer Effect for Timer Thresholds
   useEffect(() => {
+     if (isConnecting || currentPhase === 'COMPLETE') return;
+
      if (timeLeft === 30) {
-        // Graceful wrap up warning
         setIsVoiceActive(false);
         setSubtitle("We have 30 seconds left! Let's wrap up our amazing session today.");
-     } else if (timeLeft === 0 && currentPhase !== 'COMPLETE') {
+     } else if (timeLeft === 0) {
         setCurrentPhase('COMPLETE');
         confetti({
           particleCount: 100,
@@ -49,7 +50,7 @@ export default function SessionPage({ params }: { params: Promise<{ id: string }
           colors: ['#DDA359', '#FFFFFF', '#FF6B6B']
         });
      }
-  }, [timeLeft, currentPhase]);
+  }, [timeLeft, isConnecting, currentPhase]);
 
   useEffect(() => {
     if (!session || !profile) {

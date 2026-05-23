@@ -3,6 +3,7 @@ import { useAppStore } from '@/lib/store/app-store';
 import { Flame, Crown, LogOut, Star, Lock } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import Image from 'next/image';
 import { MondayOutfit } from '@/types';
 import { MondayAvatar } from '@/components/ui/MondayAvatar';
 
@@ -20,8 +21,8 @@ export default function ProfilePage() {
     <div className="w-full max-w-2xl mx-auto px-4 py-12">
       {/* Header Profile */}
       <div className="flex flex-col items-center mb-16">
-        <div className="w-24 h-24 rounded-full bg-zinc-100 overflow-hidden mb-6 border border-zinc-200 shadow-[0_4px_40px_rgba(0,0,0,0.04)]">
-           <img src={profile.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.name}`} alt={profile.name} className="w-full h-full object-cover" />
+        <div className="w-24 h-24 rounded-full bg-zinc-100 overflow-hidden relative mb-6 border border-zinc-200 shadow-[0_4px_40px_rgba(0,0,0,0.04)]">
+           <Image src={profile.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile.name}`} alt={profile.name} fill className="object-cover" unoptimized />
         </div>
         <h1 className="text-3xl font-semibold mb-2 text-zinc-900 tracking-tight">{profile.name}</h1>
         <p className="text-zinc-500 font-medium">{profile.targetLanguage} • {profile.level}</p>
