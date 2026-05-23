@@ -1,4 +1,4 @@
-export type Language = 'English' | 'Spanish' | 'French' | 'Chinese' | 'German' | 'Swahili';
+export type Language = 'English' | 'Spanish' | 'French' | 'Chinese' | 'German' | 'Swahili' | 'Japanese' | 'Arabic' | 'Italian' | 'Dutch' | 'Portuguese' | 'Swedish' | 'Turkish' | 'Mandarin';
 export type Level = 'Starter' | 'Beginner' | 'Elementary' | 'Intermediate';
 export type SubscriptionTier = 'Lite' | 'X' | 'Pro';
 

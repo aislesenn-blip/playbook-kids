@@ -27,6 +27,12 @@ export default function OnboardingPage() {
     level: '',
   });
 
+  const AVAILABLE_LANGUAGES = [
+    'English', 'Spanish', 'French', 'Chinese', 'German',
+    'Swahili', 'Japanese', 'Arabic', 'Italian', 'Dutch',
+    'Portuguese', 'Swedish', 'Turkish', 'Mandarin'
+  ];
+
   const handleNext = () => {
     if (step < TOTAL_STEPS) {
       setStep(step + 1);
@@ -120,20 +126,20 @@ export default function OnboardingPage() {
           )}
 
           {step === 2 && (
-            <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-8">
-               <div className="text-center">
+            <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-6">
+               <div className="text-center mb-4">
                 <h2 className="text-3xl font-semibold mb-3 text-zinc-900 tracking-tight">What is their native language?</h2>
                 <p className="text-zinc-500 font-medium">Used to provide clearer translations and context.</p>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {['English', 'Spanish', 'French', 'Chinese', 'German', 'Swahili'].map(lang => (
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 h-[40vh] sm:h-auto overflow-y-auto pr-2 pb-2">
+                {AVAILABLE_LANGUAGES.map(lang => (
                    <motion.button
                     key={lang}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setForm({...form, nativeLanguage: lang as Language})}
-                    className={`p-5 rounded-2xl border transition-all ${form.nativeLanguage === lang ? 'border-zinc-900 bg-zinc-900 text-white' : 'border-zinc-200 bg-white text-zinc-700 hover:border-zinc-300'}`}
+                    className={`p-4 rounded-2xl border transition-all text-left flex items-center justify-between ${form.nativeLanguage === lang ? 'border-zinc-900 bg-zinc-900 text-white shadow-md' : 'border-zinc-200 bg-white text-zinc-700 hover:border-zinc-300 shadow-sm'}`}
                   >
-                    <span className="text-lg font-medium">{lang}</span>
+                    <span className="text-[15px] font-medium">{lang}</span>
                   </motion.button>
                 ))}
               </div>
@@ -141,22 +147,22 @@ export default function OnboardingPage() {
           )}
 
           {step === 3 && (
-            <motion.div key="step3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-8">
-               <div className="text-center">
+            <motion.div key="step3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="flex flex-col gap-6">
+               <div className="text-center mb-4">
                 <h2 className="text-3xl font-semibold mb-3 text-zinc-900 tracking-tight">What language should they learn?</h2>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {['English', 'Spanish', 'French', 'Chinese', 'German', 'Swahili'].map(lang => (
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 h-[40vh] sm:h-auto overflow-y-auto pr-2 pb-2">
+                {AVAILABLE_LANGUAGES.map(lang => (
                    <motion.button
                     key={lang}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setForm({...form, targetLanguage: lang as Language})}
                     disabled={lang === form.nativeLanguage}
-                    className={`p-5 rounded-2xl border transition-all ${
+                    className={`p-4 rounded-2xl border transition-all text-left flex items-center justify-between ${
                       lang === form.nativeLanguage ? 'opacity-40 cursor-not-allowed bg-zinc-50 border-zinc-100 text-zinc-400' :
-                      form.targetLanguage === lang ? 'border-zinc-900 bg-zinc-900 text-white' : 'border-zinc-200 bg-white text-zinc-700 hover:border-zinc-300'}`}
+                      form.targetLanguage === lang ? 'border-zinc-900 bg-zinc-900 text-white shadow-md' : 'border-zinc-200 bg-white text-zinc-700 hover:border-zinc-300 shadow-sm'}`}
                   >
-                    <span className="text-lg font-medium">{lang}</span>
+                    <span className="text-[15px] font-medium">{lang}</span>
                   </motion.button>
                 ))}
               </div>

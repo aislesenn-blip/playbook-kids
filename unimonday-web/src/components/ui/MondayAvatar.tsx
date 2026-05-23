@@ -4,9 +4,10 @@ interface MondayAvatarProps {
   isListening: boolean;
   isProcessing: boolean;
   outfit?: string;
+  emotion?: 'neutral' | 'happy' | 'thinking' | 'success';
 }
 
-export function MondayAvatar({ isListening, isProcessing, outfit = 'default' }: MondayAvatarProps) {
+export function MondayAvatar({ isListening, isProcessing, outfit = 'default', emotion = 'neutral' }: MondayAvatarProps) {
   // A clean, stylized vector representation of Monday (the cat)
   // that reacts to state changes
 
@@ -20,15 +21,17 @@ export function MondayAvatar({ isListening, isProcessing, outfit = 'default' }: 
 
   return (
     <div className="relative w-full h-full flex items-center justify-center">
-      {/* Head */}
+      {/* Head & Body Wrapper for bounce illusion */}
       <motion.div
         animate={{
-           scale: isListening ? 1.05 : 1,
-           y: isProcessing ? [-2, 2, -2] : 0
+           scale: isListening ? 1.05 : emotion === 'success' ? [1, 1.1, 1] : 1,
+           y: isProcessing ? [-2, 2, -2] : emotion === 'success' ? [-10, 0, -10, 0] : emotion === 'thinking' ? [0, -5, 0] : 0,
+           rotate: emotion === 'thinking' ? [0, 5, -5, 0] : 0
         }}
         transition={{
            scale: { type: "spring", stiffness: 300, damping: 20 },
-           y: { repeat: Infinity, duration: 2, ease: "easeInOut" }
+           y: isProcessing ? { repeat: Infinity, duration: 2, ease: "easeInOut" } : { duration: 0.6 },
+           rotate: { duration: 2, repeat: Infinity, ease: "easeInOut" }
         }}
         className={`w-3/4 h-3/4 rounded-[40%] ${styles.bg} shadow-inner flex flex-col items-center justify-center relative z-10`}
       >
@@ -40,7 +43,11 @@ export function MondayAvatar({ isListening, isProcessing, outfit = 'default' }: 
         <div className="w-full flex justify-center gap-8 mt-2 z-20">
           {/* Eyes */}
           <motion.div
-            animate={isListening ? { height: '16px', borderRadius: '8px' } : { height: '24px', borderRadius: '12px' }}
+            animate={{
+               height: isListening ? '16px' : emotion === 'happy' || emotion === 'success' ? '4px' : '24px',
+               borderRadius: isListening ? '8px' : emotion === 'happy' || emotion === 'success' ? '2px' : '12px',
+               rotate: emotion === 'happy' || emotion === 'success' ? 10 : 0
+            }}
             className="w-6 bg-zinc-900 overflow-hidden relative"
           >
              {/* Eye highlight */}
@@ -48,7 +55,11 @@ export function MondayAvatar({ isListening, isProcessing, outfit = 'default' }: 
           </motion.div>
 
           <motion.div
-            animate={isListening ? { height: '16px', borderRadius: '8px' } : { height: '24px', borderRadius: '12px' }}
+            animate={{
+               height: isListening ? '16px' : emotion === 'happy' || emotion === 'success' ? '4px' : '24px',
+               borderRadius: isListening ? '8px' : emotion === 'happy' || emotion === 'success' ? '2px' : '12px',
+               rotate: emotion === 'happy' || emotion === 'success' ? -10 : 0
+            }}
             className="w-6 bg-zinc-900 overflow-hidden relative"
           >
              <div className="absolute top-1 right-1 w-2 h-2 bg-white rounded-full opacity-80" />
@@ -62,11 +73,12 @@ export function MondayAvatar({ isListening, isProcessing, outfit = 'default' }: 
           {/* Mouth animation based on processing (speaking) or listening */}
           <motion.div
             animate={{
-               width: isProcessing ? ['12px', '20px', '12px'] : '16px',
-               height: isProcessing ? ['4px', '12px', '4px'] : '2px',
-               borderRadius: isProcessing ? '8px' : '2px'
+               width: isProcessing ? ['12px', '20px', '12px'] : emotion === 'happy' || emotion === 'success' ? '24px' : '16px',
+               height: isProcessing ? ['4px', '12px', '4px'] : emotion === 'happy' || emotion === 'success' ? '12px' : '2px',
+               borderRadius: isProcessing ? '8px' : emotion === 'happy' || emotion === 'success' ? '0 0 12px 12px' : '2px',
+               marginTop: emotion === 'happy' || emotion === 'success' ? '2px' : '0px'
             }}
-            transition={{ repeat: Infinity, duration: 0.3 }}
+            transition={{ repeat: isProcessing ? Infinity : 0, duration: 0.3 }}
             className="bg-zinc-900"
           />
         </div>
