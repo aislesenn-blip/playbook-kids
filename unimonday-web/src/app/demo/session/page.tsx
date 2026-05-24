@@ -81,10 +81,10 @@ export default function DemoSessionPage() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            onClick={() => router.push('/auth/signup')}
+            onClick={() => router.push('/onboarding')}
             className="w-full py-4 bg-[#DDA359] text-[#1A1817] rounded-[20px] font-medium text-[17px] flex items-center justify-center gap-2 hover:bg-[#c99047] transition-colors shadow-sm"
           >
-            Create Account <ArrowRight className="w-5 h-5 opacity-80" />
+            Continue to Setup <ArrowRight className="w-5 h-5 opacity-80" />
           </motion.button>
         </motion.div>
       </div>
@@ -177,7 +177,7 @@ export default function DemoSessionPage() {
 
       <div className="w-full h-40 p-8 pb-16 flex items-center justify-center gap-6 z-10 shrink-0">
         <button
-          onClick={() => router.push('/auth/signup')}
+          onClick={() => router.push('/onboarding')}
           className="w-14 h-14 shrink-0 rounded-full bg-[#3A3530]/50 hover:bg-[#FF6B6B]/20 flex items-center justify-center transition-colors border border-[#4A443E]/50 group"
         >
           <PhoneOff className="w-5 h-5 text-[#A8A39D] group-hover:text-[#FF6B6B] transition-colors" />

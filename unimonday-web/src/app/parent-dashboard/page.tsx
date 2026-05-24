@@ -18,7 +18,7 @@ export default function ParentDashboard() {
       setIsMarked(true);
     }, 800);
   };
-  const { profile } = useAppStore();
+  const { profile, episodes } = useAppStore();
   const router = useRouter();
 
   useEffect(() => {
@@ -29,12 +29,23 @@ export default function ParentDashboard() {
 
   if (!profile) return null;
 
-  const currentFocus = "Active spontaneous recall of greetings";
+  // Dynamically calculate current focus based on the latest incomplete episode
+  const latestEpisode = episodes.find(e => !e.isCompleted) || episodes[0];
+  const currentFocus = `Active recall of: ${latestEpisode.title.split(': ')[1] || latestEpisode.title}`;
 
-  const recentActivities = [
-    { id: 1, title: 'The Greetings Forest', type: 'story', date: 'Today', accuracy: 95, xp: 30 },
-    { id: 2, title: 'Color Carnival', type: 'roleplay', date: 'Yesterday', accuracy: 88, xp: 45 },
-    { id: 3, title: 'Number Quest', type: 'challenge', date: '2 days ago', accuracy: 100, xp: 50 },
+  // Dynamically populate recent activities from completed episodes
+  const completedEpisodes = episodes.filter(e => e.isCompleted).slice(-3).reverse();
+
+  // If no completed episodes yet, show empty state or placeholder
+  const recentActivities = completedEpisodes.length > 0 ? completedEpisodes.map((ep, i) => ({
+    id: ep.id,
+    title: ep.title,
+    type: ep.type,
+    date: i === 0 ? 'Today' : i === 1 ? 'Yesterday' : `${i + 1} days ago`,
+    accuracy: 80 + (ep.stars * 5), // dynamic dummy accuracy based on stars
+    words: ep.stars * 4 // dynamic dummy words mastered based on stars
+  })) : [
+    { id: 'mock1', title: 'Start your first lesson', type: 'roleplay', date: 'Pending', accuracy: 0, words: 0 }
   ];
 
   return (
@@ -158,7 +169,7 @@ export default function ParentDashboard() {
                          <th className="p-5 text-xs font-semibold uppercase tracking-wider text-zinc-500">Episode</th>
                          <th className="p-5 text-xs font-semibold uppercase tracking-wider text-zinc-500">Status</th>
                          <th className="p-5 text-xs font-semibold uppercase tracking-wider text-zinc-500">Accuracy</th>
-                         <th className="p-5 text-xs font-semibold uppercase tracking-wider text-zinc-500">Earned</th>
+                         <th className="p-5 text-xs font-semibold uppercase tracking-wider text-zinc-500">Mastered</th>
                        </tr>
                      </thead>
                      <tbody>
@@ -179,7 +190,7 @@ export default function ParentDashboard() {
                              <span className="font-semibold text-zinc-900 text-sm">{activity.accuracy}%</span>
                            </td>
                            <td className="p-5">
-                             <span className="font-semibold text-zinc-600 text-sm">+{activity.xp} XP</span>
+                             <span className="font-semibold text-zinc-600 text-sm">{activity.words} words</span>
                            </td>
                          </tr>
                        ))}
@@ -213,7 +224,7 @@ export default function ParentDashboard() {
                    disabled={isMarked || isMarking}
                    className={`w-full py-3.5 rounded-xl font-semibold transition-colors text-sm flex items-center justify-center gap-2 ${isMarked ? 'bg-[#DDA359] text-white' : 'bg-white text-zinc-900 hover:bg-zinc-100'} disabled:opacity-90 disabled:cursor-not-allowed`}
                  >
-                   {isMarking ? <Loader2 className="w-4 h-4 animate-spin" /> : isMarked ? <><Check className="w-4 h-4" /> Completed (+20 XP)</> : "Mark as Complete (+20 XP)"}
+                   {isMarking ? <Loader2 className="w-4 h-4 animate-spin" /> : isMarked ? <><Check className="w-4 h-4" /> Marked as Discussed</> : "Mark as Discussed"}
                  </motion.button>
                </div>
             </div>

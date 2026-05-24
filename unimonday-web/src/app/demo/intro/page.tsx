@@ -49,19 +49,16 @@ export default function DemoIntroPage() {
            </motion.div>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4">
-           <button
-             onClick={() => router.push('/demo/session')}
-             className="flex-1 py-4 px-6 bg-zinc-900 text-white rounded-xl font-medium text-lg hover:bg-zinc-800 transition-colors flex items-center justify-center gap-2 shadow-sm"
-           >
-             Start Demo <ArrowRight className="w-5 h-5" />
-           </button>
+        <div className="flex flex-col gap-4">
            <button
              onClick={() => router.push('/auth/signup')}
-             className="flex-1 py-4 px-6 bg-white border border-zinc-200 text-zinc-700 rounded-xl font-medium text-lg hover:bg-zinc-50 transition-colors flex items-center justify-center"
+             className="w-full py-4 px-6 bg-zinc-900 text-white rounded-xl font-medium text-lg hover:bg-zinc-800 transition-colors flex items-center justify-center gap-2 shadow-sm"
            >
-             Skip to Setup
+             Create Free Account to Start <ArrowRight className="w-5 h-5" />
            </button>
+           <p className="text-center text-xs text-zinc-400 font-medium mt-2">
+             No credit card required for demo. We require an account to prevent spam.
+           </p>
         </div>
 
       </div>

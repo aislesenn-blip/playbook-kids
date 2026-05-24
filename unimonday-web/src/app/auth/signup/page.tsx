@@ -17,7 +17,7 @@ export default function SignupPage() {
         <h1 className="text-2xl font-semibold tracking-tight text-zinc-900 mb-2">Parent Setup</h1>
         <p className="text-zinc-500 mb-8 text-sm">Create an account to manage their learning.</p>
 
-        <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); setIsSubmitting(true); setTimeout(() => window.location.href = '/onboarding', 400); }}>
+        <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); setIsSubmitting(true); setTimeout(() => window.location.href = '/demo/session', 400); }}>
           <div>
             <input
               type="text"
@@ -41,7 +41,7 @@ export default function SignupPage() {
           </div>
 
           <motion.button whileTap={{ scale: 0.98 }} disabled={isSubmitting} className="w-full py-3 bg-zinc-900 text-white rounded-xl font-medium hover:bg-zinc-800 transition-colors mt-6 flex justify-center items-center h-[52px]">
-            {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : "Continue to Child Profile"}
+            {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : "Continue to Interactive Demo"}
           </motion.button>
         </form>
 
