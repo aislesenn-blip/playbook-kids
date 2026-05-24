@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { useAppStore } from '@/lib/store/app-store';
 import { useRouter } from 'next/navigation';
 import { Mic, ArrowRight } from 'lucide-react';
+import { GDPRBanner } from '@/components/ui/GDPRBanner';
 
 export default function LandingPage() {
   const profile = useAppStore(state => state.profile);
@@ -96,6 +97,8 @@ export default function LandingPage() {
            </div>
         </div>
       </section>
+
+      <GDPRBanner />
     </div>
   );
 }
