@@ -37,8 +37,8 @@ export default function ProfilePage() {
         </div>
         <div className="bg-white p-6 rounded-3xl border border-zinc-100 flex flex-col items-center shadow-[0_4px_40px_rgba(0,0,0,0.02)]">
           <Star className="w-8 h-8 text-[#DDA359] mb-3" />
-          <span className="text-2xl font-semibold text-zinc-900">{profile.points}</span>
-          <span className="text-zinc-500 text-sm font-medium mt-1">Total XP</span>
+          <span className="text-2xl font-semibold text-zinc-900">{Math.floor(profile.points / 10)}</span>
+          <span className="text-zinc-500 text-sm font-medium mt-1">Words Mastered</span>
         </div>
       </div>
 
@@ -53,7 +53,7 @@ export default function ProfilePage() {
           )}
         </h2>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {(['default', 'astronaut', 'safari'] as MondayOutfit[]).map((outfit) => {
             const isLocked = profile.subscriptionTier !== 'Pro' && outfit !== 'default';
             const isActive = (profile.currentOutfit || 'default') === outfit;
@@ -63,7 +63,7 @@ export default function ProfilePage() {
                 key={outfit}
                 disabled={isLocked}
                 onClick={() => updateProfile({ currentOutfit: outfit })}
-                className={`relative flex flex-col items-center p-4 rounded-2xl border transition-all ${
+                className={`relative flex flex-col items-center p-6 rounded-[2rem] border transition-all ${
                   isActive
                     ? 'bg-zinc-50 border-zinc-900 shadow-sm'
                     : isLocked
@@ -71,14 +71,14 @@ export default function ProfilePage() {
                       : 'bg-white border-zinc-100 hover:border-zinc-300'
                 }`}
               >
-                <div className="w-16 h-16 mb-3 relative pointer-events-none">
+                <div className="w-full h-64 mb-4 relative pointer-events-none flex items-end justify-center transform scale-75 origin-bottom">
                    <MondayAvatar isListening={false} isProcessing={false} outfit={outfit} />
                 </div>
-                <span className="text-sm font-medium text-zinc-900 capitalize">{outfit}</span>
+                <span className="text-base font-semibold text-zinc-900 capitalize z-10 mt-[-1rem]">{outfit}</span>
 
                 {isLocked && (
-                  <div className="absolute top-2 right-2 text-zinc-400">
-                    <Lock className="w-4 h-4" />
+                  <div className="absolute top-4 right-4 text-zinc-400 z-10">
+                    <Lock className="w-5 h-5" />
                   </div>
                 )}
               </button>
