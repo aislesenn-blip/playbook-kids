@@ -113,21 +113,14 @@ export default function DemoSessionPage() {
       </div>
 
       <div className="flex-1 flex flex-col items-center justify-center w-full max-w-md px-6 relative shrink-0 z-10">
-         <div className="relative w-40 h-40 sm:w-56 sm:h-56 flex items-center justify-center shrink-0">
+         <div className="relative w-64 h-80 sm:w-80 sm:h-[400px] flex items-center justify-center shrink-0">
            <AnimatePresence>
              {(!isVoiceActive && !isProcessing) && (
                <motion.div
                  initial={{ opacity: 0, scale: 0.9 }}
                  animate={{ opacity: 0.15, scale: [1, 1.1, 1] }}
                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                 className="absolute inset-0 rounded-full bg-[#DDA359] blur-[40px]"
-               />
-             )}
-             {isProcessing && (
-                <motion.div
-                 initial={{ opacity: 0 }}
-                 animate={{ opacity: 1 }}
-                 className="absolute inset-0 rounded-full border border-[#DDA359]/30 border-dashed animate-[spin_4s_linear_infinite]"
+                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full bg-[#DDA359] blur-[50px]"
                />
              )}
            </AnimatePresence>
@@ -135,9 +128,10 @@ export default function DemoSessionPage() {
            <motion.div
               animate={isVoiceActive ? { scale: 0.96 } : { scale: 1 }}
               transition={{ duration: 0.3 }}
-              className="w-full h-full rounded-full shadow-[0_8px_40px_rgba(0,0,0,0.2)] z-10 bg-[#24211E] border border-[#3A3530] relative flex items-center justify-center shrink-0 overflow-hidden"
+              className="w-full h-full z-10 relative flex items-end justify-center shrink-0"
            >
-              <div className="absolute inset-0 rounded-full bg-gradient-to-b from-[#2A2724] to-[#1C1A17]" />
+              {/* Optional pedestal/shadow */}
+              <div className="absolute bottom-4 w-48 h-8 bg-black/40 rounded-[100%] blur-md" />
 
               <MondayAvatar
                  isListening={isVoiceActive}
@@ -152,7 +146,7 @@ export default function DemoSessionPage() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="absolute inset-0 z-40 bg-[#1C1A17]/80 backdrop-blur-sm flex flex-col items-center justify-center rounded-full"
+                    className="absolute inset-0 z-40 bg-[#1A1817]/60 backdrop-blur-sm flex flex-col items-center justify-center rounded-[40px]"
                   >
                     <Loader2 className="w-8 h-8 text-[#DDA359] animate-spin" />
                   </motion.div>

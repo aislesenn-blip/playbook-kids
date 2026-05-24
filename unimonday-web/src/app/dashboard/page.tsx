@@ -4,12 +4,16 @@ import { Play, Lock, ChevronRight, Star } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ComingSoonToast } from '@/components/ui/ComingSoonToast';
+import { CategoryExplorer } from '@/components/ui/CategoryExplorer';
 
 export default function Dashboard() {
   const { profile, episodes } = useAppStore();
   const router = useRouter();
-  const [showToast, setShowToast] = useState(false);
+  const [explorerState, setExplorerState] = useState<{isOpen: boolean, categoryTitle: string, episodes: typeof episodes}>({
+    isOpen: false,
+    categoryTitle: '',
+    episodes: []
+  });
 
   useEffect(() => {
     if (!profile) {
@@ -85,7 +89,7 @@ export default function Dashboard() {
              <div className="flex items-center justify-between mb-6 px-2">
                <h3 className="text-xl font-semibold text-zinc-900">{category.title}</h3>
                <button
-                 onClick={() => setShowToast(true)}
+                 onClick={() => setExplorerState({ isOpen: true, categoryTitle: category.title, episodes: category.items })}
                  className="flex items-center text-zinc-500 font-medium text-sm hover:text-zinc-900 transition-colors group"
                >
                  View all <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -129,7 +133,12 @@ export default function Dashboard() {
 
       </div>
 
-      <ComingSoonToast isVisible={showToast} onClose={() => setShowToast(false)} message="Library expansion coming in v2.0!" />
+      <CategoryExplorer
+        isOpen={explorerState.isOpen}
+        onClose={() => setExplorerState({ ...explorerState, isOpen: false })}
+        categoryTitle={explorerState.categoryTitle}
+        episodes={explorerState.episodes}
+      />
     </div>
   );
 }
