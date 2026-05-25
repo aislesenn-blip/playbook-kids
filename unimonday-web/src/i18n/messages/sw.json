@@ -1,39 +1,44 @@
 {
   "Hero": {
-    "title": "uNiMONDAY",
-    "subtitle": "The Billion Dollar Standard.",
-    "description": "Ruka foleni. Agiza mapema, lipa papo hapo, chukua mzigo wako kwa kasi ya mwanga. Hadhi mpya ya maisha ya chuo.",
-    "cta": "Chagua Chuo",
-    "vendorCta": "Fungua Duka"
+    "title": "Chuo kikuu cha kujifunza lugha kwa watoto, kilichoundwa kwa dakika 5 tu kwa siku.",
+    "subtitle": "Mfumo tulivu unaotegemea sauti ambapo mwanao anajifunza lugha kwa ufasaha kupitia mazungumzo ya kila siku. Hakuna skrini za kutazama. Ni kujifunza kwa vitendo na mpangilio mzuri.",
+    "cta": "Jaribu Demo Hapa",
+    "login": "Ingia"
+  },
+  "Features": {
+    "practice": {
+      "title": "Mazoezi ya Kuzungumza",
+      "description": "Watoto hujenga tabia ya kuzungumza na kujiamini badala ya kutegemea kusikiliza pekee."
+    },
+    "parent": {
+      "title": "Ushiriki wa Mzazi",
+      "description": "Mfumo wa wazi wa kufuatilia ukuaji halisi wa lugha na kushiriki katika changamoto za kimawasiliano nje ya mtandao."
+    },
+    "anxietyFree": {
+      "title": "Mazingira Yasiyo na Hofu",
+      "description": "Rafiki wa AI mwenye upendo na uvumilivu anayefanana na binadamu, kuhakikisha mwanao anapenda kurudi kila siku."
+    }
   },
   "Navigation": {
     "home": "Mwanzo",
-    "orders": "Oda Zangu",
-    "profile": "Akaunti",
-    "explore": "Gundua"
+    "dashboard": "Dashibodi",
+    "profile": "Akaunti"
   },
-  "Cart": {
-    "title": "Oda Yako",
-    "empty": "Kapu lako lipo wazi",
-    "checkout": "Lipa Papo Hapo",
-    "total": "Jumla",
-    "applyCoupon": "Weka Kuponi",
-    "couponPlaceholder": "Ingiza Kuponi"
+  "Dashboard": {
+    "welcome": "Karibu tena",
+    "startMission": "Anza Misheni ya Leo",
+    "completed": "Misheni Imekamilika!"
   },
-  "Ticket": {
-    "active": "TIKETI LIVE",
-    "showToVendor": "Onyesha hii kwa mhudumu sasa",
-    "expiresIn": "Inaisha ndani ya",
-    "seconds": "sekunde"
-  },
-  "Vendor": {
-    "dashboard": "Dashibodi ya Mfanyabiashara",
-    "status": "Hali ya Biashara",
-    "open": "Wazi",
-    "closed": "Imefungwa",
-    "busy": "Bize Sana",
-    "items": "Bidhaa Zangu",
-    "soldOut": "Imeisha",
-    "available": "Ipo"
+  "FAQ": {
+    "title": "Maswali Yanayoulizwa Mara kwa Mara",
+    "description": "Majibu ya maswali ya kawaida kuhusu chuo chetu cha lugha cha dakika 5 kila siku.",
+    "q1": {
+      "question": "Kipindi cha kila siku huchukua muda gani?",
+      "answer": "Kila misheni inachukua dakika 5 pekee. Hii inazuia kuchoka na kumfanya mwanao awe na shauku kwa ajili ya siku inayofuata."
+    },
+    "q2": {
+      "question": "Je, mwanangu anahitaji kujua kusoma?",
+      "answer": "Hapana kabisa. Mfumo mzima unategemea sauti na mazungumzo. Wanasikiliza na kuongea na rafiki yao wa AI."
+    }
   }
 }
