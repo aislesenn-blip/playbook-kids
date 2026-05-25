@@ -22,7 +22,9 @@
   "Navigation": {
     "home": "Mwanzo",
     "dashboard": "Dashibodi",
-    "profile": "Akaunti"
+    "profile": "Akaunti",
+    "explore": "Gundua",
+    "parents": "Wazazi"
   },
   "Dashboard": {
     "welcome": "Karibu tena",

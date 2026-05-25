@@ -22,7 +22,9 @@
   "Navigation": {
     "home": "Home",
     "dashboard": "Dashboard",
-    "profile": "Profile"
+    "profile": "Profile",
+    "explore": "Explore",
+    "parents": "Parents"
   },
   "Dashboard": {
     "welcome": "Welcome back",
