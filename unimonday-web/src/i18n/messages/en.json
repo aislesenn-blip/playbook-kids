@@ -42,5 +42,17 @@
       "question": "Does my child need to know how to read?",
       "answer": "Not at all. The entire ecosystem is voice-based conversational roleplay. They simply listen and speak to their AI companion."
     }
+  },
+  "Auth": {
+    "loginTitle": "Welcome Back",
+    "loginSubtitle": "Continue your child's learning journey.",
+    "emailLabel": "Parent Email",
+    "loginButton": "Log In",
+    "signupTitle": "Parent Setup",
+    "signupSubtitle": "Create an account to manage their learning.",
+    "parentName": "Parent Name",
+    "createPassword": "Create Password",
+    "continueDemo": "Continue to Interactive Demo",
+    "alreadyHaveAccount": "Already have an account?"
   }
 }
