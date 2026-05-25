@@ -42,5 +42,17 @@
       "question": "Je, mwanangu anahitaji kujua kusoma?",
       "answer": "Hapana kabisa. Mfumo mzima unategemea sauti na mazungumzo. Wanasikiliza na kuongea na rafiki yao wa AI."
     }
+  },
+  "Auth": {
+    "loginTitle": "Karibu Tena",
+    "loginSubtitle": "Endelea na safari ya kujifunza ya mwanao.",
+    "emailLabel": "Barua Pepe ya Mzazi",
+    "loginButton": "Ingia",
+    "signupTitle": "Usajili wa Mzazi",
+    "signupSubtitle": "Tengeneza akaunti ili kusimamia mafunzo yao.",
+    "parentName": "Jina la Mzazi",
+    "createPassword": "Tengeneza Nenosiri",
+    "continueDemo": "Endelea kwenye Demo",
+    "alreadyHaveAccount": "Tayari una akaunti?"
   }
 }

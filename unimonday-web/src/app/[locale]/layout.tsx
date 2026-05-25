@@ -3,6 +3,7 @@ import '../globals.css';
 import { TopNav } from '@/components/layout/TopNav';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { ContextualTour } from '@/components/onboarding/ContextualTour';
+import { AnimatedLanguagePrompt } from '@/components/ui/AnimatedLanguagePrompt';
 import { Toaster } from 'sonner';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
@@ -73,6 +74,7 @@ export default async function LocaleLayout({
       <body className="antialiased min-h-screen pb-20 sm:pb-0 pt-16 bg-[#F8F6F3] text-zinc-900 selection:bg-zinc-200 overflow-x-hidden">
         <NextIntlClientProvider messages={messages} locale={resolvedParams.locale}>
           <TopNav />
+          <AnimatedLanguagePrompt />
           <main className="w-full min-h-[calc(100vh-4rem)] flex flex-col font-sans">
             {children}
           </main>
