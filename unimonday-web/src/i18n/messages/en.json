@@ -1,39 +1,44 @@
 {
   "Hero": {
-    "title": "uNiMONDAY",
-    "subtitle": "The Billion Dollar Standard.",
-    "description": "Skip the line. Order ahead, pay instantly, and grab your items at light speed. The premium standard for university living.",
-    "cta": "Select Campus",
-    "vendorCta": "Open a Store"
+    "title": "A children's language-learning university designed around just 5 minutes a day.",
+    "subtitle": "A calm, voice-based ecosystem where your child naturally acquires fluency and trust through daily conversational roleplay. No screens to stare at. Just immersive, structured learning.",
+    "cta": "Try Interactive Demo",
+    "login": "Log In"
+  },
+  "Features": {
+    "practice": {
+      "title": "Conversational Practice",
+      "description": "Children build spontaneous speaking habits and genuine confidence rather than relying on passive listening."
+    },
+    "parent": {
+      "title": "Parent Involvement",
+      "description": "A transparent system to track real fluency growth and engage with offline connection challenges."
+    },
+    "anxietyFree": {
+      "title": "Anxiety-Free Space",
+      "description": "A warm, patient AI companion that feels human, ensuring your child loves returning every day."
+    }
   },
   "Navigation": {
     "home": "Home",
-    "orders": "Orders",
-    "profile": "Profile",
-    "explore": "Explore"
+    "dashboard": "Dashboard",
+    "profile": "Profile"
   },
-  "Cart": {
-    "title": "Your Order",
-    "empty": "Your cart is empty",
-    "checkout": "Pay Instantly",
-    "total": "Total",
-    "applyCoupon": "Apply Coupon",
-    "couponPlaceholder": "Enter Coupon Code"
+  "Dashboard": {
+    "welcome": "Welcome back",
+    "startMission": "Start Daily Mission",
+    "completed": "Mission Completed!"
   },
-  "Ticket": {
-    "active": "LIVE TICKET",
-    "showToVendor": "Show this to the vendor now",
-    "expiresIn": "Expires in",
-    "seconds": "seconds"
-  },
-  "Vendor": {
-    "dashboard": "Vendor Dashboard",
-    "status": "Store Status",
-    "open": "Open",
-    "closed": "Closed",
-    "busy": "Very Busy",
-    "items": "My Items",
-    "soldOut": "Sold Out",
-    "available": "Available"
+  "FAQ": {
+    "title": "Frequently Asked Questions",
+    "description": "Answers to common questions about our 5-minute daily language university.",
+    "q1": {
+      "question": "How long is a daily session?",
+      "answer": "Each mission is strictly 5 minutes. This creates a fast-paced cognitive threshold that prevents burnout and keeps your child excited for the next day."
+    },
+    "q2": {
+      "question": "Does my child need to know how to read?",
+      "answer": "Not at all. The entire ecosystem is voice-based conversational roleplay. They simply listen and speak to their AI companion."
+    }
   }
 }
