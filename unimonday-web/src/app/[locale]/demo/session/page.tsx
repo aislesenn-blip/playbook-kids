@@ -1,35 +1,40 @@
 "use client";
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Mic, MicOff, PhoneOff, Loader2, CheckCircle2, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MondayAvatar } from '@/components/ui/MondayAvatar';
+import { useTranslations } from 'next-intl';
 
 type Phase = 'CONNECTION' | 'PATTERN_DROP' | 'REAL_CONVERSATION' | 'COMPLETE';
 
 export default function DemoSessionPage() {
   const router = useRouter();
+  const params = useParams();
+  const locale = params.locale as string || 'en';
+  const t = useTranslations('DemoSession');
 
   const [isConnecting, setIsConnecting] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isVoiceActive, setIsVoiceActive] = useState(false);
   const [currentPhase, setCurrentPhase] = useState<Phase>('CONNECTION');
-  const [subtitle, setSubtitle] = useState<string>("Establishing secure connection...");
+  const [subtitle, setSubtitle] = useState<string>(t('connecting'));
   const [emotion, setEmotion] = useState<'neutral' | 'happy' | 'thinking' | 'success'>('neutral');
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setIsConnecting(false);
       setEmotion('happy');
-      setSubtitle("Welcome! I see you want to learn. That's amazing. Let's begin our first lesson.");
+      setSubtitle(t('welcome'));
     }, 3000);
-  }, []);
+    return () => clearTimeout(timer);
+  }, [t]);
 
   const handleUserResponse = () => {
     setIsVoiceActive(false);
     setIsProcessing(true);
     setEmotion('thinking');
-    setSubtitle("Listening to your response...");
+    setSubtitle(t('listening'));
 
     setTimeout(() => {
         setIsProcessing(false);
@@ -37,12 +42,12 @@ export default function DemoSessionPage() {
         if (currentPhase === 'CONNECTION') {
           setCurrentPhase('PATTERN_DROP');
           setEmotion('neutral');
-          setSubtitle("Here at uNiMONDAY, I'm Monday, and my friends and I say 'Good morning' to each other in the morning. Let's try together. When I say 'Good morning', you answer 'Good morning to you too.' Ready? Good morning!");
+          setSubtitle(t('patternDrop'));
         }
         else if (currentPhase === 'PATTERN_DROP') {
            setCurrentPhase('REAL_CONVERSATION');
            setEmotion('happy');
-           setSubtitle("Excellent job! You sounded very natural. Now, what is your favorite color?");
+           setSubtitle(t('successResponse'));
         }
         else if (currentPhase === 'REAL_CONVERSATION') {
            setCurrentPhase('COMPLETE');
@@ -74,17 +79,17 @@ export default function DemoSessionPage() {
             <CheckCircle2 className="w-10 h-10 text-[#DDA359]" />
           </div>
 
-          <h1 className="text-[26px] font-medium text-[#FDFBF7] mb-2 tracking-tight">Demo Complete</h1>
-          <p className="text-[#A8A39D] font-normal mb-10 text-[15px]">They did a fantastic job communicating.</p>
+          <h1 className="text-[26px] font-medium text-[#FDFBF7] mb-2 tracking-tight">{t('completeTitle')}</h1>
+          <p className="text-[#A8A39D] font-normal mb-10 text-[15px]">{t('completeDesc')}</p>
 
           <motion.button
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            onClick={() => router.push('/onboarding')}
+            onClick={() => router.push(`/${locale}/onboarding`)}
             className="w-full py-4 bg-[#DDA359] text-[#1A1817] rounded-[20px] font-medium text-[17px] flex items-center justify-center gap-2 hover:bg-[#c99047] transition-colors shadow-sm"
           >
-            Continue to Setup <ArrowRight className="w-5 h-5 opacity-80" />
+            {t('continueSetup')} <ArrowRight className="w-5 h-5 opacity-80" />
           </motion.button>
         </motion.div>
       </div>
@@ -106,7 +111,7 @@ export default function DemoSessionPage() {
             className="flex items-center gap-2 text-[#A8A39D] font-medium text-[11px] tracking-widest uppercase mb-1.5"
           >
             <span className={`w-1.5 h-1.5 rounded-full ${isVoiceActive ? 'bg-[#FF6B6B] animate-pulse' : 'bg-[#DDA359]'}`} />
-            Interactive Demo
+            {t('interactiveDemo')}
           </motion.div>
         </div>
         <div className="w-16" />
@@ -177,7 +182,7 @@ export default function DemoSessionPage() {
 
       <div className="w-full h-40 p-8 pb-16 flex items-center justify-center gap-6 z-10 shrink-0">
         <button
-          onClick={() => router.push('/onboarding')}
+          onClick={() => router.push(`/${locale}/onboarding`)}
           className="w-14 h-14 shrink-0 rounded-full bg-[#3A3530]/50 hover:bg-[#FF6B6B]/20 flex items-center justify-center transition-colors border border-[#4A443E]/50 group"
         >
           <PhoneOff className="w-5 h-5 text-[#A8A39D] group-hover:text-[#FF6B6B] transition-colors" />

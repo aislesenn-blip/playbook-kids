@@ -28,8 +28,12 @@
   },
   "Dashboard": {
     "welcome": "Karibu tena",
-    "startMission": "Anza Misheni ya Leo",
-    "completed": "Misheni Imekamilika!"
+    "yourJourney": "Safari yako ya kujifunza {language}.",
+    "dailyQuests": "Misheni za Leo",
+    "curriculum": "Mtaala",
+    "viewAll": "Tazama Zote",
+    "day": "Siku",
+    "start": "Anza Somo"
   },
   "FAQ": {
     "title": "Maswali Yanayoulizwa Mara kwa Mara",
@@ -54,5 +58,51 @@
     "createPassword": "Tengeneza Nenosiri",
     "continueDemo": "Endelea kwenye Demo",
     "alreadyHaveAccount": "Tayari una akaunti?"
+  },
+  "Upgrade": {
+    "headerTitle": "Fungua uwezo wao. <br class=\"hidden md:block\"/> Wekeza kwenye ufasaha wao.",
+    "guestReady": "Chagua mpango ili kumpa mwanao mfumo wa kisasa, salama, na wa kuvutia wa kujifunza lugha.",
+    "profileReady": "Mazingira ya mwanao kujifunza lugha tayari. Chagua mpango ili kuendelea.",
+    "month": "mwezi",
+    "recommended": "Inapendekezwa",
+    "cancelAnytime": "Ghairi wakati wowote.",
+    "tierX": {
+      "desc": "Zana muhimu kwa mazoezi ya mara kwa mara na kujenga kujiamini.",
+      "f1": "Misheni moja ya dakika 5 kila siku",
+      "f2": "Upatikanaji wa lugha 1",
+      "f3": "Dashibodi ya Kawaida ya Mzazi",
+      "f4": "Tabia ya Kawaida ya AI \"Monday\"",
+      "cta": "Chagua UniMonday X"
+    },
+    "tierPro": {
+      "desc": "Upatikanaji kamili wa kumiliki misamiati na ufasaha wa mazungumzo.",
+      "f1": "Hadi misheni 3 (Dakika 15) kila siku",
+      "f2": "Fungua Lugha Zote",
+      "f3": "Dashibodi ya Kina ya Uchambuzi",
+      "f4": "Mavazi na Tabia Maalum za AI",
+      "f5": "Kipaumbele cha mtandao wenye kasi",
+      "cta": "Chagua uNiMONDAY Pro"
+    }
+  },
+  "DemoIntro": {
+    "title": "Kabla hatujaanza",
+    "subtitle": "Demo hii inampa mwanao nafasi ya kupitia mazingira yetu tulivu ya kujifunza kwa sauti. Hiki ndicho cha kutarajia.",
+    "f1Title": "Salama & Bila Hofu",
+    "f1Desc": "Hakuna kukodolea macho skrini. Ni mazungumzo tulivu ya sauti tu. Makosa yanatiwa moyo kama sehemu ya kujifunza.",
+    "f2Title": "Fupi & Tamu",
+    "f2Desc": "Demo hii inachukua takriban dakika 2. Tutamwongoza taratibu kupitia utambulisho rahisi.",
+    "cta": "Tengeneza Akaunti Bure Kuanza",
+    "disclaimer": "Hakuna kadi ya benki inahitajika. Tunahitaji akaunti ili kuzuia spam."
+  },
+  "DemoSession": {
+    "connecting": "Tunaunganisha mawasiliano salama...",
+    "welcome": "Karibu! Ninaona unataka kujifunza. Hiyo ni nzuri sana. Tuanze somo letu la kwanza.",
+    "listening": "Ninasikiliza majibu yako...",
+    "patternDrop": "Hapa uNiMONDAY, mimi ni Monday, na mimi na marafiki zangu huambiana 'Habari za asubuhi' asubuhi. Tujaribu pamoja. Nikisema 'Habari za asubuhi', wewe jibu 'Nzuri, asubuhi yako pia'. Upo tayari? Habari za asubuhi!",
+    "successResponse": "Kazi nzuri sana! Umeongea kwa asili kabisa. Sasa, unapenda rangi gani?",
+    "completeTitle": "Demo Imekamilika",
+    "completeDesc": "Wamefanya kazi nzuri sana ya kuwasiliana.",
+    "continueSetup": "Endelea na Usajili",
+    "interactiveDemo": "Demo Inayoingiliana"
   }
 }

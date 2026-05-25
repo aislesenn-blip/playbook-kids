@@ -28,8 +28,12 @@
   },
   "Dashboard": {
     "welcome": "Welcome back",
-    "startMission": "Start Daily Mission",
-    "completed": "Mission Completed!"
+    "yourJourney": "Your {language} language journey.",
+    "dailyQuests": "Daily Quests",
+    "curriculum": "Curriculum",
+    "viewAll": "View All",
+    "day": "Day",
+    "start": "Start Lesson"
   },
   "FAQ": {
     "title": "Frequently Asked Questions",
@@ -54,5 +58,51 @@
     "createPassword": "Create Password",
     "continueDemo": "Continue to Interactive Demo",
     "alreadyHaveAccount": "Already have an account?"
+  },
+  "Upgrade": {
+    "headerTitle": "Unlock their potential. <br class=\"hidden md:block\"/> Invest in their fluency.",
+    "guestReady": "Select a plan to give your child access to a modern, safe, and engaging language-learning ecosystem.",
+    "profileReady": "Your child's {language} learning environment is ready. Select a plan to continue.",
+    "month": "month",
+    "recommended": "Recommended",
+    "cancelAnytime": "Cancel anytime.",
+    "tierX": {
+      "desc": "Essential tools for regular practice and confidence building.",
+      "f1": "One 5-minute mission daily",
+      "f2": "Access to 1 target language",
+      "f3": "Standard Parent Dashboard",
+      "f4": "Core \"Monday\" AI Personality",
+      "cta": "Select UniMonday X"
+    },
+    "tierPro": {
+      "desc": "Comprehensive access for mastering vocabulary and conversational fluency.",
+      "f1": "Up to 3 missions (15 mins) daily",
+      "f2": "Multi-Language Unlock",
+      "f3": "Deep Analytics Dashboard",
+      "f4": "Custom AI Personas & Outfits",
+      "f5": "Priority zero-latency routing",
+      "cta": "Select uNiMONDAY Pro"
+    }
+  },
+  "DemoIntro": {
+    "title": "Before we begin",
+    "subtitle": "This demo lets your child experience our calm, voice-based learning environment. Here is what to expect.",
+    "f1Title": "Safe & Anxiety-Free",
+    "f1Desc": "No screen staring. Just a calm voice conversation. Mistakes are encouraged as part of learning.",
+    "f2Title": "Short & Sweet",
+    "f2Desc": "The demo takes about 2 minutes. We will gently guide them through a simple introduction.",
+    "cta": "Create Free Account to Start",
+    "disclaimer": "No credit card required for demo. We require an account to prevent spam."
+  },
+  "DemoSession": {
+    "connecting": "Establishing secure connection...",
+    "welcome": "Welcome! I see you want to learn. That's amazing. Let's begin our first lesson.",
+    "listening": "Listening to your response...",
+    "patternDrop": "Here at uNiMONDAY, I'm Monday, and my friends and I say 'Good morning' to each other in the morning. Let's try together. When I say 'Good morning', you answer 'Good morning to you too.' Ready? Good morning!",
+    "successResponse": "Excellent job! You sounded very natural. Now, what is your favorite color?",
+    "completeTitle": "Demo Complete",
+    "completeDesc": "They did a fantastic job communicating.",
+    "continueSetup": "Continue to Setup",
+    "interactiveDemo": "Interactive Demo"
   }
 }

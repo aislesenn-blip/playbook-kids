@@ -1,10 +1,14 @@
 "use client";
 import { motion } from 'framer-motion';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { ArrowRight, Play, ShieldCheck, Heart } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export default function DemoIntroPage() {
   const router = useRouter();
+  const params = useParams();
+  const locale = params.locale as string || 'en';
+  const t = useTranslations('DemoIntro');
 
   return (
     <div className="w-full min-h-screen bg-[#F8F6F3] flex flex-col items-center pt-24 pb-32 px-4">
@@ -21,9 +25,9 @@ export default function DemoIntroPage() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-10"
         >
-          <h1 className="text-3xl font-semibold text-zinc-900 mb-4 tracking-tight">Before we begin</h1>
+          <h1 className="text-3xl font-semibold text-zinc-900 mb-4 tracking-tight">{t('title')}</h1>
           <p className="text-zinc-500 font-medium leading-relaxed max-w-md mx-auto">
-            This demo lets your child experience our calm, voice-based learning environment. Here is what to expect.
+            {t('subtitle')}
           </p>
         </motion.div>
 
@@ -33,8 +37,8 @@ export default function DemoIntroPage() {
                <ShieldCheck className="w-5 h-5 text-zinc-600" />
              </div>
              <div>
-               <h3 className="font-semibold text-zinc-900 mb-1">Safe & Anxiety-Free</h3>
-               <p className="text-sm text-zinc-500 leading-relaxed">No screen staring. Just a calm voice conversation. Mistakes are encouraged as part of learning.</p>
+               <h3 className="font-semibold text-zinc-900 mb-1">{t('f1Title')}</h3>
+               <p className="text-sm text-zinc-500 leading-relaxed">{t('f1Desc')}</p>
              </div>
            </motion.div>
 
@@ -43,21 +47,21 @@ export default function DemoIntroPage() {
                <Heart className="w-5 h-5 text-zinc-600" />
              </div>
              <div>
-               <h3 className="font-semibold text-zinc-900 mb-1">Short & Sweet</h3>
-               <p className="text-sm text-zinc-500 leading-relaxed">The demo takes about 2 minutes. We will gently guide them through a simple introduction.</p>
+               <h3 className="font-semibold text-zinc-900 mb-1">{t('f2Title')}</h3>
+               <p className="text-sm text-zinc-500 leading-relaxed">{t('f2Desc')}</p>
              </div>
            </motion.div>
         </div>
 
         <div className="flex flex-col gap-4">
            <button
-             onClick={() => router.push('/auth/signup')}
+             onClick={() => router.push(`/${locale}/auth/signup`)}
              className="w-full py-4 px-6 bg-zinc-900 text-white rounded-xl font-medium text-lg hover:bg-zinc-800 transition-colors flex items-center justify-center gap-2 shadow-sm"
            >
-             Create Free Account to Start <ArrowRight className="w-5 h-5" />
+             {t('cta')} <ArrowRight className="w-5 h-5" />
            </button>
            <p className="text-center text-xs text-zinc-400 font-medium mt-2">
-             No credit card required for demo. We require an account to prevent spam.
+             {t('disclaimer')}
            </p>
         </div>
 

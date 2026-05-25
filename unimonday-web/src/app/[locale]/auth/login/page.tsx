@@ -23,7 +23,7 @@ export default function LoginPage() {
       nativeLanguage: 'English',
       targetLanguage: 'Spanish',
       level: 'Starter',
-      subscriptionTier: 'Lite',
+      subscriptionTier: 'X',
       avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=student',
       streak: 5,
       points: 250,
